@@ -5,8 +5,10 @@ class DesktopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Desktop Layout'),
+    return const Scaffold(
+      body: Center(
+        child: Text('Desktop Layout'),
+      ),
     );
   }
 }

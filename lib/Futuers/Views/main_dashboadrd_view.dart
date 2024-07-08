@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/Futuers/Views/DesktopLayout.dart';
-import 'package:pos_dashboard_v1/Futuers/Views/MobileLayout.dart';
-import 'package:pos_dashboard_v1/Futuers/Views/TabletLayout.dart';
+import 'package:pos_dashboard_v1/Futuers/Views/DesktopLayout/views/DesktopLayout.dart';
+import 'package:pos_dashboard_v1/Futuers/Views/MobileLayout/Views/MobileLayout.dart';
+import 'package:pos_dashboard_v1/Futuers/Views/TabletLayout/Views/TabletLayout.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});

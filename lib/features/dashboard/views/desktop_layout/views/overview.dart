@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/Widgets/order_list.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/user_info_section.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/Widgets/user_info_section.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/order_list.dart';
 
 class OverviewView extends StatelessWidget {
   const OverviewView({super.key});

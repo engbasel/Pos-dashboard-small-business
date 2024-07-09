@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget DrawerItem({
+Widget drawerItem({
   required int index,
   required IconData icon,
   required String text,

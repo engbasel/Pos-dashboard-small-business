@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/Futuers/customer_dashboard_view/Views/main_dashboadrd_view.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/main_dashboard_view.dart';
 
 void main(List<String> args) {
   runApp(const pos_system());

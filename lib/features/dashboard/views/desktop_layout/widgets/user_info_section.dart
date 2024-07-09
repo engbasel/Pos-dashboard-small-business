@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/Futuers/customer_dashboard_view/Views/DesktopLayout/Widgets/CustomLabel.dart';
-import 'package:pos_dashboard_v1/core/Utls/manager.dart';
+import 'package:pos_dashboard_v1/core/utils/manager.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/custom_label.dart';
 
 class UserInfoSection extends StatelessWidget {
   const UserInfoSection({super.key});

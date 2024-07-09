@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/Futuers/customer_dashboard_view/Views/DesktopLayout/views/Messages.dart';
-import '../../../Widgets/CustomDrawer.dart';
-import 'Customers.dart';
-import 'Overview.dart';
-import 'Settings.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/views/messages.dart';
+import 'package:pos_dashboard_v1/features/dashboard/widgets/custom_drawer.dart';
+import 'customers.dart';
+import 'overview.dart';
+import 'settings.dart';
 
 class DesktopLayout extends StatefulWidget {
   const DesktopLayout({super.key});
@@ -24,11 +24,12 @@ class _DesktopLayoutState extends State<DesktopLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.white),
       drawer: CustomDrawer(
         selectedIndex: selectedDrawerIndex,
         onSelectItem: onSelectDrawerItem,
       ),
+      backgroundColor: Colors.white,
       body: IndexedStack(
         index: selectedDrawerIndex,
         children: const [

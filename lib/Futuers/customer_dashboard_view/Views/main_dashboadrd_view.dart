@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/Futuers/Views/DesktopLayout/views/DesktopLayout.dart';
-import 'package:pos_dashboard_v1/Futuers/Views/MobileLayout/Views/MobileLayout.dart';
-import 'package:pos_dashboard_v1/Futuers/Views/TabletLayout/Views/TabletLayout.dart';
+import 'package:pos_dashboard_v1/Futuers/customer_dashboard_view/Views/DesktopLayout/views/DesktopLayout.dart';
+import 'package:pos_dashboard_v1/Futuers/customer_dashboard_view/Views/MobileLayout/Views/MobileLayout.dart';
+import 'package:pos_dashboard_v1/Futuers/customer_dashboard_view/Views/TabletLayout/Views/TabletLayout.dart';
+import 'package:pos_dashboard_v1/core/Utls/manager.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -9,9 +10,10 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-      ),
+      backgroundColor: ColorsManager.backgroundColor,
+      // appBar: AppBar(
+      //   title: const Text('Dashboard'),
+      // ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           if (constraints.maxWidth >= 1200) {

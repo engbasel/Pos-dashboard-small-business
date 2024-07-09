@@ -10,3 +10,10 @@ class ColorsManager {
   static const Color TextColor = Color(0x000ca37a);
   static const Color backgroundColor = Color(0xfff8f9fd);
 }
+
+class ImagesManger {
+  static const String agency = 'assets/agency.png';
+  static const String mail = 'assets/mail.png';
+  static const String edit = 'assets/edit.png';
+  static const String shoppingbag = 'assets/shoppingbag.png';
+}

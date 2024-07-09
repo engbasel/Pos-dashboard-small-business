@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/Futuers/customer_dashboard_view/Views/DesktopLayout/Widgets/drwer_item.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/drawer_item.dart';
 
-import '../../../core/Utls/manager.dart';
+import '../../../core/utils/manager.dart';
 
 class CustomDrawer extends StatelessWidget {
   final int selectedIndex;
@@ -20,7 +20,7 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.only(top: 125),
         children: [
-          DrawerItem(
+          drawerItem(
             index: 0,
             icon: Icons.dashboard,
             text: 'Overview',
@@ -29,7 +29,7 @@ class CustomDrawer extends StatelessWidget {
               onSelectItem(0);
             },
           ),
-          DrawerItem(
+          drawerItem(
             index: 1,
             icon: Icons.people,
             text: 'Customers',
@@ -38,7 +38,7 @@ class CustomDrawer extends StatelessWidget {
               onSelectItem(1);
             },
           ),
-          DrawerItem(
+          drawerItem(
             index: 2,
             icon: Icons.settings,
             text: 'Settings',
@@ -47,7 +47,7 @@ class CustomDrawer extends StatelessWidget {
               onSelectItem(2);
             },
           ),
-          DrawerItem(
+          drawerItem(
             index: 3,
             icon: Icons.message,
             text: 'Messages',

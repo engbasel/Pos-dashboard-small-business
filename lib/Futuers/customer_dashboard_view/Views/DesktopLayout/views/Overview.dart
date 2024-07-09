@@ -10,9 +10,12 @@ class OverviewView extends StatelessWidget {
     return const Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Column(
               children: [
+                UserInfoSection(),
+
 //  section 1
 // email and
 // Favourite Item
@@ -24,13 +27,17 @@ class OverviewView extends StatelessWidget {
 // Oders
 // Total Visits
               ],
+            ),
+            Column(
+              children: [
+                //  card of Proile user
+              ],
             )
           ],
         ),
         Row(
           children: [
             // Text('Order List'),
-            UserInfoScetion(),
           ],
         ),
       ],

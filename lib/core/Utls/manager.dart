@@ -8,4 +8,5 @@ class ColorsManager {
   static const Color selectedTextColor = Colors.green;
   static const Color badgeColor = Colors.green;
   static const Color TextColor = Color(0x000ca37a);
+  static const Color backgroundColor = Color(0xfff8f9fd);
 }

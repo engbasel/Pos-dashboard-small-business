@@ -29,7 +29,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
         selectedIndex: selectedDrawerIndex,
         onSelectItem: onSelectDrawerItem,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xfff8f9fd),
       body: IndexedStack(
         index: selectedDrawerIndex,
         children: const [

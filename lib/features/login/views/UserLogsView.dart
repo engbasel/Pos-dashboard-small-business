@@ -28,6 +28,74 @@ class _UserLogsViewState extends State<UserLogsView> {
     loadUserData();
   }
 
+  Future<void> _confirmDelete(int id) async {
+    final TextEditingController passwordController = TextEditingController();
+    const String adminPassword = 'admin';
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must enter password
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Delete'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Enter admin password to delete user:'),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                if (passwordController.text == adminPassword) {
+                  deleteUser(id);
+                  Navigator.of(context).pop();
+                } else {
+                  Navigator.of(context).pop();
+                  _showInvalidPasswordDialog();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showInvalidPasswordDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Invalid Password'),
+          content: const Text('The password you entered is incorrect.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +104,7 @@ class _UserLogsViewState extends State<UserLogsView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            UserList(users: users, onDelete: deleteUser),
+            UserList(users: users, onDelete: _confirmDelete),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/main_dashboard_view.dart';
 import 'package:pos_dashboard_v1/features/login/sql.dart';
 
 class LoginView extends StatefulWidget {
@@ -45,6 +46,12 @@ class _LoginViewState extends State<LoginView> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data saved successfully')));
       loadUserData();
+
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) {
+          return const DashboardView();
+        },
+      ));
     }
   }
 
@@ -110,35 +117,9 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {
-                        saveData();
-                      },
-                      child: const Text('Save'),
+                      onPressed: saveData,
+                      child: const Text('Go In'),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: users.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title:
-                                Text('Username: ${users[index]['username']}'),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Birthday: ${users[index]['birthday']}'),
-                                Text('Privilege: ${users[index]['privilege']}'),
-                                Text('Gender: ${users[index]['gender']}'),
-                                Text('Email: ${users[index]['email']}'),
-                                Text('Branch: ${users[index]['branch']}'),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    )
                   ],
                 ),
               ),
@@ -147,6 +128,39 @@ class _LoginViewState extends State<LoginView> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class UserList extends StatelessWidget {
+  final List<Map<String, dynamic>> users;
+
+  const UserList({super.key, required this.users});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: false,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: users.length,
+      itemBuilder: (context, index) {
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: ListTile(
+            title: Text('Username: ${users[index]['username']}'),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Birthday: ${users[index]['birthday']}'),
+                Text('Privilege: ${users[index]['privilege']}'),
+                Text('Gender: ${users[index]['gender']}'),
+                Text('Email: ${users[index]['email']}'),
+                Text('Branch: ${users[index]['branch']}'),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

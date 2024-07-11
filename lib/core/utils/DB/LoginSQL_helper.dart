@@ -58,4 +58,10 @@ class Sqldb {
       print('================= $user ==========================');
     }
   }
+
+  Future<int> deleteData(String sqlString) async {
+    Database? mydb = await db; // Get the database instance
+    return await mydb!.rawDelete(
+        sqlString); // Execute the SQL delete statement and return the result
+  }
 }

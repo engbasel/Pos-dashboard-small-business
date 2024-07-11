@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/main_dashboard_view.dart';
-import 'package:pos_dashboard_v1/core/utils/DB/LoginSQL_helper.dart';
+
+import '../../../core/utils/DB/LoginSQL_helper.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../dashboard/views/main_dashboard_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -43,8 +45,9 @@ class _LoginViewState extends State<LoginView> {
       };
 
       await sqldb.insertUser(user);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login Recorded Successfaly ')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context)
+              .translate('loginRecordedSuccessfully'))));
       loadUserData();
 
       Navigator.push(context, MaterialPageRoute(
@@ -59,7 +62,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text(AppLocalizations.of(context).translate('loginTitle')),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -70,14 +73,15 @@ class _LoginViewState extends State<LoginView> {
             children: [
               TextFormField(
                 controller: usernameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  hintText: ' Ahmed - Mohamed  ',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('nameLabel'),
+                  hintText: AppLocalizations.of(context).translate('nameHint'),
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter username';
+                    return AppLocalizations.of(context).translate('nameError');
                   }
                   return null;
                 },
@@ -85,14 +89,14 @@ class _LoginViewState extends State<LoginView> {
               const SizedBox(height: 12),
               TextFormField(
                 controller: ID,
-                decoration: const InputDecoration(
-                  labelText: 'ID',
-                  hintText: 'ID Format ************** ',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('idLabel'),
+                  hintText: AppLocalizations.of(context).translate('idHint'),
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter ID';
+                    return AppLocalizations.of(context).translate('idError');
                   }
                   return null;
                 },
@@ -100,9 +104,10 @@ class _LoginViewState extends State<LoginView> {
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 value: privilege,
-                decoration: const InputDecoration(
-                  labelText: 'Privilege',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('privilegeLabel'),
+                  border: const OutlineInputBorder(),
                 ),
                 onChanged: (newValue) {
                   setState(() {
@@ -113,16 +118,18 @@ class _LoginViewState extends State<LoginView> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(AppLocalizations.of(context)
+                        .translate(value.toLowerCase())),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 value: gender,
-                decoration: const InputDecoration(
-                  labelText: 'Gender',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('genderLabel'),
+                  border: const OutlineInputBorder(),
                 ),
                 onChanged: (newValue) {
                   setState(() {
@@ -133,31 +140,34 @@ class _LoginViewState extends State<LoginView> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(AppLocalizations.of(context)
+                        .translate(value.toLowerCase())),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('emailLabel'),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: branchController,
-                decoration: const InputDecoration(
-                  labelText: 'Branch',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('branchLabel'),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onHover: (value) {},
                 onPressed: saveData,
-                child: const Text('lets work'),
+                child: Text(
+                    AppLocalizations.of(context).translate('letsWorkButton')),
               ),
             ],
           ),

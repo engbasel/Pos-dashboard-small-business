@@ -12,7 +12,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
-  final birthdayController = TextEditingController();
+  final ID = TextEditingController();
   String privilege = 'Customer';
   String gender = 'Male';
   final emailController = TextEditingController();
@@ -35,7 +35,7 @@ class _LoginViewState extends State<LoginView> {
     if (_formKey.currentState!.validate()) {
       Map<String, dynamic> user = {
         'username': usernameController.text,
-        'birthday': birthdayController.text,
+        'birthday': ID.text,
         'privilege': privilege,
         'gender': gender,
         'email': emailController.text,
@@ -71,7 +71,8 @@ class _LoginViewState extends State<LoginView> {
               TextFormField(
                 controller: usernameController,
                 decoration: const InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'Name',
+                  hintText: ' Ahmed - Mohamed  ',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -83,14 +84,15 @@ class _LoginViewState extends State<LoginView> {
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: birthdayController,
+                controller: ID,
                 decoration: const InputDecoration(
-                  labelText: 'Birthday',
+                  labelText: 'ID',
+                  hintText: 'ID Format ************** ',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter birthday';
+                    return 'Please enter ID';
                   }
                   return null;
                 },

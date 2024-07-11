@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../login/UserLogsView.dart';
+import '../../../../login/views/UserLogsView.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});

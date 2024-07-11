@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/login/loginview.dart';
+import 'package:pos_dashboard_v1/features/login/views/loginview.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

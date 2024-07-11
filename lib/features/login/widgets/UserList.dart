@@ -1,43 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/login/sql.dart';
-
-class UserLogsView extends StatefulWidget {
-  const UserLogsView({super.key});
-
-  @override
-  _UserLogsViewState createState() => _UserLogsViewState();
-}
-
-class _UserLogsViewState extends State<UserLogsView> {
-  final Sqldb sqldb = Sqldb();
-  List<Map<String, dynamic>> users = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadUserData();
-  }
-
-  void loadUserData() async {
-    users = await sqldb.getUserData();
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xfff8f9fd),
-      appBar: AppBar(title: const Text('User Logs')),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            UserList(users: users),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class UserList extends StatelessWidget {
   final List<Map<String, dynamic>> users;
@@ -47,7 +8,7 @@ class UserList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
+      shrinkWrap: false,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: users.length,
       itemBuilder: (context, index) {

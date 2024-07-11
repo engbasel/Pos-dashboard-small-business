@@ -1,4 +1,4 @@
-import 'package:pos_dashboard_v1/core/utils/constains.dart';
+import 'package:pos_dashboard_v1/core/utils/manager.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -12,7 +12,7 @@ class Sqldb {
 
   Future<Database> initDatabase() async {
     var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, DatabaseName);
+    String path = join(databasesPath, DBmanger.DatabaseName);
 
     return await openDatabase(
       path,

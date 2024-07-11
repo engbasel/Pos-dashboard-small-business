@@ -1,7 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/main_dashboard_view.dart';
+import 'package:pos_dashboard_v1/features/login/loginview.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main(List<String> args) {
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
   runApp(const pos_system());
 }
 
@@ -16,7 +24,7 @@ class pos_system extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DashboardView(),
+      home: const LoginView(),
     );
   }
 }

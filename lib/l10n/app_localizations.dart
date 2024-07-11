@@ -46,6 +46,12 @@ class AppLocalizations {
       "totalVisits": "Total Visits :",
       "lastVisit": "Last Visit :",
       "spendingTimePerDay": "Spending Time / Day",
+      "viewUserLogs": "View User Logs",
+      "anotherSettingOption": "Another Setting Option",
+      "staff": "Staff",
+      "users": "Users",
+      "changeMode": "Change Mode",
+      "changeLanguage": "Change Language"
     },
     'ar': {
       "loginTitle": "تسجيل الدخول",
@@ -77,7 +83,13 @@ class AppLocalizations {
       "averageOrderValue": "متوسط قيمة الطلب",
       "totalVisits": "إجمالي الزيارات:",
       "lastVisit": "الزيارة الأخيرة:",
-      "spendingTimePerDay": "وقت الإنفاق / اليوم"
+      "spendingTimePerDay": "وقت الإنفاق / اليوم",
+      "viewUserLogs": "عرض سجلات المستخدم",
+      "anotherSettingOption": "خيار إعدادات آخر",
+      "staff": "الموظفين",
+      "users": "المستخدمين",
+      "changeMode": "تغيير الوضع",
+      "changeLanguage": "تغيير اللغة"
     },
   };
 

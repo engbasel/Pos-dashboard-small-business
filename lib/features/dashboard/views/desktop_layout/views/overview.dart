@@ -35,15 +35,6 @@ class OverviewView extends StatelessWidget {
                 flex: 1,
                 child: user_info_card(),
               ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const LoginView();
-                      },
-                    ));
-                  },
-                  child: const Text('back'))
             ],
           ),
           const SizedBox(height: 16),

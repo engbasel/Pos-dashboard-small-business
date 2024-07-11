@@ -1,17 +1,3 @@
-// ----------------------------------
-// disgen Link
-// ----------------------------------
-// https://www.figma.com/design/sa77wX8SKrQpkCc1W7RAgf/POS-System-Dashboard-Dark-(Community)?node-id=1-14&t=a9INnTrgS1dYpRAR-0
-// ----------------------------------
-// requirements
-// 1- Logic work
-// 2- UI done
-// 3- Localizations
-// 4- dark theme -with them
-// ----------------------------------
-
-//test again
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/login/views/loginview.dart';
@@ -63,3 +49,16 @@ class PosSystem extends StatelessWidget {
     );
   }
 }
+// ----------------------------------
+// disgen Link
+// ----------------------------------
+// https://www.figma.com/design/sa77wX8SKrQpkCc1W7RAgf/POS-System-Dashboard-Dark-(Community)?node-id=1-14&t=a9INnTrgS1dYpRAR-0
+// ----------------------------------
+// requirements
+// 1- Logic work
+// 2- UI done
+// 3- Localizations
+// 4- dark theme -with them
+// ----------------------------------
+
+//test again

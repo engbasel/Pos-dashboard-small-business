@@ -26,7 +26,7 @@ class OverviewView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const UserInfoSection(),
-                    coustom_row_cards(width: width),
+                    CustomRowCards(width: width),
                   ],
                 ),
               ),

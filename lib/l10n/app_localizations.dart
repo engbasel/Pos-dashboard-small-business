@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 import 'app_localizations_delegate.dart';
 
@@ -33,7 +32,20 @@ class AppLocalizations {
       "emailLabel": "Email",
       "branchLabel": "Branch",
       "letsWorkButton": "Let's work",
-      "loginRecordedSuccessfully": "Login Recorded Successfully"
+      "loginRecordedSuccessfully": "Login Recorded Successfully",
+      "email": "Email",
+      "registerSince": "Register Since",
+      "favouriteBranch": "Favourite Branch",
+      "favouriteItem": "Favourite Item",
+      "totalPoints": "Total Points :",
+      "pointsUsed": "Points Used :",
+      "outstandingPoints": "Outstanding Points",
+      "orders": "Orders :",
+      "totalSpend": "Total Spend :",
+      "averageOrderValue": "Average Order Value",
+      "totalVisits": "Total Visits :",
+      "lastVisit": "Last Visit :",
+      "spendingTimePerDay": "Spending Time / Day",
     },
     'ar': {
       "loginTitle": "تسجيل الدخول",
@@ -52,7 +64,20 @@ class AppLocalizations {
       "emailLabel": "البريد الإلكتروني",
       "branchLabel": "الفرع",
       "letsWorkButton": "لنعمل",
-      "loginRecordedSuccessfully": "تم تسجيل الدخول بنجاح"
+      "loginRecordedSuccessfully": "تم تسجيل الدخول بنجاح",
+      "email": "البريد الإلكتروني",
+      "registerSince": "مسجل منذ",
+      "favouriteBranch": "الفرع المفضل",
+      "favouriteItem": "العنصر المفضل",
+      "totalPoints": "مجموع النقاط:",
+      "pointsUsed": "النقاط المستخدمة:",
+      "outstandingPoints": "النقاط المستحقة",
+      "orders": "الطلبات:",
+      "totalSpend": "إجمالي الإنفاق:",
+      "averageOrderValue": "متوسط قيمة الطلب",
+      "totalVisits": "إجمالي الزيارات:",
+      "lastVisit": "الزيارة الأخيرة:",
+      "spendingTimePerDay": "وقت الإنفاق / اليوم"
     },
   };
 

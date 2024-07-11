@@ -24,7 +24,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white),
+      appBar: AppBar(backgroundColor: const Color(0xfff8f9fd)),
       drawer: CustomDrawer(
         selectedIndex: selectedDrawerIndex,
         onSelectItem: onSelectDrawerItem,

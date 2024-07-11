@@ -16,7 +16,7 @@ class DashboardView extends StatelessWidget {
       // ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth >= 700) {
+          if (constraints.maxWidth >= 910) {
             // 1200
             // Desktop layout
             return const DesktopLayout();

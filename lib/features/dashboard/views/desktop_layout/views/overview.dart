@@ -3,6 +3,7 @@ import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/order_list.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/user_info_card.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/user_info_section.dart';
+import 'package:pos_dashboard_v1/features/login/views/loginview.dart';
 
 class OverviewView extends StatelessWidget {
   const OverviewView({super.key});
@@ -25,7 +26,7 @@ class OverviewView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const UserInfoSection(),
-                    coustom_row_cards(width: width),
+                    CustomRowCards(width: width),
                   ],
                 ),
               ),

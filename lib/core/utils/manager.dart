@@ -19,3 +19,9 @@ class ImagesManger {
   static const String birthdaycake = 'assets/birthday-cake.png';
   static const String sex = 'assets/sex.png';
 }
+
+class DBmanger {
+  static const String DatabaseName = 'FirstDatabase';
+  static const String TABLEName = 'UserInfo';
+  static const String ColumnName = 'note';
+}

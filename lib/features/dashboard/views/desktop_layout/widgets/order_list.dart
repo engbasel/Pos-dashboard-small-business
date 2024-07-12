@@ -33,7 +33,7 @@ class _OrderListState extends State<OrderList> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 localizations.translate('orderList'),
@@ -42,12 +42,13 @@ class _OrderListState extends State<OrderList> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(width: 30),
               Row(
                 children: [
-                  localizations.translate('all'),
-                  localizations.translate('monthly'),
-                  localizations.translate('weekly'),
                   localizations.translate('today'),
+                  localizations.translate('weekly'),
+                  localizations.translate('monthly'),
+                  localizations.translate('all'),
                 ].map((filterOption) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),

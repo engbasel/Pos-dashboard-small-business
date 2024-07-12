@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class label_Info_card extends StatelessWidget {
+// ignore: must_be_immutable
+class labelInfoCard extends StatelessWidget {
   String typeofLabel;
   String image;
   String contentoflabel;
   int ColorValue;
 
-  label_Info_card({
+  labelInfoCard({
     super.key,
     required this.typeofLabel,
     required this.image,

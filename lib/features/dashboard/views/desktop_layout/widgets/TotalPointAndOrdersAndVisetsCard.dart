@@ -6,7 +6,7 @@
 //   final String subValue;
 //   final String subValuetwo;
 //   final String subTitle;
-//   final String price;
+//   final int numberOfProductsInStore; // Change to int
 //   final IconData icon;
 //   final Color color;
 
@@ -17,15 +17,13 @@
 //     this.subValue = '',
 //     this.subValuetwo = '',
 //     this.subTitle = '',
-//     this.price = '',
+//     required this.numberOfProductsInStore, // Required
 //     required this.icon,
 //     required this.color,
 //   });
 
 //   @override
 //   Widget build(BuildContext context) {
-//     double width = MediaQuery.of(context).size.width;
-//     double height = MediaQuery.of(context).size.height;
 //     return Container(
 //       decoration: BoxDecoration(
 //         color: Colors.white,
@@ -48,11 +46,9 @@
 //                     style: const TextStyle(
 //                         fontSize: 14, fontWeight: FontWeight.bold),
 //                   ),
-//                   SizedBox(
-//                     width: width * 0.01,
-//                   ),
+//                   const SizedBox(width: 8),
 //                   Text(
-//                     price,
+//                     '$numberOfProductsInStore', // Display as string
 //                     style:
 //                         const TextStyle(fontSize: 13, color: Color(0xFF2CC56F)),
 //                   ),
@@ -72,8 +68,8 @@
 //                   color: Color(0xff37474F),
 //                 ),
 //               ),
-//               SizedBox(
-//                 width: width * 0.05,
+//               const SizedBox(
+//                 width: 10,
 //               ),
 //               Text(
 //                 subValuetwo,
@@ -121,7 +117,7 @@ class TotalPointAndOrdersAndVisetsCard extends StatelessWidget {
   final String subValue;
   final String subValuetwo;
   final String subTitle;
-  final String price;
+  final int numberOfProductsInStore;
   final IconData icon;
   final Color color;
 
@@ -132,7 +128,7 @@ class TotalPointAndOrdersAndVisetsCard extends StatelessWidget {
     this.subValue = '',
     this.subValuetwo = '',
     this.subTitle = '',
-    this.price = '',
+    required this.numberOfProductsInStore,
     required this.icon,
     required this.color,
   });
@@ -163,7 +159,7 @@ class TotalPointAndOrdersAndVisetsCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    price,
+                    '$numberOfProductsInStore',
                     style:
                         const TextStyle(fontSize: 13, color: Color(0xFF2CC56F)),
                   ),

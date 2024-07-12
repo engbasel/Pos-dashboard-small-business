@@ -3,15 +3,26 @@ import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/order_list.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/user_info_card.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/user_info_section.dart';
-import 'package:pos_dashboard_v1/features/login/views/loginview.dart';
 
-class OverviewView extends StatelessWidget {
+class OverviewView extends StatefulWidget {
   const OverviewView({super.key});
+
+  @override
+  _OverviewViewState createState() => _OverviewViewState();
+}
+
+class _OverviewViewState extends State<OverviewView> {
+  int numberOfProductsInStore = 0;
+
+  void updateProductCount(int count) {
+    setState(() {
+      numberOfProductsInStore = count;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     return SingleChildScrollView(
       child: Column(
@@ -26,7 +37,10 @@ class OverviewView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const UserInfoSection(),
-                    CustomRowCards(width: width),
+                    CustomRowCards(
+                      width: width,
+                      numberOfProductsInStore: numberOfProductsInStore,
+                    ),
                   ],
                 ),
               ),
@@ -38,7 +52,7 @@ class OverviewView extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          OrderList(),
+          OrderList(onProductsCountChanged: updateProductCount),
         ],
       ),
     );

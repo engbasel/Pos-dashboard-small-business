@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/label_Info_card.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/labelInfoCard.dart';
 
+// ignore: camel_case_types
 class user_info_card extends StatelessWidget {
   const user_info_card({super.key});
 
@@ -33,14 +34,14 @@ class user_info_card extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold)),
             const Text('+8801774286074', style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 8),
-            label_Info_card(
+            labelInfoCard(
               ColorValue: 0xffdcedff,
               contentoflabel: "Aug 20, 1997",
               image: ImagesManger.birthdaycake,
               typeofLabel: 'Birthday',
             ),
             const SizedBox(height: 10),
-            label_Info_card(
+            labelInfoCard(
               ColorValue: 0xffd4f8fc,
               contentoflabel: "Male",
               image: ImagesManger.sex,

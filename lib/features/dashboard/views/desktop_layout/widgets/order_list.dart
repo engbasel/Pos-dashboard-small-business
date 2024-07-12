@@ -22,8 +22,10 @@ class _OrderListState extends State<OrderList> {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController employeeController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
-  final TextEditingController paymentStatusController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
+
+  String? selectedPaymentMethod;
+  final List<String> paymentMethods = ['Visa', 'Cash', 'PayPal'];
 
   @override
   void initState() {
@@ -46,7 +48,7 @@ class _OrderListState extends State<OrderList> {
       typeController.text,
       employeeController.text,
       statusController.text,
-      paymentStatusController.text,
+      selectedPaymentMethod ?? '',
       double.tryParse(amountController.text) ?? 0,
     );
 
@@ -68,7 +70,7 @@ class _OrderListState extends State<OrderList> {
       typeController.text,
       employeeController.text,
       statusController.text,
-      paymentStatusController.text,
+      selectedPaymentMethod ?? '',
       double.tryParse(amountController.text) ?? 0,
     );
 
@@ -83,13 +85,16 @@ class _OrderListState extends State<OrderList> {
     typeController.clear();
     employeeController.clear();
     statusController.clear();
-    paymentStatusController.clear();
     amountController.clear();
+    setState(() {
+      selectedPaymentMethod = null;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    List<Expanded> children;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,8 +156,9 @@ class _OrderListState extends State<OrderList> {
                           typeController.text = orders[index].type;
                           employeeController.text = orders[index].employee;
                           statusController.text = orders[index].status;
-                          paymentStatusController.text =
-                              orders[index].paymentStatus;
+                          setState(() {
+                            selectedPaymentMethod = orders[index].paymentStatus;
+                          });
                           amountController.text =
                               orders[index].amount.toString();
                           updateOrder(index);
@@ -170,78 +176,134 @@ class _OrderListState extends State<OrderList> {
               );
             }),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextField(
-                  controller: idController,
-                  labelText: localizations.translate('orderID'),
+          CoustomForm(
+              idController: idController,
+              localizations: localizations,
+              dateTimeController: dateTimeController,
+              typeController: typeController,
+              employeeController: employeeController,
+              statusController: statusController,
+              paymentMethods: paymentMethods,
+              selectedPaymentMethod: selectedPaymentMethod,
+              onPaymentMethodChanged: (newValue) {
+                setState(() {
+                  selectedPaymentMethod = newValue;
+                });
+              },
+              amountController: amountController),
+          Row(
+            children: children = [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    clearTextFields();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    textStyle: const TextStyle(fontSize: 16.0),
+                  ),
+                  child: Text(localizations.translate('clearFields')),
                 ),
-                const SizedBox(height: 16.0),
-                CustomTextField(
-                  controller: dateTimeController,
-                  labelText: localizations.translate('dateTime'),
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    addOrder();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    textStyle: const TextStyle(fontSize: 16.0),
+                  ),
+                  child: Text(localizations.translate('addOrder')),
                 ),
-                const SizedBox(height: 16.0),
-                CustomTextField(
-                  controller: typeController,
-                  labelText: localizations.translate('orderType'),
-                ),
-                const SizedBox(height: 16.0),
-                CustomTextField(
-                  controller: employeeController,
-                  labelText: localizations.translate('employee'),
-                ),
-                const SizedBox(height: 16.0),
-                CustomTextField(
-                  controller: statusController,
-                  labelText: localizations.translate('status'),
-                ),
-                const SizedBox(height: 16.0),
-                CustomTextField(
-                  controller: paymentStatusController,
-                  labelText: localizations.translate('paymentStatus'),
-                ),
-                const SizedBox(height: 16.0),
-                CustomTextField(
-                  controller: amountController,
-                  labelText: localizations.translate('amount'),
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          clearTextFields();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          textStyle: const TextStyle(fontSize: 16.0),
-                        ),
-                        child: Text(localizations.translate('clearFields')),
-                      ),
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          addOrder();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          textStyle: const TextStyle(fontSize: 16.0),
-                        ),
-                        child: Text(localizations.translate('addOrder')),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+}
+
+class CoustomForm extends StatelessWidget {
+  const CoustomForm({
+    super.key,
+    required this.idController,
+    required this.localizations,
+    required this.dateTimeController,
+    required this.typeController,
+    required this.employeeController,
+    required this.statusController,
+    required this.paymentMethods,
+    required this.selectedPaymentMethod,
+    required this.onPaymentMethodChanged,
+    required this.amountController,
+  });
+
+  final TextEditingController idController;
+  final AppLocalizations localizations;
+  final TextEditingController dateTimeController;
+  final TextEditingController typeController;
+  final TextEditingController employeeController;
+  final TextEditingController statusController;
+  final List<String> paymentMethods;
+  final String? selectedPaymentMethod;
+  final ValueChanged<String?> onPaymentMethodChanged;
+  final TextEditingController amountController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomTextField(
+            controller: idController,
+            labelText: localizations.translate('orderID'),
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+              controller: dateTimeController,
+              labelText: localizations.translate('dateTime')),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: typeController,
+            labelText: localizations.translate('orderType'),
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: employeeController,
+            labelText: localizations.translate('employee'),
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: statusController,
+            labelText: localizations.translate('status'),
+          ),
+          const SizedBox(height: 16.0),
+          DropdownButtonFormField<String>(
+            value: selectedPaymentMethod,
+            onChanged: onPaymentMethodChanged,
+            decoration: InputDecoration(
+              labelText: localizations.translate('paymentStatus'),
+              border: const OutlineInputBorder(),
+            ),
+            items: paymentMethods.map((String method) {
+              return DropdownMenuItem<String>(
+                value: method,
+                child: Text(method),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: amountController,
+            labelText: localizations.translate('amount'),
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 20),
         ],
       ),
     );

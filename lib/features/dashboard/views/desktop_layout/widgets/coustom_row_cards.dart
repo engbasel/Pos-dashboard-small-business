@@ -157,6 +157,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/TotalPointAndOrdersAndVisetsCard.dart';
 
+import '../../../../../l10n/app_localizations.dart';
+
 class CustomRowCards extends StatelessWidget {
   final double width;
   final int numberOfProductsInStore;
@@ -169,10 +171,12 @@ class CustomRowCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Row(
       children: [
         TotalPointAndOrdersAndVisetsCard(
-          title: "Total Points",
+          title: localizations.translate('totalPoints'),
           value: "1200",
           subValue: "Visits: 30",
           subValuetwo: "Orders: 45",

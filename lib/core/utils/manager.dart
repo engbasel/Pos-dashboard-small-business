@@ -21,7 +21,7 @@ class ImagesManger {
 }
 
 class DBmanger {
-  static const String DatabaseName = 'FirstDatabase';
-  static const String TABLEName = 'UserInfo';
-  static const String ColumnName = 'note';
+  static const String databaseName = 'FirstDatabase';
+  static const String tABLEName = 'UserInfo';
+  static const String columnName = 'note';
 }

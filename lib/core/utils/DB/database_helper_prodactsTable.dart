@@ -13,20 +13,20 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDatabase();
+    _database = await initDatabase();
     return _database!;
   }
 
-  Future<Database> _initDatabase() async {
+  Future<Database> initDatabase() async {
     String path = join(await getDatabasesPath(), 'orders_database.db');
     return await openDatabase(
       path,
-      onCreate: _onCreate,
+      onCreate: onCreate,
       version: 1,
     );
   }
 
-  Future<void> _onCreate(Database db, int version) async {
+  Future<void> onCreate(Database db, int version) async {
     await db.execute(
       '''
       CREATE TABLE orders(

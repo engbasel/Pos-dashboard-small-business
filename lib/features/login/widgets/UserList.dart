@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 class UserList extends StatelessWidget {
   final List<Map<String, dynamic>> users;
+  final Function(int) onDelete;
 
-  const UserList({super.key, required this.users});
+  const UserList({super.key, required this.users, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: false,
+      reverse: true,
+      shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: users.length,
       itemBuilder: (context, index) {
@@ -25,6 +27,10 @@ class UserList extends StatelessWidget {
                 Text('Email: ${users[index]['email']}'),
                 Text('Branch: ${users[index]['branch']}'),
               ],
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () => onDelete(users[index]['id']),
             ),
           ),
         );

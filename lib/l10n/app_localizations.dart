@@ -51,7 +51,22 @@ class AppLocalizations {
       "staff": "Staff",
       "users": "Users",
       "changeMode": "Change Mode",
-      "changeLanguage": "Change Language"
+      "changeLanguage": "Change Language",
+      "orderList": "Order List",
+      "all": "All",
+      "monthly": "Monthly",
+      "weekly": "Weekly",
+      "today": "Today",
+      "orderId": "Order ID",
+      "dateTime": "Date/Time",
+      "orderType": "Order Type",
+      "employee": "Employee",
+      "status": "Status",
+      "paymentStatus": "Payment Status",
+      "amount": "Amount",
+      "Complete": "Complete",
+      "Pending": "Pending",
+      "Paid": "Paid"
     },
     'ar': {
       "loginTitle": "تسجيل الدخول",
@@ -89,7 +104,22 @@ class AppLocalizations {
       "staff": "الموظفين",
       "users": "المستخدمين",
       "changeMode": "تغيير الوضع",
-      "changeLanguage": "تغيير اللغة"
+      "changeLanguage": "تغيير اللغة",
+      "orderList": "قائمة الطلبات",
+      "all": "الكل",
+      "monthly": "شهريا",
+      "weekly": "أسبوعيا",
+      "today": "اليوم",
+      "orderId": "رقم الطلب",
+      "dateTime": "التاريخ/الوقت",
+      "orderType": "نوع الطلب",
+      "employee": "الموظف",
+      "status": "الحالة",
+      "paymentStatus": "حالة الدفع",
+      "amount": "المبلغ",
+      "Complete": "مكتمل",
+      "Pending": "معلق",
+      "Paid": "مدفوع"
     },
   };
 

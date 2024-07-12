@@ -14,7 +14,7 @@ class OverviewView extends StatefulWidget {
 class _OverviewViewState extends State<OverviewView> {
   int numberOfProductsInStore = 0;
 
-  void _updateProductCount(int count) {
+  void updateProductCount(int count) {
     setState(() {
       numberOfProductsInStore = count;
     });
@@ -52,7 +52,7 @@ class _OverviewViewState extends State<OverviewView> {
             ],
           ),
           const SizedBox(height: 16),
-          OrderList(onProductsCountChanged: _updateProductCount),
+          OrderList(onProductsCountChanged: updateProductCount),
         ],
       ),
     );

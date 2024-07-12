@@ -66,9 +66,20 @@ class AppLocalizations {
       "amount": "Amount",
       "Complete": "Complete",
       "Pending": "Pending",
-      "Paid": "Paid"
+      "Paid": "Paid",
+      "overview": "Overview",
+      "customers": "Customers",
+      "settings": "Settings",
+      "messages": "Messages",
+      "username": "Username",
+      "birthday": "Birthday",
+      "privilege": "Privilege",
+      "gender": "Gender",
+      "userLogs": "User Logs",
+      "branch": "Branch"
     },
     'ar': {
+      "userLogs": "سجلات المستخدم",
       "loginTitle": "تسجيل الدخول",
       "nameLabel": "الاسم",
       "nameHint": "أدخل اسمك",
@@ -119,7 +130,16 @@ class AppLocalizations {
       "amount": "المبلغ",
       "Complete": "مكتمل",
       "Pending": "معلق",
-      "Paid": "مدفوع"
+      "Paid": "مدفوع",
+      "overview": "نظرة عامة",
+      "customers": "العملاء",
+      "settings": "الإعدادات",
+      "messages": "الرسائل",
+      "username": "اسم المستخدم",
+      "birthday": "تاريخ الميلاد",
+      "privilege": "الامتياز",
+      "gender": "الجنس",
+      "branch": "الفرع"
     },
   };
 

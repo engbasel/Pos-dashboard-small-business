@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/DB/LoginSQL_helper.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../widgets/UserList.dart';
 
 class UserLogsView extends StatefulWidget {
@@ -100,9 +101,13 @@ class _UserLogsViewState extends State<UserLogsView> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: const Color(0xfff8f9fd),
-      appBar: AppBar(title: const Text('User Logs')),
+      appBar: AppBar(
+        title: Text(localizations.translate('userLogs')),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

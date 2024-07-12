@@ -95,6 +95,7 @@ class _OrderListState extends State<OrderList> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    // ignore: unused_local_variable
     List<Expanded> children;
     return SingleChildScrollView(
       child: Column(

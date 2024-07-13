@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../l10n/app_localizations.dart';
-import '../../../../../l10n/ocale_provider.dart';
-import '../../../../login/views/user_logs_view.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../../l10n/ocale_provider.dart';
+import '../../login/views/user_logs_view.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});

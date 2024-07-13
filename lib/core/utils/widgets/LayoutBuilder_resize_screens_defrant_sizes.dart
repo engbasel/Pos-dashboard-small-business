@@ -4,22 +4,20 @@ import 'package:pos_dashboard_v1/features/dashboard/views/mobile_layout/Views/mo
 import 'package:pos_dashboard_v1/features/dashboard/views/tablet_layout/Views/tablet_layout.dart';
 import 'package:pos_dashboard_v1/core/utils/manager.dart';
 
-class DashboardView extends StatelessWidget {
-  const DashboardView({super.key});
+// ignore: camel_case_types
+class LayoutBuilder_resize_screens_defrant_sizes extends StatelessWidget {
+  const LayoutBuilder_resize_screens_defrant_sizes({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.backgroundColor,
-      // appBar: AppBar(
-      //   title: const Text('Dashboard'),
-      // ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           if (constraints.maxWidth >= 910) {
             // 1200
             // Desktop layout
-            return const DesktopLayout();
+            return const DesktopLayoutBoady();
           } else if (constraints.maxWidth >= 600) {
             // Tablet layout
             return const TabletLayout();
@@ -32,6 +30,3 @@ class DashboardView extends StatelessWidget {
     );
   }
 }
-//new branch created
-//duhh   
-//duhhh branch

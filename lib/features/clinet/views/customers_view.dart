@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/db/clients_database.dart';
+import '../../../core/db/clients_database.dart';
 
 class CustomersView extends StatefulWidget {
   const CustomersView({super.key});

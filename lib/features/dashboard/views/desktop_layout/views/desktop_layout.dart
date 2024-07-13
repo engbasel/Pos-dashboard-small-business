@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/views/messages.dart';
+import 'package:pos_dashboard_v1/features/messages/view/MessagesView.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_drawer.dart';
-import 'customers_view.dart';
+import '../../../../clinet/views/customers_view.dart';
 import 'overview.dart';
-import 'settings.dart';
+import '../../../../settings/view/settings.dart';
 
-class DesktopLayout extends StatefulWidget {
-  const DesktopLayout({super.key});
+class DesktopLayoutBoady extends StatefulWidget {
+  const DesktopLayoutBoady({super.key});
 
   @override
-  State<DesktopLayout> createState() => _DesktopLayoutState();
+  State<DesktopLayoutBoady> createState() => _DesktopLayoutBoadyState();
 }
 
-class _DesktopLayoutState extends State<DesktopLayout> {
+class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
@@ -33,7 +33,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
       appBar: AppBar(
         backgroundColor: const Color(0xfff8f9fd),
         elevation: 0,
-        title: const Text('POS Dashboard'),
+        title: const Text(' Dashboard'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),

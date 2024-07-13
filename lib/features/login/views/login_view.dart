@@ -3,7 +3,7 @@ import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 import '../../../core/db/login_sql_helper.dart';
 import '../../../core/utils/widgets/CustomSnackBar.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../dashboard/views/main_dashboard_view.dart';
+import '../../../core/utils/widgets/LayoutBuilder_resize_screens_defrant_sizes.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -64,7 +64,7 @@ class _LoginViewState extends State<LoginView> {
 
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
-          return const DashboardView();
+          return const LayoutBuilder_resize_screens_defrant_sizes();
         },
       ));
     }

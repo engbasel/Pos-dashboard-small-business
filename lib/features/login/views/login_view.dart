@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 import '../../../core/db/login_sql_helper.dart';
 import '../../../core/utils/widgets/CustomSnackBar.dart';
-import '../../../l10n/app_localizations.dart';
 import '../../../core/utils/widgets/LayoutBuilder_resize_screens_defrant_sizes.dart';
+import '../../../l10n/app_localizations.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -36,7 +36,6 @@ class _LoginViewState extends State<LoginView> {
 
   void saveData() async {
     if (_formKey.currentState!.validate()) {
-      // ignore: unused_local_variable
       Map<String, dynamic> user = {
         'username': usernameController.text,
         'birthday': iD.text,
@@ -46,8 +45,8 @@ class _LoginViewState extends State<LoginView> {
         'branch': branchController.text,
       };
 
-      // await sqldb.insertUser(user);
-// ===============================insert in database =============================
+      await sqldb.insertUser(user);
+
       CustomSnackBar.show(
         context,
         AppLocalizations.of(context).translate('loginRecordedSuccessfully'),
@@ -55,7 +54,7 @@ class _LoginViewState extends State<LoginView> {
         textColor: Colors.white,
         icon: Icons.info,
       );
-      // loadUserData();
+      loadUserData();
 
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
@@ -182,12 +181,11 @@ class _LoginViewState extends State<LoginView> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 26),
                 child: CustomButton(
-                    text: AppLocalizations.of(context)
-                        .translate('letsWorkButton'),
-                    bgColor: Colors.blueGrey,
-                    onTap: saveData
-                    // ,
-                    ),
+                  text:
+                      AppLocalizations.of(context).translate('letsWorkButton'),
+                  bgColor: Colors.blueGrey,
+                  onTap: saveData,
+                ),
               ),
             ],
           ),

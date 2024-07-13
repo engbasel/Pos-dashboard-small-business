@@ -8,7 +8,7 @@ class OverviewView extends StatefulWidget {
   const OverviewView({super.key});
 
   @override
-  _OverviewViewState createState() => _OverviewViewState();
+  State<OverviewView> createState() => _OverviewViewState();
 }
 
 class _OverviewViewState extends State<OverviewView> {
@@ -25,35 +25,39 @@ class _OverviewViewState extends State<OverviewView> {
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const UserInfoSection(),
-                    CustomRowCards(
-                      width: width,
-                      numberOfProductsInStore: numberOfProductsInStore,
-                    ),
-                  ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const UserInfoSection(),
+                      const SizedBox(height: 16),
+                      CustomRowCards(
+                        width: width,
+                        numberOfProductsInStore: numberOfProductsInStore,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              const Expanded(
-                flex: 1,
-                child: user_info_card(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          OrderList(onProductsCountChanged: updateProductCount),
-        ],
+                const SizedBox(width: 16),
+                const Expanded(
+                  flex: 1,
+                  child: user_info_card(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            OrderList(onProductsCountChanged: updateProductCount),
+          ],
+        ),
       ),
     );
   }

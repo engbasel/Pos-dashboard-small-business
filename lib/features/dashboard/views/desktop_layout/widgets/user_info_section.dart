@@ -79,59 +79,56 @@ class UserInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: CustomLabel(
-                    color: const Color(0xfffff2cc),
-                    labelValue: appLocalizations.translate('email'),
-                    content: 'abcd123@gmail.com',
-                    imagename: ImagesManger.mail,
-                  ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: CustomLabel(
+                  color: const Color(0xfffff2cc),
+                  labelValue: appLocalizations.translate('email'),
+                  content: 'abcd123@gmail.com',
+                  imagename: ImagesManger.mail,
                 ),
-                Expanded(
-                  child: CustomLabel(
-                    color: const Color(0xfff3e5f5),
-                    labelValue: appLocalizations.translate('registerSince'),
-                    content: 'Aug 22, 2022',
-                    imagename: ImagesManger.edit,
-                  ),
+              ),
+              Expanded(
+                child: CustomLabel(
+                  color: const Color(0xfff3e5f5),
+                  labelValue: appLocalizations.translate('registerSince'),
+                  content: 'Aug 22, 2022',
+                  imagename: ImagesManger.edit,
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: CustomLabel(
-                    color: const Color(0xffe0f7fa),
-                    labelValue: appLocalizations.translate('favouriteBranch'),
-                    content: 'Branch A',
-                    imagename: ImagesManger.agency,
-                  ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CustomLabel(
+                  color: const Color(0xffe0f7fa),
+                  labelValue: appLocalizations.translate('favouriteBranch'),
+                  content: 'Branch A',
+                  imagename: ImagesManger.agency,
                 ),
-                Expanded(
-                  child: CustomLabel(
-                    color: const Color(0xffffebee),
-                    labelValue: appLocalizations.translate('favouriteItem'),
-                    content: 'Pizza',
-                    imagename: ImagesManger.shoppingbag,
-                  ),
+              ),
+              Expanded(
+                child: CustomLabel(
+                  color: const Color(0xffffebee),
+                  labelValue: appLocalizations.translate('favouriteItem'),
+                  content: 'Pizza',
+                  imagename: ImagesManger.shoppingbag,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

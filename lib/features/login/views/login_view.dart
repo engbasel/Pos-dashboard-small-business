@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/utils/DB/LoginSQL_helper.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import '../../../core/db/login_sql_helper.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../dashboard/views/main_dashboard_view.dart';
 
@@ -8,13 +8,13 @@ class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
-  _LoginViewState createState() => _LoginViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
-  final ID = TextEditingController();
+  final iD = TextEditingController();
   String privilege = 'Customer';
   String gender = 'Male';
   final emailController = TextEditingController();
@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
     if (_formKey.currentState!.validate()) {
       Map<String, dynamic> user = {
         'username': usernameController.text,
-        'birthday': ID.text,
+        'birthday': iD.text,
         'privilege': privilege,
         'gender': gender,
         'email': emailController.text,
@@ -65,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
         title: Text(AppLocalizations.of(context).translate('loginTitle')),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(26),
         child: Form(
           key: _formKey,
           child: Column(
@@ -88,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: ID,
+                controller: iD,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).translate('idLabel'),
                   hintText: AppLocalizations.of(context).translate('idHint'),
@@ -102,48 +102,56 @@ class _LoginViewState extends State<LoginView> {
                 },
               ),
               const SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                value: privilege,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('privilegeLabel'),
-                  border: const OutlineInputBorder(),
-                ),
-                onChanged: (newValue) {
-                  setState(() {
-                    privilege = newValue!;
-                  });
-                },
-                items: <String>['Admin', 'Customer']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(AppLocalizations.of(context)
-                        .translate(value.toLowerCase())),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                value: gender,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('genderLabel'),
-                  border: const OutlineInputBorder(),
-                ),
-                onChanged: (newValue) {
-                  setState(() {
-                    gender = newValue!;
-                  });
-                },
-                items: <String>['Male', 'Female']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(AppLocalizations.of(context)
-                        .translate(value.toLowerCase())),
-                  );
-                }).toList(),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      value: privilege,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .translate('privilegeLabel'),
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (newValue) {
+                        setState(() {
+                          privilege = newValue!;
+                        });
+                      },
+                      items: <String>['Admin', 'Customer']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(AppLocalizations.of(context)
+                              .translate(value.toLowerCase())),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      value: gender,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .translate('genderLabel'),
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (newValue) {
+                        setState(() {
+                          gender = newValue!;
+                        });
+                      },
+                      items: <String>['Male', 'Female']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(AppLocalizations.of(context)
+                              .translate(value.toLowerCase())),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               TextFormField(
@@ -163,11 +171,15 @@ class _LoginViewState extends State<LoginView> {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: saveData,
-                child: Text(
-                    AppLocalizations.of(context).translate('letsWorkButton')),
+              const SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 26),
+                child: CustomButton(
+                  text:
+                      AppLocalizations.of(context).translate('letsWorkButton'),
+                  bgColor: Colors.blueGrey,
+                  onTap: saveData,
+                ),
               ),
             ],
           ),

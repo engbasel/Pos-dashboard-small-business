@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/drawer_item.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
-import '../../../core/utils/manager.dart';
+import '../utils/manager.dart';
 
 class CustomDrawer extends StatelessWidget {
   final int selectedIndex;
@@ -18,8 +18,9 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
 
-    return Drawer(
-      backgroundColor: ColorsManager.drawerColor,
+    return Container(
+      width: 200,
+      color: ColorsManager.drawerColor,
       child: ListView(
         padding: const EdgeInsets.only(top: 125),
         children: [

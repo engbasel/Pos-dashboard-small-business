@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../../features/dashboard/views/desktop_layout/models/order_model.dart';
+import '../../features/dashboard/views/desktop_layout/models/order_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();

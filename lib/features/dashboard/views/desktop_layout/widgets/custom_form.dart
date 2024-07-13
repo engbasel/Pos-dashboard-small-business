@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../../../../l10n/app_localizations.dart';
 
-class CoustomForm extends StatelessWidget {
-  const CoustomForm({
+class CustomForm extends StatelessWidget {
+  const CustomForm({
     super.key,
     required this.idController,
     required this.localizations,

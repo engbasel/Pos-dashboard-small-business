@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/DB/LoginSQL_helper.dart';
-
+import 'package:pos_dashboard_v1/core/db/login_sql_helper.dart';
 import '../../../l10n/app_localizations.dart';
-import '../widgets/UserList.dart';
+import '../widgets/user_list.dart';
 
 class UserLogsView extends StatefulWidget {
   const UserLogsView({super.key});
 
   @override
-  _UserLogsViewState createState() => _UserLogsViewState();
+  State<UserLogsView> createState() => _UserLogsViewState();
 }
 
 class _UserLogsViewState extends State<UserLogsView> {

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
-class labelInfoCard extends StatelessWidget {
-  String typeofLabel;
-  String image;
-  String contentoflabel;
-  int ColorValue;
+class LabelInfoCard extends StatelessWidget {
+  final String typeofLabel;
+  final String image;
+  final String contentoflabel;
+  final int colorValue;
 
-  labelInfoCard({
+  const LabelInfoCard({
     super.key,
     required this.typeofLabel,
     required this.image,
     required this.contentoflabel,
-    required this.ColorValue,
+    required this.colorValue,
   });
 
   @override
@@ -32,7 +31,7 @@ class labelInfoCard extends StatelessWidget {
             height: 30,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: Color(ColorValue),
+              color: Color(colorValue),
             ),
             child: Center(child: Image.asset(image, width: 24, height: 24)),
           ),

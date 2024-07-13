@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 import '../../../core/db/login_sql_helper.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../dashboard/views/main_dashboard_view.dart';

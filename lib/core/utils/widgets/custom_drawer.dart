@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/drawer_item.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
-import '../utils/manager.dart';
+import '../manager.dart';
 
 class CustomDrawer extends StatelessWidget {
   final int selectedIndex;

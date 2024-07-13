@@ -155,9 +155,9 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/total_points_orders_visits_card.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
 
-import '../../../../../l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 
 class CustomRowCards extends StatelessWidget {
   final double width;

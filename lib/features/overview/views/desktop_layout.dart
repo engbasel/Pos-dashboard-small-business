@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/messages/view/MessagesView.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_drawer.dart';
-import '../../../../clinet/views/customers_view.dart';
+import '../../clinet/views/customers_view.dart';
 import 'overview.dart';
-import '../../../../settings/view/settings.dart';
+import '../../settings/view/settings.dart';
 
 class DesktopLayoutBoady extends StatefulWidget {
   const DesktopLayoutBoady({super.key});

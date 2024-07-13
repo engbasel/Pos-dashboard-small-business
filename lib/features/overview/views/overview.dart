@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/coustom_row_cards.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/order_list.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/user_info_card.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/user_info_section.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/coustom_row_cards.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/order_list.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/user_info_card.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
 
 class OverviewView extends StatefulWidget {
   const OverviewView({super.key});

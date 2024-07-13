@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/drawer_item.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/drawer_item.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 import '../manager.dart';

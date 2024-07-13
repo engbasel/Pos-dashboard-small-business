@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/models/order_model.dart';
+import 'package:pos_dashboard_v1/features/overview/models/order_model.dart';
 import 'package:pos_dashboard_v1/core/db/db_helper_products.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/widgets/custom_form.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/custom_form.dart';
 import '../views/OrdersListScreen.dart';
 import '../views/order_details_screen.dart';
-import '../../../../../l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 
 class OrderList extends StatefulWidget {
   final ValueChanged<int> onProductsCountChanged;

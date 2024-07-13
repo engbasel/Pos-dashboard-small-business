@@ -18,7 +18,6 @@ class _CustomersViewState extends State<CustomersView> {
   List<Map<String, dynamic>> filteredCustomers = [];
   final TextEditingController searchController = TextEditingController();
   String searchQuery = '';
-  final database = Customers_helper(); // Initialize your database helper
 
   @override
   void initState() {
@@ -78,45 +77,48 @@ class _CustomersViewState extends State<CustomersView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Customers'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: CustomerSearchDelegate(
-                  customers: customers,
-                  onQueryUpdate: (query) {
-                    searchController.text = query;
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText: 'Search',
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    searchController.clear();
                   },
                 ),
-              );
-            },
-            icon: const Icon(Icons.search),
-            tooltip: 'Search',
+              ),
+            ),
+          ),
+          Expanded(
+            child: filteredCustomers.isEmpty
+                ? const Center(child: Text('Client not found'))
+                : ListView(
+                    children: filteredCustomers
+                        .map((customer) => CostomCoustomDitelsCard(
+                              customer: customer,
+                              onEdit: updateCustomer,
+                              onDelete: deleteCustomer,
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CustomerDetailView(
+                                    customer: customer,
+                                    onEdit: updateCustomer,
+                                    onDelete: deleteCustomer,
+                                  ),
+                                ));
+                              },
+                            ))
+                        .toList(),
+                  ),
           ),
         ],
       ),
-      body: filteredCustomers.isEmpty
-          ? const Center(child: Text('Client not found'))
-          : ListView(
-              children: filteredCustomers
-                  .map((customer) => CostomCoustomDitelsCard(
-                      customer: customer,
-                      onEdit: updateCustomer,
-                      onDelete: deleteCustomer,
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CustomerDetailView(
-                            customer: customer,
-                            onEdit: updateCustomer,
-                            onDelete: deleteCustomer,
-                          ),
-                        ));
-                      }))
-                  .toList(),
-            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final newCustomer = await showDialog<Map<String, String>>(

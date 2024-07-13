@@ -6,7 +6,6 @@ import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'features/dashboard/views/desktop_layout/views/desktop_layout.dart';
 import 'l10n/ocale_provider.dart';
 
 void main(List<String> args) {

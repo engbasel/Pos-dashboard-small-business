@@ -45,14 +45,8 @@ class _LoginViewState extends State<LoginView> {
         'branch': branchController.text,
       };
 
-      await sqldb.insertUser(user);
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text(AppLocalizations.of(context)
-      //         .translate('loginRecordedSuccessfully')),
-      //   ),
-      // );
-
+      // await sqldb.insertUser(user);
+// ===============================insert in database =============================
       CustomSnackBar.show(
         context,
         AppLocalizations.of(context).translate('loginRecordedSuccessfully'),
@@ -60,7 +54,7 @@ class _LoginViewState extends State<LoginView> {
         textColor: Colors.white,
         icon: Icons.info,
       );
-      loadUserData();
+      // loadUserData();
 
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
@@ -187,11 +181,12 @@ class _LoginViewState extends State<LoginView> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 26),
                 child: CustomButton(
-                  text:
-                      AppLocalizations.of(context).translate('letsWorkButton'),
-                  bgColor: Colors.blueGrey,
-                  onTap: saveData,
-                ),
+                    text: AppLocalizations.of(context)
+                        .translate('letsWorkButton'),
+                    bgColor: Colors.blueGrey,
+                    onTap: saveData
+                    // ,
+                    ),
               ),
             ],
           ),

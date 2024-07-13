@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/dashboard/views/desktop_layout/views/messages.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_drawer.dart';
-import 'customers.dart';
+import 'customers_view.dart';
 import 'overview.dart';
 import 'settings.dart';
 

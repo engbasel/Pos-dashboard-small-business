@@ -26,13 +26,26 @@ class _DesktopLayoutState extends State<DesktopLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(
+        selectedIndex: _selectedIndex,
+        onSelectItem: _onItemTapped,
+      ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xfff8f9fd),
+        elevation: 0,
+        title: const Text('POS Dashboard'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              _onItemTapped(3);
+            },
+          )
+        ],
+      ),
       backgroundColor: const Color(0xfff8f9fd),
       body: Row(
         children: [
-          CustomDrawer(
-            selectedIndex: _selectedIndex,
-            onSelectItem: _onItemTapped,
-          ),
           Expanded(
             child: Column(
               children: [

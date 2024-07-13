@@ -153,6 +153,7 @@ class OrderListScreen extends StatelessWidget {
 
   Future<void> _generateAllOrdersPdf(BuildContext context) async {
     final pdf = pw.Document();
+    // ignore: unused_local_variable
     final localizations = AppLocalizations.of(context);
 
     pdf.addPage(

@@ -36,6 +36,7 @@ class _LoginViewState extends State<LoginView> {
 
   void saveData() async {
     if (_formKey.currentState!.validate()) {
+      // ignore: unused_local_variable
       Map<String, dynamic> user = {
         'username': usernameController.text,
         'birthday': iD.text,

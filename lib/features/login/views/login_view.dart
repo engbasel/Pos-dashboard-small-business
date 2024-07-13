@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 import '../../../core/db/login_sql_helper.dart';
+import '../../../core/utils/widgets/CustomSnackBar.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../dashboard/views/main_dashboard_view.dart';
 
@@ -45,9 +46,20 @@ class _LoginViewState extends State<LoginView> {
       };
 
       await sqldb.insertUser(user);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context)
-              .translate('loginRecordedSuccessfully'))));
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text(AppLocalizations.of(context)
+      //         .translate('loginRecordedSuccessfully')),
+      //   ),
+      // );
+
+      CustomSnackBar.show(
+        context,
+        AppLocalizations.of(context).translate('loginRecordedSuccessfully'),
+        backgroundColor: Colors.blue,
+        textColor: Colors.white,
+        icon: Icons.info,
+      );
       loadUserData();
 
       Navigator.push(context, MaterialPageRoute(

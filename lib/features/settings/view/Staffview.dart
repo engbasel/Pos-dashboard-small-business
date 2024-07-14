@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
 import 'add_employee_screen.dart';
+import 'employee_list_screen.dart'; // Import the new screen
 
 class Staffview extends StatefulWidget {
   const Staffview({super.key});
@@ -39,8 +40,12 @@ class _StaffviewState extends State<Staffview> {
 
   Future<void> _fetchEmployees() async {
     List<Map<String, dynamic>> employees = await _dbHelper.getStaff();
-    print(employees);
-    // Update your state/UI with the fetched employees
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EmployeeListScreen(employees: employees),
+      ),
+    );
   }
 
   @override
@@ -65,7 +70,8 @@ class _StaffviewState extends State<Staffview> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const AddEmployeeScreen()),
+                      builder: (context) => const AddEmployeeScreen(),
+                    ),
                   ).then((_) => _fetchEmployees());
                 },
               ),
@@ -93,7 +99,7 @@ class _StaffviewState extends State<Staffview> {
                 onTap: _fetchEmployees,
               ),
             ],
-          )
+          ),
         ],
       ),
     );

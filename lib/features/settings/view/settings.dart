@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/settings/view/Staffview.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -37,6 +38,14 @@ class SettingsView extends StatelessWidget {
           title: Text(AppLocalizations.of(context).translate('staff')),
           leading: const Icon(Icons.people),
           onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const Staffview();
+                },
+              ),
+            );
             // Handle onPressed for staff data
           },
         ),

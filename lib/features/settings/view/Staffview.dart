@@ -43,7 +43,7 @@ class _StaffviewState extends State<Staffview> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EmployeeListScreen(employees: employees),
+        builder: (context) => const EmployeeListScreen(),
       ),
     );
   }
@@ -75,23 +75,11 @@ class _StaffviewState extends State<Staffview> {
                   ).then((_) => _fetchEmployees());
                 },
               ),
-              CustomButton(
-                textColor: Colors.black,
-                bgColor: Colors.red,
-                text: 'Remove Employee',
-                onTap: _removeEmployee,
-              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CustomButton(
-                textColor: Colors.black,
-                bgColor: Colors.grey,
-                text: 'Update Data Employee',
-                onTap: _updateEmployee,
-              ),
               CustomButton(
                 textColor: Colors.black,
                 bgColor: Colors.grey,

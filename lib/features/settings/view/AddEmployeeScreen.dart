@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
-import '../models/add_employ.dart';
+import '../models/add_employ_model.dart';
 
 class AddEmployeeScreen extends StatefulWidget {
   final Map<String, dynamic>? employee;
@@ -12,7 +12,7 @@ class AddEmployeeScreen extends StatefulWidget {
 }
 
 class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   final _dbHelper = staff_database_helper();
 
   final _firstNameController = TextEditingController();
@@ -56,8 +56,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
     super.dispose();
   }
 
-  void _saveEmployee() async {
-    if (_formKey.currentState!.validate()) {
+  void saveEmployee() async {
+    if (formKey.currentState!.validate()) {
       final newEmployee = AddEmployeeModel(
         firstName: _firstNameController.text,
         midName: _midNameController.text,
@@ -90,7 +90,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -192,7 +192,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: _saveEmployee,
+                  onPressed: saveEmployee,
                   child: Text(widget.employee == null
                       ? 'Add Employee'
                       : 'Save Changes'),

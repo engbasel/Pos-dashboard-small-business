@@ -4,14 +4,14 @@ import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
 import 'AddEmployeeScreen.dart';
 import 'EmployeeListScreen.dart'; // Import the new screen
 
-class staff_over_view extends StatefulWidget {
-  const staff_over_view({super.key});
+class staffOverview extends StatefulWidget {
+  const staffOverview({super.key});
 
   @override
-  _staff_over_viewState createState() => _staff_over_viewState();
+  _staffOverviewState createState() => _staffOverviewState();
 }
 
-class _staff_over_viewState extends State<staff_over_view> {
+class _staffOverviewState extends State<staffOverview> {
   final staff_database_helper dbHelper = staff_database_helper();
 
   void removeEmployee() async {

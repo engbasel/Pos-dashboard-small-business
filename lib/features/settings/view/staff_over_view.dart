@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
-import 'add_employee_screen.dart';
-import 'employee_list_screen.dart'; // Import the new screen
+import 'AddEmployeeScreen.dart';
+import 'EmployeeListScreen.dart'; // Import the new screen
 
-class Staffview extends StatefulWidget {
-  const Staffview({super.key});
+class staff_over_view extends StatefulWidget {
+  const staff_over_view({super.key});
 
   @override
-  _StaffviewState createState() => _StaffviewState();
+  _staff_over_viewState createState() => _staff_over_viewState();
 }
 
-class _StaffviewState extends State<Staffview> {
-  final staff_database_helper _dbHelper = staff_database_helper();
+class _staff_over_viewState extends State<staff_over_view> {
+  final staff_database_helper dbHelper = staff_database_helper();
 
-  void _removeEmployee() async {
+  void removeEmployee() async {
     // Assuming you have the employee ID to delete
     int employeeId = 1;
-    await _dbHelper.deleteStaff(employeeId);
-    _fetchEmployees();
+    await dbHelper.deleteStaff(employeeId);
+    fetchEmployees();
   }
 
-  void _updateEmployee() async {
+  void updateEmployee() async {
     Map<String, dynamic> updatedEmployee = {
       'id': 1,
       'firstName': 'Jane',
@@ -34,12 +34,13 @@ class _StaffviewState extends State<Staffview> {
       'experienceInPosition': '5 years',
       'salary': 80000.0,
     };
-    await _dbHelper.updateStaff(updatedEmployee);
-    _fetchEmployees();
+    await dbHelper.updateStaff(updatedEmployee);
+    fetchEmployees();
   }
 
-  Future<void> _fetchEmployees() async {
-    List<Map<String, dynamic>> employees = await _dbHelper.getStaff();
+  Future<void> fetchEmployees() async {
+    // ignore: unused_local_variable
+    List<Map<String, dynamic>> employees = await dbHelper.getStaff();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -51,7 +52,7 @@ class _StaffviewState extends State<Staffview> {
   @override
   void initState() {
     super.initState();
-    _fetchEmployees();
+    fetchEmployees();
   }
 
   @override
@@ -72,7 +73,7 @@ class _StaffviewState extends State<Staffview> {
                     MaterialPageRoute(
                       builder: (context) => const AddEmployeeScreen(),
                     ),
-                  ).then((_) => _fetchEmployees());
+                  ).then((_) => fetchEmployees());
                 },
               ),
             ],
@@ -84,7 +85,7 @@ class _StaffviewState extends State<Staffview> {
                 textColor: Colors.black,
                 bgColor: Colors.grey,
                 text: 'Employee List',
-                onTap: _fetchEmployees,
+                onTap: fetchEmployees,
               ),
             ],
           ),

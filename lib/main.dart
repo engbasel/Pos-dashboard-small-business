@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/login/views/login_view.dart';
-import 'package:pos_dashboard_v1/features/settings/view/Staffview.dart';
+import 'package:pos_dashboard_v1/features/settings/view/staff_over_view.dart';
 import 'package:provider/provider.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -46,7 +46,7 @@ class PosSystem extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: const LoginView(),
-      home: const Staffview(),
+      home: const staff_over_view(),
       // home: const DesktopLayoutBoady(),
     );
   }

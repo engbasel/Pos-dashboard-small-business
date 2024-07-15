@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/settings/view/Staffview.dart';
+import 'package:pos_dashboard_v1/features/settings/view/staff_over_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -42,7 +42,7 @@ class SettingsView extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const Staffview();
+                  return const staff_over_view();
                 },
               ),
             );

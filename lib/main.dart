@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/overview/views/desktop_layout.dart';
 import 'package:provider/provider.dart';
@@ -14,9 +15,14 @@ void main(List<String> args) {
     databaseFactory = databaseFactoryFfi;
   }
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LocaleProvider(),
-      child: const PosSystem(),
+    DevicePreview(
+      enabled: true,
+      builder: (context) {
+        return ChangeNotifierProvider(
+          create: (context) => LocaleProvider(),
+          child: const PosSystem(),
+        );
+      },
     ),
   );
 }
@@ -29,6 +35,7 @@ class PosSystem extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     return MaterialApp(
+      builder: DevicePreview.appBuilder,
       locale: localeProvider.locale,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

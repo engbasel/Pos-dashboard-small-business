@@ -20,24 +20,6 @@ class _staffOverviewState extends State<staffOverview> {
     // Assuming you have the employee ID to delete
     int employeeId = 1;
     await dbHelper.deleteStaff(employeeId);
-    fetchEmployees();
-  }
-
-  void updateEmployee() async {
-    Map<String, dynamic> updatedEmployee = {
-      'id': 1,
-      'firstName': 'Jane',
-      'midName': 'Doe',
-      'lastName': 'Doe',
-      'position': 'Manager',
-      'qualifications': 'Master\'s Degree',
-      'department': 'Sales',
-      'city': 'New York',
-      'experienceInPosition': '5 years',
-      'salary': 80000.0,
-    };
-    await dbHelper.updateStaff(updatedEmployee);
-    fetchEmployees();
   }
 
   Future<void> fetchEmployees() async {
@@ -54,16 +36,20 @@ class _staffOverviewState extends State<staffOverview> {
   @override
   void initState() {
     super.initState();
-    fetchEmployees();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Staff dashboard'),
+      ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GestureDetector(
                 onTap: () {
@@ -72,7 +58,7 @@ class _staffOverviewState extends State<staffOverview> {
                     MaterialPageRoute(
                       builder: (context) => const AddEmployeeScreen(),
                     ),
-                  ).then((_) => fetchEmployees());
+                  );
                 },
                 child: Container(
                   width: 200,

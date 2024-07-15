@@ -28,16 +28,16 @@ void showPasswordAdminDialog(BuildContext context) {
           TextButton(
             child: const Text('Confirm'),
             onPressed: () {
-              // Replace 'basel' with your actual correct password
               if (passwordController.text == 'basel') {
-                Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const staffOverview()),
+                    builder: (context) {
+                      return const staffOverview();
+                    },
+                  ),
                 );
               } else {
-                // Show error dialog if password is incorrect
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {

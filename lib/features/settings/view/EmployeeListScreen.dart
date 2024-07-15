@@ -11,37 +11,82 @@ class EmployeeListScreen extends StatefulWidget {
 }
 
 class _EmployeeListScreenState extends State<EmployeeListScreen> {
-  final staff_database_helper _dbHelper = staff_database_helper();
+  final staff_database_helper dbHelper = staff_database_helper();
   List<Map<String, dynamic>> _employees = [];
+  List<Map<String, dynamic>> _filteredEmployees = [];
+  final TextEditingController searchController = TextEditingController();
+  String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    _fetchEmployees();
+    fetchEmployees();
+    searchController.addListener(updateSearchQuery);
   }
 
-  Future<void> _fetchEmployees() async {
-    final employees = await _dbHelper.getStaff();
+  @override
+  void dispose() {
+    searchController.removeListener(updateSearchQuery);
+    searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchEmployees() async {
+    final employees = await dbHelper.getStaff();
     setState(() {
       _employees = employees;
+      _filteredEmployees = employees;
     });
   }
 
-  void _editEmployee(Map<String, dynamic> employee) {
+  void updateSearchQuery() {
+    setState(() {
+      _searchQuery = searchController.text;
+      filterEmployees();
+    });
+  }
+
+  void filterEmployees() {
+    final query = _searchQuery.toLowerCase();
+    setState(() {
+      _filteredEmployees = _employees.where((employee) {
+        final firstName = employee['firstName']?.toLowerCase() ?? '';
+        final lastName = employee['lastName']?.toLowerCase() ?? '';
+        final position = employee['position']?.toLowerCase() ?? '';
+        final city = employee['city']?.toLowerCase() ?? '';
+        final experience =
+            employee['experienceInPosition']?.toLowerCase() ?? '';
+        final department = employee['department']?.toLowerCase() ?? '';
+        final qualifications = employee['qualifications']?.toLowerCase() ?? '';
+        final salary = employee['salary']?.toString() ?? '';
+
+        return firstName.contains(query) ||
+            lastName.contains(query) ||
+            position.contains(query) ||
+            city.contains(query) ||
+            experience.contains(query) ||
+            department.contains(query) ||
+            qualifications.contains(query) ||
+            salary.contains(query);
+      }).toList();
+    });
+  }
+
+  void editEmployee(Map<String, dynamic> employee) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EditEmployeeScreen(employee: employee),
       ),
-    ).then((_) => _fetchEmployees());
+    ).then((_) => fetchEmployees());
   }
 
-  void _deleteEmployee(int id) async {
-    await _dbHelper.deleteStaff(id);
-    _fetchEmployees();
+  void deleteEmployee(int id) async {
+    await dbHelper.deleteStaff(id);
+    fetchEmployees();
   }
 
-  void _viewEmployeeDetails(Map<String, dynamic> employee) {
+  void viewEmployeeDetails(Map<String, dynamic> employee) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -55,14 +100,32 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employee List'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: 'Search by name, position, city, etc.',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.search),
+              ),
+            ),
+          ),
+        ),
       ),
       body: ListView.builder(
-        reverse: true,
-        itemCount: _employees.length,
+        itemCount: _filteredEmployees.length,
         itemBuilder: (context, index) {
-          final employee = _employees[index];
+          final employee = _filteredEmployees[index];
           return GestureDetector(
-            onTap: () => _viewEmployeeDetails(employee),
+            onTap: () => viewEmployeeDetails(employee),
             child: Card(
               margin: const EdgeInsets.all(8.0),
               child: Padding(
@@ -155,13 +218,13 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.edit),
-                          onPressed: () => _editEmployee(employee),
+                          onPressed: () => editEmployee(employee),
 
                           // onPressed: () {},
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete),
-                          onPressed: () => _deleteEmployee(employee['id']),
+                          onPressed: () => deleteEmployee(employee['id']),
                         ),
                       ],
                     ),
@@ -172,15 +235,6 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => const AddEmployeeScreen()),
-      //     ).then((_) => _fetchEmployees());
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }

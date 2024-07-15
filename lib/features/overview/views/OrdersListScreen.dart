@@ -101,12 +101,6 @@ class OrderListScreen extends StatelessWidget {
                         // Handle delete
                       },
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.download),
-                      onPressed: () {
-                        _generatePdf(context, orders[index]);
-                      },
-                    ),
                   ],
                 )),
               ],

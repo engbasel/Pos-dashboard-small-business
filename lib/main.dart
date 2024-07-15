@@ -56,11 +56,16 @@ class PosSystem extends StatelessWidget {
 // ----------------------------------
 // https://www.figma.com/design/sa77wX8SKrQpkCc1W7RAgf/POS-System-Dashboard-Dark-(Community)?node-id=1-14&t=a9INnTrgS1dYpRAR-0
 // ----------------------------------
-// requirements
-// 1- Logic work
-// 2- UI done
-// 3- Localizations
-// 4- dark theme -with them
+// requirements in pos System 
+// Logic
+// Employy (staff) Futers  {Add - delete - edit - serche - export data as pdf -}
+// Coustomres (Clients) Futers {Add - delete - edit - serche - export data as pdf - }
+// Prodacts { {Add - delete - edit - serche - export data as pdf } 
+// 
+// 
+
+
+
 // ----------------------------------
 
 //test again

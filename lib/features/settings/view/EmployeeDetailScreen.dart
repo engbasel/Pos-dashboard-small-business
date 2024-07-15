@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/settings/view/pdf_util.dart';
 
 class EmployeeDetailScreen extends StatelessWidget {
   final Map<String, dynamic> employee;
@@ -96,6 +97,10 @@ class EmployeeDetailScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8.0),
+            IconButton(
+              onPressed: () => PDFUtil.generateEmployeePdf(employee),
+              icon: const Icon(Icons.print),
+            ),
           ],
         ),
       ),

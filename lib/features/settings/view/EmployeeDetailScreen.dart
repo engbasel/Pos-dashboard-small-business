@@ -1,4 +1,6 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/settings/view/ExtraditealsScreen.dart';
 import 'package:pos_dashboard_v1/features/settings/view/pdf_util.dart';
 
 class EmployeeDetailScreen extends StatelessWidget {
@@ -88,7 +90,7 @@ class EmployeeDetailScreen extends StatelessWidget {
             Row(
               children: [
                 const Text(
-                  'Salary: ',
+                  'Fixed Salary: ',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -97,10 +99,24 @@ class EmployeeDetailScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8.0),
-            IconButton(
-              onPressed: () => PDFUtil.generateEmployeePdf(employee),
-              icon: const Icon(Icons.print),
-            ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => PDFUtil.generateEmployeePdf(employee),
+                  icon: const Icon(Icons.print),
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ExtraditealsScreen(
+                          employee: employee,
+                        );
+                      }));
+                    },
+                    child: const Text("Extra diteals "))
+              ],
+            )
           ],
         ),
       ),

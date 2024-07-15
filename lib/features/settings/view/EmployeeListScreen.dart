@@ -204,7 +204,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                     Row(
                       children: [
                         const Text(
-                          'Salary: ',
+                          'Fixed Salary: ',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -238,3 +238,4 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     );
   }
 }
+// add print to all employyes in system

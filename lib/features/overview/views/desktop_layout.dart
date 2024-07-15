@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/messages/view/MessagesView.dart';
+import 'package:pos_dashboard_v1/features/Notifications/view/Notificationsviwe.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_drawer.dart';
 import '../../clinet/views/customers_view.dart';
 import 'overview.dart';
@@ -57,7 +57,7 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
                       OverviewView(),
                       CustomersView(),
                       SettingsView(),
-                      MessagesView(),
+                      Notificationsviwe(),
                     ],
                   ),
                 ),

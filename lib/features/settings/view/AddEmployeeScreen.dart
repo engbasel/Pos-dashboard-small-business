@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
+import 'package:pos_dashboard_v1/core/db/StaffDatabaseHelper.dart';
 import '../../../core/utils/models/add_employ_model.dart';
 import '../widgets/custom_text_form_field.dart';
 
@@ -14,7 +14,7 @@ class AddEmployeeScreen extends StatefulWidget {
 
 class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   final formKey = GlobalKey<FormState>();
-  final _dbHelper = staff_database_helper();
+  final _dbHelper = StaffDatabaseHelper();
 
   final _firstNameController = TextEditingController();
   final _midNameController = TextEditingController();

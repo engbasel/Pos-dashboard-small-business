@@ -28,7 +28,8 @@ void showPasswordAdminDialog(BuildContext context) {
           TextButton(
             child: const Text('Confirm'),
             onPressed: () {
-              if (passwordController.text == 'basel') {
+              // passwordController.text == 'basel'
+              if (passwordController.text == '') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
+import 'package:pos_dashboard_v1/core/db/StaffDatabaseHelper.dart';
 import 'package:pos_dashboard_v1/features/settings/view/EditEmployeeScreen.dart';
 import 'package:pos_dashboard_v1/features/settings/view/EmployeeDetailScreen.dart';
 
@@ -11,7 +11,7 @@ class EmployeeListScreen extends StatefulWidget {
 }
 
 class _EmployeeListScreenState extends State<EmployeeListScreen> {
-  final staff_database_helper dbHelper = staff_database_helper();
+  final StaffDatabaseHelper dbHelper = StaffDatabaseHelper();
   List<Map<String, dynamic>> _employees = [];
   List<Map<String, dynamic>> _filteredEmployees = [];
   final TextEditingController searchController = TextEditingController();

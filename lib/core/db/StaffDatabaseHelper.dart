@@ -1,11 +1,10 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class staff_database_helper {
-  static final staff_database_helper _instance =
-      staff_database_helper.internal();
-  factory staff_database_helper() => _instance;
-  staff_database_helper.internal();
+class StaffDatabaseHelper {
+  static final StaffDatabaseHelper _instance = StaffDatabaseHelper.internal();
+  factory StaffDatabaseHelper() => _instance;
+  StaffDatabaseHelper.internal();
 
   Database? _db;
 

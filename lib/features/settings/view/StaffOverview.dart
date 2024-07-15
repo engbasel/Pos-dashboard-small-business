@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
+import 'package:pos_dashboard_v1/core/db/StaffDatabaseHelper.dart';
 import 'AddEmployeeScreen.dart';
 import 'EmployeeListScreen.dart'; // Import the new screen
 
@@ -14,17 +14,17 @@ class staffOverview extends StatefulWidget {
 
 // ignore: camel_case_types
 class _staffOverviewState extends State<staffOverview> {
-  final staff_database_helper dbHelper = staff_database_helper();
+  final StaffDatabaseHelper StaffdbHelper = StaffDatabaseHelper();
 
   void removeEmployee() async {
     // Assuming you have the employee ID to delete
     int employeeId = 1;
-    await dbHelper.deleteStaff(employeeId);
+    await StaffdbHelper.deleteStaff(employeeId);
   }
 
   Future<void> fetchEmployees() async {
     // ignore: unused_local_variable
-    List<Map<String, dynamic>> employees = await dbHelper.getStaff();
+    List<Map<String, dynamic>> employees = await StaffdbHelper.getStaff();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -92,6 +92,28 @@ class _staffOverviewState extends State<staffOverview> {
                   child: const Center(
                     child: Text(
                       'See All Avilalabel Employye',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  fetchEmployees();
+                },
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'sallerys of employyes this month ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,

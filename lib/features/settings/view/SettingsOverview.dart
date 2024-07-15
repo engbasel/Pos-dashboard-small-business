@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/settings/view/StaffOverview.dart';
-import 'package:provider/provider.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/function_manger.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../../../l10n/ocale_provider.dart';
 import '../../login/views/user_logs_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -38,15 +36,7 @@ class SettingsView extends StatelessWidget {
           title: Text(AppLocalizations.of(context).translate('staff')),
           leading: const Icon(Icons.people),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const staffOverview();
-                },
-              ),
-            );
-            // Handle onPressed for staff data
+            showPasswordAdminDialog(context);
           },
         ),
         const Divider(),
@@ -70,44 +60,12 @@ class SettingsView extends StatelessWidget {
           title: Text(AppLocalizations.of(context).translate('changeLanguage')),
           leading: const Icon(Icons.language),
           onTap: () {
-            _showLanguageDialog(context);
+            showChangeLanguageDialog(context);
           },
         ),
         const Divider(),
         // Add more ListTiles for additional settings
       ],
-    );
-  }
-
-  void _showLanguageDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).translate('changeLanguage')),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                title: const Text('English'),
-                onTap: () {
-                  Provider.of<LocaleProvider>(context, listen: false)
-                      .setLocale(const Locale('en'));
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                title: const Text('العربية'),
-                onTap: () {
-                  Provider.of<LocaleProvider>(context, listen: false)
-                      .setLocale(const Locale('ar'));
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

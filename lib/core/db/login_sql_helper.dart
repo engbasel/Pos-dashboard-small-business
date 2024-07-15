@@ -65,7 +65,7 @@
 //         sqlString); // Execute the SQL delete statement and return the result
 //   }
 // }
-import 'package:pos_dashboard_v1/core/utils/manager.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

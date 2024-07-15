@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
-import '../models/add_employ_model.dart';
+import '../../../core/utils/models/add_employ_model.dart';
 import '../widgets/custom_text_form_field.dart';
 
 class AddEmployeeScreen extends StatefulWidget {

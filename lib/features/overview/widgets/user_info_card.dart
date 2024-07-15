@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/manager.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/label_info_card.dart';
 
 // ignore: camel_case_types

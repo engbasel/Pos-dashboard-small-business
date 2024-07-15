@@ -70,7 +70,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_label.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
-import '../../../core/utils/manager.dart';
+import '../../../core/utils/Manager/manager.dart';
 
 class UserInfoSection extends StatelessWidget {
   const UserInfoSection({super.key});

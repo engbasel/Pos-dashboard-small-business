@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
 import '../models/add_employ_model.dart';
+import '../widgets/custom_text_form_field.dart';
 
 class AddEmployeeScreen extends StatefulWidget {
   final Map<String, dynamic>? employee;
@@ -94,9 +95,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TextFormField(
+                CustomTextFormField(
                   controller: _firstNameController,
-                  decoration: const InputDecoration(labelText: 'First Name'),
+                  labelText: 'First Name',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter first name';
@@ -104,9 +105,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _midNameController,
-                  decoration: const InputDecoration(labelText: 'Middle Name'),
+                  labelText: 'Middle Name',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter middle name';
@@ -114,9 +115,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _lastNameController,
-                  decoration: const InputDecoration(labelText: 'Last Name'),
+                  labelText: 'Last Name',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter last name';
@@ -124,9 +125,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _positionController,
-                  decoration: const InputDecoration(labelText: 'Position'),
+                  labelText: 'Position',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter position';
@@ -134,10 +135,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _qualificationsController,
-                  decoration:
-                      const InputDecoration(labelText: 'Qualifications'),
+                  labelText: 'Qualifications',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter qualifications';
@@ -145,9 +145,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _departmentController,
-                  decoration: const InputDecoration(labelText: 'Department'),
+                  labelText: 'Department',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter department';
@@ -155,9 +155,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _cityController,
-                  decoration: const InputDecoration(labelText: 'City'),
+                  labelText: 'City',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter city';
@@ -165,10 +165,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _experienceInPositionController,
-                  decoration: const InputDecoration(
-                      labelText: 'Experience in Position'),
+                  labelText: 'Experience in Position',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter experience in position';
@@ -176,9 +175,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                CustomTextFormField(
                   controller: _salaryController,
-                  decoration: const InputDecoration(labelText: 'Salary'),
+                  labelText: 'Salary',
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

@@ -36,9 +36,11 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
         title: const Text(' Dashboard'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.logout_rounded),
             onPressed: () {
-              _onItemTapped(3);
+              // _onItemTapped(3);
+
+              Navigator.pop(context);
             },
           )
         ],

@@ -107,76 +107,76 @@ class _LoginViewState extends State<LoginView> {
                   return null;
                 },
               ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: privilege,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('privilegeLabel'),
-                        border: const OutlineInputBorder(),
-                      ),
-                      onChanged: (newValue) {
-                        setState(() {
-                          privilege = newValue!;
-                        });
-                      },
-                      items: <String>['Admin', 'Customer']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(AppLocalizations.of(context)
-                              .translate(value.toLowerCase())),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: gender,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('genderLabel'),
-                        border: const OutlineInputBorder(),
-                      ),
-                      onChanged: (newValue) {
-                        setState(() {
-                          gender = newValue!;
-                        });
-                      },
-                      items: <String>['Male', 'Female']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(AppLocalizations.of(context)
-                              .translate(value.toLowerCase())),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('emailLabel'),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: branchController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('branchLabel'),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
+              // const SizedBox(height: 12),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: DropdownButtonFormField<String>(
+              //         value: privilege,
+              //         decoration: InputDecoration(
+              //           labelText: AppLocalizations.of(context)
+              //               .translate('privilegeLabel'),
+              //           border: const OutlineInputBorder(),
+              //         ),
+              //         onChanged: (newValue) {
+              //           setState(() {
+              //             privilege = newValue!;
+              //           });
+              //         },
+              //         items: <String>['Admin', 'Customer']
+              //             .map<DropdownMenuItem<String>>((String value) {
+              //           return DropdownMenuItem<String>(
+              //             value: value,
+              //             child: Text(AppLocalizations.of(context)
+              //                 .translate(value.toLowerCase())),
+              //           );
+              //         }).toList(),
+              //       ),
+              //     ),
+              //     const SizedBox(width: 16),
+              //     Expanded(
+              //       child: DropdownButtonFormField<String>(
+              //         value: gender,
+              //         decoration: InputDecoration(
+              //           labelText: AppLocalizations.of(context)
+              //               .translate('genderLabel'),
+              //           border: const OutlineInputBorder(),
+              //         ),
+              //         onChanged: (newValue) {
+              //           setState(() {
+              //             gender = newValue!;
+              //           });
+              //         },
+              //         items: <String>['Male', 'Female']
+              //             .map<DropdownMenuItem<String>>((String value) {
+              //           return DropdownMenuItem<String>(
+              //             value: value,
+              //             child: Text(AppLocalizations.of(context)
+              //                 .translate(value.toLowerCase())),
+              //           );
+              //         }).toList(),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(height: 12),
+              // TextFormField(
+              //   controller: emailController,
+              //   decoration: InputDecoration(
+              //     labelText:
+              //         AppLocalizations.of(context).translate('emailLabel'),
+              //     border: const OutlineInputBorder(),
+              //   ),
+              // ),
+              // const SizedBox(height: 12),
+              // TextFormField(
+              //   controller: branchController,
+              //   decoration: InputDecoration(
+              //     labelText:
+              //         AppLocalizations.of(context).translate('branchLabel'),
+              //     border: const OutlineInputBorder(),
+              //   ),
+              // ),
               const SizedBox(height: 32),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 26),

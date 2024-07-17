@@ -174,22 +174,25 @@ class CustomForm extends StatelessWidget {
 }
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+  CustomTextField({
     super.key,
     required this.controller,
     required this.labelText,
     this.keyboardType = TextInputType.text,
     this.inputFormatters,
+    this.onTap,
   });
 
   final TextEditingController controller;
   final String labelText;
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onTap: onTap,
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,

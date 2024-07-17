@@ -52,7 +52,7 @@ class AppLocalizations {
       "users": "Users",
       "changeMode": "Change Mode",
       "changeLanguage": "Change Language",
-      "orderList": "Order List",
+      "orderList": "Prodacts List",
       "all": "All",
       "monthly": "Monthly",
       "weekly": "Weekly",
@@ -81,7 +81,7 @@ class AppLocalizations {
       "orderID": "معرف الطلب",
       "actions": "الإجراءات",
       "clearFields": "مسح الحقول",
-      "addOrder": "إضافة الطلب"
+      "addOrder": "Add Prodact"
     },
     'ar': {
       "orderID": "معرف الطلب",
@@ -93,7 +93,7 @@ class AppLocalizations {
       "amount": "المبلغ",
       "actions": "الإجراءات",
       "clearFields": "مسح الحقول",
-      "addOrder": "إضافة الطلب",
+      "addOrder": "إضافة منتج",
       "userLogs": "سجلات المستخدم",
       "loginTitle": "تسجيل الدخول",
       "nameLabel": "الاسم",

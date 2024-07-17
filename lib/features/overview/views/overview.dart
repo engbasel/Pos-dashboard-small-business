@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/overview/views/CatigorysViwe.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/coustom_row_cards.dart';
+import 'package:pos_dashboard_v1/features/overview/views/salesbillScreen.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/order_list.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_card.dart';
@@ -128,6 +128,26 @@ class _OverviewViewState extends State<OverviewView> {
                         subValuetwo: "Orders: 45",
                         subTitle: "Subtitle",
                         numberOfProductsInStore: numberOfProductsInStore,
+                        icon: Icons.store,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(width: 16),
+                      TotalPointAndOrdersAndVisetsCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const SalesBillScreen();
+                              },
+                            ),
+                          );
+                        },
+                        title: 'انشاء فاتورة مبيعات',
+                        value: "1200",
+                        subValue: "Visits: 30",
+                        subValuetwo: "Orders: 45",
+                        subTitle: "Subtitle",
                         icon: Icons.store,
                         color: Colors.blue,
                       ),

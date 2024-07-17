@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 
 class TotalPointAndOrdersAndVisetsCard extends StatelessWidget {
   final String title;
-  final String value;
-  final String subValue;
-  final String subValuetwo;
-  final String subTitle;
-  final int numberOfProductsInStore;
-  final IconData icon;
-  final Color color;
+  final String? value;
+  final String? subValue;
+  final String? subValuetwo;
+  final String? subTitle;
+  final int? numberOfProductsInStore;
+  final IconData? icon;
+  final Color? color;
   void Function()? onTap;
 
   TotalPointAndOrdersAndVisetsCard({
     super.key,
     required this.title,
-    required this.value,
+    this.value,
     this.subValue = '',
     this.subValuetwo = '',
     this.subTitle = '',
-    required this.numberOfProductsInStore,
-    required this.icon,
-    required this.color,
+    this.numberOfProductsInStore,
+    this.icon,
+    this.color,
     this.onTap,
   });
 

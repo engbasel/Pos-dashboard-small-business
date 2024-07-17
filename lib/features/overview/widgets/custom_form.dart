@@ -15,6 +15,14 @@ class CustomForm extends StatelessWidget {
     required this.selectedPaymentMethod,
     required this.onPaymentMethodChanged,
     required this.amountController,
+    required this.numberOfItemsController, // New field controllers
+    required this.entryDateController,
+    required this.exitDateController,
+    required this.wholesalePriceController,
+    required this.retailPriceController,
+    required this.productStatusController,
+    required this.productDetailsController,
+    required this.productModelController,
   });
 
   final TextEditingController idController;
@@ -27,6 +35,16 @@ class CustomForm extends StatelessWidget {
   final String? selectedPaymentMethod;
   final ValueChanged<String?> onPaymentMethodChanged;
   final TextEditingController amountController;
+
+  // New controllers for additional fields
+  final TextEditingController numberOfItemsController;
+  final TextEditingController entryDateController;
+  final TextEditingController exitDateController;
+  final TextEditingController wholesalePriceController;
+  final TextEditingController retailPriceController;
+  final TextEditingController productStatusController;
+  final TextEditingController productDetailsController;
+  final TextEditingController productModelController;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +108,63 @@ class CustomForm extends StatelessWidget {
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
             ],
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: numberOfItemsController,
+            labelText: localizations.translate('numberOfItems'),
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: entryDateController,
+            labelText: localizations.translate('entryDate'),
+            keyboardType: TextInputType.datetime,
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: exitDateController,
+            labelText: localizations.translate('exitDate'),
+            keyboardType: TextInputType.datetime,
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: wholesalePriceController,
+            labelText: localizations.translate('wholesalePrice'),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+            ],
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: retailPriceController,
+            labelText: localizations.translate('retailPrice'),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+            ],
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: productStatusController,
+            labelText: localizations.translate('productStatus'),
+            keyboardType: TextInputType.text,
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: productDetailsController,
+            labelText: localizations.translate('productDetails'),
+            keyboardType: TextInputType.text,
+          ),
+          const SizedBox(height: 16.0),
+          CustomTextField(
+            controller: productModelController,
+            labelText: localizations.translate('productModel'),
+            keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 20),
         ],

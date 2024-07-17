@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../utils/models/order_model.dart';
 
 class DatabaseHelper {
@@ -36,10 +35,27 @@ class DatabaseHelper {
         employee TEXT,
         status TEXT,
         paymentStatus TEXT,
-        amount REAL
+        amount REAL,
+        numberOfItems INTEGER,
+        entryDate TEXT,
+        exitDate TEXT,
+        wholesalePrice REAL,
+        retailPrice REAL,
+        productStatus TEXT,
+        productDetails TEXT,
+        productModel TEXT
       )
       ''',
     );
+  }
+
+  Future<List<Order>> getOrders() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('orders');
+
+    return List.generate(maps.length, (i) {
+      return Order.fromMap(maps[i]);
+    });
   }
 
   Future<void> insertOrder(Order order) async {
@@ -68,13 +84,5 @@ class DatabaseHelper {
       where: 'id = ?',
       whereArgs: [id],
     );
-  }
-
-  Future<List<Order>> getOrders() async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('orders');
-    return List.generate(maps.length, (i) {
-      return Order.fromMap(maps[i]);
-    });
   }
 }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/overview/views/CatigorysViwe.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/coustom_row_cards.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/order_list.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_card.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
+
+import '../../../l10n/app_localizations.dart';
 
 class OverviewView extends StatefulWidget {
   const OverviewView({super.key});
@@ -23,6 +27,7 @@ class _OverviewViewState extends State<OverviewView> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    final localizations = AppLocalizations.of(context);
 
     return SingleChildScrollView(
       child: Padding(
@@ -40,10 +45,86 @@ class _OverviewViewState extends State<OverviewView> {
                     children: [
                       const UserInfoSection(),
                       const SizedBox(height: 16),
-                      CustomRowCards(
-                        width: width,
+                      // CustomRowCards(
+                      //   width: width,
+                      //   numberOfProductsInStore: numberOfProductsInStore,
+                      // ),
+
+                      TotalPointAndOrdersAndVisetsCard(
+                        onTap: () {},
+                        title: localizations.translate('البضاعة بالمخزن'),
+                        value: "1200",
+                        subValue: "Visits: 30",
+                        subValuetwo: "Orders: 45",
+                        subTitle: "Subtitle",
                         numberOfProductsInStore: numberOfProductsInStore,
+                        icon: Icons.store,
+                        color: Colors.blue,
                       ),
+                      const SizedBox(width: 16),
+                      TotalPointAndOrdersAndVisetsCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const CatigorysViwe();
+                              },
+                            ),
+                          );
+                        },
+                        title: "الاصناف",
+                        value: "1200",
+                        subValue: "Visits: 30",
+                        subValuetwo: "Orders: 45",
+                        subTitle: "Subtitle",
+                        numberOfProductsInStore: numberOfProductsInStore,
+                        icon: Icons.store,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(width: 16),
+                      TotalPointAndOrdersAndVisetsCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const CatigorysViwe();
+                              },
+                            ),
+                          );
+                        },
+                        title: "المرتجعات",
+                        value: "1200",
+                        subValue: "Visits: 30",
+                        subValuetwo: "Orders: 45",
+                        subTitle: "Subtitle",
+                        numberOfProductsInStore: numberOfProductsInStore,
+                        icon: Icons.store,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(width: 16),
+                      TotalPointAndOrdersAndVisetsCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const CatigorysViwe();
+                              },
+                            ),
+                          );
+                        },
+                        title: 'المبيعات',
+                        value: "1200",
+                        subValue: "Visits: 30",
+                        subValuetwo: "Orders: 45",
+                        subTitle: "Subtitle",
+                        numberOfProductsInStore: numberOfProductsInStore,
+                        icon: Icons.store,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(width: 16),
                     ],
                   ),
                 ),

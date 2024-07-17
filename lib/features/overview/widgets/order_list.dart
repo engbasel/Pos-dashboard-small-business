@@ -116,13 +116,14 @@ class _OrderListState extends State<OrderList> {
                   );
                 },
                 child: const Text(
-                  'Order List',
+                  'قائمة المنتجات',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+              const Text('هذة العناصر موجودة بالمخازة'),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(

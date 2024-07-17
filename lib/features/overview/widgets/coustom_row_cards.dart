@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/overview/views/CatigorysViwe.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -20,7 +21,8 @@ class CustomRowCards extends StatelessWidget {
     return Row(
       children: [
         TotalPointAndOrdersAndVisetsCard(
-          title: localizations.translate('totalPoints'),
+          onTap: () {},
+          title: localizations.translate('البضاعة بالمخزن'),
           value: "1200",
           subValue: "Visits: 30",
           subValuetwo: "Orders: 45",
@@ -31,7 +33,59 @@ class CustomRowCards extends StatelessWidget {
         ),
         const SizedBox(width: 16),
         TotalPointAndOrdersAndVisetsCard(
-          title: localizations.translate('catigoryes'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const CatigorysViwe();
+                },
+              ),
+            );
+          },
+          title: "الاصناف",
+          value: "1200",
+          subValue: "Visits: 30",
+          subValuetwo: "Orders: 45",
+          subTitle: "Subtitle",
+          numberOfProductsInStore: numberOfProductsInStore,
+          icon: Icons.store,
+          color: Colors.blue,
+        ),
+        const SizedBox(width: 16),
+        TotalPointAndOrdersAndVisetsCard(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const CatigorysViwe();
+                },
+              ),
+            );
+          },
+          title: "المرتجعات",
+          value: "1200",
+          subValue: "Visits: 30",
+          subValuetwo: "Orders: 45",
+          subTitle: "Subtitle",
+          numberOfProductsInStore: numberOfProductsInStore,
+          icon: Icons.store,
+          color: Colors.blue,
+        ),
+        const SizedBox(width: 16),
+        TotalPointAndOrdersAndVisetsCard(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const CatigorysViwe();
+                },
+              ),
+            );
+          },
+          title: 'المبيعات',
           value: "1200",
           subValue: "Visits: 30",
           subValuetwo: "Orders: 45",

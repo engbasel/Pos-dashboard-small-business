@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/login/views/login_view.dart';
+import 'package:pos_dashboard_v1/features/login/views/loginview.dart';
 import 'package:pos_dashboard_v1/features/overview/views/desktop_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
@@ -17,7 +17,7 @@ void main(List<String> args) {
   }
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) {
         return ChangeNotifierProvider(
           create: (context) => LocaleProvider(),
@@ -52,9 +52,9 @@ class PosSystem extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginView(),
+      // home: const LoginView(),
       // home: const staffOverview(),
-      // home: const DesktopLayoutBoady(),
+      home: const DesktopLayoutBoady(),
     );
   }
 }

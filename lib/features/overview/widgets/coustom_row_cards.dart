@@ -30,7 +30,17 @@ class CustomRowCards extends StatelessWidget {
           color: Colors.blue,
         ),
         const SizedBox(width: 16),
-
+        TotalPointAndOrdersAndVisetsCard(
+          title: localizations.translate('catigoryes'),
+          value: "1200",
+          subValue: "Visits: 30",
+          subValuetwo: "Orders: 45",
+          subTitle: "Subtitle",
+          numberOfProductsInStore: numberOfProductsInStore,
+          icon: Icons.store,
+          color: Colors.blue,
+        ),
+        const SizedBox(width: 16),
         // Add other cards if needed
       ],
     );

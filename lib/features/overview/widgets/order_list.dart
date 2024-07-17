@@ -4,7 +4,7 @@ import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
 import 'package:pos_dashboard_v1/core/db/db_helper_products.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_form.dart';
 import '../views/OrdersListScreen.dart';
-import '../views/order_details_screen.dart';
+import '../views/OrderDetailsScreen.dart';
 import '../../../l10n/app_localizations.dart';
 
 class OrderList extends StatefulWidget {

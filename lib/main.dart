@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/login/views/loginview.dart';
-import 'package:pos_dashboard_v1/features/overview/views/desktop_layout.dart';
+import 'package:pos_dashboard_v1/features/overview/views/DesktopLayoutBoady.dart';
 import 'package:provider/provider.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';

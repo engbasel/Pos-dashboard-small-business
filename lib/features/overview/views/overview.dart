@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/overview/views/CatigorysViwe.dart';
 import 'package:pos_dashboard_v1/features/overview/views/salesbillScreen.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/order_list.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/TotalPointAndOrdersAndVisetsCard.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_card.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
 
@@ -26,6 +26,7 @@ class _OverviewViewState extends State<OverviewView> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
     final localizations = AppLocalizations.of(context);
 

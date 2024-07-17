@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TotalPointAndOrdersAndVisetsCard extends StatelessWidget {
   final String title;
   final String? value;

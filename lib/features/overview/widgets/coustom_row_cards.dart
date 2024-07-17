@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/overview/views/CatigorysViwe.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/TotalPointAndOrdersAndVisetsCard.dart';
 
 import '../../../l10n/app_localizations.dart';
 

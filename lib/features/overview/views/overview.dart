@@ -51,7 +51,14 @@ class _OverviewViewState extends State<OverviewView> {
                       // ),
 
                       TotalPointAndOrdersAndVisetsCard(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return OrderList(
+                                  onProductsCountChanged: updateProductCount);
+                            },
+                          ));
+                        },
                         title: localizations.translate('البضاعة بالمخزن'),
                         value: "1200",
                         subValue: "Visits: 30",
@@ -136,7 +143,7 @@ class _OverviewViewState extends State<OverviewView> {
               ],
             ),
             const SizedBox(height: 32),
-            OrderList(onProductsCountChanged: updateProductCount),
+            // OrderList(onProductsCountChanged: updateProductCount),
           ],
         ),
       ),

@@ -99,217 +99,230 @@ class _OrderListState extends State<OrderList> {
     final localizations = AppLocalizations.of(context);
     // ignore: unused_local_variable
     List<Expanded> children;
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrderListScreen(orders: orders),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'قائمة المنتجات',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const Text('هذة العناصر موجودة بالمخازة'),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                      ['All', 'Monthly', 'Weekly', 'Today'].map((filterOption) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            filter = filterOption;
-                          });
-                        },
-                        child: Text(
-                          filterOption,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: filter == filterOption
-                                ? const Color(0xff2CC56F)
-                                : const Color(0xff37474F).withOpacity(.7),
-                            fontWeight: filter == filterOption
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderListScreen(orders: orders),
                         ),
+                      );
+                    },
+                    child: const Text(
+                      'قائمة المنتجات',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  columns: <DataColumn>[
-                    DataColumn(label: Text(localizations.translate('orderID'))),
-                    DataColumn(
-                        label: Text(localizations.translate('dateTime'))),
-                    DataColumn(
-                        label: Text(localizations.translate('orderType'))),
-                    DataColumn(
-                        label: Text(localizations.translate('employee'))),
-                    DataColumn(label: Text(localizations.translate('status'))),
-                    DataColumn(
-                        label: Text(localizations.translate('paymentStatus'))),
-                    DataColumn(label: Text(localizations.translate('amount'))),
-                    DataColumn(label: Text(localizations.translate('actions'))),
-                  ],
-                  rows: List<DataRow>.generate(orders.length, (index) {
-                    return DataRow(
-                      cells: [
-                        DataCell(
-                          GestureDetector(
+                    ),
+                  ),
+                  const Text('هذة العناصر موجودة بالمخازة'),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: ['All', 'Monthly', 'Weekly', 'Today']
+                          .map((filterOption) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => OrderDetailsScreen(
-                                    order: orders[index],
-                                  ),
-                                ),
-                              );
+                              setState(() {
+                                filter = filterOption;
+                              });
                             },
-                            child: Text(orders[index].id),
-                          ),
-                        ),
-                        DataCell(Text(orders[index].dateTime)),
-                        DataCell(Text(orders[index].type)),
-                        DataCell(Text(orders[index].employee)),
-                        DataCell(
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: orders[index].status == 'Complete'
-                                  ? const Color(0xffE6F6E9)
-                                  : const Color(0xffFFB074).withOpacity(.15),
-                              borderRadius: BorderRadius.circular(19),
-                            ),
                             child: Text(
-                              orders[index].status,
+                              filterOption,
                               style: TextStyle(
-                                color: orders[index].status == 'Complete'
+                                fontSize: 16,
+                                color: filter == filterOption
                                     ? const Color(0xff2CC56F)
-                                    : const Color(0xffFF9A00),
+                                    : const Color(0xff37474F).withOpacity(.7),
+                                fontWeight: filter == filterOption
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
                               ),
                             ),
                           ),
-                        ),
-                        DataCell(
-                          Text(
-                            orders[index].paymentStatus,
-                            style: const TextStyle(color: Color(0xff2CC56F)),
-                          ),
-                        ),
-                        DataCell(Text('\$ ${orders[index].amount}')),
-                        DataCell(Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                idController.text = orders[index].id;
-                                dateTimeController.text =
-                                    orders[index].dateTime;
-                                typeController.text = orders[index].type;
-                                employeeController.text =
-                                    orders[index].employee;
-                                statusController.text = orders[index].status;
-                                setState(() {
-                                  selectedPaymentMethod =
-                                      orders[index].paymentStatus;
-                                });
-                                amountController.text =
-                                    orders[index].amount.toString();
-                                updateOrder(index);
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                removeOrder(index);
-                              },
-                            ),
-                          ],
-                        )),
-                      ],
-                    );
-                  }),
-                ),
-              ),
-              const SizedBox(height: 20),
-              CustomForm(
-                  idController: idController,
-                  localizations: localizations,
-                  dateTimeController: dateTimeController,
-                  typeController: typeController,
-                  employeeController: employeeController,
-                  statusController: statusController,
-                  paymentMethods: paymentMethods,
-                  selectedPaymentMethod: selectedPaymentMethod,
-                  onPaymentMethodChanged: (newValue) {
-                    setState(() {
-                      selectedPaymentMethod = newValue;
-                    });
-                  },
-                  amountController: amountController),
-              Row(
-                children: children = [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: CustomButton(
-                        text: localizations.translate('clearFields'),
-                        bgColor: Colors.blueGrey,
-                        onTap: () {
-                          clearTextFields();
-                        },
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: CustomButton(
-                        text: localizations.translate('addOrder'),
-                        bgColor: Colors.blueGrey,
-                        onTap: () {
-                          addOrder();
-                        },
-                      ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: DataTable(
+                  //     columns: <DataColumn>[
+                  //       DataColumn(
+                  //           label: Text(localizations.translate('orderID'))),
+                  //       DataColumn(
+                  //           label: Text(localizations.translate('dateTime'))),
+                  //       DataColumn(
+                  //           label: Text(localizations.translate('orderType'))),
+                  //       DataColumn(
+                  //           label: Text(localizations.translate('employee'))),
+                  //       DataColumn(
+                  //           label: Text(localizations.translate('status'))),
+                  //       DataColumn(
+                  //           label:
+                  //               Text(localizations.translate('paymentStatus'))),
+                  //       DataColumn(
+                  //           label: Text(localizations.translate('amount'))),
+                  //       DataColumn(
+                  //           label: Text(localizations.translate('actions'))),
+                  //     ],
+                  //     rows: List<DataRow>.generate(orders.length, (index) {
+                  //       return DataRow(
+                  //         cells: [
+                  //           DataCell(
+                  //             GestureDetector(
+                  //               onTap: () {
+                  //                 Navigator.push(
+                  //                   context,
+                  //                   MaterialPageRoute(
+                  //                     builder: (context) => OrderDetailsScreen(
+                  //                       order: orders[index],
+                  //                     ),
+                  //                   ),
+                  //                 );
+                  //               },
+                  //               child: Text(orders[index].id),
+                  //             ),
+                  //           ),
+                  //           DataCell(Text(orders[index].dateTime)),
+                  //           DataCell(Text(orders[index].type)),
+                  //           DataCell(Text(orders[index].employee)),
+                  //           DataCell(
+                  //             Container(
+                  //               padding: const EdgeInsets.symmetric(
+                  //                 horizontal: 12,
+                  //                 vertical: 4,
+                  //               ),
+                  //               decoration: BoxDecoration(
+                  //                 color: orders[index].status == 'Complete'
+                  //                     ? const Color(0xffE6F6E9)
+                  //                     : const Color(0xffFFB074)
+                  //                         .withOpacity(.15),
+                  //                 borderRadius: BorderRadius.circular(19),
+                  //               ),
+                  //               child: Text(
+                  //                 orders[index].status,
+                  //                 style: TextStyle(
+                  //                   color: orders[index].status == 'Complete'
+                  //                       ? const Color(0xff2CC56F)
+                  //                       : const Color(0xffFF9A00),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           DataCell(
+                  //             Text(
+                  //               orders[index].paymentStatus,
+                  //               style:
+                  //                   const TextStyle(color: Color(0xff2CC56F)),
+                  //             ),
+                  //           ),
+                  //           DataCell(Text('\$ ${orders[index].amount}')),
+                  //           DataCell(Row(
+                  //             children: [
+                  //               IconButton(
+                  //                 icon: const Icon(Icons.edit),
+                  //                 onPressed: () {
+                  //                   idController.text = orders[index].id;
+                  //                   dateTimeController.text =
+                  //                       orders[index].dateTime;
+                  //                   typeController.text = orders[index].type;
+                  //                   employeeController.text =
+                  //                       orders[index].employee;
+                  //                   statusController.text =
+                  //                       orders[index].status;
+                  //                   setState(() {
+                  //                     selectedPaymentMethod =
+                  //                         orders[index].paymentStatus;
+                  //                   });
+                  //                   amountController.text =
+                  //                       orders[index].amount.toString();
+                  //                   updateOrder(index);
+                  //                 },
+                  //               ),
+                  //               IconButton(
+                  //                 icon: const Icon(Icons.delete),
+                  //                 onPressed: () {
+                  //                   removeOrder(index);
+                  //                 },
+                  //               ),
+                  //             ],
+                  //           )),
+                  //         ],
+                  //       );
+                  //     }),
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20),
+                  CustomForm(
+                      idController: idController,
+                      localizations: localizations,
+                      dateTimeController: dateTimeController,
+                      typeController: typeController,
+                      employeeController: employeeController,
+                      statusController: statusController,
+                      paymentMethods: paymentMethods,
+                      selectedPaymentMethod: selectedPaymentMethod,
+                      onPaymentMethodChanged: (newValue) {
+                        setState(() {
+                          selectedPaymentMethod = newValue;
+                        });
+                      },
+                      amountController: amountController),
+                  Row(
+                    children: children = [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: CustomButton(
+                            text: localizations.translate('clearFields'),
+                            bgColor: Colors.blueGrey,
+                            onTap: () {
+                              clearTextFields();
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: CustomButton(
+                            text: localizations.translate('addOrder'),
+                            bgColor: Colors.blueGrey,
+                            onTap: () {
+                              addOrder();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

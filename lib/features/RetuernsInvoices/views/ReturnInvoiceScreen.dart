@@ -212,11 +212,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:pos_dashboard_v1/core/utils/models/ReturnInvoice_model.dart';
-import 'package:pos_dashboard_v1/features/overview/views/ReturnInvoiceListScreen.dart';
+import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
+import 'package:pos_dashboard_v1/features/RetuernsInvoices/views/ReturnInvoiceListScreen.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_form.dart';
 
-import '../../../core/db/database_Returnsinvoice.dart';
+import '../database/database_Returnsinvoice.dart';
 import '../../../core/utils/widgets/custom_button.dart';
 
 class ReturnInvoiceScreen extends StatefulWidget {

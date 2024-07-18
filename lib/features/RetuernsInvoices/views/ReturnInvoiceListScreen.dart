@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/models/ReturnInvoice_model.dart';
+import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
 
 class ReturnInvoiceListScreen extends StatelessWidget {
   final List<ReturnInvoice> returnInvoices;

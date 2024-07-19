@@ -5,6 +5,7 @@ class ReturnInvoice {
   final String employee;
   final String reason;
   final double amount;
+  final double totalbackmony;
 
   ReturnInvoice({
     required this.id,
@@ -13,6 +14,7 @@ class ReturnInvoice {
     required this.employee,
     required this.reason,
     required this.amount,
+    required this.totalbackmony,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,12 +25,14 @@ class ReturnInvoice {
       'employee': employee,
       'reason': reason,
       'amount': amount,
+      'totalbackmony': totalbackmony,
     };
   }
 
   factory ReturnInvoice.fromMap(Map<String, dynamic> map) {
     return ReturnInvoice(
       id: map['id'],
+      totalbackmony: map['totalbackmony'],
       orderId: map['orderId'],
       returnDate: map['returnDate'],
       employee: map['employee'],

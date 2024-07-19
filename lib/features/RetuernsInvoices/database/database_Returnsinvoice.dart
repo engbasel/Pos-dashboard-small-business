@@ -18,27 +18,29 @@ class database_Returnsinvoice {
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), 'returns_database.db');
+    String path = join(await getDatabasesPath(), 'returnsNeww_database.db');
     return await openDatabase(
       path,
       onCreate: onCreate,
-      version: 1,
+      version: 3,
     );
   }
 
   Future<void> onCreate(Database db, int version) async {
     await db.execute(
       '''
-      CREATE TABLE return_invoices(
-        id TEXT PRIMARY KEY,
-        orderId TEXT,
-        returnDate TEXT,
-        employee TEXT,
-        reason TEXT,
-        amount REAL
-      )
-      ''',
+    CREATE TABLE return_invoices (
+      id TEXT PRIMARY KEY,
+      orderId TEXT,
+      returnDate TEXT,
+      employee TEXT,
+      reason TEXT,
+      amount REAL,
+      totalbackmony REAL
+    )
+    ''',
     );
+    print('============= database created======================');
   }
 
   Future<void> insertReturnInvoice(ReturnInvoice returnInvoice) async {
@@ -48,6 +50,7 @@ class database_Returnsinvoice {
       returnInvoice.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print('============= insert Invoice======================');
   }
 
   Future<void> updateReturnInvoice(ReturnInvoice returnInvoice) async {

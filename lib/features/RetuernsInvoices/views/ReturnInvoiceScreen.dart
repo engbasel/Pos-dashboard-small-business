@@ -25,6 +25,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
   final TextEditingController employeeController = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
+  final TextEditingController totalbackmony = TextEditingController();
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
 
   Future<void> addReturnInvoice() async {
     final newReturnInvoice = ReturnInvoice(
+      totalbackmony: double.tryParse(totalbackmony.text) ?? 0,
       id: idController.text,
       orderId: orderIdController.text,
       returnDate: returnDateController.text,
@@ -68,6 +70,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
       employee: employeeController.text,
       reason: reasonController.text,
       amount: double.tryParse(amountController.text) ?? 0,
+      totalbackmony: double.tryParse(totalbackmony.text) ?? 0,
     );
 
     await databaseHelper.updateReturnInvoice(updatedReturnInvoice);
@@ -82,6 +85,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     employeeController.clear();
     reasonController.clear();
     amountController.clear();
+    totalbackmony.clear();
   }
 
   void navigateToReturnInvoiceListScreen() {
@@ -91,6 +95,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
         builder: (context) => ReturnInvoiceListScreen(
           returnInvoices: returnInvoices,
           onReturnInvoiceTap: (returnInvoice) {
+            totalbackmony.text = returnInvoice.totalbackmony.toString();
             idController.text = returnInvoice.id;
             orderIdController.text = returnInvoice.orderId;
             returnDateController.text = returnInvoice.returnDate;
@@ -138,6 +143,15 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
               CustomTextField(
                 controller: orderIdController,
                 labelText: 'Order ID',
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              CustomTextField(
+                controller: totalbackmony,
+                labelText: 'totalbackmony ',
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly,

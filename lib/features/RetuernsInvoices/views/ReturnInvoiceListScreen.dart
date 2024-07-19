@@ -53,6 +53,10 @@ class ReturnInvoiceListScreen extends StatelessWidget {
                     'Amount: \$${returnInvoice.amount.toStringAsFixed(2)}',
                     style: const TextStyle(fontSize: 14.0),
                   ),
+                  Text(
+                    'Amount: \$${returnInvoice.totalbackmony.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 14.0),
+                  ),
                 ],
               ),
             ),

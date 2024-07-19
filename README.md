@@ -1,5 +1,3 @@
-Here is the refactored README file with the specified changes:
-
 ---
 
 # POS Flutter Project

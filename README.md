@@ -69,7 +69,8 @@ This project is a Point of Sale (POS) system built using Flutter. The applicatio
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/pos-flutter-project.git
+
+   https://github.com/engbasel/pos_dashboard_v1.git
    ```
 2. Navigate to the project directory:
    ```sh

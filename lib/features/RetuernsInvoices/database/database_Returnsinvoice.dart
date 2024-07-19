@@ -3,6 +3,8 @@ import 'package:path/path.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'database_constans.dart';
+
 class database_Returnsinvoice {
   static final database_Returnsinvoice _instance =
       database_Returnsinvoice._internal();
@@ -29,24 +31,24 @@ class database_Returnsinvoice {
   Future<void> onCreate(Database db, int version) async {
     await db.execute(
       '''
-    CREATE TABLE return_invoices (
-      id TEXT PRIMARY KEY,
-      orderId TEXT,
-      returnDate TEXT,
-      employee TEXT,
-      reason TEXT,
-      amount REAL,
-      totalbackmony REAL
+    CREATE TABLE ${RetuernInvocmentDatabaseConstants.returnInvoicesTable} (
+      ${RetuernInvocmentDatabaseConstants.columnId} TEXT PRIMARY KEY,
+      ${RetuernInvocmentDatabaseConstants.columnOrderId} TEXT,
+      ${RetuernInvocmentDatabaseConstants.columnReturnDate} TEXT,
+      ${RetuernInvocmentDatabaseConstants.columnEmployee} TEXT,
+      ${RetuernInvocmentDatabaseConstants.columnReason} TEXT,
+      ${RetuernInvocmentDatabaseConstants.columnAmount} REAL,
+      ${RetuernInvocmentDatabaseConstants.columnTotalBackMoney} REAL
     )
     ''',
     );
-    print('============= database created======================');
+    print('============= database created ======================');
   }
 
   Future<void> insertReturnInvoice(ReturnInvoice returnInvoice) async {
     final db = await database;
     await db.insert(
-      'return_invoices',
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
       returnInvoice.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -56,7 +58,7 @@ class database_Returnsinvoice {
   Future<void> updateReturnInvoice(ReturnInvoice returnInvoice) async {
     final db = await database;
     await db.update(
-      'return_invoices',
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
       returnInvoice.toMap(),
       where: 'id = ?',
       whereArgs: [returnInvoice.id],
@@ -66,7 +68,7 @@ class database_Returnsinvoice {
   Future<void> deleteReturnInvoice(String id) async {
     final db = await database;
     await db.delete(
-      'return_invoices',
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -74,7 +76,8 @@ class database_Returnsinvoice {
 
   Future<List<ReturnInvoice>> getReturnInvoices() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('return_invoices');
+    final List<Map<String, dynamic>> maps =
+        await db.query(RetuernInvocmentDatabaseConstants.returnInvoicesTable);
     return List.generate(maps.length, (i) {
       return ReturnInvoice.fromMap(maps[i]);
     });

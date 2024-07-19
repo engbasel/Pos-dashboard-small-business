@@ -70,7 +70,6 @@ This project is a Point of Sale (POS) system built using Flutter. The applicatio
 1. Clone the repository:
    ```sh
 https://github.com/engbasel/Pos-dashboard-small-business.git
-
    ```
 2. Navigate to the project directory:
    ```sh

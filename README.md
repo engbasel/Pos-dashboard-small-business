@@ -1,23 +1,4 @@
-Here is the directory structure of your `lib` folder represented graphically:
-
-```
-lib/
-├── core/
-│   ├── db/
-│   ├── utils/
-├── features/
-│   ├── client/
-│   ├── login/
-│   ├── Notifications/
-│   ├── overview/
-│   ├── responsev_dashboard/
-│   ├── ReturnsInvoices/
-│   ├── settings/
-├── l10n/
-├── main.dart
-```
-
-I'll incorporate this structure into the README file. Here's the updated version:
+Here is the refactored README file with the specified changes:
 
 ---
 
@@ -69,7 +50,7 @@ This project is a Point of Sale (POS) system built using Flutter. The applicatio
 
 1. Clone the repository:
    ```sh
-https://github.com/engbasel/Pos-dashboard-small-business.git
+   git clone https://github.com/engbasel/Pos-dashboard-small-business.git
    ```
 2. Navigate to the project directory:
    ```sh
@@ -122,3 +103,4 @@ This project is licensed under the MIT License.
 
 ---
 
+Feel free to further modify this draft as needed!

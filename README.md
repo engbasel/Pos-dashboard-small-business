@@ -1,4 +1,3 @@
----
 
 # POS Flutter Project
 

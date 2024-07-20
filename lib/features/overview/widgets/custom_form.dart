@@ -188,10 +188,11 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   void Function()? onTap;
-
+  bool readOnly = false;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      readOnly: readOnly,
       onTap: onTap,
       controller: controller,
       decoration: InputDecoration(

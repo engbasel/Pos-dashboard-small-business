@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'database_constans.dart';
 
 class database_Returnsinvoice {
@@ -26,6 +25,18 @@ class database_Returnsinvoice {
       onCreate: onCreate,
       version: 3,
     );
+  }
+
+  Future<void> updateReturnInvoice(ReturnInvoice returnInvoice) async {
+    final db = await database;
+    await db.update(
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
+      returnInvoice.toMap(),
+      where: '${RetuernInvocmentDatabaseConstants.columnId} = ?',
+      whereArgs: [returnInvoice.id],
+    );
+    print('============= updated Return Invoice ======================');
+    print(returnInvoice.toMap());
   }
 
   Future<void> onCreate(Database db, int version) async {
@@ -55,21 +66,11 @@ class database_Returnsinvoice {
     print('============= insert Invoice======================');
   }
 
-  Future<void> updateReturnInvoice(ReturnInvoice returnInvoice) async {
-    final db = await database;
-    await db.update(
-      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
-      returnInvoice.toMap(),
-      where: 'id = ?',
-      whereArgs: [returnInvoice.id],
-    );
-  }
-
   Future<void> deleteReturnInvoice(String id) async {
     final db = await database;
     await db.delete(
       RetuernInvocmentDatabaseConstants.returnInvoicesTable,
-      where: 'id = ?',
+      where: '${RetuernInvocmentDatabaseConstants.columnId} = ?',
       whereArgs: [id],
     );
   }
@@ -81,5 +82,19 @@ class database_Returnsinvoice {
     return List.generate(maps.length, (i) {
       return ReturnInvoice.fromMap(maps[i]);
     });
+  }
+
+  Future<void> updateData(String tableName, Map<String, dynamic> data,
+      String idColumn, String id) async {
+    final db = await database;
+    await db.update(
+      tableName,
+      data,
+      where: '$idColumn = ?',
+      whereArgs: [id],
+    );
+
+    print('================updated $tableName ===========================');
+    print(data);
   }
 }

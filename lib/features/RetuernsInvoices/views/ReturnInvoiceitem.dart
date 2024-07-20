@@ -3,44 +3,54 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/database/database_Returnsinvoice.dart';
-import 'package:pos_dashboard_v1/features/RetuernsInvoices/views/ReturnInvoiceListScreen.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_form.dart';
-import '../../../core/utils/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 
-class ReturnInvoiceScreen extends StatefulWidget {
-  const ReturnInvoiceScreen({super.key});
+class ReturnInvoiceItemScreen extends StatefulWidget {
+  final ReturnInvoice returnInvoice;
+  final VoidCallback onUpdate; // Callback function
+
+  const ReturnInvoiceItemScreen({
+    super.key,
+    required this.returnInvoice,
+    required this.onUpdate,
+  });
 
   @override
-  _ReturnInvoiceScreenState createState() => _ReturnInvoiceScreenState();
+  _ReturnInvoiceItemScreenState createState() =>
+      _ReturnInvoiceItemScreenState();
 }
 
-class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
+class _ReturnInvoiceItemScreenState extends State<ReturnInvoiceItemScreen> {
   final database_Returnsinvoice databaseHelper = database_Returnsinvoice();
-  List<ReturnInvoice> returnInvoices = [];
 
-  final TextEditingController idController = TextEditingController();
-  final TextEditingController orderIdController = TextEditingController();
-  final TextEditingController returnDateController = TextEditingController();
-  final TextEditingController employeeController = TextEditingController();
-  final TextEditingController reasonController = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
-  final TextEditingController totalbackmonyController = TextEditingController();
+  late TextEditingController idController;
+  late TextEditingController orderIdController;
+  late TextEditingController returnDateController;
+  late TextEditingController employeeController;
+  late TextEditingController reasonController;
+  late TextEditingController amountController;
+  late TextEditingController totalbackmonyController;
 
   @override
   void initState() {
     super.initState();
-    loadReturnInvoices();
+    idController = TextEditingController(text: widget.returnInvoice.id);
+    orderIdController =
+        TextEditingController(text: widget.returnInvoice.orderId);
+    returnDateController =
+        TextEditingController(text: widget.returnInvoice.returnDate);
+    employeeController =
+        TextEditingController(text: widget.returnInvoice.employee);
+    reasonController = TextEditingController(text: widget.returnInvoice.reason);
+    amountController =
+        TextEditingController(text: widget.returnInvoice.amount.toString());
+    totalbackmonyController = TextEditingController(
+        text: widget.returnInvoice.totalbackmony.toString());
   }
 
-  Future<void> loadReturnInvoices() async {
-    final loadedInvoices = await databaseHelper.getReturnInvoices();
-    setState(() {
-      returnInvoices = loadedInvoices;
-    });
-  }
-
-  Future<void> addReturnInvoice() async {
-    final newReturnInvoice = ReturnInvoice(
+  Future<void> updateReturnInvoice() async {
+    final updatedReturnInvoice = ReturnInvoice(
       id: idController.text,
       orderId: orderIdController.text,
       returnDate: returnDateController.text,
@@ -51,69 +61,25 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     );
 
     try {
-      await databaseHelper.insertReturnInvoice(newReturnInvoice);
-      clearTextFields();
-      loadReturnInvoices();
+      await databaseHelper.updateReturnInvoice(updatedReturnInvoice);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Return Invoice added successfully')),
+        const SnackBar(content: Text('Return Invoice updated successfully')),
       );
+      widget.onUpdate(); // Call the callback function
+      Navigator.pop(
+          context, updatedReturnInvoice); // Return the updated invoice
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding Return Invoice: $e')),
+        SnackBar(content: Text('Error updating Return Invoice: $e')),
       );
     }
-  }
-
-  Future<void> deleteReturnInvoice(String id) async {
-    try {
-      await databaseHelper.deleteReturnInvoice(id);
-      await loadReturnInvoices();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Return Invoice deleted successfully')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting Return Invoice: $e')),
-      );
-    }
-  }
-
-  void clearTextFields() {
-    idController.clear();
-    orderIdController.clear();
-    returnDateController.clear();
-    employeeController.clear();
-    reasonController.clear();
-    amountController.clear();
-    totalbackmonyController.clear();
-  }
-
-  void navigateToReturnInvoiceListScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ReturnInvoiceListScreen(
-          returnInvoices: returnInvoices,
-          onUpdateList: loadReturnInvoices,
-          onDeleteInvoice: (String id) {
-            deleteReturnInvoice(id);
-          },
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Return Invoices'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.list),
-            onPressed: navigateToReturnInvoiceListScreen,
-          ),
-        ],
+        title: const Text('Edit Return Invoice'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -125,6 +91,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
                 controller: idController,
                 labelText: 'Invoice ID',
                 keyboardType: TextInputType.text,
+                // readOnly: true,
               ),
               const SizedBox(height: 16.0),
               CustomTextField(
@@ -186,34 +153,27 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: CustomButton(
-                        text: 'Clear Fields',
-                        bgColor: Colors.blueGrey,
-                        onTap: clearTextFields,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: CustomButton(
-                        text: 'Add Return Invoice',
-                        bgColor: Colors.blueGrey,
-                        onTap: addReturnInvoice,
-                      ),
-                    ),
-                  ),
-                ],
+              CustomButton(
+                text: 'Update Return Invoice',
+                bgColor: Colors.blueGrey,
+                onTap: updateReturnInvoice,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    idController.dispose();
+    orderIdController.dispose();
+    returnDateController.dispose();
+    employeeController.dispose();
+    reasonController.dispose();
+    amountController.dispose();
+    totalbackmonyController.dispose();
+    super.dispose();
   }
 }

@@ -28,7 +28,7 @@ class _ReturnInvoiceListScreenState extends State<ReturnInvoiceListScreen> {
     _returnInvoices = List.from(widget.returnInvoices);
   }
 
-  void _refreshList() {
+  void refreshList() {
     widget.onUpdateList();
     setState(() {
       _returnInvoices = List.from(widget.returnInvoices);
@@ -70,7 +70,7 @@ class _ReturnInvoiceListScreenState extends State<ReturnInvoiceListScreen> {
                     ),
                   ),
                 );
-                _refreshList(); // Refresh the list after coming back from the detail screen
+                refreshList(); // Refresh the list after coming back from the detail screen
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

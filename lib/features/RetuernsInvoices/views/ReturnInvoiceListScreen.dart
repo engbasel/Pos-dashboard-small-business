@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
-import 'package:pos_dashboard_v1/features/RetuernsInvoices/views/ReturnInvoiceitemScreen.dart';
+import 'package:pos_dashboard_v1/features/RetuernsInvoices/views/ReturnInvoiceDetailScreen.dart';
 
 class ReturnInvoiceListScreen extends StatefulWidget {
   final List<ReturnInvoice> returnInvoices;
@@ -62,20 +62,15 @@ class _ReturnInvoiceListScreenState extends State<ReturnInvoiceListScreen> {
             },
             child: InkWell(
               onTap: () async {
-                final updatedInvoice = await Navigator.push(
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ReturnInvoiceItemScreen(
+                    builder: (context) => ReturnInvoiceDetailScreen(
                       returnInvoice: returnInvoice,
-                      onUpdate: _refreshList,
                     ),
                   ),
                 );
-                if (updatedInvoice != null) {
-                  setState(() {
-                    _returnInvoices[index] = updatedInvoice;
-                  });
-                }
+                _refreshList(); // Refresh the list after coming back from the detail screen
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

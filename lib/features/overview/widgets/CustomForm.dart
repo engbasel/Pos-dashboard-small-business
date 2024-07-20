@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/CoustomTextFormFiled.dart';
 import '../../../l10n/app_localizations.dart';
 
 class CustomForm extends StatelessWidget {
@@ -53,7 +54,7 @@ class CustomForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: idController,
             labelText: localizations.translate('orderID'),
             keyboardType: TextInputType.number,
@@ -62,25 +63,25 @@ class CustomForm extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: dateTimeController,
             labelText: localizations.translate('dateTime'),
             keyboardType: TextInputType.datetime,
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: typeController,
             labelText: localizations.translate('orderType'),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: employeeController,
             labelText: localizations.translate('employee'),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: statusController,
             labelText: localizations.translate('status'),
             keyboardType: TextInputType.text,
@@ -101,7 +102,7 @@ class CustomForm extends StatelessWidget {
             }).toList(),
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: amountController,
             labelText: localizations.translate('amount'),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -110,7 +111,7 @@ class CustomForm extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: numberOfItemsController,
             labelText: localizations.translate('numberOfItems'),
             keyboardType: TextInputType.number,
@@ -119,19 +120,19 @@ class CustomForm extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: entryDateController,
             labelText: localizations.translate('entryDate'),
             keyboardType: TextInputType.datetime,
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: exitDateController,
             labelText: localizations.translate('exitDate'),
             keyboardType: TextInputType.datetime,
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: wholesalePriceController,
             labelText: localizations.translate('wholesalePrice'),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -140,7 +141,7 @@ class CustomForm extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: retailPriceController,
             labelText: localizations.translate('retailPrice'),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -149,19 +150,19 @@ class CustomForm extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: productStatusController,
             labelText: localizations.translate('productStatus'),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: productDetailsController,
             labelText: localizations.translate('productDetails'),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
-          CustomTextField(
+          CoustomTextFormFiled(
             controller: productModelController,
             labelText: localizations.translate('productModel'),
             keyboardType: TextInputType.text,
@@ -169,38 +170,6 @@ class CustomForm extends StatelessWidget {
           const SizedBox(height: 20),
         ],
       ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  CustomTextField({
-    super.key,
-    required this.controller,
-    required this.labelText,
-    this.keyboardType = TextInputType.text,
-    this.inputFormatters,
-    this.onTap,
-  });
-
-  final TextEditingController controller;
-  final String labelText;
-  final TextInputType keyboardType;
-  final List<TextInputFormatter>? inputFormatters;
-  void Function()? onTap;
-  bool readOnly = false;
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      readOnly: readOnly,
-      onTap: onTap,
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: labelText,
-        border: const OutlineInputBorder(),
-      ),
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
     );
   }
 }

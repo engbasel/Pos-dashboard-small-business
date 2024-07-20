@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/custom_form.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/CustomForm.dart';
 import '../../../core/db/NewProdactsInStoreDatabase_helper.dart';
 import '../views/OrdersListScreen.dart';
 import '../../../l10n/app_localizations.dart';

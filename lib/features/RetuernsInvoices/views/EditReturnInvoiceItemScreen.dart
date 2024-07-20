@@ -5,6 +5,8 @@ import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/database/database_Returnsinvoice.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/CoustomTextFormFiled.dart';
 
+import '../../../core/utils/widgets/CustomSnackBar.dart';
+
 class EditReturnInvoiceItemScreen extends StatefulWidget {
   final ReturnInvoice returnInvoice;
   final ValueChanged<ReturnInvoice> onUpdate;
@@ -62,18 +64,21 @@ class _EditReturnInvoiceItemScreenState
 
     try {
       await databaseHelper.updateReturnInvoice(updatedReturnInvoice);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Return Invoice updated successfully')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Return Invoice updated successfully')),
+      // );
+      CustomSnackBar.show(context, 'Return Invoice updated successfully');
 
       // CustomSnackBar();
       widget.onUpdate(
           updatedReturnInvoice); // Call the callback function with updated invoice
       Navigator.pop(context); // Close the screen
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error updating Return Invoice: $e')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Error updating Return Invoice: $e')),
+      // );
+
+      CustomSnackBar.show(context, 'Error updating Return Invoice: $e');
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_dashboard_v1/core/utils/widgets/CustomSnackBar.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/database/database_Returnsinvoice.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/views/ReturnInvoiceListScreen.dart';
@@ -54,13 +55,17 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
       await databaseHelper.insertReturnInvoice(newReturnInvoice);
       clearTextFields();
       loadReturnInvoices();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Return Invoice added successfully')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Return Invoice added successfully')),
+      // );
+
+      CustomSnackBar.show(context, 'Return Invoice added successfully');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding Return Invoice: $e')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Error adding Return Invoice: $e')),
+      // );
+
+      CustomSnackBar.show(context, 'Error adding Return Invoice: $e');
     }
   }
 
@@ -68,13 +73,17 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     try {
       await databaseHelper.deleteReturnInvoice(id);
       await loadReturnInvoices();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Return Invoice deleted successfully')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Return Invoice deleted successfully')),
+      // );
+
+      CustomSnackBar.show(context, 'Return Invoice deleted successfully');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting Return Invoice: $e')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Error deleting Return Invoice: $e')),
+      // );
+
+      CustomSnackBar.show(context, 'Error adding Return Invoice: $e');
     }
   }
 

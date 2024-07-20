@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomSnackBar {
   static void show(BuildContext context, String message,
-      {Color backgroundColor = Colors.black,
+      {Color backgroundColor = Colors.blue,
       Color textColor = Colors.white,
       IconData? icon}) {
     final snackBar = SnackBar(

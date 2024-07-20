@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pdf/widgets.dart'
-    as pdfLib; // Import PDF library for export functionality
+import 'package:pdf/widgets.dart' as pdfLib;
 
 class SalesBillScreen extends StatelessWidget {
   const SalesBillScreen({super.key});
@@ -50,6 +49,7 @@ class SalesBillScreen extends StatelessWidget {
             const SizedBox(height: 24),
             // Sales Items List
             ListView.builder(
+              reverse: true,
               shrinkWrap: true,
               itemCount: 5, // Replace with actual item count
               itemBuilder: (context, index) {

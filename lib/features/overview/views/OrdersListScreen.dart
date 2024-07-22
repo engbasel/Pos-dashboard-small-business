@@ -111,7 +111,7 @@ class OrderListScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _generatePdf(BuildContext context, Order order) async {
+  Future<void> generatePdf(BuildContext context, Order order) async {
     final pdf = pw.Document();
 
     pdf.addPage(

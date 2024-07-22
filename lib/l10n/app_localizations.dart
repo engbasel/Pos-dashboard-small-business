@@ -16,6 +16,7 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      // =========================== login screen ==========================================
       "loginTitle": "Login",
       "nameLabel": "Name",
       "nameHint": "Enter your name",
@@ -33,8 +34,11 @@ class AppLocalizations {
       "branchLabel": "Branch",
       "letsWorkButton": "Let's work",
       "loginRecordedSuccessfully": "Login Recorded Successfully",
+
+      // =========================== Home viwe screen ==========================================
       "email": "Email",
       "registerSince": "Register Since",
+      "Password": "Password",
       "favouriteBranch": "Favourite Branch",
       "favouriteItem": "section spicialset",
       "totalPoints": "Total prodacts In Store :",
@@ -78,16 +82,24 @@ class AppLocalizations {
       "gender": "Gender",
       "userLogs": "User Logs",
       "branch": "Branch",
-      "orderID": "معرف الطلب",
-      "actions": "الإجراءات",
-      "clearFields": "مسح الحقول",
+      "InvalidPassword": "Invalid Password",
+      "orderID": "order ID",
+      "actions": "actions",
+      "clearFields": "delete Fileds",
+      "Delete": "delete",
+      "Cancel": "Cancel",
+      "Ok": "Ok",
+      "Thepasswordyouenteredisincorrect":
+          "The password you entered is incorrect.",
       "addOrder": "Add Prodact"
     },
     'ar': {
       "orderID": "معرف الطلب",
+      "Password": "الرقم السري",
       "dateTime": "التاريخ/الوقت",
       "orderType": "نوع الطلب",
       "employee": "الموظف",
+      "Ok": "موافق",
       "status": "الحالة",
       "paymentStatus": "حالة الدفع",
       "amount": "المبلغ",
@@ -149,7 +161,11 @@ class AppLocalizations {
       "username": "اسم المستخدم",
       "birthday": "تاريخ الميلاد",
       "privilege": "الامتياز",
+      "Cancel": "الغاء",
+      "Delete": "الحذف",
       "gender": "الجنس",
+      "InvalidPassword": "الرقم السري خطاء",
+      "Thepasswordyouenteredisincorrect": "الرقم السري الذي ادخلتة خطاء",
       "branch": "الفرع"
     },
   };

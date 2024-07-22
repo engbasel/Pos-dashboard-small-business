@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/Notifications/view/Notificationsviwe.dart';
 import 'package:pos_dashboard_v1/core/utils/widgets/custom_drawer.dart';
+import 'package:pos_dashboard_v1/features/login/views/loginview.dart';
 import '../../clinet/views/customers_view.dart';
 import 'overview.dart';
 import '../../settings/view/SettingsOverview.dart';
@@ -40,7 +41,11 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
             onPressed: () {
               // _onItemTapped(3);
 
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return const LoginView();
+                },
+              ));
             },
           )
         ],

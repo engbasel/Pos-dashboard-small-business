@@ -30,7 +30,7 @@ class _UserLogsViewState extends State<UserLogsView> {
     loadUserData();
   }
 
-  Future<void> _confirmDelete(int id) async {
+  Future<void> confirmDelete(int id) async {
     final TextEditingController passwordController = TextEditingController();
     const String adminPassword = 'admin';
 
@@ -47,21 +47,28 @@ class _UserLogsViewState extends State<UserLogsView> {
               TextField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('Password'),
                 ),
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              // child: const Text('Cancel'),
+              child: Text(
+                AppLocalizations.of(context).translate('Cancel'),
+              ),
+
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Delete'),
+              // child: const Text('Delete'),
+              child: Text(
+                AppLocalizations.of(context).translate('Cancel'),
+              ),
               onPressed: () {
                 if (passwordController.text == adminPassword) {
                   deleteUser(id);
@@ -83,11 +90,21 @@ class _UserLogsViewState extends State<UserLogsView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Invalid Password'),
-          content: const Text('The password you entered is incorrect.'),
+          // title: const Text('Invalid Password'),
+          title: Text(
+            AppLocalizations.of(context).translate('InvalidPassword'),
+          ),
+          // content: const Text('The password you entered is incorrect.'),
+          content: Text(
+            AppLocalizations.of(context)
+                .translate('Thepasswordyouenteredisincorrect'),
+          ),
+
           actions: <Widget>[
             TextButton(
-              child: const Text('OK'),
+              child: Text(
+                AppLocalizations.of(context).translate('Ok'),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -110,7 +127,7 @@ class _UserLogsViewState extends State<UserLogsView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            UserList(users: users, onDelete: _confirmDelete),
+            UserList(users: users, onDelete: confirmDelete),
           ],
         ),
       ),

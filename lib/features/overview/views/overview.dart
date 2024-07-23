@@ -77,7 +77,7 @@ class _OverviewViewState extends State<OverviewView> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const Catigorysscreen();
+                                return const CategoryScreen();
                               },
                             ),
                           );

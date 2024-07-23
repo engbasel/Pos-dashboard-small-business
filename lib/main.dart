@@ -52,8 +52,8 @@ class PosSystem extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginView(),
-      // home: const DesktopLayoutBoady(),
+      // home: const LoginView(),
+      home: const DesktopLayoutBoady(),
     );
   }
 }

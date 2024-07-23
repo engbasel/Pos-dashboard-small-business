@@ -15,8 +15,7 @@ class AppLocalizations {
       AppLocalizationsDelegate();
 
   static final Map<String, Map<String, String>> _localizedValues = {
-    // ============================ English Section ==========================
-
+    // ============================ English Section ======================
     'en': {
       // =========================== login screen ==========================================
       "loginTitle": "Login",
@@ -120,7 +119,6 @@ class AppLocalizations {
           "The password you entered is incorrect.",
       "addOrder": "Add Prodact",
     },
-
 // ============================ English Section ==========================
 //
 //
@@ -226,7 +224,7 @@ class AppLocalizations {
       "Thepasswordyouenteredisincorrect": "الرقم السري الذي ادخلتة خطاء",
       "branch": "الفرع"
     },
-    // ============================ arabic Section ==========================
+// ============================ arabic Section ==========================
   };
 
   String translate(String key) {

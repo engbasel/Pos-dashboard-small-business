@@ -7,5 +7,5 @@ class RetuernInvocmentDatabaseConstants {
   static const String columnEmployee = 'employee';
   static const String columnReason = 'reason';
   static const String columnAmount = 'amount';
-  static const String columnTotalBackMoney = 'ttotalbackmony';
+  static const String columnTotalBackMoney = 'totalbackmony';
 }

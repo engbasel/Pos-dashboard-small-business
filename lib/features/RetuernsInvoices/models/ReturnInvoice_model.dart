@@ -1,3 +1,5 @@
+import '../database/database_constans.dart';
+
 class ReturnInvoice {
   final String id;
   final String orderId;
@@ -25,7 +27,7 @@ class ReturnInvoice {
       'employee': employee,
       'reason': reason,
       'amount': amount,
-      'totalbackmony': totalbackmony,
+      RetuernInvocmentDatabaseConstants.columnTotalBackMoney: totalbackmony,
     };
   }
 

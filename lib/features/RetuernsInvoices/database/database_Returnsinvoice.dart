@@ -19,11 +19,11 @@ class database_Returnsinvoice {
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), 'returnsNeww_database.db');
+    String path = join(await getDatabasesPath(), 'NewRetuernsInvoices.db');
     return await openDatabase(
       path,
       onCreate: onCreate,
-      version: 3,
+      version: 1,
     );
   }
 

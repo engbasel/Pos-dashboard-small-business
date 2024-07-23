@@ -19,12 +19,12 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with default values or fetch from the database
+    // Initialize controllers with default values
     customerNameController.text = 'John Doe';
     invoiceDateController.text = 'July 17, 2024';
     invoiceNumberController.text = '12345';
     // Add a default item for demonstration
-    items.add(SalesItem('Product 1', 2, 50, 10));
+    items.add(SalesItem('Product 1', 2, 50, 10, 1));
   }
 
   Future<void> exportAsPDF() async {
@@ -87,7 +87,8 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
 
   void addItem() {
     setState(() {
-      items.add(SalesItem('', 1, 0, 0));
+      items.add(
+          SalesItem('', 1, 0, 0, 0)); // Use 0 for ItemID to avoid null values
     });
   }
 
@@ -103,6 +104,8 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             TextEditingController(text: item.unitPrice.toString());
         final discountController =
             TextEditingController(text: item.discount.toString());
+        final itemIdController =
+            TextEditingController(text: item.itemID.toString());
 
         return AlertDialog(
           title: const Text('Edit Item'),
@@ -117,16 +120,27 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
                 controller: quantityController,
                 decoration: const InputDecoration(labelText: 'Quantity'),
                 keyboardType: TextInputType.number,
+                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               TextFormField(
                 controller: unitPriceController,
                 decoration: const InputDecoration(labelText: 'Unit Price'),
-                keyboardType: TextInputType.number,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               TextFormField(
                 controller: discountController,
                 decoration: const InputDecoration(labelText: 'Discount'),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+              TextFormField(
+                controller: itemIdController,
+                decoration: const InputDecoration(labelText: 'Item ID'),
                 keyboardType: TextInputType.number,
+                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
             ],
           ),
@@ -134,10 +148,13 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             TextButton(
               onPressed: () {
                 final updatedItem = SalesItem(
-                  nameController.text,
-                  int.parse(quantityController.text),
-                  double.parse(unitPriceController.text),
-                  double.parse(discountController.text),
+                  nameController.text.isNotEmpty
+                      ? nameController.text
+                      : 'Unknown',
+                  int.tryParse(quantityController.text) ?? 1,
+                  double.tryParse(unitPriceController.text) ?? 0.0,
+                  double.tryParse(discountController.text) ?? 0.0,
+                  int.tryParse(itemIdController.text) ?? 0,
                 );
                 setState(() {
                   items[index] = updatedItem;
@@ -194,7 +211,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
                   child: ListTile(
                     title: Text(item.name),
                     subtitle: Text(
-                        'Quantity: ${item.quantity} | Unit Price: \$${item.unitPrice} | Total: \$${item.total}'),
+                        'Quantity: ${item.quantity} | Unit Price: \$${item.unitPrice} | Total: \$${item.total} | Item ID: ${item.itemID}'),
                     trailing: Text('Discount: \$${item.discount}'),
                     onTap: () {
                       editItem(index);
@@ -239,7 +256,8 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
 }
 
 class SalesItem {
-  SalesItem(this.name, this.quantity, this.unitPrice, this.discount)
+  SalesItem(
+      this.name, this.quantity, this.unitPrice, this.discount, this.itemID)
       : total = quantity * unitPrice - discount;
 
   final String name;
@@ -247,4 +265,5 @@ class SalesItem {
   final double unitPrice;
   final double discount;
   late final double total;
+  final int itemID;
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:pos_dashboard_v1/features/Catigorys/database/Categorydatabase_helper.dart';
 import 'package:pos_dashboard_v1/features/Catigorys/widgets/CoustomCatigoryCard.dart';
 import '../../../l10n/app_localizations.dart';
-import 'CategoryModel.dart';
+import '../models/CategoryModel.dart';
 
 class Catigorysscreen extends StatefulWidget {
   const Catigorysscreen({super.key});
@@ -12,17 +13,24 @@ class Catigorysscreen extends StatefulWidget {
 }
 
 class _CatigorysscreenState extends State<Catigorysscreen> {
-  List<Category> categories = [
-    Category(title: 'Catigorey 1', color: Colors.green),
-    Category(title: 'Catigorey 2', color: Colors.red),
-    Category(title: 'Catigorey 3', color: Colors.amber),
-    Category(title: 'Catigorey 4', color: Colors.blue),
-  ];
+  List<Category> categories = [];
 
-  Future<void> _addCategoryDialog() async {
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    final data = await CategoryDatabaseHelper.instance.getCategories();
+    setState(() {
+      categories = data;
+    });
+  }
+
+  Future<void> addCategoryDialog() async {
     TextEditingController categoryNameController = TextEditingController();
     Color pickerColor = Colors.blue;
-    Color currentColor = Colors.blue;
 
     void changeColor(Color color) {
       setState(() {
@@ -61,14 +69,15 @@ class _CatigorysscreenState extends State<Catigorysscreen> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 if (categoryNameController.text.isNotEmpty) {
-                  setState(() {
-                    categories.add(Category(
-                      title: categoryNameController.text,
-                      color: pickerColor,
-                    ));
-                  });
+                  final category = Category(
+                    title: categoryNameController.text,
+                    color: pickerColor.value,
+                  );
+                  await CategoryDatabaseHelper.instance
+                      .insertCategory(category);
+                  _loadCategories();
                 }
                 Navigator.of(context).pop();
               },
@@ -110,13 +119,13 @@ class _CatigorysscreenState extends State<Catigorysscreen> {
                       ),
                     );
                   },
-                  bacColor: category.color,
+                  bacColor: Color(category.color),
                 );
               },
             ),
           ),
           ElevatedButton(
-            onPressed: _addCategoryDialog,
+            onPressed: addCategoryDialog,
             child: const Text('Add Category'),
           ),
         ],

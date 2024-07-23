@@ -15,6 +15,8 @@ class AppLocalizations {
       AppLocalizationsDelegate();
 
   static final Map<String, Map<String, String>> _localizedValues = {
+    // ============================ English Section ==========================
+
     'en': {
       // =========================== login screen ==========================================
       "loginTitle": "Login",
@@ -56,6 +58,31 @@ class AppLocalizations {
       "users": "Users",
       "changeMode": "Change Mode",
       "changeLanguage": "Change Language",
+
+//  ======================== Sales_bill section ===========================
+      "Invoice": "Invoice",
+      "GrandTotal:": "Grand Total:",
+      "Customer": "Customer",
+      "Data": "Data",
+      "UnitPrice": "Unit Price",
+      "Product": "Product",
+      "Discount": "Discount",
+      "Total": "Total",
+      "Tax": "Tax",
+      "ExportasPDF": "Export as PDF",
+      "AddItem": "AddItem",
+      "TotalAmount": "Total Amount",
+      "No.": "No",
+      "Quantity": "Quantity",
+      "InvoiceNumber": "Invoice Number",
+      "SalesInvoices": "Sales Invoices",
+      "CustomerName": "Customer Name",
+      "SalesBill": "Sales Bill",
+      "ViewInvoices": "View Invoices",
+      "Items": "Items",
+
+//  ======================== Sales_bill section ===========================
+
       "orderList": "Prodacts List",
       "all": "All",
       "monthly": "Monthly",
@@ -91,8 +118,13 @@ class AppLocalizations {
       "Ok": "Ok",
       "Thepasswordyouenteredisincorrect":
           "The password you entered is incorrect.",
-      "addOrder": "Add Prodact"
+      "addOrder": "Add Prodact",
     },
+
+// ============================ English Section ==========================
+//
+//
+// ============================ arabic Section ==========================
     'ar': {
       "orderID": "معرف الطلب",
       "Password": "الرقم السري",
@@ -124,6 +156,32 @@ class AppLocalizations {
       "emailLabel": "البريد الإلكتروني",
       "branchLabel": "الفرع",
       "letsWorkButton": "لنعمل",
+
+      //  ======================== Sales_bill section ===========================
+
+      "Invoice": "الحالة",
+      "Quantity": "الكمية",
+      "GrandTotal": "الاجمالي المدفوع",
+      "UnitPrice": "سعر الوحدة",
+      "Total": "الاجمالي",
+      "Customer": "العميل",
+      "Discount": "الخصم",
+      "ExportasPDF": "استخراج كملف",
+      "SalesBill": "قاتورة المبيعات",
+      "Product": "المنتح",
+      "No.": "العدد",
+      "Data": "التاريخ",
+      "Items": "العناصر",
+      "InvoiceNumber": "رقم الفاتورة",
+      "SalesInvoices": "فاتورة مبيعات",
+      "CustomerName": "اسم العميل",
+      "TotalAmount": "اجمالي العناصر",
+      "Tax": "الضرائب",
+      "AddItem": "اضافة عنصر",
+      "ViewInvoices": "عرض الفواتير ",
+
+//  ======================== Sales_bill section ===========================
+
       "loginRecordedSuccessfully": "تم تسجيل الدخول بنجاح",
       "email": "البريد الإلكتروني",
       "registerSince": "مسجل منذ",
@@ -168,6 +226,7 @@ class AppLocalizations {
       "Thepasswordyouenteredisincorrect": "الرقم السري الذي ادخلتة خطاء",
       "branch": "الفرع"
     },
+    // ============================ arabic Section ==========================
   };
 
   String translate(String key) {

@@ -4,6 +4,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:pos_dashboard_v1/features/Sales_bill/SalesInvoice.dart';
 import 'package:pos_dashboard_v1/features/Sales_bill/SalesInvoicesScreen.dart';
+import 'package:pos_dashboard_v1/features/Sales_bill/model/SalesItemModel.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
+
+import '../../core/utils/widgets/custom_button.dart';
 
 class SalesBillScreen extends StatefulWidget {
   const SalesBillScreen({super.key});
@@ -189,7 +193,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sales Bill'),
+        title: Text(AppLocalizations.of(context).translate('SalesBill')),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -198,28 +202,51 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
           children: [
             TextFormField(
               controller: customerNameController,
-              decoration: const InputDecoration(labelText: 'Customer Name'),
+              decoration: InputDecoration(
+                labelText:
+                    AppLocalizations.of(context).translate('CustomerName'),
+              ),
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: invoiceDateController,
-              decoration: const InputDecoration(labelText: 'Date'),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).translate('Data'),
+              ),
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: invoiceNumberController,
-              decoration: const InputDecoration(labelText: 'Invoice Number'),
+              decoration: InputDecoration(
+                labelText:
+                    AppLocalizations.of(context).translate('InvoiceNumber'),
+              ),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 24),
             DataTable(
-              columns: const [
-                DataColumn(label: Text('No.')),
-                DataColumn(label: Text('Product')),
-                DataColumn(label: Text('Quantity')),
-                DataColumn(label: Text('Unit Price')),
-                DataColumn(label: Text('Total')),
-                DataColumn(label: Text('Discount')),
+              columns: [
+                DataColumn(
+                    label: Text(
+                  AppLocalizations.of(context).translate('No.'),
+                )),
+                DataColumn(
+                    label: Text(
+                        AppLocalizations.of(context).translate('Product'))),
+                DataColumn(
+                    label: Text(
+                        AppLocalizations.of(context).translate('Quantity'))),
+                DataColumn(
+                    label: Text(
+                        AppLocalizations.of(context).translate('UnitPrice'))),
+                DataColumn(
+                  label: Text(
+                    AppLocalizations.of(context).translate('Total'),
+                  ),
+                ),
+                DataColumn(
+                    label: Text(
+                        AppLocalizations.of(context).translate('Discount'))),
               ],
               rows: items.asMap().entries.map((entry) {
                 final index = entry.key;
@@ -243,32 +270,34 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Total Amount: \$${calculateTotalAmount()}',
+              ' ${AppLocalizations.of(context).translate('TotalAmount')} \$${calculateTotalAmount()}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Tax: \$20',
-              style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 12),
             Text(
-              'Grand Total: \$${calculateGrandTotal()}',
+              '${AppLocalizations.of(context).translate('Tax')} \$20',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              '${AppLocalizations.of(context).translate('Total')}: \$${calculateGrandTotal()}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: addItem,
-              child: const Text('Add Item'),
+            CustomButton(
+              onTap: addItem,
+              text: AppLocalizations.of(context).translate('AddItem'),
+              bgColor: Colors.blue,
             ),
             const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: exportAsPDF,
-              child: const Text('Export as PDF'),
+            CustomButton(
+              onTap: exportAsPDF,
+              text: AppLocalizations.of(context).translate('ExportasPDF'),
+              bgColor: Colors.blue,
             ),
             const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () {
+            CustomButton(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -278,24 +307,12 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
                   ),
                 );
               },
-              child: const Text('View Invoices'),
-            ),
+              text: AppLocalizations.of(context).translate('ViewInvoices'),
+              bgColor: Colors.blue,
+            )
           ],
         ),
       ),
     );
   }
-}
-
-class SalesItem {
-  SalesItem(
-      this.name, this.quantity, this.unitPrice, this.discount, this.itemID)
-      : total = quantity * unitPrice - discount;
-
-  final String name;
-  final int quantity;
-  final double unitPrice;
-  final double discount;
-  late final double total;
-  final int itemID;
 }

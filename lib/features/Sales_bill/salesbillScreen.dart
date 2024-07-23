@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pdfLib;
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:pos_dashboard_v1/features/Sales_bill/SalesInvoice.dart';
+import 'package:pos_dashboard_v1/features/Sales_bill/SalesInvoicesScreen.dart';
 
 class SalesBillScreen extends StatefulWidget {
   const SalesBillScreen({super.key});
@@ -15,15 +17,14 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   final invoiceDateController = TextEditingController();
   final invoiceNumberController = TextEditingController();
   final List<SalesItem> items = [];
+  static List<SalesInvoice> savedInvoices = []; // Store saved invoices
 
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with default values
     customerNameController.text = 'John Doe';
     invoiceDateController.text = 'July 17, 2024';
     invoiceNumberController.text = '12345';
-    // Add a default item for demonstration
     items.add(SalesItem('Product 1', 2, 50, 10, 1));
   }
 
@@ -40,16 +41,21 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             pdfLib.SizedBox(height: 12),
             pdfLib.Text('Items:'),
             pdfLib.SizedBox(height: 12),
-            ...items.map((item) => pdfLib.Row(
-                  mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
-                  children: [
-                    pdfLib.Text(item.name),
-                    pdfLib.Text('Quantity: ${item.quantity}'),
-                    pdfLib.Text('Unit Price: \$${item.unitPrice}'),
-                    pdfLib.Text('Total: \$${item.total}'),
-                    pdfLib.Text('Discount: \$${item.discount}'),
-                  ],
-                )),
+            ...items.asMap().entries.map((entry) {
+              final index = entry.key;
+              final item = entry.value;
+              return pdfLib.Row(
+                mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+                children: [
+                  pdfLib.Text('${index + 1}'), // Counter for item number
+                  pdfLib.Text(item.name),
+                  pdfLib.Text('Quantity: ${item.quantity}'),
+                  pdfLib.Text('Unit Price: \$${item.unitPrice}'),
+                  pdfLib.Text('Total: \$${item.total}'),
+                  pdfLib.Text('Discount: \$${item.discount}'),
+                ],
+              );
+            }),
             pdfLib.SizedBox(height: 12),
             pdfLib.Text('Total Amount: \$${calculateTotalAmount()}'),
             pdfLib.SizedBox(height: 12),
@@ -61,7 +67,6 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
       ),
     );
 
-    // Open file picker to choose the location and file name
     final result = await FilePicker.platform.saveFile(
       dialogTitle: 'Save PDF',
       fileName: '${customerNameController.text}.pdf',
@@ -72,6 +77,18 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
       final file = File(result);
       await file.writeAsBytes(await pdf.save());
       print('PDF saved to ${file.path}');
+
+      // Save invoice data
+      setState(() {
+        savedInvoices.add(
+          SalesInvoice(
+            customerName: customerNameController.text,
+            invoiceDate: invoiceDateController.text,
+            invoiceNumber: invoiceNumberController.text,
+            items: List.from(items), // Ensure items are copied
+          ),
+        );
+      });
     } else {
       print('No file selected');
     }
@@ -87,8 +104,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
 
   void addItem() {
     setState(() {
-      items.add(
-          SalesItem('', 1, 0, 0, 0)); // Use 0 for ItemID to avoid null values
+      items.add(SalesItem('', 1, 0, 0, 0));
     });
   }
 
@@ -120,27 +136,23 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
                 controller: quantityController,
                 decoration: const InputDecoration(labelText: 'Quantity'),
                 keyboardType: TextInputType.number,
-                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               TextFormField(
                 controller: unitPriceController,
                 decoration: const InputDecoration(labelText: 'Unit Price'),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               TextFormField(
                 controller: discountController,
                 decoration: const InputDecoration(labelText: 'Discount'),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               TextFormField(
                 controller: itemIdController,
                 decoration: const InputDecoration(labelText: 'Item ID'),
                 keyboardType: TextInputType.number,
-                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
             ],
           ),
@@ -200,28 +212,36 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 24),
-            // Sales Items List
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  child: ListTile(
-                    title: Text(item.name),
-                    subtitle: Text(
-                        'Quantity: ${item.quantity} | Unit Price: \$${item.unitPrice} | Total: \$${item.total} | Item ID: ${item.itemID}'),
-                    trailing: Text('Discount: \$${item.discount}'),
-                    onTap: () {
+            DataTable(
+              columns: const [
+                DataColumn(label: Text('No.')),
+                DataColumn(label: Text('Product')),
+                DataColumn(label: Text('Quantity')),
+                DataColumn(label: Text('Unit Price')),
+                DataColumn(label: Text('Total')),
+                DataColumn(label: Text('Discount')),
+              ],
+              rows: items.asMap().entries.map((entry) {
+                final index = entry.key;
+                final item = entry.value;
+                return DataRow(
+                  cells: [
+                    DataCell(Text('${index + 1}')),
+                    DataCell(Text(item.name)),
+                    DataCell(Text('${item.quantity}')),
+                    DataCell(Text('\$${item.unitPrice}')),
+                    DataCell(Text('\$${item.total}')),
+                    DataCell(Text('\$${item.discount}')),
+                  ],
+                  onSelectChanged: (selected) {
+                    if (selected != null && selected) {
                       editItem(index);
-                    },
-                  ),
+                    }
+                  },
                 );
-              },
+              }).toList(),
             ),
             const SizedBox(height: 24),
-            // Total and Summary
             Text(
               'Total Amount: \$${calculateTotalAmount()}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -237,16 +257,28 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
-            // Add Item Button
             ElevatedButton(
               onPressed: addItem,
               child: const Text('Add Item'),
             ),
             const SizedBox(height: 12),
-            // Export as PDF button
             ElevatedButton(
               onPressed: exportAsPDF,
               child: const Text('Export as PDF'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SalesInvoicesScreen(
+                      invoices: savedInvoices,
+                    ),
+                  ),
+                );
+              },
+              child: const Text('View Invoices'),
             ),
           ],
         ),

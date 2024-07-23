@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/Catigorys/views/CatigorysScreen.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/views/ReturnInvoiceScreen.dart';
 import 'package:pos_dashboard_v1/features/Sales_bill/salesbillScreen.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/order_list.dart';
@@ -76,7 +77,7 @@ class _OverviewViewState extends State<OverviewView> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const ReturnInvoiceScreen();
+                                return const Catigorysscreen();
                               },
                             ),
                           );

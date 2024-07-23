@@ -82,6 +82,12 @@ class AppLocalizations {
 
 //  ======================== Sales_bill section ===========================
 
+//  ======================== Catigorys section ===========================
+
+      "catigoryscreen": " catigory screen",
+
+//  ======================== Catigorys section ===========================
+
       "orderList": "Prodacts List",
       "all": "All",
       "monthly": "Monthly",
@@ -157,7 +163,7 @@ class AppLocalizations {
 
       //  ======================== Sales_bill section ===========================
 
-      "Invoice": "الحالة",
+      "Invoice": "الفاتورة",
       "Quantity": "الكمية",
       "GrandTotal": "الاجمالي المدفوع",
       "UnitPrice": "سعر الوحدة",
@@ -179,6 +185,11 @@ class AppLocalizations {
       "ViewInvoices": "عرض الفواتير ",
 
 //  ======================== Sales_bill section ===========================
+//  ======================== Catigorys section ===========================
+      "Catigorys": "الاصناف",
+      "catigoryscreen": "عرض الاصناف",
+
+//  ======================== Catigorys section ===========================
 
       "loginRecordedSuccessfully": "تم تسجيل الدخول بنجاح",
       "email": "البريد الإلكتروني",

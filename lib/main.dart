@@ -68,10 +68,4 @@ class PosSystem extends StatelessWidget {
 // Coustomres (Clients) Futers {Add - delete - edit - serche - export data as pdf - }
 // Prodacts { {Add - delete - edit - serche - export data as pdf } 
 // 
-// 
-
-
-
 // ----------------------------------
-
-//test again

@@ -52,8 +52,8 @@ class PosSystem extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginView(),
-      // home: const DesktopLayoutBoady(),
+      // home: const LoginView(),
+      home: const DesktopLayoutBoady(),
     );
   }
 }
@@ -68,10 +68,4 @@ class PosSystem extends StatelessWidget {
 // Coustomres (Clients) Futers {Add - delete - edit - serche - export data as pdf - }
 // Prodacts { {Add - delete - edit - serche - export data as pdf } 
 // 
-// 
-
-
-
 // ----------------------------------
-
-//test again

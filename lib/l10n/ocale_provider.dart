@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class LocaleProvider with ChangeNotifier {
-  Locale _locale = const Locale('en');
+  // Make Dufalue lungage is arabic
+  Locale _locale = const Locale('ar');
+
+  // Make Dufalue lungage is Englis
+  // Locale _locale = const Locale('en');
 
   Locale get locale => _locale;
 

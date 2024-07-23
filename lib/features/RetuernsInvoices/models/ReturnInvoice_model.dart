@@ -21,25 +21,26 @@ class ReturnInvoice {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'orderId': orderId,
-      'returnDate': returnDate,
-      'employee': employee,
-      'reason': reason,
-      'amount': amount,
+      RetuernInvocmentDatabaseConstants.columnId: id,
+      RetuernInvocmentDatabaseConstants.columnOrderId: orderId,
+      RetuernInvocmentDatabaseConstants.columnReturnDate: returnDate,
+      RetuernInvocmentDatabaseConstants.columnEmployee: employee,
+      RetuernInvocmentDatabaseConstants.columnReason: reason,
+      RetuernInvocmentDatabaseConstants.columnAmount: amount,
       RetuernInvocmentDatabaseConstants.columnTotalBackMoney: totalbackmony,
     };
   }
 
   factory ReturnInvoice.fromMap(Map<String, dynamic> map) {
     return ReturnInvoice(
-      id: map['id'],
-      totalbackmony: map['totalbackmony'],
-      orderId: map['orderId'],
-      returnDate: map['returnDate'],
-      employee: map['employee'],
-      reason: map['reason'],
-      amount: map['amount'],
+      id: map[RetuernInvocmentDatabaseConstants.columnId],
+      totalbackmony:
+          map[RetuernInvocmentDatabaseConstants.columnTotalBackMoney],
+      orderId: map[RetuernInvocmentDatabaseConstants.columnOrderId],
+      returnDate: map[RetuernInvocmentDatabaseConstants.columnReturnDate],
+      employee: map[RetuernInvocmentDatabaseConstants.columnEmployee],
+      reason: map[RetuernInvocmentDatabaseConstants.columnReason],
+      amount: map[RetuernInvocmentDatabaseConstants.columnAmount],
     );
   }
 }

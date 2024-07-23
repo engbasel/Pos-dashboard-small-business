@@ -96,3 +96,55 @@ void showChangeLanguageDialog(BuildContext context) {
     },
   );
 }
+
+// ============================ export pdf Method ============================
+
+// Future<void> exportAsPDF() async {
+//   final pdf = pdfLib.Document();
+//   pdf.addPage(
+//     pdfLib.Page(
+//       build: (context) => pdfLib.Column(
+//         crossAxisAlignment: pdfLib.CrossAxisAlignment.start,
+//         children: [
+//           pdfLib.Text('Customer Name: ${customerNameController.text}'),
+//           pdfLib.Text('Date: ${invoiceDateController.text}'),
+//           pdfLib.Text('Invoice Number: ${invoiceNumberController.text}'),
+//           pdfLib.SizedBox(height: 12),
+//           pdfLib.Text('Items:'),
+//           pdfLib.SizedBox(height: 12),
+//           ...items.map((item) => pdfLib.Row(
+//                 mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   pdfLib.Text(item.name),
+//                   pdfLib.Text('Quantity: ${item.quantity}'),
+//                   pdfLib.Text('Unit Price: \$${item.unitPrice}'),
+//                   pdfLib.Text('Total: \$${item.total}'),
+//                   pdfLib.Text('Discount: \$${item.discount}'),
+//                 ],
+//               )),
+//           pdfLib.SizedBox(height: 12),
+//           pdfLib.Text('Total Amount: \$${calculateTotalAmount()}'),
+//           pdfLib.SizedBox(height: 12),
+//           pdfLib.Text('Tax: \$20'),
+//           pdfLib.SizedBox(height: 12),
+//           pdfLib.Text('Grand Total: \$${calculateGrandTotal()}'),
+//         ],
+//       ),
+//     ),
+//   );
+
+//   // Open file picker to choose the location and file name
+//   final result = await FilePicker.platform.saveFile(
+//     dialogTitle: 'Save PDF',
+//     fileName: '${customerNameController.text}.pdf',
+//     allowedExtensions: ['pdf'],
+//   );
+
+//   if (result != null) {
+//     final file = File(result);
+//     await file.writeAsBytes(await pdf.save());
+//     print('PDF saved to ${file.path}');
+//   } else {
+//     print('No file selected');
+//   }
+// }

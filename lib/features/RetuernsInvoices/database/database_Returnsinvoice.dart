@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:pos_dashboard_v1/features/RetuernsInvoices/models/ReturnInvoice_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -19,11 +20,12 @@ class database_Returnsinvoice {
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), 'NewRetuernsInvoices.db');
+    String path = join(await getDatabasesPath(),
+        RetuernInvocmentDatabaseConstants.databaseFileName);
     return await openDatabase(
       path,
       onCreate: onCreate,
-      version: 1,
+      version: RetuernInvocmentDatabaseConstants.versionDatabase,
     );
   }
 
@@ -53,7 +55,13 @@ class database_Returnsinvoice {
     )
     ''',
     );
-    print('============= database created ======================');
+    print(
+        '============= database created with file name ${RetuernInvocmentDatabaseConstants.databaseFileName}======================');
+
+    print('''
+Created with columns names is :
+    ${RetuernInvocmentDatabaseConstants.columnId}, ${RetuernInvocmentDatabaseConstants.columnOrderId},${RetuernInvocmentDatabaseConstants.columnReturnDate}, ${RetuernInvocmentDatabaseConstants.columnEmployee},  ${RetuernInvocmentDatabaseConstants.columnReason}, ${RetuernInvocmentDatabaseConstants.columnAmount},   ${RetuernInvocmentDatabaseConstants.columnTotalBackMoney} ,
+''');
   }
 
   Future<void> insertReturnInvoice(ReturnInvoice returnInvoice) async {
@@ -63,7 +71,8 @@ class database_Returnsinvoice {
       returnInvoice.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('============= insert Invoice======================');
+    print(
+        '''============= insert Invoice item in table name:${RetuernInvocmentDatabaseConstants.returnInvoicesTable},======== with data is ${returnInvoice.toMap()}, ============== ''');
   }
 
   Future<void> deleteReturnInvoice(String id) async {
@@ -73,6 +82,8 @@ class database_Returnsinvoice {
       where: '${RetuernInvocmentDatabaseConstants.columnId} = ?',
       whereArgs: [id],
     );
+    print(
+        '============= deleted Invoice item ${RetuernInvocmentDatabaseConstants.columnId} from database table :  ${RetuernInvocmentDatabaseConstants.returnInvoicesTable} ======================');
   }
 
   Future<List<ReturnInvoice>> getReturnInvoices() async {
@@ -94,7 +105,9 @@ class database_Returnsinvoice {
       whereArgs: [id],
     );
 
-    print('================updated $tableName ===========================');
-    print(data);
+    print(
+        '================updated databae table Name:  $tableName ===========================');
+    debugPrint(
+        "=================================== $data      ======================");
   }
 }

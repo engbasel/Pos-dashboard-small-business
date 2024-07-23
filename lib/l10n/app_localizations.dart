@@ -169,7 +169,7 @@ class AppLocalizations {
       "ExportasPDF": "استخراج كملف",
       "SalesBill": "قاتورة المبيعات",
       "Product": "المنتح",
-      "No.": "العدد",
+      "No.": "مسلسل",
       "Data": "التاريخ",
       "Items": "العناصر",
       "InvoiceNumber": "رقم الفاتورة",

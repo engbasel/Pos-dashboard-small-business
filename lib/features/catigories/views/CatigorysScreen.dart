@@ -13,21 +13,34 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   List<Category> categories = [];
+  List<Category> filteredCategories = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadCategories();
+    loadCategories();
+    searchController.addListener(_filterCategories);
   }
 
-  Future<void> _loadCategories() async {
+  Future<void> loadCategories() async {
     final data = await CategoryDatabaseHelper.instance.getCategories();
     setState(() {
       categories = data;
+      filteredCategories = data;
     });
   }
 
-  Future<void> _showAddCategoryDialog() async {
+  void _filterCategories() {
+    final query = searchController.text.toLowerCase();
+    setState(() {
+      filteredCategories = categories.where((category) {
+        return category.title.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
+  Future<void> showAddCategoryDialog() async {
     TextEditingController titleController = TextEditingController();
     Color pickerColor = Colors.blue;
 
@@ -72,7 +85,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       color: pickerColor.value,
                     ),
                   );
-                  _loadCategories();
+                  loadCategories();
                 }
                 Navigator.of(context).pop();
               },
@@ -85,39 +98,118 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Categories'),
       ),
-      body: ListView.builder(
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          return ListTile(
-            title: Text(category.title),
-            tileColor: Color(category.color),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ItemScreen(categoryId: category.id!),
-                ),
-              );
-            },
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () async {
-                await CategoryDatabaseHelper.instance
-                    .deleteCategory(category.id!);
-                _loadCategories();
-              },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                labelText: 'Search Categories',
+                border: OutlineInputBorder(),
+              ),
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: filteredCategories.isEmpty
+                ? const Center(child: Text('Category not available'))
+                : ListView.builder(
+                    itemCount: filteredCategories.length,
+                    itemBuilder: (context, index) {
+                      final category = filteredCategories[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ItemScreen(categoryId: category.id!),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Color(category.color),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0, 2),
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                category.title,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () async {
+                                  await CategoryDatabaseHelper.instance
+                                      .deleteCategory(category.id!);
+                                  loadCategories();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+
+                      //  Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: ListTile(
+                      //     title: Text(category.title),
+                      //     tileColor: Color(category.color),
+                      //     onTap: () {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) =>
+                      //               ItemScreen(categoryId: category.id!),
+                      //         ),
+                      //       );
+                      //     },
+                      //     trailing: IconButton(
+                      //       icon: const Icon(
+                      //         Icons.delete,
+                      //         color: Colors.black,
+                      //       ),
+                      //       onPressed: () async {
+                      //         await CategoryDatabaseHelper.instance
+                      //             .deleteCategory(category.id!);
+                      //         loadCategories();
+                      //       },
+                      //     ),
+                      //   ),
+                      // );
+                    },
+                  ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showAddCategoryDialog,
+        onPressed: showAddCategoryDialog,
         child: const Icon(Icons.add),
       ),
     );

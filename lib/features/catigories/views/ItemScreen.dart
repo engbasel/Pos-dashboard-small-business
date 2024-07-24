@@ -19,11 +19,11 @@ class _ItemScreenState extends State<ItemScreen> {
   @override
   void initState() {
     super.initState();
-    _loadItems();
-    searchController.addListener(_filterItems);
+    loadItems();
+    searchController.addListener(filterItems);
   }
 
-  Future<void> _loadItems() async {
+  Future<void> loadItems() async {
     final data =
         await CategoryDatabaseHelper.instance.getItems(widget.categoryId);
     setState(() {
@@ -32,7 +32,7 @@ class _ItemScreenState extends State<ItemScreen> {
     });
   }
 
-  void _filterItems() {
+  void filterItems() {
     final query = searchController.text.toLowerCase();
     setState(() {
       filteredItems = items.where((item) {
@@ -42,7 +42,7 @@ class _ItemScreenState extends State<ItemScreen> {
     });
   }
 
-  Future<void> _showAddItemDialog() async {
+  Future<void> showAddItemDialog() async {
     TextEditingController nameController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
 
@@ -81,7 +81,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       description: descriptionController.text,
                     ),
                   );
-                  _loadItems();
+                  loadItems();
                 }
                 Navigator.of(context).pop();
               },
@@ -132,7 +132,7 @@ class _ItemScreenState extends State<ItemScreen> {
                           onPressed: () async {
                             await CategoryDatabaseHelper.instance
                                 .deleteItem(item.id!);
-                            _loadItems();
+                            loadItems();
                           },
                         ),
                       );
@@ -142,7 +142,7 @@ class _ItemScreenState extends State<ItemScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showAddItemDialog,
+        onPressed: showAddItemDialog,
         child: const Icon(Icons.add),
       ),
     );

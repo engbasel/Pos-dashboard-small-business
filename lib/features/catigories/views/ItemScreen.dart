@@ -13,11 +13,14 @@ class ItemScreen extends StatefulWidget {
 
 class _ItemScreenState extends State<ItemScreen> {
   List<Item> items = [];
+  List<Item> filteredItems = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadItems();
+    searchController.addListener(_filterItems);
   }
 
   Future<void> _loadItems() async {
@@ -25,6 +28,17 @@ class _ItemScreenState extends State<ItemScreen> {
         await CategoryDatabaseHelper.instance.getItems(widget.categoryId);
     setState(() {
       items = data;
+      filteredItems = data;
+    });
+  }
+
+  void _filterItems() {
+    final query = searchController.text.toLowerCase();
+    setState(() {
+      filteredItems = items.where((item) {
+        return item.name.toLowerCase().contains(query) ||
+            item.description.toLowerCase().contains(query);
+      }).toList();
     });
   }
 
@@ -80,27 +94,52 @@ class _ItemScreenState extends State<ItemScreen> {
   }
 
   @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Items'),
       ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return ListTile(
-            title: Text(item.name),
-            subtitle: Text(item.description),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () async {
-                await CategoryDatabaseHelper.instance.deleteItem(item.id!);
-                _loadItems();
-              },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                labelText: 'Search Items',
+                border: OutlineInputBorder(),
+              ),
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: filteredItems.isEmpty
+                ? const Center(child: Text('Item not available'))
+                : ListView.builder(
+                    itemCount: filteredItems.length,
+                    itemBuilder: (context, index) {
+                      final item = filteredItems[index];
+                      return ListTile(
+                        title: Text(item.name),
+                        subtitle: Text(item.description),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () async {
+                            await CategoryDatabaseHelper.instance
+                                .deleteItem(item.id!);
+                            _loadItems();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddItemDialog,

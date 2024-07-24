@@ -1,4 +1,4 @@
-import 'package:pos_dashboard_v1/features/Sales_bill/model/SalesItemModel.dart';
+import 'package:pos_dashboard_v1/features/salesBill/model/sales_item_model.dart';
 
 class SalesInvoice {
   SalesInvoice({

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:pos_dashboard_v1/features/catigories/database/Categorydatabase_helper.dart';
+import 'package:pos_dashboard_v1/features/catigories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/views/ItemScreen.dart';
+import '../../../l10n/app_localizations.dart';
 import '../models/CategoryModel.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -12,22 +13,35 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<Category> categories = [];
+  List<CategoryModel> categories = [];
+  List<CategoryModel> filteredCategories = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadCategories();
+    loadCategories();
+    searchController.addListener(_filterCategories);
   }
 
-  Future<void> _loadCategories() async {
+  Future<void> loadCategories() async {
     final data = await CategoryDatabaseHelper.instance.getCategories();
     setState(() {
       categories = data;
+      filteredCategories = data;
     });
   }
 
-  Future<void> _showAddCategoryDialog() async {
+  void _filterCategories() {
+    final query = searchController.text.toLowerCase();
+    setState(() {
+      filteredCategories = categories.where((category) {
+        return category.title.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
+  Future<void> showAddCategoryDialog() async {
     TextEditingController titleController = TextEditingController();
     Color pickerColor = Colors.blue;
 
@@ -35,16 +49,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add Category'),
+          title: Text(AppLocalizations.of(context).translate('add_category')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: titleController,
-                decoration: const InputDecoration(labelText: 'Category Title'),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('category_title'),
+                ),
               ),
               const SizedBox(height: 20),
-              const Text('Pick a color:'),
+              Text(AppLocalizations.of(context).translate('pick_color')),
               const SizedBox(height: 10),
               BlockPicker(
                 pickerColor: pickerColor,
@@ -61,22 +78,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context).translate('cancel')),
             ),
             TextButton(
               onPressed: () async {
                 if (titleController.text.isNotEmpty) {
                   await CategoryDatabaseHelper.instance.insertCategory(
-                    Category(
+                    CategoryModel(
                       title: titleController.text,
                       color: pickerColor.value,
                     ),
                   );
-                  _loadCategories();
+                  loadCategories();
                 }
                 Navigator.of(context).pop();
               },
-              child: const Text('Add'),
+              child: Text(AppLocalizations.of(context).translate('add')),
             ),
           ],
         );
@@ -85,39 +102,94 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: Text(AppLocalizations.of(context).translate('title')),
       ),
-      body: ListView.builder(
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          return ListTile(
-            title: Text(category.title),
-            tileColor: Color(category.color),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ItemScreen(categoryId: category.id!),
-                ),
-              );
-            },
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () async {
-                await CategoryDatabaseHelper.instance
-                    .deleteCategory(category.id!);
-                _loadCategories();
-              },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText:
+                    AppLocalizations.of(context).translate('search_categories'),
+                border: const OutlineInputBorder(),
+              ),
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: filteredCategories.isEmpty
+                ? Center(
+                    child: Text(AppLocalizations.of(context)
+                        .translate('category_not_available')),
+                  )
+                : ListView.builder(
+                    itemCount: filteredCategories.length,
+                    itemBuilder: (context, index) {
+                      final category = filteredCategories[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ItemScreen(categoryId: category.id!),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Color(category.color),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0, 2),
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                category.title,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () async {
+                                  await CategoryDatabaseHelper.instance
+                                      .deleteCategory(category.id!);
+                                  loadCategories();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showAddCategoryDialog,
+        onPressed: showAddCategoryDialog,
         child: const Icon(Icons.add),
       ),
     );

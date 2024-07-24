@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/models/ReturnInvoiceModel.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/views/ReturnInvoiceDetailScreen.dart';
 
 class ReturnInvoiceListScreen extends StatefulWidget {
-  final List<ReturnInvoice> returnInvoices;
+  final List<ReturnInvoiceModel> returnInvoices;
   final Function() onUpdateList;
   final Function(String) onDeleteInvoice;
 
@@ -20,7 +20,7 @@ class ReturnInvoiceListScreen extends StatefulWidget {
 }
 
 class _ReturnInvoiceListScreenState extends State<ReturnInvoiceListScreen> {
-  late List<ReturnInvoice> _returnInvoices;
+  late List<ReturnInvoiceModel> _returnInvoices;
 
   @override
   void initState() {

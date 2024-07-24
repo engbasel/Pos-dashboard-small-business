@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/catigories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/models/CategoryModel.dart';
 

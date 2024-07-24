@@ -5,18 +5,18 @@ import '../models/CategoryModel.dart';
 
 class ItemDatabaseHelper {
   static final ItemDatabaseHelper instance =
-      ItemDatabaseHelper._privateConstructor();
+      ItemDatabaseHelper.privateConstructor();
   static Database? _database;
 
-  ItemDatabaseHelper._privateConstructor();
+  ItemDatabaseHelper.privateConstructor();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDatabase();
+    _database = await initDatabase();
     return _database!;
   }
 
-  Future<Database> _initDatabase() async {
+  Future<Database> initDatabase() async {
     String path = join(await getDatabasesPath(), 'items.db');
     return await openDatabase(
       path,

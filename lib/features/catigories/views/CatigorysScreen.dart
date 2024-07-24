@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:pos_dashboard_v1/features/catigories/database/Categorydatabase_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/views/ItemScreen.dart';
 import '../models/CategoryModel.dart';

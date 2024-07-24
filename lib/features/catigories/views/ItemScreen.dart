@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/catigories/database/Categorydatabase_helper.dart';
+import 'package:pos_dashboard_v1/features/catigories/database/category_database_helper.dart';
+import 'package:pos_dashboard_v1/features/catigories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/models/CategoryModel.dart';
 
 class ItemScreen extends StatefulWidget {
@@ -24,8 +25,7 @@ class _ItemScreenState extends State<ItemScreen> {
   }
 
   Future<void> loadItems() async {
-    final data =
-        await CategoryDatabaseHelper.instance.getItems(widget.categoryId);
+    final data = await ItemDatabaseHelper.instance.getItems(widget.categoryId);
     setState(() {
       items = data;
       filteredItems = data;
@@ -74,7 +74,7 @@ class _ItemScreenState extends State<ItemScreen> {
             TextButton(
               onPressed: () async {
                 if (nameController.text.isNotEmpty) {
-                  await CategoryDatabaseHelper.instance.insertItem(
+                  await ItemDatabaseHelper.instance.insertItem(
                     Item(
                       categoryId: widget.categoryId,
                       name: nameController.text,
@@ -130,7 +130,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         trailing: IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () async {
-                            await CategoryDatabaseHelper.instance
+                            await ItemDatabaseHelper.instance
                                 .deleteItem(item.id!);
                             loadItems();
                           },

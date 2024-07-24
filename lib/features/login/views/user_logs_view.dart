@@ -120,9 +120,10 @@ class _UserLogsViewState extends State<UserLogsView> {
     final localizations = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f9fd),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(localizations.translate('userLogs')),
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(

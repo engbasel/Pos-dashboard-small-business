@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/Catigorys/views/CatigorysScreen.dart';
-import 'package:pos_dashboard_v1/features/RetuernsInvoices/views/ReturnInvoiceScreen.dart';
-import 'package:pos_dashboard_v1/features/Sales_bill/salesbillScreen.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/order_list.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/TotalPointAndOrdersAndVisetsCard.dart';
+import 'package:pos_dashboard_v1/features/catigories/views/CatigorysScreen.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
+import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
+import 'package:pos_dashboard_v1/features/overview/views/orders_list_view.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_card.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
 
@@ -56,7 +56,7 @@ class _OverviewViewState extends State<OverviewView> {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return OrderList(
+                              return OrdersListView(
                                   onProductsCountChanged: updateProductCount);
                             },
                           ));

@@ -12,8 +12,8 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<Category> categories = [];
-  List<Category> filteredCategories = [];
+  List<CategoryModel> categories = [];
+  List<CategoryModel> filteredCategories = [];
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -80,7 +80,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               onPressed: () async {
                 if (titleController.text.isNotEmpty) {
                   await CategoryDatabaseHelper.instance.insertCategory(
-                    Category(
+                    CategoryModel(
                       title: titleController.text,
                       color: pickerColor.value,
                     ),

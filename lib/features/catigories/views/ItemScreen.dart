@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/catigories/database/item_database_helper.dart';
-import 'package:pos_dashboard_v1/features/catigories/models/CategoryModel.dart';
+import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
 
 class ItemScreen extends StatefulWidget {
   final int categoryId;
@@ -12,8 +12,8 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-  List<Item> items = [];
-  List<Item> filteredItems = [];
+  List<ItemModel> items = [];
+  List<ItemModel> filteredItems = [];
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -74,7 +74,7 @@ class _ItemScreenState extends State<ItemScreen> {
               onPressed: () async {
                 if (nameController.text.isNotEmpty) {
                   await ItemDatabaseHelper.instance.insertItem(
-                    Item(
+                    ItemModel(
                       categoryId: widget.categoryId,
                       name: nameController.text,
                       description: descriptionController.text,

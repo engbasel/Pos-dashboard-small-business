@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/models/ReturnInvoiceModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'database_constans.dart';
 
@@ -29,7 +29,7 @@ class database_Returnsinvoice {
     );
   }
 
-  Future<void> updateReturnInvoice(ReturnInvoice returnInvoice) async {
+  Future<void> updateReturnInvoice(ReturnInvoiceModel returnInvoice) async {
     final db = await database;
     await db.update(
       RetuernInvocmentDatabaseConstants.returnInvoicesTable,
@@ -64,7 +64,7 @@ Created with columns names is :
 ''');
   }
 
-  Future<void> insertReturnInvoice(ReturnInvoice returnInvoice) async {
+  Future<void> insertReturnInvoice(ReturnInvoiceModel returnInvoice) async {
     final db = await database;
     await db.insert(
       RetuernInvocmentDatabaseConstants.returnInvoicesTable,
@@ -86,12 +86,12 @@ Created with columns names is :
         '============= deleted Invoice item ${RetuernInvocmentDatabaseConstants.columnId} from database table :  ${RetuernInvocmentDatabaseConstants.returnInvoicesTable} ======================');
   }
 
-  Future<List<ReturnInvoice>> getReturnInvoices() async {
+  Future<List<ReturnInvoiceModel>> getReturnInvoices() async {
     final db = await database;
     final List<Map<String, dynamic>> maps =
         await db.query(RetuernInvocmentDatabaseConstants.returnInvoicesTable);
     return List.generate(maps.length, (i) {
-      return ReturnInvoice.fromMap(maps[i]);
+      return ReturnInvoiceModel.fromMap(maps[i]);
     });
   }
 

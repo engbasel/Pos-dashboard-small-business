@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/models/ReturnInvoiceModel.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_text_form_field.dart';
 
 import '../../../core/widgets/CustomSnackBar.dart';
 
 class EditReturnInvoiceItemScreen extends StatefulWidget {
-  final ReturnInvoice returnInvoice;
-  final ValueChanged<ReturnInvoice> onUpdate;
+  final ReturnInvoiceModel returnInvoice;
+  final ValueChanged<ReturnInvoiceModel> onUpdate;
 
   const EditReturnInvoiceItemScreen({
     super.key,
@@ -52,7 +52,7 @@ class _EditReturnInvoiceItemScreenState
   }
 
   Future<void> updateReturnInvoice() async {
-    final updatedReturnInvoice = ReturnInvoice(
+    final updatedReturnInvoice = ReturnInvoiceModel(
       id: idController.text,
       orderId: orderIdController.text,
       returnDate: returnDateController.text,

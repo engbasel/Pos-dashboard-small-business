@@ -3,10 +3,10 @@ import 'package:pdf/widgets.dart' as pdflib;
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/views/sales_invoices_view.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
+import 'package:pos_dashboard_v1/features/salesBill/views/sales_invoices_view.dart';
+import 'package:pos_dashboard_v1/features/salesBill/model/sales_invoice.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_item_model.dart';
+import 'package:pos_dashboard_v1/features/salesBill/model/sales_item_model.dart';
 
 class SalesBillScreen extends StatefulWidget {
   const SalesBillScreen({super.key});

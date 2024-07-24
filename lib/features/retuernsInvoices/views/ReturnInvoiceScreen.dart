@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/core/widgets/CustomSnackBar.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_list_view.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/models/ReturnInvoiceModel.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/database/database_return_invoice.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/views/ReturnInvoiceListScreen.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/views/ReturnInvoiceDetailScreen.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../overview/widgets/custom_text_form_field.dart';
 
@@ -18,7 +18,7 @@ class ReturnInvoiceScreen extends StatefulWidget {
 
 class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
   final database_Returnsinvoice databaseHelper = database_Returnsinvoice();
-  List<ReturnInvoice> returnInvoices = [];
+  List<ReturnInvoiceModel> returnInvoices = [];
 
   final TextEditingController idController = TextEditingController();
   final TextEditingController orderIdController = TextEditingController();
@@ -42,7 +42,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
   }
 
   Future<void> addReturnInvoice() async {
-    final newReturnInvoice = ReturnInvoice(
+    final newReturnInvoice = ReturnInvoiceModel(
       id: idController.text,
       orderId: orderIdController.text,
       returnDate: returnDateController.text,
@@ -210,7 +210,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     );
   }
 
-  void navigateToReturnInvoiceDetailScreen(ReturnInvoice invoice) {
+  void navigateToReturnInvoiceDetailScreen(ReturnInvoiceModel invoice) {
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/edit_return_invoice_item_view.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/models/ReturnInvoiceModel.dart';
+import 'package:pos_dashboard_v1/features/retuernsInvoices/views/EditReturnInvoiceItemScreen.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 class ReturnInvoiceDetailScreen extends StatefulWidget {
-  final ReturnInvoice returnInvoice;
+  final ReturnInvoiceModel returnInvoice;
 
   const ReturnInvoiceDetailScreen({
     super.key,
@@ -18,7 +18,7 @@ class ReturnInvoiceDetailScreen extends StatefulWidget {
 }
 
 class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
-  late ReturnInvoice returnInvoice;
+  late ReturnInvoiceModel returnInvoice;
 
   @override
   void initState() {
@@ -26,7 +26,7 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
     returnInvoice = widget.returnInvoice;
   }
 
-  void updateReturnInvoice(ReturnInvoice updatedInvoice) {
+  void updateReturnInvoice(ReturnInvoiceModel updatedInvoice) {
     setState(() {
       returnInvoice = updatedInvoice;
     });

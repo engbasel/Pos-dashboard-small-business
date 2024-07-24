@@ -1,6 +1,6 @@
 import '../database/database_constans.dart';
 
-class ReturnInvoice {
+class ReturnInvoiceModel {
   final String id;
   final String orderId;
   final String returnDate;
@@ -9,7 +9,7 @@ class ReturnInvoice {
   final double amount;
   final double totalbackmony;
 
-  ReturnInvoice({
+  ReturnInvoiceModel({
     required this.id,
     required this.orderId,
     required this.returnDate,
@@ -31,8 +31,8 @@ class ReturnInvoice {
     };
   }
 
-  factory ReturnInvoice.fromMap(Map<String, dynamic> map) {
-    return ReturnInvoice(
+  factory ReturnInvoiceModel.fromMap(Map<String, dynamic> map) {
+    return ReturnInvoiceModel(
       id: map[RetuernInvocmentDatabaseConstants.columnId],
       totalbackmony:
           map[RetuernInvocmentDatabaseConstants.columnTotalBackMoney],

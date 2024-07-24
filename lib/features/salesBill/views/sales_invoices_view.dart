@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/views/invoice_item_detail_view.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
+import 'package:pos_dashboard_v1/features/salesBill/views/invoice_item_detail_view.dart';
+import 'package:pos_dashboard_v1/features/salesBill/model/sales_invoice.dart';
 
 import '../../../l10n/app_localizations.dart';
 

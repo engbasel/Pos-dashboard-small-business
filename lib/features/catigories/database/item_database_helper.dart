@@ -1,83 +1,6 @@
-// import 'dart:async';
-// import 'package:path/path.dart';
-// import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
-// import 'package:sqflite/sqflite.dart';
-
-// class ItemDatabaseHelper {
-//   static final ItemDatabaseHelper instance =
-//       ItemDatabaseHelper.privateConstructor();
-//   static Database? _database;
-
-//   ItemDatabaseHelper.privateConstructor();
-
-//   Future<Database> get database async {
-//     if (_database != null) return _database!;
-//     _database = await initDatabase();
-//     return _database!;
-//   }
-
-//   Future<Database> initDatabase() async {
-//     String path = join(await getDatabasesPath(), 'items.db');
-//     return await openDatabase(
-//       path,
-//       version: 1,
-//       onCreate: onCreate,
-//     );
-//   }
-
-//   Future<void> onCreate(Database db, int version) async {
-//     await db.execute('''
-//       CREATE TABLE items (
-//         id INTEGER PRIMARY KEY AUTOINCREMENT,
-//         categoryId INTEGER,
-//         name TEXT,
-//         description TEXT,
-//         FOREIGN KEY (categoryId) REFERENCES categories (id)
-//       )
-//     ''');
-//     print("Created items table");
-//   }
-
-//   Future<void> insertItem(ItemModel item) async {
-//     final db = await database;
-//     await db.insert(
-//       'items',
-//       item.toMap(),
-//       conflictAlgorithm: ConflictAlgorithm.replace,
-//     );
-//     print("Inserted item: ${item.name}");
-//   }
-
-//   Future<List<ItemModel>> getItems(int categoryId) async {
-//     final db = await database;
-//     var items = await db.query('items',
-//         where: 'categoryId = ?', whereArgs: [categoryId], orderBy: 'id');
-//     List<ItemModel> itemList =
-//         items.isNotEmpty ? items.map((i) => ItemModel.fromMap(i)).toList() : [];
-//     print("Fetched items for category $categoryId: ${itemList.length}");
-//     return itemList;
-//   }
-
-//   Future<void> deleteItem(int id) async {
-//     final db = await database;
-//     await db.delete('items', where: 'id = ?', whereArgs: [id]);
-//     print("Deleted item with id: $id");
-//   }
-
-//   Future<void> updateItem(ItemModel item) async {
-//     final db = await database;
-//     await db.update(
-//       'items',
-//       item.toMap(),
-//       where: 'id = ?',
-//       whereArgs: [item.id],
-//     );
-//     print("Updated item with id: ${item.id}");
-//   }
-// }
-
 import 'dart:async';
 import 'package:path/path.dart';
+import 'package:pos_dashboard_v1/features/catigories/database/category_database_constants.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/ItemModel.dart';
 import 'item_database_constants.dart';
@@ -110,13 +33,33 @@ class ItemDatabaseHelper {
       CREATE TABLE ${ItemDatabaseConstants.itemsTable} (
         ${ItemDatabaseConstants.columnId} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${ItemDatabaseConstants.columnCategoryId} INTEGER,
-        ${ItemDatabaseConstants.columnName} TEXT,
+        ${ItemDatabaseConstants.columnName} TEXT NOT NULL,
         ${ItemDatabaseConstants.columnDescription} TEXT,
-        FOREIGN KEY (${ItemDatabaseConstants.columnCategoryId}) REFERENCES categories (${ItemDatabaseConstants.columnId})
+        ${ItemDatabaseConstants.columnSKU} TEXT,
+        ${ItemDatabaseConstants.columnBarcode} TEXT,
+        ${ItemDatabaseConstants.columnPurchasePrice} REAL,
+        ${ItemDatabaseConstants.columnSalePrice} REAL,
+        ${ItemDatabaseConstants.columnWholesalePrice} REAL,
+        ${ItemDatabaseConstants.columnTaxRate} REAL,
+        ${ItemDatabaseConstants.columnQuantity} INTEGER,
+        ${ItemDatabaseConstants.columnAlertQuantity} INTEGER,
+        ${ItemDatabaseConstants.columnImage} TEXT,
+        ${ItemDatabaseConstants.columnBrand} TEXT,
+        ${ItemDatabaseConstants.columnSize} TEXT,
+        ${ItemDatabaseConstants.columnWeight} REAL,
+        ${ItemDatabaseConstants.columnColor} TEXT,
+        ${ItemDatabaseConstants.columnMaterial} TEXT,
+        ${ItemDatabaseConstants.columnWarranty} TEXT,
+        ${ItemDatabaseConstants.columnSupplierId} INTEGER,
+        ${ItemDatabaseConstants.columnItemStatus} TEXT CHECK (${ItemDatabaseConstants.columnItemStatus} IN ('active', 'inactive', 'discontinued')),
+        ${ItemDatabaseConstants.columnDateAdded} TEXT,
+        ${ItemDatabaseConstants.columnDateModified} TEXT,
+        FOREIGN KEY (${ItemDatabaseConstants.columnCategoryId}) REFERENCES categories (${CategoryDatabaseConstants.columnId}),
+        FOREIGN KEY (${ItemDatabaseConstants.columnSupplierId}) REFERENCES suppliers (supplierId)
       )
     ''');
     print(
-        "Created items table with columns: ${ItemDatabaseConstants.columnId}, ${ItemDatabaseConstants.columnCategoryId}, ${ItemDatabaseConstants.columnName}, ${ItemDatabaseConstants.columnDescription}");
+        "Created items table with columns: ${ItemDatabaseConstants.columnId}, ${ItemDatabaseConstants.columnCategoryId}, ${ItemDatabaseConstants.columnName}, ${ItemDatabaseConstants.columnDescription}, ${ItemDatabaseConstants.columnSKU}, ${ItemDatabaseConstants.columnBarcode}, ${ItemDatabaseConstants.columnPurchasePrice}, ${ItemDatabaseConstants.columnSalePrice}, ${ItemDatabaseConstants.columnWholesalePrice}, ${ItemDatabaseConstants.columnTaxRate}, ${ItemDatabaseConstants.columnQuantity}, ${ItemDatabaseConstants.columnAlertQuantity}, ${ItemDatabaseConstants.columnImage}, ${ItemDatabaseConstants.columnBrand}, ${ItemDatabaseConstants.columnSize}, ${ItemDatabaseConstants.columnWeight}, ${ItemDatabaseConstants.columnColor}, ${ItemDatabaseConstants.columnMaterial}, ${ItemDatabaseConstants.columnWarranty}, ${ItemDatabaseConstants.columnSupplierId}, ${ItemDatabaseConstants.columnItemStatus}, ${ItemDatabaseConstants.columnDateAdded}, ${ItemDatabaseConstants.columnDateModified}");
   }
 
   Future<void> insertItem(ItemModel item) async {

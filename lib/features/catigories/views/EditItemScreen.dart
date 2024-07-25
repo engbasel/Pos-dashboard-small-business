@@ -1,5 +1,7 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
+import '../../../core/widgets/custom_button.dart';
 import '../database/item_database_helper.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -13,128 +15,91 @@ class EditItemScreen extends StatefulWidget {
 }
 
 class _EditItemScreenState extends State<EditItemScreen> {
-  late TextEditingController nameController;
-  late TextEditingController descriptionController;
-  late TextEditingController skuController;
-  late TextEditingController barcodeController;
-  late TextEditingController purchasePriceController;
-  late TextEditingController salePriceController;
-  late TextEditingController wholesalePriceController;
-  late TextEditingController taxRateController;
-  late TextEditingController quantityController;
-  late TextEditingController alertQuantityController;
-  late TextEditingController imageController;
-  late TextEditingController brandController;
-  late TextEditingController sizeController;
-  late TextEditingController weightController;
-  late TextEditingController colorController;
-  late TextEditingController materialController;
-  late TextEditingController warrantyController;
-  late TextEditingController supplierIdController;
+  late final Map<String, TextEditingController> controllers;
   String? itemStatus;
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: widget.item.name);
-    descriptionController =
-        TextEditingController(text: widget.item.description);
-    skuController = TextEditingController(text: widget.item.sku);
-    barcodeController = TextEditingController(text: widget.item.barcode);
-    purchasePriceController =
-        TextEditingController(text: widget.item.purchasePrice?.toString());
-    salePriceController =
-        TextEditingController(text: widget.item.salePrice?.toString());
-    wholesalePriceController =
-        TextEditingController(text: widget.item.wholesalePrice?.toString());
-    taxRateController =
-        TextEditingController(text: widget.item.taxRate?.toString());
-    quantityController =
-        TextEditingController(text: widget.item.quantity?.toString());
-    alertQuantityController =
-        TextEditingController(text: widget.item.alertQuantity?.toString());
-    imageController = TextEditingController(text: widget.item.image);
-    brandController = TextEditingController(text: widget.item.brand);
-    sizeController = TextEditingController(text: widget.item.size);
-    weightController =
-        TextEditingController(text: widget.item.weight?.toString());
-    colorController = TextEditingController(text: widget.item.color);
-    materialController = TextEditingController(text: widget.item.material);
-    warrantyController = TextEditingController(text: widget.item.warranty);
-    supplierIdController =
-        TextEditingController(text: widget.item.supplierId?.toString());
+    controllers = {
+      'name': TextEditingController(text: widget.item.name),
+      'description': TextEditingController(text: widget.item.description),
+      'sku': TextEditingController(text: widget.item.sku),
+      'barcode': TextEditingController(text: widget.item.barcode),
+      'purchasePrice':
+          TextEditingController(text: widget.item.purchasePrice?.toString()),
+      'salePrice':
+          TextEditingController(text: widget.item.salePrice?.toString()),
+      'wholesalePrice':
+          TextEditingController(text: widget.item.wholesalePrice?.toString()),
+      'taxRate': TextEditingController(text: widget.item.taxRate?.toString()),
+      'quantity': TextEditingController(text: widget.item.quantity?.toString()),
+      'alertQuantity':
+          TextEditingController(text: widget.item.alertQuantity?.toString()),
+      'image': TextEditingController(text: widget.item.image),
+      'brand': TextEditingController(text: widget.item.brand),
+      'size': TextEditingController(text: widget.item.size),
+      'weight': TextEditingController(text: widget.item.weight?.toString()),
+      'color': TextEditingController(text: widget.item.color),
+      'material': TextEditingController(text: widget.item.material),
+      'warranty': TextEditingController(text: widget.item.warranty),
+      'supplierId':
+          TextEditingController(text: widget.item.supplierId?.toString()),
+    };
     itemStatus = widget.item.itemStatus;
   }
 
   @override
   void dispose() {
-    nameController.dispose();
-    descriptionController.dispose();
-    skuController.dispose();
-    barcodeController.dispose();
-    purchasePriceController.dispose();
-    salePriceController.dispose();
-    wholesalePriceController.dispose();
-    taxRateController.dispose();
-    quantityController.dispose();
-    alertQuantityController.dispose();
-    imageController.dispose();
-    brandController.dispose();
-    sizeController.dispose();
-    weightController.dispose();
-    colorController.dispose();
-    materialController.dispose();
-    warrantyController.dispose();
-    supplierIdController.dispose();
+    controllers.forEach((_, controller) => controller.dispose());
     super.dispose();
   }
 
-// In EditItemScreen
-  Future<void> _updateItem() async {
-    if (nameController.text.isNotEmpty && itemStatus != null) {
+  Future<void> updateItem() async {
+    if (controllers['name']!.text.isNotEmpty && itemStatus != null) {
       await ItemDatabaseHelper.instance.updateItem(
         widget.item.copyWith(
-          name: nameController.text,
-          description: descriptionController.text,
-          sku: skuController.text,
-          barcode: barcodeController.text,
-          purchasePrice: double.tryParse(purchasePriceController.text),
-          salePrice: double.tryParse(salePriceController.text),
-          wholesalePrice: double.tryParse(wholesalePriceController.text),
-          taxRate: double.tryParse(taxRateController.text),
-          quantity: int.tryParse(quantityController.text),
-          alertQuantity: int.tryParse(alertQuantityController.text),
-          image: imageController.text,
-          brand: brandController.text,
-          size: sizeController.text,
-          weight: double.tryParse(weightController.text),
-          color: colorController.text,
-          material: materialController.text,
-          warranty: warrantyController.text,
-          supplierId: int.tryParse(supplierIdController.text),
+          name: controllers['name']!.text,
+          description: controllers['description']!.text,
+          sku: controllers['sku']!.text,
+          barcode: controllers['barcode']!.text,
+          purchasePrice: double.tryParse(controllers['purchasePrice']!.text),
+          salePrice: double.tryParse(controllers['salePrice']!.text),
+          wholesalePrice: double.tryParse(controllers['wholesalePrice']!.text),
+          taxRate: double.tryParse(controllers['taxRate']!.text),
+          quantity: int.tryParse(controllers['quantity']!.text),
+          alertQuantity: int.tryParse(controllers['alertQuantity']!.text),
+          image: controllers['image']!.text,
+          brand: controllers['brand']!.text,
+          size: controllers['size']!.text,
+          weight: double.tryParse(controllers['weight']!.text),
+          color: controllers['color']!.text,
+          material: controllers['material']!.text,
+          warranty: controllers['warranty']!.text,
+          supplierId: int.tryParse(controllers['supplierId']!.text),
           itemStatus: itemStatus!,
           dateModified: DateTime.now(),
         ),
       );
       Navigator.of(context).pop(widget.item.copyWith(
-        name: nameController.text,
-        description: descriptionController.text,
-        sku: skuController.text,
-        barcode: barcodeController.text,
-        purchasePrice: double.tryParse(purchasePriceController.text),
-        salePrice: double.tryParse(salePriceController.text),
-        wholesalePrice: double.tryParse(wholesalePriceController.text),
-        taxRate: double.tryParse(taxRateController.text),
-        quantity: int.tryParse(quantityController.text),
-        alertQuantity: int.tryParse(alertQuantityController.text),
-        image: imageController.text,
-        brand: brandController.text,
-        size: sizeController.text,
-        weight: double.tryParse(weightController.text),
-        color: colorController.text,
-        material: materialController.text,
-        warranty: warrantyController.text,
-        supplierId: int.tryParse(supplierIdController.text),
+        name: controllers['name']!.text,
+        description: controllers['description']!.text,
+        sku: controllers['sku']!.text,
+        barcode: controllers['barcode']!.text,
+        purchasePrice: double.tryParse(controllers['purchasePrice']!.text),
+        salePrice: double.tryParse(controllers['salePrice']!.text),
+        wholesalePrice: double.tryParse(controllers['wholesalePrice']!.text),
+        taxRate: double.tryParse(controllers['taxRate']!.text),
+        quantity: int.tryParse(controllers['quantity']!.text),
+        alertQuantity: int.tryParse(controllers['alertQuantity']!.text),
+        image: controllers['image']!.text,
+        brand: controllers['brand']!.text,
+        size: controllers['size']!.text,
+        weight: double.tryParse(controllers['weight']!.text),
+        color: controllers['color']!.text,
+        material: controllers['material']!.text,
+        warranty: controllers['warranty']!.text,
+        supplierId: int.tryParse(controllers['supplierId']!.text),
         itemStatus: itemStatus!,
         dateModified: DateTime.now(),
       ));
@@ -148,6 +113,50 @@ class _EditItemScreenState extends State<EditItemScreen> {
     }
   }
 
+  Widget buildTextField(String key, String label,
+      {TextInputType keyboardType = TextInputType.text, String? hintText}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controllers[key],
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate(label),
+          hintText: hintText != null
+              ? AppLocalizations.of(context).translate(hintText)
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(color: Colors.blueAccent, width: 1.5),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+        ),
+        cursorColor: Colors.blue,
+        style: const TextStyle(color: Colors.black87),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return AppLocalizations.of(context).translate('field_required');
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,160 +164,79 @@ class _EditItemScreenState extends State<EditItemScreen> {
         title: Text(AppLocalizations.of(context).translate('edit_item')),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('item_name'),
+              buildTextField('name', 'item_name'),
+              buildTextField('description', 'description'),
+              buildTextField('sku', 'sku'),
+              buildTextField('barcode', 'barcode'),
+              buildTextField('purchasePrice', 'purchase_price',
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true)),
+              buildTextField('salePrice', 'sale_price',
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true)),
+              buildTextField('wholesalePrice', 'wholesale_price',
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true)),
+              buildTextField('taxRate', 'tax_rate',
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true)),
+              buildTextField('quantity', 'quantity',
+                  keyboardType: TextInputType.number),
+              buildTextField('alertQuantity', 'alert_quantity',
+                  keyboardType: TextInputType.number),
+              buildTextField('image', 'image'),
+              buildTextField('brand', 'brand'),
+              buildTextField('size', 'size'),
+              buildTextField('weight', 'weight',
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true)),
+              buildTextField('color', 'color'),
+              buildTextField('material', 'material'),
+              buildTextField('warranty', 'warranty'),
+              buildTextField('supplierId', 'supplier_id',
+                  keyboardType: TextInputType.number),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: DropdownButtonFormField<String>(
+                  value: itemStatus,
+                  decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('item_status'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: const BorderSide(
+                          color: Colors.blueAccent, width: 1.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide:
+                          const BorderSide(color: Colors.blue, width: 2.0),
+                    ),
+                  ),
+                  items: ['active', 'inactive', 'discontinued']
+                      .map((status) => DropdownMenuItem(
+                            value: status,
+                            child: Text(
+                                AppLocalizations.of(context).translate(status)),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      itemStatus = value;
+                    });
+                  },
                 ),
               ),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('description'),
-                ),
-              ),
-              TextField(
-                controller: skuController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('sku'),
-                ),
-              ),
-              TextField(
-                controller: barcodeController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('barcode'),
-                ),
-              ),
-              TextField(
-                controller: purchasePriceController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('purchase_price'),
-                ),
-              ),
-              TextField(
-                controller: salePriceController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('sale_price'),
-                ),
-              ),
-              TextField(
-                controller: wholesalePriceController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('wholesale_price'),
-                ),
-              ),
-              TextField(
-                controller: taxRateController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('tax_rate'),
-                ),
-              ),
-              TextField(
-                controller: quantityController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('quantity'),
-                ),
-              ),
-              TextField(
-                controller: alertQuantityController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('alert_quantity'),
-                ),
-              ),
-              TextField(
-                controller: imageController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('image'),
-                ),
-              ),
-              TextField(
-                controller: brandController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('brand'),
-                ),
-              ),
-              TextField(
-                controller: sizeController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('size'),
-                ),
-              ),
-              TextField(
-                controller: weightController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('weight'),
-                ),
-              ),
-              TextField(
-                controller: colorController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('color'),
-                ),
-              ),
-              TextField(
-                controller: materialController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('material'),
-                ),
-              ),
-              TextField(
-                controller: warrantyController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('warranty'),
-                ),
-              ),
-              TextField(
-                controller: supplierIdController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('supplier_id'),
-                ),
-              ),
-              DropdownButtonFormField<String>(
-                value: itemStatus,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('item_status'),
-                ),
-                items: ['active', 'inactive', 'discontinued']
-                    .map((status) => DropdownMenuItem(
-                          value: status,
-                          child: Text(
-                              AppLocalizations.of(context).translate(status)),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    itemStatus = value;
-                  });
-                },
-              ),
-              ElevatedButton(
-                onPressed: _updateItem,
-                child: Text(AppLocalizations.of(context).translate('save')),
+              const SizedBox(height: 20),
+              CustomButton(
+                bgColor: Colors.teal,
+                text: AppLocalizations.of(context).translate('update_item'),
+                onTap: updateItem,
               ),
             ],
           ),

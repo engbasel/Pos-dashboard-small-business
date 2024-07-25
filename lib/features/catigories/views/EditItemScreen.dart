@@ -151,7 +151,120 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       AppLocalizations.of(context).translate('description'),
                 ),
               ),
-              // Other fields follow the same pattern...
+              TextField(
+                controller: skuController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('sku'),
+                ),
+              ),
+              TextField(
+                controller: barcodeController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('barcode'),
+                ),
+              ),
+              TextField(
+                controller: purchasePriceController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('purchase_price'),
+                ),
+              ),
+              TextField(
+                controller: salePriceController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('sale_price'),
+                ),
+              ),
+              TextField(
+                controller: wholesalePriceController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('wholesale_price'),
+                ),
+              ),
+              TextField(
+                controller: taxRateController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('tax_rate'),
+                ),
+              ),
+              TextField(
+                controller: quantityController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('quantity'),
+                ),
+              ),
+              TextField(
+                controller: alertQuantityController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('alert_quantity'),
+                ),
+              ),
+              TextField(
+                controller: imageController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('image'),
+                ),
+              ),
+              TextField(
+                controller: brandController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('brand'),
+                ),
+              ),
+              TextField(
+                controller: sizeController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('size'),
+                ),
+              ),
+              TextField(
+                controller: weightController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('weight'),
+                ),
+              ),
+              TextField(
+                controller: colorController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('color'),
+                ),
+              ),
+              TextField(
+                controller: materialController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('material'),
+                ),
+              ),
+              TextField(
+                controller: warrantyController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('warranty'),
+                ),
+              ),
+              TextField(
+                controller: supplierIdController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('supplier_id'),
+                ),
+              ),
               DropdownButtonFormField<String>(
                 value: itemStatus,
                 decoration: InputDecoration(

@@ -1,15 +1,10 @@
-<<<<<<< HEAD:lib/features/catigories/views/ItemDetailsScreen.dart
-import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
-import 'package:pos_dashboard_v1/features/catigories/views/EditItemScreen.dart';
-=======
 import 'dart:io';
->>>>>>> 1a4e40cb0e31be162240fc2d40568ddaa7784ef9:lib/features/catigories/views/Items/ItemDetailsScreen.dart
 
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/catigories/views/Items/EditItemScreen.dart';
+import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
+
 import '../../../../l10n/app_localizations.dart';
-import '../../models/ItemModel.dart';
+import '../EditItemScreen.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   final ItemModel item;
@@ -33,9 +28,6 @@ class ItemDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
-<<<<<<< HEAD:lib/features/catigories/views/ItemDetailsScreen.dart
-            onPressed: () => _navigateToEditScreen(context),
-=======
             onPressed: () async {
               final updatedItem = await Navigator.of(context).push(
                 MaterialPageRoute(
@@ -46,7 +38,6 @@ class ItemDetailsScreen extends StatelessWidget {
                 Navigator.of(context).pop(updatedItem);
               }
             },
->>>>>>> 1a4e40cb0e31be162240fc2d40568ddaa7784ef9:lib/features/catigories/views/Items/ItemDetailsScreen.dart
           ),
         ],
       ),

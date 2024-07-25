@@ -77,6 +77,7 @@ class AppLocalizations {
       "SalesInvoices": "Sales Invoices",
       "CustomerName": "Customer Name",
       "SalesBill": "Sales Bill",
+      "item_details": "item details",
       "ViewInvoices": "View Invoices",
       "Items": "Items",
 
@@ -157,6 +158,7 @@ class AppLocalizations {
       "clearFields": "delete Fileds",
       "Delete": "delete",
       "Cancel": "Cancel",
+      "select_image": "select Image",
       "Ok": "Ok",
       "Thepasswordyouenteredisincorrect":
           "The password you entered is incorrect.",
@@ -196,12 +198,14 @@ class AppLocalizations {
       "female": "أنثى",
       "emailLabel": "البريد الإلكتروني",
       "branchLabel": "الفرع",
+      "select_image": "اختر الصورة",
       "letsWorkButton": "لنعمل",
 
       //  ======================== Sales_bill section ===========================
 
       "Invoice": "الفاتورة",
       "Quantity": "الكمية",
+      "item_details": "تفاصيل المنتج",
       "GrandTotal": "الاجمالي المدفوع",
       "UnitPrice": "سعر الوحدة",
       "Total": "الاجمالي",

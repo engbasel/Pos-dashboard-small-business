@@ -89,6 +89,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     super.dispose();
   }
 
+// In EditItemScreen
   Future<void> _updateItem() async {
     if (nameController.text.isNotEmpty && itemStatus != null) {
       await ItemDatabaseHelper.instance.updateItem(
@@ -115,7 +116,28 @@ class _EditItemScreenState extends State<EditItemScreen> {
           dateModified: DateTime.now(),
         ),
       );
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(widget.item.copyWith(
+        name: nameController.text,
+        description: descriptionController.text,
+        sku: skuController.text,
+        barcode: barcodeController.text,
+        purchasePrice: double.tryParse(purchasePriceController.text),
+        salePrice: double.tryParse(salePriceController.text),
+        wholesalePrice: double.tryParse(wholesalePriceController.text),
+        taxRate: double.tryParse(taxRateController.text),
+        quantity: int.tryParse(quantityController.text),
+        alertQuantity: int.tryParse(alertQuantityController.text),
+        image: imageController.text,
+        brand: brandController.text,
+        size: sizeController.text,
+        weight: double.tryParse(weightController.text),
+        color: colorController.text,
+        material: materialController.text,
+        warranty: warrantyController.text,
+        supplierId: int.tryParse(supplierIdController.text),
+        itemStatus: itemStatus!,
+        dateModified: DateTime.now(),
+      ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

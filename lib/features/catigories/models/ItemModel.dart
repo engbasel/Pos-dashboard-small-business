@@ -1,27 +1,27 @@
 class ItemModel {
-  final int? id;
+  late final int? id;
   final int? categoryId;
-  final String name;
-  final String description;
-  final String? sku;
-  final String? barcode;
-  final double? purchasePrice;
-  final double? salePrice;
-  final double? wholesalePrice;
-  final double? taxRate;
-  final int? quantity;
-  final int? alertQuantity;
-  final String? image;
-  final String? brand;
-  final String? size;
-  final double? weight;
-  final String? color;
-  final String? material;
-  final String? warranty;
-  final int? supplierId;
-  final String? itemStatus;
-  final DateTime? dateAdded;
-  final DateTime? dateModified;
+  late final String name;
+  late final String description;
+  late final String? sku;
+  late final String? barcode;
+  late final double? purchasePrice;
+  late final double? salePrice;
+  late final double? wholesalePrice;
+  late final double? taxRate;
+  late final int? quantity;
+  late final int? alertQuantity;
+  late final String? image;
+  late final String? brand;
+  late final String? size;
+  late final double? weight;
+  late final String? color;
+  late final String? material;
+  late final String? warranty;
+  late final int? supplierId;
+  late final String? itemStatus;
+  late final DateTime? dateAdded;
+  late final DateTime? dateModified;
 
   ItemModel({
     this.id,

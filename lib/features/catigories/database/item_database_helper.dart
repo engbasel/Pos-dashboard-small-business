@@ -93,6 +93,17 @@ class ItemDatabaseHelper {
     print("Deleted item with id: $id");
   }
 
+  // Future<void> updateItem(ItemModel item) async {
+  //   final db = await database;
+  //   await db.update(
+  //     ItemDatabaseConstants.itemsTable,
+  //     item.toMap(),
+  //     where: '${ItemDatabaseConstants.columnId} = ?',
+  //     whereArgs: [item.id],
+  //   );
+  //   print("Updated item with id: ${item.id}");
+  // }
+
   Future<void> updateItem(ItemModel item) async {
     final db = await database;
     await db.update(

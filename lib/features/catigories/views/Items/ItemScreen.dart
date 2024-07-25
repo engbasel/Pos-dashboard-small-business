@@ -3,7 +3,7 @@ import 'package:pos_dashboard_v1/features/catigories/database/item_database_help
 import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
 import 'ItemDetailsScreen.dart'; // Import the updated ItemDetailsScreen
 
-import '../../../l10n/app_localizations.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class ItemScreen extends StatefulWidget {
   final int categoryId;

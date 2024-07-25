@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:pos_dashboard_v1/features/catigories/database/category_database_helper.dart';
-import 'package:pos_dashboard_v1/features/catigories/views/ItemScreen.dart';
-import '../../../l10n/app_localizations.dart';
-import '../models/CategoryModel.dart';
+import 'package:pos_dashboard_v1/features/catigories/views/Items/ItemScreen.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../models/CategoryModel.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});

@@ -1,9 +1,9 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
-import '../../../core/widgets/custom_button.dart';
-import '../database/item_database_helper.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../../core/widgets/custom_button.dart';
+import '../../database/item_database_helper.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class EditItemScreen extends StatefulWidget {
   final ItemModel item;

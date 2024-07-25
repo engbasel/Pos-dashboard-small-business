@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/catigories/views/EditItemScreen.dart';
-import '../../../l10n/app_localizations.dart';
-import '../models/ItemModel.dart';
+import 'package:pos_dashboard_v1/features/catigories/views/Items/EditItemScreen.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../models/ItemModel.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   final ItemModel item;

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
-import 'package:pos_dashboard_v1/features/Prodacts/widgets/orders_list_body.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/features/prodacts/widgets/orders_list_body.dart';
 import 'package:pos_dashboard_v1/features/overview/services/order_service.dart';
-import 'package:pos_dashboard_v1/features/Prodacts/widgets/custom_form.dart';
+import 'package:pos_dashboard_v1/features/prodacts/widgets/custom_form.dart';
 import '../../../core/db/new_products_store_database_helper.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -175,7 +176,7 @@ class _OrdersListViewState extends State<OrdersListView> {
                         child: CustomButton(
                           text: AppLocalizations.of(context)
                               .translate('clearFields'),
-                          bgColor: Colors.blueGrey,
+                          bgColor: const Color(0xff4985FF),
                           onTap: () {
                             clearTextFields();
                           },
@@ -188,7 +189,7 @@ class _OrdersListViewState extends State<OrdersListView> {
                         child: CustomButton(
                           text: AppLocalizations.of(context)
                               .translate('addOrder'),
-                          bgColor: Colors.blueGrey,
+                          bgColor: const Color(0xff4985FF),
                           onTap: () {
                             addOrder();
                           },
@@ -215,12 +216,16 @@ class _OrdersListViewState extends State<OrdersListView> {
         elevation: 0,
         backgroundColor: Colors.white,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.download),
-            onPressed: () {
-              _orderService.generateAllOrdersPdf(context, orders);
-            },
-          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: CustomSmallButton(
+              icon: Icons.print,
+              text: 'Print Order',
+              onTap: () {
+                _orderService.generateAllOrdersPdf(context, orders);
+              },
+            ),
+          )
         ],
       ),
       backgroundColor: Colors.white,
@@ -228,8 +233,8 @@ class _OrdersListViewState extends State<OrdersListView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddOrderForm(context),
         tooltip: 'Add product',
-        backgroundColor: Colors.blueAccent,
-        child: const Icon(Icons.add),
+        backgroundColor: const Color(0xff4985FF),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

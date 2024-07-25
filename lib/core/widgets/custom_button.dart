@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
     this.onTap,
     this.textColor = Colors.white,
     required this.text,
-    this.bgColor,
+    this.bgColor = const Color(0xff4985FF),
   });
   final VoidCallback? onTap;
   final Color? textColor;

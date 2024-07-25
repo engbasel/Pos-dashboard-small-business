@@ -8,7 +8,7 @@ class CustomersView extends StatefulWidget {
   const CustomersView({super.key});
 
   @override
-  _CustomersViewState createState() => _CustomersViewState();
+  State<CustomersView> createState() => _CustomersViewState();
 }
 
 class _CustomersViewState extends State<CustomersView> {
@@ -76,6 +76,7 @@ class _CustomersViewState extends State<CustomersView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -139,7 +140,8 @@ class _CustomersViewState extends State<CustomersView> {
           }
         },
         tooltip: 'Add Customer',
-        child: const Icon(Icons.add),
+        backgroundColor: const Color(0xff4985FF),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

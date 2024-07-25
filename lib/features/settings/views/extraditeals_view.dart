@@ -8,7 +8,7 @@ class ExtraditealsScreen extends StatefulWidget {
   const ExtraditealsScreen({super.key, required this.employee});
 
   @override
-  _ExtraditealsScreenState createState() => _ExtraditealsScreenState();
+  State<ExtraditealsScreen> createState() => _ExtraditealsScreenState();
 }
 
 class _ExtraditealsScreenState extends State<ExtraditealsScreen> {

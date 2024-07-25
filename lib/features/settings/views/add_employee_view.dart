@@ -194,7 +194,6 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 const SizedBox(height: 50),
                 CustomButton(
-                  bgColor: Colors.blueGrey,
                   text:
                       widget.employee == null ? 'Add Employee' : 'Save Changes',
                   onTap: () => saveEmployee,

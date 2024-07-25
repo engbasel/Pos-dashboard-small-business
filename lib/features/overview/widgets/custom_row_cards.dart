@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/retuernsInvoices/views/ReturnInvoiceScreen.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
 
 import '../../../l10n/app_localizations.dart';

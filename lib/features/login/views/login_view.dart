@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import '../../../core/db/login_sql_helper.dart';
-import '../../../core/widgets/CustomSnackBar.dart';
+import '../../../core/widgets/custom_snackbar.dart';
 import '../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -68,8 +68,10 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(AppLocalizations.of(context).translate('loginTitle')),
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(26),
         child: Form(
@@ -92,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                   return null;
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: iD,
                 decoration: InputDecoration(
@@ -107,7 +109,7 @@ class _LoginViewState extends State<LoginView> {
                   return null;
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -159,7 +161,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
@@ -168,7 +170,7 @@ class _LoginViewState extends State<LoginView> {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: branchController,
                 decoration: InputDecoration(
@@ -177,13 +179,12 @@ class _LoginViewState extends State<LoginView> {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 50),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
+                padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CustomButton(
                   text:
                       AppLocalizations.of(context).translate('letsWorkButton'),
-                  bgColor: Colors.blueGrey,
                   onTap: saveData,
                 ),
               ),

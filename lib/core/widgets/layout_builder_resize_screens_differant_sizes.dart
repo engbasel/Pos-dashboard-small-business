@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/overview/views/desktop_layout_body.dart';
 import 'package:pos_dashboard_v1/features/reponsive_dashboard/views/mobile_layout/Views/mobile_layout.dart';
 import 'package:pos_dashboard_v1/features/reponsive_dashboard/views/tablet_layout/Views/tablet_layout.dart';
-import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 
 // ignore: camel_case_types
 class LayoutBuilder_resize_screens_defrant_sizes extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/Manager/function_manger.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/function_manger.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../login/views/user_logs_view.dart';

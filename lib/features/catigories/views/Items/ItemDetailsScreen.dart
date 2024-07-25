@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/catigories/views/Items/EditItemScreen.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -33,6 +35,13 @@ class ItemDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
+            if (item.image != null)
+              Image.file(File(item.image!), fit: BoxFit.cover),
+            ListTile(
+              title: Text(AppLocalizations.of(context).translate('item_name')),
+              subtitle: Text(item.name),
+            ),
+
             ListTile(
               title: Text(AppLocalizations.of(context).translate('item_name')),
               subtitle: Text(item.name),

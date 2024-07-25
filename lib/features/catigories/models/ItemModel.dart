@@ -1,27 +1,27 @@
 class ItemModel {
   final int? id;
   final int? categoryId;
-  final String name;
-  final String description;
-  final String? sku;
-  final String? barcode;
-  final double? purchasePrice;
-  final double? salePrice;
-  final double? wholesalePrice;
-  final double? taxRate;
-  final int? quantity;
-  final int? alertQuantity;
-  final String? image;
-  final String? brand;
-  final String? size;
-  final double? weight;
-  final String? color;
-  final String? material;
-  final String? warranty;
-  final int? supplierId;
-  final String? itemStatus;
-  final DateTime? dateAdded;
-  final DateTime? dateModified;
+  late final String name;
+  late final String description;
+  late final String? sku;
+  late final String? barcode;
+  late final double? purchasePrice;
+  late final double? salePrice;
+  late final double? wholesalePrice;
+  late final double? taxRate;
+  late final int? quantity;
+  late final int? alertQuantity;
+  late final String? image;
+  late final String? brand;
+  late final String? size;
+  late final double? weight;
+  late final String? color;
+  late final String? material;
+  late final String? warranty;
+  late final int? supplierId;
+  late final String? itemStatus;
+  late final DateTime? dateAdded;
+  late final DateTime? dateModified;
 
   ItemModel({
     this.id,
@@ -105,6 +105,60 @@ class ItemModel {
       dateModified: map['dateModified'] != null
           ? DateTime.parse(map['dateModified'])
           : null,
+    );
+  }
+}
+
+extension ItemModelCopyWith on ItemModel {
+  ItemModel copyWith({
+    int? id,
+    int? categoryId,
+    String? name,
+    String? description,
+    String? sku,
+    String? barcode,
+    double? purchasePrice,
+    double? salePrice,
+    double? wholesalePrice,
+    double? taxRate,
+    int? quantity,
+    int? alertQuantity,
+    String? image,
+    String? brand,
+    String? size,
+    double? weight,
+    String? color,
+    String? material,
+    String? warranty,
+    int? supplierId,
+    String? itemStatus,
+    DateTime? dateAdded,
+    DateTime? dateModified,
+  }) {
+    return ItemModel(
+      id: id ?? this.id,
+      categoryId: categoryId ?? this.categoryId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      sku: sku ?? this.sku,
+      barcode: barcode ?? this.barcode,
+      purchasePrice: purchasePrice ?? this.purchasePrice,
+      salePrice: salePrice ?? this.salePrice,
+      wholesalePrice: wholesalePrice ?? this.wholesalePrice,
+      taxRate: taxRate ?? this.taxRate,
+      quantity: quantity ?? this.quantity,
+      alertQuantity: alertQuantity ?? this.alertQuantity,
+      image: image ?? this.image,
+      brand: brand ?? this.brand,
+      size: size ?? this.size,
+      weight: weight ?? this.weight,
+      color: color ?? this.color,
+      material: material ?? this.material,
+      warranty: warranty ?? this.warranty,
+      supplierId: supplierId ?? this.supplierId,
+      itemStatus: itemStatus ?? this.itemStatus,
+      dateAdded: dateAdded ?? this.dateAdded,
+      dateModified: dateModified ?? this.dateModified,
     );
   }
 }

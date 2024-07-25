@@ -222,7 +222,7 @@ class _ItemScreenState extends State<ItemScreen> {
                 if (nameController.text.isNotEmpty && itemStatus != null) {
                   await ItemDatabaseHelper.instance.insertItem(
                     ItemModel(
-                      categoryId: categoryId,
+                      id: categoryId,
                       name: nameController.text,
                       description: descriptionController.text,
                       sku: skuController.text,
@@ -244,8 +244,8 @@ class _ItemScreenState extends State<ItemScreen> {
                       warranty: warrantyController.text,
                       supplierId: int.tryParse(supplierIdController.text),
                       itemStatus: itemStatus!,
-                      dateAdded: DateTime.now(),
-                      dateModified: DateTime.now(),
+                      // dateAdded: DateTime.now(),
+                      // dateModified: DateTime.now(),
                     ),
                   );
                   loadItems();

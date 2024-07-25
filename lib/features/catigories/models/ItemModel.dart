@@ -1,5 +1,5 @@
 class ItemModel {
-  late final int? id;
+  final int? id;
   final int? categoryId;
   late final String name;
   late final String description;
@@ -20,8 +20,8 @@ class ItemModel {
   late final String? warranty;
   late final int? supplierId;
   late final String? itemStatus;
-  late final DateTime? dateAdded;
-  late final DateTime? dateModified;
+  final DateTime? dateAdded;
+  final DateTime? dateModified;
 
   ItemModel({
     this.id,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
+import 'package:pos_dashboard_v1/features/catigories/views/EditItemScreen.dart';
 
 import '../../../l10n/app_localizations.dart';
 
@@ -8,11 +9,26 @@ class ItemDetailsScreen extends StatelessWidget {
 
   const ItemDetailsScreen({super.key, required this.item});
 
+  void _navigateToEditScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditItemScreen(item: item),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('item_details')),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () => _navigateToEditScreen(context),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

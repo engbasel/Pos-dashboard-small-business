@@ -1,8 +1,15 @@
+<<<<<<< HEAD:lib/features/catigories/views/ItemDetailsScreen.dart
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
 import 'package:pos_dashboard_v1/features/catigories/views/EditItemScreen.dart';
+=======
+import 'dart:io';
+>>>>>>> 1a4e40cb0e31be162240fc2d40568ddaa7784ef9:lib/features/catigories/views/Items/ItemDetailsScreen.dart
 
-import '../../../l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/catigories/views/Items/EditItemScreen.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../models/ItemModel.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   final ItemModel item;
@@ -26,7 +33,20 @@ class ItemDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
+<<<<<<< HEAD:lib/features/catigories/views/ItemDetailsScreen.dart
             onPressed: () => _navigateToEditScreen(context),
+=======
+            onPressed: () async {
+              final updatedItem = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => EditItemScreen(item: item),
+                ),
+              );
+              if (updatedItem != null) {
+                Navigator.of(context).pop(updatedItem);
+              }
+            },
+>>>>>>> 1a4e40cb0e31be162240fc2d40568ddaa7784ef9:lib/features/catigories/views/Items/ItemDetailsScreen.dart
           ),
         ],
       ),
@@ -34,6 +54,13 @@ class ItemDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
+            if (item.image != null)
+              Image.file(File(item.image!), fit: BoxFit.cover),
+            ListTile(
+              title: Text(AppLocalizations.of(context).translate('item_name')),
+              subtitle: Text(item.name),
+            ),
+
             ListTile(
               title: Text(AppLocalizations.of(context).translate('item_name')),
               subtitle: Text(item.name),
@@ -45,85 +72,86 @@ class ItemDetailsScreen extends StatelessWidget {
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('sku')),
-              subtitle: Text(item.sku ?? '-'),
+              subtitle: Text(item.sku ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('barcode')),
-              subtitle: Text(item.barcode ?? '-'),
+              subtitle: Text(item.barcode ?? ''),
             ),
             ListTile(
               title: Text(
                   AppLocalizations.of(context).translate('purchase_price')),
-              subtitle: Text(item.purchasePrice?.toString() ?? '-'),
+              subtitle: Text(item.purchasePrice?.toString() ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('sale_price')),
-              subtitle: Text(item.salePrice?.toString() ?? '-'),
+              subtitle: Text(item.salePrice?.toString() ?? ''),
             ),
             ListTile(
               title: Text(
                   AppLocalizations.of(context).translate('wholesale_price')),
-              subtitle: Text(item.wholesalePrice?.toString() ?? '-'),
+              subtitle: Text(item.wholesalePrice?.toString() ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('tax_rate')),
-              subtitle: Text(item.taxRate?.toString() ?? '-'),
+              subtitle: Text(item.taxRate?.toString() ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('quantity')),
-              subtitle: Text(item.quantity?.toString() ?? '-'),
+              subtitle: Text(item.quantity?.toString() ?? ''),
             ),
             ListTile(
               title: Text(
                   AppLocalizations.of(context).translate('alert_quantity')),
-              subtitle: Text(item.alertQuantity?.toString() ?? '-'),
+              subtitle: Text(item.alertQuantity?.toString() ?? ''),
             ),
             ListTile(
-              title: Text(AppLocalizations.of(context).translate('image')),
-              subtitle: Text(item.image ?? '-'),
+              title: Text(AppLocalizations.of(context).translate('image_url')),
+              subtitle: Text(item.image ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('brand')),
-              subtitle: Text(item.brand ?? '-'),
+              subtitle: Text(item.brand ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('size')),
-              subtitle: Text(item.size ?? '-'),
+              subtitle: Text(item.size ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('weight')),
-              subtitle: Text(item.weight?.toString() ?? '-'),
+              subtitle: Text(item.weight?.toString() ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('color')),
-              subtitle: Text(item.color ?? '-'),
+              subtitle: Text(item.color ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('material')),
-              subtitle: Text(item.material ?? '-'),
+              subtitle: Text(item.material ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('warranty')),
-              subtitle: Text(item.warranty ?? '-'),
+              subtitle: Text(item.warranty ?? ''),
             ),
             ListTile(
               title:
                   Text(AppLocalizations.of(context).translate('supplier_id')),
-              subtitle: Text(item.supplierId?.toString() ?? '-'),
+              subtitle: Text(item.supplierId?.toString() ?? ''),
             ),
             ListTile(
               title:
                   Text(AppLocalizations.of(context).translate('item_status')),
-              subtitle: Text(item.itemStatus ?? '-'),
+              subtitle: Text(item.itemStatus ?? ''),
             ),
-            ListTile(
-              title: Text(AppLocalizations.of(context).translate('date_added')),
-              subtitle: Text(item.dateAdded.toString()),
-            ),
+            // ListTile(
+            //   title:
+            //       Text(AppLocalizations.of(context).translate('date_created')),
+            //   subtitle: Text(item.dateCreated.toString()),
+            // ),
             ListTile(
               title:
                   Text(AppLocalizations.of(context).translate('date_modified')),
-              subtitle: Text(item.dateModified.toString()),
+              subtitle: Text(item.dateModified?.toString() ?? ''),
             ),
           ],
         ),

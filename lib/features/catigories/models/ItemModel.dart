@@ -1,5 +1,5 @@
 class ItemModel {
-  late final int? id;
+  final int? id;
   final int? categoryId;
   late final String name;
   late final String description;

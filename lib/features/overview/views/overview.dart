@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/catigories/views/CatigorysScreen.dart';
+import 'package:pos_dashboard_v1/features/catigories/views/catigories/CatigorysScreen.dart';
 import 'package:pos_dashboard_v1/features/retuernsInvoices/views/ReturnInvoiceScreen.dart';
 import 'package:pos_dashboard_v1/features/salesBill/views/sales_bill_view.dart';
 import 'package:pos_dashboard_v1/features/Prodacts/views/Prodacts_list_view.dart';

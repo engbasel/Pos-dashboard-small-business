@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:reorderables/reorderables.dart'; // Add this import
 import 'package:pos_dashboard_v1/features/catigories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/views/Items/ItemScreen.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -110,6 +111,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
     super.dispose();
   }
 
+  void _onReorder(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final category = filteredCategories.removeAt(oldIndex);
+      filteredCategories.insert(newIndex, category);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,11 +170,56 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Widget buildListView() {
-    return ListView.builder(
+    return ReorderableListView.builder(
+      onReorder: _onReorder,
+      itemCount: filteredCategories.length,
+      itemBuilder: (context, index) {
+        final category = filteredCategories[index];
+        return Container(
+          // padding: const EdgeInsets.all(7),
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Color(category.color),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          key: ValueKey(category.id),
+          child: ListTile(
+            title: Text(category.title),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () async {
+                await CategoryDatabaseHelper.instance
+                    .deleteCategory(category.id!);
+                loadCategories();
+              },
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ItemScreen(categoryId: category.id!),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildGridView() {
+    return GridView.builder(
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // Number of cards per row
+        crossAxisSpacing: 8.0, // Spacing between cards
+        mainAxisSpacing: 8.0, // Spacing between rows
+      ),
       itemCount: filteredCategories.length,
       itemBuilder: (context, index) {
         final category = filteredCategories[index];
         return GestureDetector(
+          key: ValueKey(category.id),
           onTap: () {
             Navigator.push(
               context,
@@ -173,7 +229,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             );
           },
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            margin: const EdgeInsets.all(5),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Color(category.color),
@@ -186,12 +242,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ),
               ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   category.title,
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
                 IconButton(
                   icon: const Icon(
@@ -205,67 +263,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   },
                 ),
               ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget buildGridView() {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 5,
-        childAspectRatio: 3 / 2,
-      ),
-      itemCount: filteredCategories.length,
-      itemBuilder: (context, index) {
-        final category = filteredCategories[index];
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ItemScreen(categoryId: category.id!),
-              ),
-            );
-          },
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Color(category.color),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 2),
-                  blurRadius: 6,
-                ),
-              ],
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    category.title,
-                    style: const TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.black,
-                    ),
-                    onPressed: () async {
-                      await CategoryDatabaseHelper.instance
-                          .deleteCategory(category.id!);
-                      loadCategories();
-                    },
-                  ),
-                ],
-              ),
             ),
           ),
         );

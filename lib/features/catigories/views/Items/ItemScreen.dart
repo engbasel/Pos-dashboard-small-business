@@ -51,7 +51,7 @@ class _ItemScreenState extends State<ItemScreen> {
     });
   }
 
-  Future<void> pickImage() async {
+  Future<String?> pickImage() async {
     String? path;
 
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -69,15 +69,11 @@ class _ItemScreenState extends State<ItemScreen> {
       path = pickedFile?.path;
     }
 
-    if (path != null) {
-      setState(() {
-        imageController.text = path!;
-      });
-    }
+    return path;
   }
 
   Future<void> showAddItemDialog(BuildContext context, int categoryId) async {
-    final formKey = GlobalKey<FormState>(); // Key to validate form
+    final formKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
     TextEditingController skuController = TextEditingController();
@@ -109,26 +105,23 @@ class _ItemScreenState extends State<ItemScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // TextFormField(
-                  //   controller: nameController,
-                  //   decoration: InputDecoration(
-                  //       labelText: AppLocalizations.of(context)
-                  //           .translate('item_name')),
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return AppLocalizations.of(context)
-                  //           .translate('name_required');
-                  //     }
-                  //     return null;
-                  //   },
-                  // ),
+                  // Button to pick an image
                   TextButton(
-                    onPressed: () {
-                      pickImage(); // Function to pick an image from the gallery
+                    onPressed: () async {
+                      final path = await pickImage();
+                      if (path != null) {
+                        setState(() {
+                          imageController.text = path;
+                        });
+                      }
                     },
                     child: Text(
                         AppLocalizations.of(context).translate('select_image')),
                   ),
+                  // Display selected image (optional)
+                  imageController.text.isNotEmpty
+                      ? Image.file(File(imageController.text), height: 100)
+                      : const Icon(Icons.image, size: 100),
 
                   TextFormField(
                     controller: nameController,
@@ -260,8 +253,6 @@ class _ItemScreenState extends State<ItemScreen> {
                             .translate('supplier_id')),
                     keyboardType: TextInputType.number,
                   ),
-
-                  // Add other TextFormFields here as before...
                   DropdownButtonFormField<String>(
                     value: itemStatus,
                     decoration: InputDecoration(
@@ -287,6 +278,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       return null;
                     },
                   ),
+// ===========
                 ],
               ),
             ),
@@ -303,7 +295,7 @@ class _ItemScreenState extends State<ItemScreen> {
                 if (formKey.currentState?.validate() ?? false) {
                   await ItemDatabaseHelper.instance.insertItem(
                     ItemModel(
-                      id: null, // Let SQLite auto-generate the ID
+                      id: null,
                       categoryId: widget.categoryId,
                       name: nameController.text,
                       description: descriptionController.text,
@@ -328,8 +320,6 @@ class _ItemScreenState extends State<ItemScreen> {
                       warranty: warrantyController.text,
                       supplierId: int.tryParse(supplierIdController.text) ?? 0,
                       itemStatus: itemStatus ?? 'active',
-                      // dateAdded: DateTime.now().toIso8601String(),
-                      // dateModified: DateTime.now().toIso8601String(),
                     ),
                   );
                   loadItems();
@@ -441,61 +431,6 @@ class _ItemScreenState extends State<ItemScreen> {
       },
     );
   }
-
-  // Widget buildGridView() {
-  //   return GridView.builder(
-  //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-  //       crossAxisCount: 5,
-  //       childAspectRatio: 3 / 2,
-  //     ),
-  //     itemCount: filteredItems.length,
-  //     itemBuilder: (context, index) {
-  //       final item = filteredItems[index];
-  //       return GestureDetector(
-  //         onTap: () async {
-  //           final result = await Navigator.of(context).push(
-  //             MaterialPageRoute(
-  //               builder: (context) => ItemDetailsScreen(item: item),
-  //             ),
-  //           );
-  //           if (result != null && result is ItemModel) {
-  //             updateItem(result);
-  //           }
-  //         },
-  //         child: Container(
-  //           margin: const EdgeInsets.all(10),
-  //           padding: const EdgeInsets.all(10),
-  //           decoration: BoxDecoration(
-  //             color: Colors.grey[200],
-  //             borderRadius: BorderRadius.circular(10),
-  //             boxShadow: const [
-  //               BoxShadow(
-  //                 color: Colors.black12,
-  //                 blurRadius: 4,
-  //                 offset: Offset(0, 2),
-  //               ),
-  //             ],
-  //           ),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               const Expanded(
-  //                 child: Center(
-  //                   child: Icon(
-  //                     Icons.image, // Placeholder icon for image
-  //                     size: 50,
-  //                   ),
-  //                 ),
-  //               ),
-  //               Text(item.name, overflow: TextOverflow.ellipsis),
-  //               Text(item.description, overflow: TextOverflow.ellipsis),
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   Widget buildGridView() {
     return GridView.builder(

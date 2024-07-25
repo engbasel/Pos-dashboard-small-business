@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/catigories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/catigories/models/ItemModel.dart';
-import 'item_details_screen.dart'; // Import the updated ItemDetailsScreen
+import 'ItemDetailsScreen.dart'; // Import the updated ItemDetailsScreen
 
 import '../../../l10n/app_localizations.dart';
 

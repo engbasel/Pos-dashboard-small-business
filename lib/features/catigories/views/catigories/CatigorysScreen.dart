@@ -9,6 +9,7 @@ class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CategoryScreenState createState() => _CategoryScreenState();
 }
 
@@ -16,6 +17,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   List<CategoryModel> categories = [];
   List<CategoryModel> filteredCategories = [];
   TextEditingController searchController = TextEditingController();
+  bool isGridView = false; // Track the current view mode
 
   @override
   void initState() {
@@ -91,6 +93,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   );
                   loadCategories();
                 }
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               },
               child: Text(AppLocalizations.of(context).translate('add')),
@@ -112,6 +115,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('title')),
+        actions: [
+          IconButton(
+            icon: Icon(isGridView ? Icons.view_list : Icons.view_module),
+            onPressed: () {
+              setState(() {
+                isGridView = !isGridView;
+              });
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -132,59 +145,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     child: Text(AppLocalizations.of(context)
                         .translate('category_not_available')),
                   )
-                : ListView.builder(
-                    itemCount: filteredCategories.length,
-                    itemBuilder: (context, index) {
-                      final category = filteredCategories[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ItemScreen(categoryId: category.id!),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Color(category.color),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(0, 2),
-                                blurRadius: 6,
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                category.title,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () async {
-                                  await CategoryDatabaseHelper.instance
-                                      .deleteCategory(category.id!);
-                                  loadCategories();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                : isGridView
+                    ? buildGridView()
+                    : buildListView(),
           ),
         ],
       ),
@@ -192,6 +155,121 @@ class _CategoryScreenState extends State<CategoryScreen> {
         onPressed: showAddCategoryDialog,
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  Widget buildListView() {
+    return ListView.builder(
+      itemCount: filteredCategories.length,
+      itemBuilder: (context, index) {
+        final category = filteredCategories[index];
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemScreen(categoryId: category.id!),
+              ),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Color(category.color),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 2),
+                  blurRadius: 6,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  category.title,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.black,
+                  ),
+                  onPressed: () async {
+                    await CategoryDatabaseHelper.instance
+                        .deleteCategory(category.id!);
+                    loadCategories();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildGridView() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 5,
+        childAspectRatio: 3 / 2,
+      ),
+      itemCount: filteredCategories.length,
+      itemBuilder: (context, index) {
+        final category = filteredCategories[index];
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemScreen(categoryId: category.id!),
+              ),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Color(category.color),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 2),
+                  blurRadius: 6,
+                ),
+              ],
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    category.title,
+                    style: const TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.black,
+                    ),
+                    onPressed: () async {
+                      await CategoryDatabaseHelper.instance
+                          .deleteCategory(category.id!);
+                      loadCategories();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

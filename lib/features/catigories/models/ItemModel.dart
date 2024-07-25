@@ -20,8 +20,8 @@ class ItemModel {
   late final String? warranty;
   late final int? supplierId;
   late final String? itemStatus;
-  final DateTime? dateAdded;
-  final DateTime? dateModified;
+  late final DateTime? dateAdded;
+  late final DateTime? dateModified;
 
   ItemModel({
     this.id,
@@ -105,6 +105,60 @@ class ItemModel {
       dateModified: map['dateModified'] != null
           ? DateTime.parse(map['dateModified'])
           : null,
+    );
+  }
+}
+
+extension ItemModelCopyWith on ItemModel {
+  ItemModel copyWith({
+    int? id,
+    int? categoryId,
+    String? name,
+    String? description,
+    String? sku,
+    String? barcode,
+    double? purchasePrice,
+    double? salePrice,
+    double? wholesalePrice,
+    double? taxRate,
+    int? quantity,
+    int? alertQuantity,
+    String? image,
+    String? brand,
+    String? size,
+    double? weight,
+    String? color,
+    String? material,
+    String? warranty,
+    int? supplierId,
+    String? itemStatus,
+    DateTime? dateAdded,
+    DateTime? dateModified,
+  }) {
+    return ItemModel(
+      id: id ?? this.id,
+      categoryId: categoryId ?? this.categoryId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      sku: sku ?? this.sku,
+      barcode: barcode ?? this.barcode,
+      purchasePrice: purchasePrice ?? this.purchasePrice,
+      salePrice: salePrice ?? this.salePrice,
+      wholesalePrice: wholesalePrice ?? this.wholesalePrice,
+      taxRate: taxRate ?? this.taxRate,
+      quantity: quantity ?? this.quantity,
+      alertQuantity: alertQuantity ?? this.alertQuantity,
+      image: image ?? this.image,
+      brand: brand ?? this.brand,
+      size: size ?? this.size,
+      weight: weight ?? this.weight,
+      color: color ?? this.color,
+      material: material ?? this.material,
+      warranty: warranty ?? this.warranty,
+      supplierId: supplierId ?? this.supplierId,
+      itemStatus: itemStatus ?? this.itemStatus,
+      dateAdded: dateAdded ?? this.dateAdded,
+      dateModified: dateModified ?? this.dateModified,
     );
   }
 }

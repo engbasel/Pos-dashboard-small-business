@@ -18,6 +18,7 @@ class _ItemScreenState extends State<ItemScreen> {
   List<ItemModel> items = [];
   List<ItemModel> filteredItems = [];
   TextEditingController searchController = TextEditingController();
+  bool isGridView = false; // Track the current view mode
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _ItemScreenState extends State<ItemScreen> {
     super.dispose();
   }
 
-  Future<void> _updateItem(ItemModel updatedItem) async {
+  Future<void> updateItem(ItemModel updatedItem) async {
     final index = items.indexWhere((item) => item.id == updatedItem.id);
     if (index != -1) {
       setState(() {
@@ -69,6 +70,16 @@ class _ItemScreenState extends State<ItemScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('items')),
+        actions: [
+          IconButton(
+            icon: Icon(isGridView ? Icons.view_list : Icons.view_module),
+            onPressed: () {
+              setState(() {
+                isGridView = !isGridView;
+              });
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -89,35 +100,9 @@ class _ItemScreenState extends State<ItemScreen> {
                     child: Text(AppLocalizations.of(context)
                         .translate('item_not_available')),
                   )
-                : ListView.builder(
-                    itemCount: filteredItems.length,
-                    itemBuilder: (context, index) {
-                      final item = filteredItems[index];
-                      return ListTile(
-                        title: Text(item.name),
-                        subtitle: Text(item.description),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () async {
-                            await ItemDatabaseHelper.instance
-                                .deleteItem(item.id!);
-                            loadItems();
-                          },
-                        ),
-                        onTap: () async {
-                          final result = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ItemDetailsScreen(item: item),
-                            ),
-                          );
-                          if (result != null && result is ItemModel) {
-                            _updateItem(result);
-                          }
-                        },
-                      );
-                    },
-                  ),
+                : isGridView
+                    ? buildGridView()
+                    : buildListView(),
           ),
         ],
       ),
@@ -127,6 +112,92 @@ class _ItemScreenState extends State<ItemScreen> {
         },
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  Widget buildListView() {
+    return ListView.builder(
+      itemCount: filteredItems.length,
+      itemBuilder: (context, index) {
+        final item = filteredItems[index];
+        return ListTile(
+          title: Text(item.name),
+          subtitle: Text(item.description),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              await ItemDatabaseHelper.instance.deleteItem(item.id!);
+              loadItems();
+            },
+          ),
+          onTap: () async {
+            final result = await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ItemDetailsScreen(item: item),
+              ),
+            );
+            if (result != null && result is ItemModel) {
+              updateItem(result);
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Widget buildGridView() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 5,
+        childAspectRatio: 3 / 2,
+      ),
+      itemCount: filteredItems.length,
+      itemBuilder: (context, index) {
+        final item = filteredItems[index];
+        return GestureDetector(
+          onTap: () async {
+            final result = await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ItemDetailsScreen(item: item),
+              ),
+            );
+            if (result != null && result is ItemModel) {
+              updateItem(result);
+            }
+          },
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 2),
+                  blurRadius: 6,
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  item.name,
+                  style: const TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  item.description,
+                  style: const TextStyle(fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

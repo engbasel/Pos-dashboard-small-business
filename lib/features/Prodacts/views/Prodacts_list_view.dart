@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
-import 'package:pos_dashboard_v1/features/prodacts/widgets/orders_list_body.dart';
 import 'package:pos_dashboard_v1/features/overview/services/order_service.dart';
-import 'package:pos_dashboard_v1/features/prodacts/widgets/custom_form.dart';
 import '../../../core/db/new_products_store_database_helper.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../features/categories/database/category_database_helper.dart';
+import '../../../features/categories/models/category_model.dart';
 
 class OrdersListView extends StatefulWidget {
   final ValueChanged<int> onProductsCountChanged;
@@ -19,7 +16,12 @@ class OrdersListView extends StatefulWidget {
 
 class _OrdersListViewState extends State<OrdersListView> {
   final DatabaseHelper databaseHelper = DatabaseHelper();
+  final CategoryDatabaseHelper categoryDatabaseHelper =
+      CategoryDatabaseHelper.instance; // Use the singleton instance
+
   List<Order> orders = [];
+  List<CategoryModel> categories = [];
+  String? selectedCategory;
 
   final TextEditingController idController = TextEditingController();
   final TextEditingController dateTimeController = TextEditingController();
@@ -27,7 +29,6 @@ class _OrdersListViewState extends State<OrdersListView> {
   final TextEditingController employeeController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-
   final TextEditingController numberOfItemsController = TextEditingController();
   final TextEditingController entryDateController = TextEditingController();
   final TextEditingController exitDateController = TextEditingController();
@@ -47,6 +48,7 @@ class _OrdersListViewState extends State<OrdersListView> {
   void initState() {
     super.initState();
     loadOrders();
+    loadCategories();
   }
 
   Future<void> loadOrders() async {
@@ -54,6 +56,13 @@ class _OrdersListViewState extends State<OrdersListView> {
     setState(() {
       orders = loadedOrders;
       widget.onProductsCountChanged(orders.length);
+    });
+  }
+
+  Future<void> loadCategories() async {
+    final loadedCategories = await categoryDatabaseHelper.getCategories();
+    setState(() {
+      categories = loadedCategories;
     });
   }
 
@@ -74,6 +83,7 @@ class _OrdersListViewState extends State<OrdersListView> {
       productStatus: productStatusController.text,
       productDetails: productDetailsController.text,
       productModel: productModelController.text,
+      category: selectedCategory ?? '',
     );
 
     await databaseHelper.insertOrder(newOrder);
@@ -104,6 +114,7 @@ class _OrdersListViewState extends State<OrdersListView> {
       productStatus: productStatusController.text,
       productDetails: productDetailsController.text,
       productModel: productModelController.text,
+      category: selectedCategory ?? '',
     );
 
     await databaseHelper.updateOrder(updatedOrder);
@@ -126,115 +137,133 @@ class _OrdersListViewState extends State<OrdersListView> {
     productStatusController.clear();
     productDetailsController.clear();
     productModelController.clear();
-    setState(() {
-      selectedPaymentMethod = null;
-    });
-  }
-
-  void showAddOrderForm(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                CustomForm(
-                  idController: idController,
-                  localizations: AppLocalizations.of(context),
-                  dateTimeController: dateTimeController,
-                  typeController: typeController,
-                  employeeController: employeeController,
-                  statusController: statusController,
-                  paymentMethods: paymentMethods,
-                  selectedPaymentMethod: selectedPaymentMethod,
-                  onPaymentMethodChanged: (newValue) {
-                    setState(() {
-                      selectedPaymentMethod = newValue;
-                    });
-                  },
-                  amountController: amountController,
-                  numberOfItemsController: numberOfItemsController,
-                  entryDateController: entryDateController,
-                  exitDateController: exitDateController,
-                  wholesalePriceController: wholesalePriceController,
-                  retailPriceController: retailPriceController,
-                  productStatusController: productStatusController,
-                  productDetailsController: productDetailsController,
-                  productModelController: productModelController,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: CustomButton(
-                          text: AppLocalizations.of(context)
-                              .translate('clearFields'),
-                          bgColor: const Color(0xff4985FF),
-                          onTap: () {
-                            clearTextFields();
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: CustomButton(
-                          text: AppLocalizations.of(context)
-                              .translate('addOrder'),
-                          bgColor: const Color(0xff4985FF),
-                          onTap: () {
-                            addOrder();
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('orderList')),
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: CustomSmallButton(
-              icon: Icons.print,
-              text: 'Print Order',
-              onTap: () {
-                _orderService.generateAllOrdersPdf(context, orders);
-              },
-            ),
-          )
-        ],
+        title: const Text('Orders List'),
       ),
-      backgroundColor: Colors.white,
-      body: OrdersListBody(orders: orders),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showAddOrderForm(context),
-        tooltip: 'Add product',
-        backgroundColor: const Color(0xff4985FF),
-        child: const Icon(Icons.add, color: Colors.white),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            // TextField(
+            //     controller: idController,
+            //     decoration: const InputDecoration(labelText: 'ID')),
+            // TextField(
+            //     controller: dateTimeController,
+            //     decoration: const InputDecoration(labelText: 'Date and Time')),
+            // TextField(
+            //     controller: typeController,
+            //     decoration: const InputDecoration(labelText: 'Type')),
+            // TextField(
+            //     controller: employeeController,
+            //     decoration: const InputDecoration(labelText: 'Employee')),
+            // TextField(
+            //     controller: statusController,
+            //     decoration: const InputDecoration(labelText: 'Status')),
+            DropdownButton<String>(
+              value: selectedPaymentMethod,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedPaymentMethod = newValue;
+                });
+              },
+              items: paymentMethods.map((method) {
+                return DropdownMenuItem(
+                  value: method,
+                  child: Text(method),
+                );
+              }).toList(),
+              hint: const Text('Select Payment Method'),
+            ),
+            TextField(
+                controller: amountController,
+                decoration: const InputDecoration(labelText: 'Amount')),
+            TextField(
+                controller: numberOfItemsController,
+                decoration:
+                    const InputDecoration(labelText: 'Number of Items')),
+            TextField(
+                controller: entryDateController,
+                decoration: const InputDecoration(labelText: 'Entry Date')),
+            TextField(
+                controller: exitDateController,
+                decoration: const InputDecoration(labelText: 'Exit Date')),
+            TextField(
+                controller: wholesalePriceController,
+                decoration:
+                    const InputDecoration(labelText: 'Wholesale Price')),
+            TextField(
+                controller: retailPriceController,
+                decoration: const InputDecoration(labelText: 'Retail Price')),
+            TextField(
+                controller: productStatusController,
+                decoration: const InputDecoration(labelText: 'Product Status')),
+            TextField(
+                controller: productDetailsController,
+                decoration:
+                    const InputDecoration(labelText: 'Product Details')),
+            TextField(
+                controller: productModelController,
+                decoration: const InputDecoration(labelText: 'Product Model')),
+            DropdownButton<String>(
+              value: selectedCategory,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedCategory = newValue;
+                });
+              },
+              items: categories.map((category) {
+                return DropdownMenuItem(
+                  value: category.title,
+                  child: Text(category.title),
+                );
+              }).toList(),
+              hint: const Text('Select Category'),
+            ),
+            ElevatedButton(onPressed: addOrder, child: const Text('Add Order')),
+            Expanded(
+              child: ListView.builder(
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+                  return ListTile(
+                    title: Text(order.type),
+                    subtitle: Text(order.employee),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => removeOrder(index),
+                    ),
+                    onTap: () {
+                      idController.text = order.id;
+                      dateTimeController.text = order.dateTime;
+                      typeController.text = order.type;
+                      employeeController.text = order.employee;
+                      statusController.text = order.status;
+                      amountController.text = order.amount.toString();
+                      numberOfItemsController.text =
+                          order.numberOfItems.toString();
+                      entryDateController.text = order.entryDate;
+                      exitDateController.text = order.exitDate;
+                      wholesalePriceController.text =
+                          order.wholesalePrice.toString();
+                      retailPriceController.text = order.retailPrice.toString();
+                      productStatusController.text = order.productStatus;
+                      productDetailsController.text = order.productDetails;
+                      productModelController.text = order.productModel;
+                      selectedPaymentMethod = order.paymentStatus;
+                      selectedCategory = order.category;
+                      updateOrder(index);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

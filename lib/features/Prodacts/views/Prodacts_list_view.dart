@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
@@ -9,9 +10,7 @@ import '../../../core/db/new_products_store_database_helper.dart';
 import '../../../l10n/app_localizations.dart';
 
 class OrdersListView extends StatefulWidget {
-  final ValueChanged<int> onProductsCountChanged;
-
-  const OrdersListView({super.key, required this.onProductsCountChanged});
+  const OrdersListView({super.key});
 
   @override
   State<OrdersListView> createState() => _OrdersListViewState();
@@ -53,7 +52,6 @@ class _OrdersListViewState extends State<OrdersListView> {
     final loadedOrders = await databaseHelper.getOrders();
     setState(() {
       orders = loadedOrders;
-      widget.onProductsCountChanged(orders.length);
     });
   }
 
@@ -176,7 +174,7 @@ class _OrdersListViewState extends State<OrdersListView> {
                         child: CustomButton(
                           text: AppLocalizations.of(context)
                               .translate('clearFields'),
-                          bgColor: const Color(0xff4985FF),
+                          bgColor: ColorsManager.kPrimaryColor,
                           onTap: () {
                             clearTextFields();
                           },
@@ -189,7 +187,7 @@ class _OrdersListViewState extends State<OrdersListView> {
                         child: CustomButton(
                           text: AppLocalizations.of(context)
                               .translate('addOrder'),
-                          bgColor: const Color(0xff4985FF),
+                          bgColor: ColorsManager.kPrimaryColor,
                           onTap: () {
                             addOrder();
                           },
@@ -233,7 +231,7 @@ class _OrdersListViewState extends State<OrdersListView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddOrderForm(context),
         tooltip: 'Add product',
-        backgroundColor: const Color(0xff4985FF),
+        backgroundColor: ColorsManager.kPrimaryColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

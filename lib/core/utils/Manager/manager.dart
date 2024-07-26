@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ColorsManager {
-  static const Color drawerColor = Color(0xFF2E2E2E);
+  static const Color kPrimaryColor = Color(0xff4985FF);
+  static const Color drawerColor = Color(0xFF212F3C);
   static const Color headerColor = Colors.green;
   static const Color headerTextColor = Colors.white;
   static const Color selectedIconColor = Colors.green;

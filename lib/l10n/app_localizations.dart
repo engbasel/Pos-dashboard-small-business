@@ -195,7 +195,7 @@ class AppLocalizations {
       "clearFields": "مسح الحقول",
 
       "ordersTable": "جدول الطلبات",
-      "id": "الرقم التعريفي",
+      "id": "البضاعة بالمخزن",
       "type": "النوع",
       "numberOfItems": "عدد العناصر",
       "entryDate": "تاريخ الإدخال",

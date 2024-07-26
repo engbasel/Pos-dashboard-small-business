@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
-import 'package:pos_dashboard_v1/features/prodacts/views/products_Item_details_view.dart';
+import 'package:pos_dashboard_v1/features/Prodacts/views/products_Item_details_view.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class OrdersListBody extends StatelessWidget {
@@ -35,8 +35,8 @@ class OrdersListBody extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => OrderDetailsScreen(
-                              order: orders[index],
+                            builder: (context) => const OrderDetailsScreen(
+                              orders: [],
                             ),
                           ),
                         );

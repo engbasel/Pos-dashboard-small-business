@@ -1,40 +1,44 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/utils/models/order_model.dart';
+import '../../../l10n/app_localizations.dart';
 
-class OrdersTablItemseScreen extends StatelessWidget {
+class OrderDetailsScreen extends StatelessWidget {
   final List<Order> orders;
 
-  const OrdersTablItemseScreen({super.key, required this.orders});
+  const OrderDetailsScreen({super.key, required this.orders});
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Orders Table'),
+        title: Text(localizations.translate('id')),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
-            columns: const [
-              DataColumn(label: Text('ID')),
-              DataColumn(label: Text('Date and Time')),
-              DataColumn(label: Text('Type')),
-              DataColumn(label: Text('Employee')),
-              DataColumn(label: Text('Status')),
-              DataColumn(label: Text('Payment Status')),
-              DataColumn(label: Text('Amount')),
-              DataColumn(label: Text('Number of Items')),
-              DataColumn(label: Text('Entry Date')),
-              DataColumn(label: Text('Exit Date')),
-              DataColumn(label: Text('Wholesale Price')),
-              DataColumn(label: Text('Retail Price')),
-              DataColumn(label: Text('Product Status')),
-              DataColumn(label: Text('Product Details')),
-              DataColumn(label: Text('Product Model')),
-              DataColumn(label: Text('Category')),
+            columns: [
+              DataColumn(label: Text(localizations.translate('id'))),
+              DataColumn(label: Text(localizations.translate('dateTime'))),
+              DataColumn(label: Text(localizations.translate('type'))),
+              DataColumn(label: Text(localizations.translate('employee'))),
+              DataColumn(label: Text(localizations.translate('status'))),
+              DataColumn(label: Text(localizations.translate('paymentStatus'))),
+              DataColumn(label: Text(localizations.translate('amount'))),
+              DataColumn(label: Text(localizations.translate('numberOfItems'))),
+              DataColumn(label: Text(localizations.translate('entryDate'))),
+              DataColumn(label: Text(localizations.translate('exitDate'))),
+              DataColumn(
+                  label: Text(localizations.translate('wholesalePrice'))),
+              DataColumn(label: Text(localizations.translate('retailPrice'))),
+              DataColumn(label: Text(localizations.translate('productStatus'))),
+              DataColumn(
+                  label: Text(localizations.translate('productDetails'))),
+              DataColumn(label: Text(localizations.translate('productModel'))),
+              DataColumn(label: Text(localizations.translate('category'))),
             ],
             rows: orders.map((order) {
               return DataRow(cells: [

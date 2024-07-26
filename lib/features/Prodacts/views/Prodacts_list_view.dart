@@ -5,6 +5,7 @@ import 'package:pos_dashboard_v1/features/overview/services/order_service.dart';
 import '../../../core/db/new_products_store_database_helper.dart';
 import '../../../features/categories/database/category_database_helper.dart';
 import '../../../features/categories/models/category_model.dart';
+import '../../../l10n/app_localizations.dart'; // Import your localization file.
 
 class OrdersListView extends StatefulWidget {
   final ValueChanged<int> onProductsCountChanged;
@@ -49,23 +50,13 @@ class _OrdersListViewState extends State<OrdersListView> {
   void initState() {
     super.initState();
     loadOrders();
-
     loadCategories();
     databaseHelper.addCategoryColumn(); // Add this
   }
 
-// Inside your DatabaseHelper class
   Future<void> addCategoryColumn() async {
     final db = await databaseHelper.database;
-
-    // Adding the new column to the existing table
     await db.execute('ALTER TABLE orders ADD COLUMN category TEXT');
-  }
-
-  Future<void> printTableSchema() async {
-    final db = await databaseHelper.database;
-    final result = await db.rawQuery('PRAGMA table_info(orders)');
-    print(result);
   }
 
   Future<void> loadOrders() async {
@@ -152,7 +143,8 @@ class _OrdersListViewState extends State<OrdersListView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Select Category'),
+          title:
+              Text(AppLocalizations.of(context).translate('select_category')),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView(
@@ -179,7 +171,7 @@ class _OrdersListViewState extends State<OrdersListView> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => OrdersTablItemseScreen(orders: orders),
+        builder: (context) => OrderDetailsScreen(orders: orders),
       ),
     );
   }
@@ -188,7 +180,7 @@ class _OrdersListViewState extends State<OrdersListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Orders List'),
+        title: Text(AppLocalizations.of(context).translate('orderList')),
         actions: [
           IconButton(
             icon: const Icon(Icons.table_view),
@@ -205,7 +197,9 @@ class _OrdersListViewState extends State<OrdersListView> {
               _buildInputSection(),
               const SizedBox(height: 16),
               ElevatedButton(
-                  onPressed: addOrder, child: const Text('Add Order')),
+                onPressed: addOrder,
+                child: Text(AppLocalizations.of(context).translate('addOrder')),
+              ),
               const SizedBox(height: 16),
               _buildOrdersList(),
             ],
@@ -224,8 +218,10 @@ class _OrdersListViewState extends State<OrdersListView> {
           children: [
             ...controllers.entries.map((entry) => TextField(
                   controller: entry.value,
-                  decoration:
-                      InputDecoration(labelText: entry.key.capitalize()),
+                  decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate(entry.key),
+                  ),
                 )),
             const SizedBox(height: 8),
             DropdownButton<String>(
@@ -241,18 +237,21 @@ class _OrdersListViewState extends State<OrdersListView> {
                   child: Text(method),
                 );
               }).toList(),
-              hint: const Text('Select Payment Method'),
+              hint: Text(AppLocalizations.of(context)
+                  .translate('select_payment_method')),
             ),
             const SizedBox(height: 8),
             GestureDetector(
               onTap: showCategoryDialog,
               child: InputDecorator(
-                decoration: const InputDecoration(
-                  labelText: 'Select Category',
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('select_category'),
                 ),
                 child: Text(
-                  selectedCategory ?? 'Category',
-                  style: const TextStyle(color: Colors.black54),
+                  selectedCategory ??
+                      AppLocalizations.of(context).translate('category'),
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
             ),
@@ -263,39 +262,23 @@ class _OrdersListViewState extends State<OrdersListView> {
   }
 
   Widget _buildOrdersList() {
-    return Card(
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: orders.length,
-        separatorBuilder: (context, index) => const Divider(),
-        itemBuilder: (context, index) {
-          final order = orders[index];
-          return ListTile(
-            title: Text(order.type),
-            subtitle: Text(order.employee),
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: orders.length,
+      itemBuilder: (context, index) {
+        final order = orders[index];
+        return Card(
+          child: ListTile(
+            title: Text(order.id),
+            subtitle:
+                Text(AppLocalizations.of(context).translate('order_details')),
             trailing: IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () => removeOrder(index),
             ),
-            onTap: () {
-              controllers.forEach((key, controller) {
-                controller.text = order.toJson()[key]?.toString() ?? '';
-              });
-              setState(() {
-                selectedCategory = order.category;
-                selectedPaymentMethod = order.paymentStatus;
-              });
-            },
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
-  }
-}
-
-extension StringExtension on String {
-  String capitalize() {
-    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

@@ -15,7 +15,6 @@ class AppLocalizations {
       AppLocalizationsDelegate();
 
   static final Map<String, Map<String, String>> _localizedValues = {
-    // ============================ English Section ======================
     'en': {
       // =========================== login screen ==========================================
       "loginTitle": "Login",
@@ -36,20 +35,38 @@ class AppLocalizations {
       "letsWorkButton": "Let's work",
       "loginRecordedSuccessfully": "Login Recorded Successfully",
 
-      // =========================== Home viwe screen ==========================================
+      "ordersTable": "Orders Table",
+      "id": "ID",
+      "dateTime": "Date and Time",
+      "type": "Type",
+      "employee": "Employee",
+      "status": "Status",
+      "paymentStatus": "Payment Status",
+      "amount": "Amount",
+      "numberOfItems": "Number of Items",
+      "entryDate": "Entry Date",
+      "exitDate": "Exit Date",
+      "wholesalePrice": "Wholesale Price",
+      "retailPrice": "Retail Price",
+      "productStatus": "Product Status",
+      "productDetails": "Product Details",
+      "productModel": "Product Model",
+      "category": "Category",
+
+      // =========================== Home view screen ==========================================
       "email": "Email",
       "registerSince": "Register Since",
       "Password": "Password",
       "favouriteBranch": "Favourite Branch",
-      "favouriteItem": "section spicialset",
-      "totalPoints": "Total prodacts In Store :",
-      "pointsUsed": "Points Used :",
+      "favouriteItem": "section specialset",
+      "totalPoints": "Total products In Store:",
+      "pointsUsed": "Points Used:",
       "outstandingPoints": "Outstanding Points",
-      "orders": "Orders :",
-      "totalSpend": "Total Spend :",
+      "orders": "Orders:",
+      "totalSpend": "Total Spend:",
       "averageOrderValue": "Average Order Value",
-      "totalVisits": "Total Visits :",
-      "lastVisit": "Last Visit :",
+      "totalVisits": "Total Visits:",
+      "lastVisit": "Last Visit:",
       "spendingTimePerDay": "Spending Time / Day",
       "viewUserLogs": "View User Logs",
       "anotherSettingOption": "Another Setting Option",
@@ -58,7 +75,7 @@ class AppLocalizations {
       "changeMode": "Change Mode",
       "changeLanguage": "Change Language",
 
-//  ======================== Sales_bill section ===========================
+      // ======================== Sales_bill section ===========================
       "Invoice": "Invoice",
       "GrandTotal:": "Grand Total:",
       "Customer": "Customer",
@@ -69,7 +86,7 @@ class AppLocalizations {
       "Total": "Total",
       "Tax": "Tax",
       "ExportasPDF": "Export as PDF",
-      "AddItem": "AddItem",
+      "AddItem": "Add Item",
       "TotalAmount": "Total Amount",
       "No.": "No",
       "Quantity": "Quantity",
@@ -81,11 +98,14 @@ class AppLocalizations {
       "ViewInvoices": "View Invoices",
       "Items": "Items",
 
-//  ======================== Sales_bill section ===========================
+      'orderList': 'Order List',
+      'addOrder': 'Add Order',
+      'select_category': 'Select Category',
+      'select_payment_method': 'Select Payment Method',
+      'order_details': 'Order Details',
 
-//  ======================== Catigorys section ===========================
-
-      "catigoryscreen": " catigory screen",
+      // ======================== Catigorys section ===========================
+      "catigoryscreen": "category screen",
       "Categories": "Categories",
       "title": "Categories",
       "search_categories": "Search Categories",
@@ -95,7 +115,6 @@ class AppLocalizations {
       "pick_color": "Pick a color",
       "cancel": "Cancel",
       "add": "Add",
-// -----------
       "add_item": "Add Item",
       "item_name": "Item Name",
       "description": "Description",
@@ -124,20 +143,14 @@ class AppLocalizations {
       "item_not_available": "Item not available",
       "please_fill_required_fields":
           "Please fill in all required fields and select a valid item status.",
-//  ======================== Catigorys section ===========================
 
-      "orderList": "Prodacts List",
+      // ======================== Orders section ===========================
       "all": "All",
       "monthly": "Monthly",
       "weekly": "Weekly",
       "today": "Today",
       "orderId": "Order ID",
-      "dateTime": "Date/Time",
       "orderType": "Order Type",
-      "employee": "Employee",
-      "status": "Status",
-      "paymentStatus": "Payment Status",
-      "amount": "Amount",
       "Complete": "Complete",
       "Pending": "Pending",
       "Paid": "Paid",
@@ -147,7 +160,7 @@ class AppLocalizations {
       "messages": "Messages",
       "username": "Username",
       "birthday": "Birthday",
-      "catigoryes": "catigoryes",
+      "catigoryes": "categories",
       "privilege": "Privilege",
       "gender": "Gender",
       "userLogs": "User Logs",
@@ -155,19 +168,17 @@ class AppLocalizations {
       "InvalidPassword": "Invalid Password",
       "orderID": "order ID",
       "actions": "actions",
-      "clearFields": "delete Fileds",
+      "clearFields": "delete Fields",
       "Delete": "delete",
       "Cancel": "Cancel",
       "select_image": "select Image",
       "Ok": "Ok",
       "Thepasswordyouenteredisincorrect":
           "The password you entered is incorrect.",
-      "addOrder": "Add Prodact",
-    },
-// ============================ English Section ==========================
-//
-//
+    }
+
 // ============================ arabic Section ==========================
+    ,
     'ar': {
       "orderID": "معرف الطلب",
       "Password": "الرقم السري",
@@ -178,14 +189,30 @@ class AppLocalizations {
       "status": "الحالة",
       "paymentStatus": "حالة الدفع",
       "amount": "المبلغ",
+      "select_payment_method": "اختر طريقة الدفع",
       "actions": "الإجراءات",
+      "order_details": "تفاصيل المنتج",
       "clearFields": "مسح الحقول",
+
+      "ordersTable": "جدول الطلبات",
+      "id": "الرقم التعريفي",
+      "type": "النوع",
+      "numberOfItems": "عدد العناصر",
+      "entryDate": "تاريخ الإدخال",
+      "exitDate": "تاريخ الخروج",
+      "wholesalePrice": "سعر الجملة",
+      "retailPrice": "سعر التجزئة",
+      "productStatus": "حالة المنتج",
+      "productDetails": "تفاصيل المنتج",
+      "productModel": "طراز المنتج",
+      "category": "الفئة",
+
       "addOrder": "إضافة منتج",
       "userLogs": "سجلات المستخدم",
       "loginTitle": "تسجيل الدخول",
       "nameLabel": "الاسم",
       "nameHint": "أدخل اسمك",
-      "orders": "المنتجات :",
+      "orders": "المنتجات:",
       "nameError": "يرجى إدخال اسمك",
       "idLabel": "الرقم القومي",
       "idHint": "ادخل الرقم القومي",
@@ -201,8 +228,7 @@ class AppLocalizations {
       "select_image": "اختر الصورة",
       "letsWorkButton": "لنعمل",
 
-      //  ======================== Sales_bill section ===========================
-
+      // ======================== Sales_bill section ===========================
       "Invoice": "الفاتورة",
       "Quantity": "الكمية",
       "item_details": "تفاصيل المنتج",
@@ -213,7 +239,7 @@ class AppLocalizations {
       "Discount": "الخصم",
       "ExportasPDF": "استخراج كملف",
       "SalesBill": "فاتورة المبيعات",
-      "Product": "المنتح",
+      "Product": "المنتج",
       "No.": "مسلسل",
       "Data": "التاريخ",
       "Items": "العناصر",
@@ -223,12 +249,11 @@ class AppLocalizations {
       "TotalAmount": "اجمالي العناصر قبل الضرائب",
       "Tax": "الضرائب",
       "AddItem": "اضافة عنصر",
-      "ViewInvoices": "عرض الفواتير ",
+      "ViewInvoices": "عرض الفواتير",
 
-//  ======================== Sales_bill section ===========================
-//  ======================== Catigorys section ===========================
-      "Catigorys": "الاصناف",
-      "catigoryscreen": "عرض الاصناف",
+      // ======================== Catigorys section ===========================
+      "Catigorys": "الأصناف",
+      "catigoryscreen": "عرض الأصناف",
       "title": "الفئات",
       "search_categories": "ابحث في الفئات",
       "category_not_available": "الفئة غير متاحة",
@@ -237,7 +262,7 @@ class AppLocalizations {
       "pick_color": "اختر لونًا",
       "cancel": "إلغاء",
       "add": "إضافة",
-
+      "select_category": "اختر الفئة",
       "add_item": "إضافة عنصر",
       "item_name": "اسم العنصر",
       "description": "الوصف",
@@ -260,59 +285,33 @@ class AppLocalizations {
       "item_status": "حالة العنصر",
       "active": "نشط",
       "inactive": "غير نشط",
-      "discontinued": "متوقف",
+      "discontinued": "ملغى",
       "items": "العناصر",
-      "search_items": "بحث عن العناصر",
-      "item_not_available": "العنصر غير متوفر",
+      "search_items": "ابحث عن العناصر",
+      "item_not_available": "العنصر غير متاح",
       "please_fill_required_fields":
-          "يرجى ملء جميع الحقول المطلوبة وتحديد حالة عنصر صالحة.",
+          "يرجى ملء جميع الحقول المطلوبة واختيار حالة العنصر الصحيحة.",
 
-//  ======================== Catigorys section ===========================
-
-      "loginRecordedSuccessfully": "تم تسجيل الدخول بنجاح",
-      "email": "البريد الإلكتروني",
-      "registerSince": "مسجل منذ",
-      "favouriteBranch": "الفرع المفضل",
-      "favouriteItem": "قسم التخصص ",
-      "totalPoints": " اجمالي العناصر بالمحل:",
-      "catigoryes": "الانواع",
-      "pointsUsed": "النقاط المستخدمة:",
-      "outstandingPoints": "النقاط المستحقة",
-      "brodacts": "المنتجات:",
-      "totalSpend": "إجمالي الإنفاق:",
-      "averageOrderValue": "متوسط قيمة الطلب",
-      "totalVisits": "إجمالي الزيارات:",
-      "lastVisit": "الزيارة الأخيرة:",
-      "spendingTimePerDay": "وقت الإنفاق / اليوم",
-      "viewUserLogs": "عرض سجلات المستخدم",
-      "anotherSettingOption": "خيار إعدادات آخر",
-      "staff": "الموظفين",
-      "users": "المستخدمين",
-      "changeMode": "تغيير الوضع",
-      "changeLanguage": "تغيير اللغة",
-      "orderList": "قائمة المنتجات",
-      "all": "الكل",
-      "monthly": "شهريا",
-      "weekly": "أسبوعيا",
-      "today": "اليوم",
-      "orderId": "المنتج رقم",
-      "Complete": "مكتمل",
-      "Pending": "معلق",
-      "Paid": "مدفوع",
+      // ======================== Orders section ===========================
       "overview": "نظرة عامة",
       "customers": "العملاء",
       "settings": "الإعدادات",
       "messages": "الرسائل",
       "username": "اسم المستخدم",
       "birthday": "تاريخ الميلاد",
+
+      'orderList': 'قائمة الطلبات',
+
+      "catigoryes": "الأصناف",
       "privilege": "الامتياز",
-      "Cancel": "الغاء",
-      "Delete": "الحذف",
       "gender": "الجنس",
-      "InvalidPassword": "الرقم السري خطاء",
-      "Thepasswordyouenteredisincorrect": "الرقم السري الذي ادخلتة خطاء",
-      "branch": "الفرع"
-    },
+      "branch": "الفرع",
+      "InvalidPassword": "كلمة المرور التي أدخلتها غير صحيحة.",
+      "Delete": "حذف",
+      "Cancel": "إلغاء",
+      "Thepasswordyouenteredisincorrect": "كلمة المرور التي أدخلتها غير صحيحة.",
+    }
+
 // ============================ arabic Section ==========================
   };
 

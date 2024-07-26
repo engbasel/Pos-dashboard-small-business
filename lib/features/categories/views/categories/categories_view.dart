@@ -167,7 +167,7 @@
 //       ),
 //       floatingActionButton: FloatingActionButton(
 //         onPressed: showAddCategoryDialog,
-//         backgroundColor: const Color(0xff4985FF),
+//         backgroundColor: ColorsManager.kPrimaryColor,
 //         child: const Icon(Icons.add, color: Colors.white),
 //       ),
 //     );
@@ -290,6 +290,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/views/Items/item_screen.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -299,7 +300,7 @@ class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
 
   @override
-  _CategoryScreenState createState() => _CategoryScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
@@ -455,7 +456,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddCategoryDialog,
-        backgroundColor: const Color(0xff4985FF),
+        backgroundColor: ColorsManager.kPrimaryColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

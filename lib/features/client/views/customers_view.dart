@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/features/client/widgets/custom_details_card.dart';
 import '../../../core/db/clients_database.dart';
 import '../widgets/add_customer_dialog.dart';
@@ -140,7 +141,7 @@ class _CustomersViewState extends State<CustomersView> {
           }
         },
         tooltip: 'Add Customer',
-        backgroundColor: const Color(0xff4985FF),
+        backgroundColor: ColorsManager.kPrimaryColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

@@ -8,9 +8,7 @@ import '../../../features/categories/models/category_model.dart';
 import '../../../l10n/app_localizations.dart'; // Import your localization file.
 
 class OrdersListView extends StatefulWidget {
-  final ValueChanged<int> onProductsCountChanged;
-
-  const OrdersListView({super.key, required this.onProductsCountChanged});
+  const OrdersListView({super.key});
 
   @override
   State<OrdersListView> createState() => _OrdersListViewState();
@@ -63,7 +61,6 @@ class _OrdersListViewState extends State<OrdersListView> {
     final loadedOrders = await databaseHelper.getOrders();
     setState(() {
       orders = loadedOrders;
-      widget.onProductsCountChanged(orders.length);
     });
   }
 

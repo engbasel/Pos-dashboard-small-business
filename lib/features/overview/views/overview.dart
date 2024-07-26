@@ -56,8 +56,7 @@ class _OverviewViewState extends State<OverviewView> {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return OrdersListView(
-                                  onProductsCountChanged: updateProductCount);
+                              return const OrdersListView();
                             },
                           ));
                         },

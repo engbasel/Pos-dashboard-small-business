@@ -7,26 +7,36 @@ class DatabaseHelper {
   factory DatabaseHelper() => _instance;
   DatabaseHelper._internal();
 
-  Database? _database;
+  static Database? _database;
+  static const String _databaseName = 'orders_database.db';
+  static const int _databaseVersion = 2;
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await initDatabase();
+    _database = await _initDatabase();
     return _database!;
   }
 
-  Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), 'orders_database.db');
+  Future<Database> _initDatabase() async {
+    String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(
       path,
-      onCreate: onCreate,
-      version: 1,
+      version: _databaseVersion,
+      onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
-  Future<void> onCreate(Database db, int version) async {
-    await db.execute(
-      '''
+  Future<void> addCategoryColumn() async {
+    final db = await database;
+    var columns = await db.rawQuery('PRAGMA table_info(orders)');
+    if (!columns.any((column) => column['name'] == 'category')) {
+      await _addCategoryColumn(db);
+    }
+  }
+
+  Future<void> _onCreate(Database db, int version) async {
+    await db.execute('''
       CREATE TABLE orders(
         id TEXT PRIMARY KEY,
         dateTime TEXT,
@@ -42,19 +52,26 @@ class DatabaseHelper {
         retailPrice REAL,
         productStatus TEXT,
         productDetails TEXT,
-        productModel TEXT
+        productModel TEXT,
+        category TEXT
       )
-      ''',
-    );
+    ''');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await _addCategoryColumn(db);
+    }
+  }
+
+  Future<void> _addCategoryColumn(Database db) async {
+    await db.execute('ALTER TABLE orders ADD COLUMN category TEXT');
   }
 
   Future<List<Order>> getOrders() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('orders');
-
-    return List.generate(maps.length, (i) {
-      return Order.fromMap(maps[i]);
-    });
+    return List.generate(maps.length, (i) => Order.fromMap(maps[i]));
   }
 
   Future<void> insertOrder(Order order) async {
@@ -83,5 +100,10 @@ class DatabaseHelper {
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  Future<void> close() async {
+    final db = await database;
+    db.close();
   }
 }

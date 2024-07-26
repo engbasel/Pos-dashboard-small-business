@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 
 class CustomSmallButton extends StatelessWidget {
   const CustomSmallButton({
@@ -15,7 +14,7 @@ class CustomSmallButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: ColorsManager.kPrimaryColor,
+      color: const Color(0xff4985FF),
       borderRadius: BorderRadius.circular(6),
       child: InkWell(
         onTap: onTap,

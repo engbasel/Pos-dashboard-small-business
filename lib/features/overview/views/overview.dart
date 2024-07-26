@@ -56,7 +56,8 @@ class _OverviewViewState extends State<OverviewView> {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return OrdersListView();
+                              return OrdersListView(
+                                  onProductsCountChanged: updateProductCount);
                             },
                           ));
                         },
@@ -81,7 +82,7 @@ class _OverviewViewState extends State<OverviewView> {
                             ),
                           );
                         },
-                        title: "الاصناف",
+                        title: "الاصناف بالمحل",
                         value: "1200",
                         subValue: "Visits: 30",
                         subValuetwo: "Orders: 45",

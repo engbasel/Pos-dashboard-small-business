@@ -43,7 +43,7 @@ class CustomRowCards extends StatelessWidget {
               ),
             );
           },
-          title: "الاصناف",
+          title: "الاصناف بالمحل",
           value: "1200",
           subValue: "Visits: 30",
           subValuetwo: "Orders: 45",

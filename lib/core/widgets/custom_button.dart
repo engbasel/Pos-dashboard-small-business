@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -7,7 +6,7 @@ class CustomButton extends StatelessWidget {
     this.onTap,
     this.textColor = Colors.white,
     required this.text,
-    this.bgColor = ColorsManager.kPrimaryColor,
+    this.bgColor = const Color(0xff4985FF),
   });
   final VoidCallback? onTap;
   final Color? textColor;

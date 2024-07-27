@@ -257,6 +257,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
+  echart_flutter:
+    dependency: "direct main"
+    description:
+      name: echart_flutter
+      sha256: "8e26aaec45cc2f4468200780286b6aaa439087c3566e9c59b4965dade84b03af"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0+2"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:

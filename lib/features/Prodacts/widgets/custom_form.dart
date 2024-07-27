@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/custom_text_form_field.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../dashboard/widgets/custom_text_form_field.dart';
 
 class CustomForm extends StatelessWidget {
   const CustomForm({

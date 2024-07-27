@@ -7,7 +7,7 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_re
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
 import '../../../core/widgets/custom_button.dart';
-import '../../overview/widgets/custom_text_form_field.dart';
+import '../../dashboard/widgets/custom_text_form_field.dart';
 
 class ReturnInvoiceScreen extends StatefulWidget {
   const ReturnInvoiceScreen({super.key});

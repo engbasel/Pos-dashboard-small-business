@@ -23,6 +23,47 @@ class _OverviewViewState extends State<OverviewView> {
     });
   }
 
+  Widget buildQuickAccessButton(BuildContext context,
+      {required String title,
+      required VoidCallback onPressed,
+      required IconData icon}) {
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon),
+      label: Text(title),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+    );
+  }
+
+  Widget buildNotificationItem({
+    required IconData icon,
+    required Color color,
+    required String title,
+    required String message,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Icon(icon, color: color),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(message),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -46,7 +87,6 @@ class _OverviewViewState extends State<OverviewView> {
                       const SizedBox(height: 16),
                       buildQuickAccessButtons(context, localizations),
                       const SizedBox(height: 16),
-                      buildBusinessSummary(context, localizations),
                     ],
                   ),
                 ),
@@ -108,43 +148,25 @@ class _OverviewViewState extends State<OverviewView> {
           ),
           icon: Icons.assignment_return,
         ),
-        ElevatedButton(
+        buildQuickAccessButton(
+          context,
+          title: localizations.translate('viewReports'),
           onPressed: () {},
-          // child: Text(appLocalizations.translate('viewReports')),
-          child: const Text('viewReports'),
+          icon: Icons.assignment_return,
         ),
-        ElevatedButton(
+        buildQuickAccessButton(
+          context,
+          title: localizations.translate('manageInventory'),
           onPressed: () {},
-          // child:
-          // Text(appLocalizations.translate('manageInventory')),
-          child: const Text('manageInventory'),
+          icon: Icons.assignment_return,
         ),
-        ElevatedButton(
+        buildQuickAccessButton(
+          context,
+          title: localizations.translate('viewReports'),
           onPressed: () {},
-          child: const Text('newSale'),
+          icon: Icons.assignment_return,
         ),
       ],
-    );
-  }
-
-  Widget buildQuickAccessButton(BuildContext context,
-      {required String title,
-      required VoidCallback onPressed,
-      required IconData icon}) {
-    return ElevatedButton.icon(
-      onPressed: onPressed,
-      icon: Icon(icon),
-      label: Text(title),
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      ),
-    );
-  }
-
-  Widget buildBusinessSummary(
-      BuildContext context, AppLocalizations localizations) {
-    return const Row(
-      children: [],
     );
   }
 
@@ -190,32 +212,6 @@ class _OverviewViewState extends State<OverviewView> {
             color: Colors.green,
             title: localizations.translate('New Order'),
             message: localizations.translate('Order #1234 needs processing'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildNotificationItem(
-      {required IconData icon,
-      required Color color,
-      required String title,
-      required String message}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Icon(icon, color: color),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(message),
-              ],
-            ),
           ),
         ],
       ),

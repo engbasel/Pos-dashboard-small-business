@@ -47,120 +47,96 @@ class _OverviewViewState extends State<OverviewView> {
                     children: [
                       const UserInfoSection(),
                       const SizedBox(height: 16),
-                      // CustomRowCards(
-                      //   width: width,
-                      //   numberOfProductsInStore: numberOfProductsInStore,
-                      // ),
-
-                      TotalPointAndOrdersAndVisetsCard(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return OrdersListView(
-                                  onProductsCountChanged: updateProductCount);
+                      Row(
+                        children: [
+                          TotalPointAndOrdersAndVisetsCard(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return OrdersListView(
+                                      onProductsCountChanged:
+                                          updateProductCount);
+                                },
+                              ));
                             },
-                          ));
-                        },
-                        title: localizations.translate('البضاعة بالمخزن'),
-                        value: "1200",
-                        subValue: "Visits: 30",
-                        subValuetwo: "Orders: 45",
-                        subTitle: "Subtitle",
-                        numberOfProductsInStore: numberOfProductsInStore,
-                        icon: Icons.store,
-                        color: Colors.blue,
-                      ),
-                      const SizedBox(width: 16),
-                      TotalPointAndOrdersAndVisetsCard(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const CategoryScreen();
-                              },
-                            ),
-                          );
-                        },
-                        title: "الاصناف بالمحل",
-                        value: "1200",
-                        subValue: "Visits: 30",
-                        subValuetwo: "Orders: 45",
-                        subTitle: "Subtitle",
-                        numberOfProductsInStore: numberOfProductsInStore,
-                        icon: Icons.store,
-                        color: Colors.blue,
-                      ),
-                      const SizedBox(width: 16),
-
-                      const SizedBox(width: 16),
-                      // TotalPointAndOrdersAndVisetsCard(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) {
-                      //           return const Returnsinvoice();
-                      //         },
-                      //       ),
-                      //     );
-                      //   },
-                      //   title: 'المبيعات',
-                      //   value: "1200",
-                      //   subValue: "Visits: 30",
-                      //   subValuetwo: "Orders: 45",
-                      //   subTitle: "Subtitle",
-                      //   numberOfProductsInStore: numberOfProductsInStore,
-                      //   icon: Icons.store,
-                      //   color: Colors.blue,
-                      // ),
-                      // const SizedBox(width: 16),
-                      TotalPointAndOrdersAndVisetsCard(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const SalesBillScreen();
-                              },
-                            ),
-                          );
-                        },
-                        title: 'انشاء فاتورة مبيعات',
-                        value: "1200",
-                        subValue: "Visits: 30",
-                        subValuetwo: "Orders: 45",
-                        subTitle: "Subtitle",
-                        icon: Icons.store,
-                        color: Colors.blue,
-                      ),
-                      const SizedBox(width: 16),
-                      TotalPointAndOrdersAndVisetsCard(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const ReturnInvoiceScreen();
-                              },
-                            ),
-                          );
-                        },
-                        title: "المرتجعات",
-                        value: "1200",
-                        subValue: "Visits: 30",
-                        subValuetwo: "Orders: 45",
-                        subTitle: "Subtitle",
-                        numberOfProductsInStore: numberOfProductsInStore,
-                        icon: Icons.store,
-                        color: Colors.blue,
-                      ),
+                            title: localizations.translate('البضاعة بالمخزن'),
+                            value: "1200",
+                            subValue: "Visits: 30",
+                            subValuetwo: "Orders: 45",
+                            subTitle: "Subtitle",
+                            numberOfProductsInStore: numberOfProductsInStore,
+                            icon: Icons.store,
+                            color: Colors.blue,
+                          ),
+                          const SizedBox(width: 16),
+                          TotalPointAndOrdersAndVisetsCard(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return const CategoryScreen();
+                                  },
+                                ),
+                              );
+                            },
+                            title: "الاصناف بالمحل",
+                            value: "1200",
+                            subValue: "Visits: 30",
+                            subValuetwo: "Orders: 45",
+                            subTitle: "Subtitle",
+                            numberOfProductsInStore: numberOfProductsInStore,
+                            icon: Icons.store,
+                            color: Colors.blue,
+                          ),
+                          const SizedBox(width: 16),
+                          TotalPointAndOrdersAndVisetsCard(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return const SalesBillScreen();
+                                  },
+                                ),
+                              );
+                            },
+                            title: 'انشاء فاتورة مبيعات',
+                            value: "1200",
+                            subValue: "Visits: 30",
+                            subValuetwo: "Orders: 45",
+                            subTitle: "Subtitle",
+                            icon: Icons.store,
+                            color: Colors.blue,
+                          ),
+                          const SizedBox(width: 16),
+                          TotalPointAndOrdersAndVisetsCard(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return const ReturnInvoiceScreen();
+                                  },
+                                ),
+                              );
+                            },
+                            title: "المرتجعات",
+                            value: "1200",
+                            subValue: "Visits: 30",
+                            subValuetwo: "Orders: 45",
+                            subTitle: "Subtitle",
+                            numberOfProductsInStore: numberOfProductsInStore,
+                            icon: Icons.store,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
                 const SizedBox(width: 16),
                 const Expanded(
-                  flex: 1,
                   child: user_info_card(),
                 ),
               ],

@@ -92,26 +92,7 @@ class _OverviewViewState extends State<OverviewView> {
                         color: Colors.blue,
                       ),
                       const SizedBox(width: 16),
-                      TotalPointAndOrdersAndVisetsCard(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const ReturnInvoiceScreen();
-                              },
-                            ),
-                          );
-                        },
-                        title: "المرتجعات",
-                        value: "1200",
-                        subValue: "Visits: 30",
-                        subValuetwo: "Orders: 45",
-                        subTitle: "Subtitle",
-                        numberOfProductsInStore: numberOfProductsInStore,
-                        icon: Icons.store,
-                        color: Colors.blue,
-                      ),
+
                       const SizedBox(width: 16),
                       // TotalPointAndOrdersAndVisetsCard(
                       //   onTap: () {
@@ -154,6 +135,26 @@ class _OverviewViewState extends State<OverviewView> {
                         color: Colors.blue,
                       ),
                       const SizedBox(width: 16),
+                      TotalPointAndOrdersAndVisetsCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const ReturnInvoiceScreen();
+                              },
+                            ),
+                          );
+                        },
+                        title: "المرتجعات",
+                        value: "1200",
+                        subValue: "Visits: 30",
+                        subValuetwo: "Orders: 45",
+                        subTitle: "Subtitle",
+                        numberOfProductsInStore: numberOfProductsInStore,
+                        icon: Icons.store,
+                        color: Colors.blue,
+                      ),
                     ],
                   ),
                 ),

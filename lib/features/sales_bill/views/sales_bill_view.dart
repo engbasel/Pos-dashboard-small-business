@@ -32,10 +32,10 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   @override
   void initState() {
     super.initState();
-    customerNameController.text = 'John Doe';
-    invoiceDateController.text = 'July 17, 2024';
-    invoiceNumberController.text = '12345';
-    items.add(SalesItem('Product 1', 2, 50, 10, 1));
+    // customerNameController.text = 'John Doe';
+    // invoiceDateController.text = 'July 17, 2024';
+    // invoiceNumberController.text = '12345';
+    // items.add(SalesItem('Product 1', 2, 50, 10, 1));
   }
 
   void editItem(int index) {
@@ -321,7 +321,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 24),
             if (_selectedItem != null) ...[

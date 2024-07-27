@@ -62,8 +62,8 @@ class CustomDrawer extends StatelessWidget {
           ),
           drawerItem(
             index: 1,
-            icon: Icons.shopping_cart_outlined,
-            text: 'Orders',
+            icon: Icons.shopping_bag_outlined,
+            text: 'Products',
             isSelected: selectedIndex == 1,
             onTap: () {
               onSelectItem(1);
@@ -71,8 +71,8 @@ class CustomDrawer extends StatelessWidget {
           ),
           drawerItem(
             index: 2,
-            icon: Icons.people_alt_outlined,
-            text: localizations.translate('customers'),
+            icon: Icons.category_outlined,
+            text: 'Categories',
             isSelected: selectedIndex == 2,
             onTap: () {
               onSelectItem(2);
@@ -80,22 +80,40 @@ class CustomDrawer extends StatelessWidget {
           ),
           drawerItem(
             index: 3,
-            icon: Icons.message_outlined,
-            text: localizations.translate('messages'),
+            icon: Icons.shopping_cart_outlined,
+            text: 'Orders',
             isSelected: selectedIndex == 3,
             onTap: () {
               onSelectItem(3);
+            },
+          ),
+          drawerItem(
+            index: 4,
+            icon: Icons.people_alt_outlined,
+            text: localizations.translate('customers'),
+            isSelected: selectedIndex == 4,
+            onTap: () {
+              onSelectItem(4);
+            },
+          ),
+          drawerItem(
+            index: 5,
+            icon: Icons.message_outlined,
+            text: localizations.translate('messages'),
+            isSelected: selectedIndex == 5,
+            onTap: () {
+              onSelectItem(5);
             },
             badgeCount: 5,
           ),
           const Spacer(),
           drawerItem(
-            index: 4,
+            index: 6,
             icon: Icons.settings,
             text: localizations.translate('settings'),
-            isSelected: selectedIndex == 4,
+            isSelected: selectedIndex == 6,
             onTap: () {
-              onSelectItem(4);
+              onSelectItem(6);
             },
           ),
           const SizedBox(height: 12),

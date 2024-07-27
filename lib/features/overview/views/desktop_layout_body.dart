@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/categories/views/categories/categories_view.dart';
 import 'package:pos_dashboard_v1/features/notifications/views/notifications_view.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
 import 'package:pos_dashboard_v1/features/prodacts/views/prodacts_list_view.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
 import '../../client/views/customers_view.dart';
 import 'overview.dart';
 import '../../settings/views/settings_overview.dart';
@@ -63,6 +65,8 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
                     children: const [
                       OverviewView(),
                       OrdersListView(),
+                      CategoryScreen(),
+                      ReturnInvoiceScreen(),
                       CustomersView(),
                       Notificationsviwe(),
                       SettingsView(),

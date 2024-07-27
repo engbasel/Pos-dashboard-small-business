@@ -3,8 +3,8 @@ import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/features/userInformation/widgets/label_info_card.dart';
 
 // ignore: camel_case_types
-class user_info_card extends StatelessWidget {
-  const user_info_card({super.key});
+class UserInfoCard extends StatelessWidget {
+  const UserInfoCard({super.key});
 
   @override
   Widget build(BuildContext context) {

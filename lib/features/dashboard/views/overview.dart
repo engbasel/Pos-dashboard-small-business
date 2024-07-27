@@ -1,11 +1,13 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/categories/views/categories/categories_view.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/AllReportesViwer.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
 import 'package:pos_dashboard_v1/features/prodacts/views/prodacts_list_view.dart';
 import 'package:pos_dashboard_v1/features/userInformation/views/user_info_section.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../userInformation/user_info_card.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
+import 'package:pos_dashboard_v1/features/userInformation/user_info_card.dart';
 
 class OverviewView extends StatefulWidget {
   const OverviewView({super.key});
@@ -66,6 +68,7 @@ class _OverviewViewState extends State<OverviewView> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
     final localizations = AppLocalizations.of(context);
 
@@ -92,12 +95,12 @@ class _OverviewViewState extends State<OverviewView> {
                 ),
                 const SizedBox(width: 16),
                 const Expanded(
-                  child: user_info_card(),
+                  child: UserInfoCard(),
                 ),
               ],
             ),
             const SizedBox(height: 32),
-            buildNotificationsSection(context, localizations),
+            // buildNotificationsSection(context, localizations),
           ],
         ),
       ),
@@ -106,8 +109,9 @@ class _OverviewViewState extends State<OverviewView> {
 
   Widget buildQuickAccessButtons(
       BuildContext context, AppLocalizations localizations) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
       children: [
         buildQuickAccessButton(
           context,
@@ -150,19 +154,16 @@ class _OverviewViewState extends State<OverviewView> {
         ),
         buildQuickAccessButton(
           context,
-          title: localizations.translate('viewReports'),
-          onPressed: () {},
+          title: localizations.translate('عرض كافة التقارير'),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AllReportesViwer()),
+          ),
           icon: Icons.assignment_return,
         ),
         buildQuickAccessButton(
           context,
-          title: localizations.translate('manageInventory'),
-          onPressed: () {},
-          icon: Icons.assignment_return,
-        ),
-        buildQuickAccessButton(
-          context,
-          title: localizations.translate('viewReports'),
+          title: localizations.translate('الطلبيات القادمة'),
           onPressed: () {},
           icon: Icons.assignment_return,
         ),
@@ -170,51 +171,51 @@ class _OverviewViewState extends State<OverviewView> {
     );
   }
 
-  Widget buildNotificationsSection(
-      BuildContext context, AppLocalizations localizations) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 2,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            localizations.translate('Notifications'),
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          buildNotificationItem(
-            icon: Icons.warning,
-            color: Colors.orange,
-            title: localizations.translate('Low Stock Alert'),
-            message:
-                localizations.translate('5 products are running low on stock'),
-          ),
-          buildNotificationItem(
-            icon: Icons.event,
-            color: Colors.blue,
-            title: localizations.translate('Upcoming Sale'),
-            message: localizations.translate('Summer sale starts in 2 days'),
-          ),
-          buildNotificationItem(
-            icon: Icons.receipt,
-            color: Colors.green,
-            title: localizations.translate('New Order'),
-            message: localizations.translate('Order #1234 needs processing'),
-          ),
-        ],
-      ),
-    );
-  }
+//   Widget buildNotificationsSection(
+//       BuildContext context, AppLocalizations localizations) {
+//     return Container(
+//       padding: const EdgeInsets.all(16),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(8),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.grey.withOpacity(0.1),
+//             spreadRadius: 1,
+//             blurRadius: 2,
+//             offset: const Offset(0, 1),
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             localizations.translate('Notifications'),
+//             style: Theme.of(context).textTheme.titleLarge,
+//           ),
+//           const SizedBox(height: 8),
+//           buildNotificationItem(
+//             icon: Icons.warning,
+//             color: Colors.orange,
+//             title: localizations.translate('Low Stock Alert'),
+//             message:
+//                 localizations.translate('5 products are running low on stock'),
+//           ),
+//           buildNotificationItem(
+//             icon: Icons.event,
+//             color: Colors.blue,
+//             title: localizations.translate('Upcoming Sale'),
+//             message: localizations.translate('Summer sale starts in 2 days'),
+//           ),
+//           buildNotificationItem(
+//             icon: Icons.receipt,
+//             color: Colors.green,
+//             title: localizations.translate('New Order'),
+//             message: localizations.translate('Order #1234 needs processing'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 }

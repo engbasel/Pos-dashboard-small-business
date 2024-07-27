@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/notifications/views/notifications_view.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
 import 'package:pos_dashboard_v1/features/login/views/login_view.dart';
-import '../../client/views/customers_view.dart';
-import 'overview.dart';
-import '../../settings/views/settings_overview.dart';
+import '../../features/client/views/customers_view.dart';
+import '../../features/dashboard/views/overview.dart';
+import '../../features/settings/views/settings_overview.dart';
 
 class DesktopLayoutBoady extends StatefulWidget {
   const DesktopLayoutBoady({super.key});

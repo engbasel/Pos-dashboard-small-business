@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
 import 'package:pos_dashboard_v1/features/Prodacts/views/products_Item_details_view.dart';
-import 'package:pos_dashboard_v1/features/overview/services/order_service.dart';
+import 'package:pos_dashboard_v1/features/dashboard/services/order_service.dart';
 import '../../../core/db/new_products_store_database_helper.dart';
 import '../../../features/categories/database/category_database_helper.dart';
 import '../../../features/categories/models/category_model.dart';
 import '../../../l10n/app_localizations.dart'; // Import your localization file.
 
 class OrdersListView extends StatefulWidget {
-  const OrdersListView({super.key});
+  final ValueChanged<int> onProductsCountChanged;
+
+  const OrdersListView({super.key, required this.onProductsCountChanged});
 
   @override
   State<OrdersListView> createState() => _OrdersListViewState();
@@ -61,6 +63,7 @@ class _OrdersListViewState extends State<OrdersListView> {
     final loadedOrders = await databaseHelper.getOrders();
     setState(() {
       orders = loadedOrders;
+      widget.onProductsCountChanged(orders.length);
     });
   }
 

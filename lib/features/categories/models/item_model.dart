@@ -5,8 +5,8 @@ class ItemModel {
   late final String description;
   late final String? sku;
   late final String? barcode;
-  late final double? purchasePrice;
-  late final double? salePrice;
+  late final double? price;
+  late final double? unitPrice;
   late final double? wholesalePrice;
   late final double? taxRate;
   late final int? quantity;
@@ -30,8 +30,8 @@ class ItemModel {
     this.description = '',
     this.sku,
     this.barcode,
-    this.purchasePrice,
-    this.salePrice,
+    this.price,
+    this.unitPrice,
     this.wholesalePrice,
     this.taxRate,
     this.quantity,
@@ -57,8 +57,8 @@ class ItemModel {
       'description': description,
       'sku': sku,
       'barcode': barcode,
-      'purchasePrice': purchasePrice,
-      'salePrice': salePrice,
+      'purchasePrice': price,
+      'salePrice': unitPrice,
       'wholesalePrice': wholesalePrice,
       'taxRate': taxRate,
       'quantity': quantity,
@@ -85,8 +85,8 @@ class ItemModel {
       description: map['description'],
       sku: map['sku'],
       barcode: map['barcode'],
-      purchasePrice: map['purchasePrice'],
-      salePrice: map['salePrice'],
+      price: map['purchasePrice'],
+      unitPrice: map['salePrice'],
       wholesalePrice: map['wholesalePrice'],
       taxRate: map['taxRate'],
       quantity: map['quantity'],
@@ -142,8 +142,8 @@ extension ItemModelCopyWith on ItemModel {
       description: description ?? this.description,
       sku: sku ?? this.sku,
       barcode: barcode ?? this.barcode,
-      purchasePrice: purchasePrice ?? this.purchasePrice,
-      salePrice: salePrice ?? this.salePrice,
+      price: purchasePrice ?? this.price,
+      unitPrice: salePrice ?? this.unitPrice,
       wholesalePrice: wholesalePrice ?? this.wholesalePrice,
       taxRate: taxRate ?? this.taxRate,
       quantity: quantity ?? this.quantity,

@@ -43,9 +43,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
     skuController = TextEditingController(text: widget.item.sku);
     barcodeController = TextEditingController(text: widget.item.barcode);
     purchasePriceController =
-        TextEditingController(text: widget.item.purchasePrice?.toString());
+        TextEditingController(text: widget.item.price?.toString());
     salePriceController =
-        TextEditingController(text: widget.item.salePrice?.toString());
+        TextEditingController(text: widget.item.unitPrice?.toString());
     wholesalePriceController =
         TextEditingController(text: widget.item.wholesalePrice?.toString());
     taxRateController =

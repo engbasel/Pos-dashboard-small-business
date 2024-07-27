@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
 import '../../../core/widgets/custom_button.dart';
-import '../../overview/widgets/custom_text_form_field.dart';
+import '../../dashboard/widgets/custom_text_form_field.dart';
 
 class ReturnInvoiceScreen extends StatefulWidget {
   const ReturnInvoiceScreen({super.key});
@@ -185,7 +184,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: CustomButton(
                           text: 'Clear Fields',
-                          bgColor: ColorsManager.kPrimaryColor,
+                          bgColor: const Color(0xff4985FF),
                           onTap: clearTextFields,
                         ),
                       ),
@@ -195,7 +194,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: CustomButton(
                           text: 'Add Return Invoice',
-                          bgColor: ColorsManager.kPrimaryColor,
+                          bgColor: const Color(0xff4985FF),
                           onTap: addReturnInvoice,
                         ),
                       ),
@@ -259,7 +258,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => showAddReturnInvoiceForm(context),
         tooltip: 'Add Return Invoice',
-        backgroundColor: ColorsManager.kPrimaryColor,
+        backgroundColor: const Color(0xff4985FF),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

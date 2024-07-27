@@ -154,7 +154,7 @@ class AppLocalizations {
       "Complete": "Complete",
       "Pending": "Pending",
       "Paid": "Paid",
-      "dashboard": "Dashboard",
+      "overview": "Overview",
       "customers": "Customers",
       "settings": "Settings",
       "messages": "Messages",
@@ -293,7 +293,7 @@ class AppLocalizations {
           "يرجى ملء جميع الحقول المطلوبة واختيار حالة العنصر الصحيحة.",
 
       // ======================== Orders section ===========================
-      "dashboard": "لوحة التحكم",
+      "overview": "نظرة عامة",
       "customers": "العملاء",
       "settings": "الإعدادات",
       "messages": "الرسائل",

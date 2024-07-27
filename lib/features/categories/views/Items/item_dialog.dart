@@ -235,9 +235,8 @@ Future<void> showAddItemDialog(
                     description: descriptionController.text,
                     sku: skuController.text,
                     barcode: barcodeController.text,
-                    purchasePrice:
-                        double.tryParse(purchasePriceController.text) ?? 0.0,
-                    salePrice: double.tryParse(salePriceController.text) ?? 0.0,
+                    price: double.tryParse(purchasePriceController.text) ?? 0.0,
+                    unitPrice: double.tryParse(salePriceController.text) ?? 0.0,
                     wholesalePrice:
                         double.tryParse(wholesalePriceController.text) ?? 0.0,
                     taxRate: double.tryParse(taxRateController.text) ?? 0.0,

@@ -3,10 +3,15 @@ import 'package:pdf/widgets.dart' as pdflib;
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_invoices_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/model/sales_item_model.dart';
+
+import '../../categories/database/category_database_helper.dart';
+import '../../categories/models/category_model.dart';
+import '../../categories/models/item_model.dart';
 
 class SalesBillScreen extends StatefulWidget {
   const SalesBillScreen({super.key});
@@ -19,6 +24,8 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   final customerNameController = TextEditingController();
   final invoiceDateController = TextEditingController();
   final invoiceNumberController = TextEditingController();
+  ItemModel? _selectedItem;
+
   final List<SalesItem> items = [];
   static List<SalesInvoice> savedInvoices = []; // Store saved invoices
 
@@ -95,6 +102,124 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     } else {
       print('No file selected');
     }
+  }
+
+  Future<void> showAddItemDialog(BuildContext context) async {
+    final categoryDatabaseHelper = CategoryDatabaseHelper.instance;
+    final itemDatabaseHelper = ItemDatabaseHelper.instance;
+
+    // Fetch categories
+    List<CategoryModel> categories =
+        await categoryDatabaseHelper.getCategories();
+    CategoryModel? selectedCategory;
+    ItemModel? selectedItem;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Select Item'),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Category Dropdown
+                    DropdownButtonFormField<CategoryModel>(
+                      decoration: const InputDecoration(labelText: 'Category'),
+                      items: categories.map((category) {
+                        return DropdownMenuItem<CategoryModel>(
+                          value: category,
+                          child: Text(category.title),
+                        );
+                      }).toList(),
+                      onChanged: (value) async {
+                        setState(() {
+                          selectedCategory = value;
+                          selectedItem = null; // Reset selected item
+                        });
+
+                        if (selectedCategory != null) {
+                          List<ItemModel> items = await itemDatabaseHelper
+                              .getItems(selectedCategory!.id as int);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Select Item'),
+                                content: SizedBox(
+                                  width: double.maxFinite,
+                                  height: 300,
+                                  child: ListView.builder(
+                                    itemCount: items.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title: Text(items[index].name),
+                                        onTap: () {
+                                          setState(() {
+                                            selectedItem = items[index];
+                                          });
+                                          Navigator.of(context)
+                                              .pop(); // Close the item selection dialog
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      value: selectedCategory,
+                    ),
+                    // Display selected item details
+                    if (selectedItem != null)
+                      Text('Selected Item: ${selectedItem!.name}'),
+                    if (selectedCategory == null && selectedItem != null)
+                      const Text('Please choose a category first',
+                          style: TextStyle(color: Colors.red)),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    if (selectedItem != null) {
+                      setState(() {
+                        _selectedItem =
+                            selectedItem; // Update the selected item in the main state
+                        items.add(SalesItem(
+                          selectedItem!.name,
+                          1,
+                          selectedItem!.unitPrice as double,
+                          0,
+                          selectedItem!.id as int,
+                        ));
+                      });
+                      Navigator.of(context).pop(); // Close the dialog
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Please choose an item first')),
+                      );
+                    }
+                  },
+                  child: const Text('Add'),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pop(), // Close the dialog
+                  child: const Text('Cancel'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   double calculateTotalAmount() {
@@ -201,30 +326,21 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
-              controller: customerNameController,
-              decoration: InputDecoration(
-                labelText:
-                    AppLocalizations.of(context).translate('CustomerName'),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: invoiceDateController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).translate('Data'),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: invoiceNumberController,
-              decoration: InputDecoration(
-                labelText:
-                    AppLocalizations.of(context).translate('InvoiceNumber'),
-              ),
-              keyboardType: TextInputType.number,
-            ),
             const SizedBox(height: 24),
+            // Display selected item details if available
+            if (_selectedItem != null) ...[
+              Text(
+                'Selected Item: ${_selectedItem!.name}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text('Quantity: ${_selectedItem!.quantity}'),
+              Text('Unit Price: \$${_selectedItem!.unitPrice}'),
+              // Text('Total: \$${_selectedItem!.total}'),
+              // Text('Discount: \$${_selectedItem!.discount}'),
+              const SizedBox(height: 24),
+            ],
+            // Existing DataTable and buttons..
             DataTable(
               columns: [
                 DataColumn(
@@ -286,7 +402,10 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             ),
             const SizedBox(height: 24),
             CustomButton(
-              onTap: addItem,
+              onTap: () {
+                // addItem();
+                showAddItemDialog(context);
+              },
               text: AppLocalizations.of(context).translate('AddItem'),
             ),
             const SizedBox(height: 12),

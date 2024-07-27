@@ -51,7 +51,7 @@ Widget buildGridView(
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  '\$${item.salePrice?.toStringAsFixed(2)}',
+                  '\$${item.unitPrice?.toStringAsFixed(2)}',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),

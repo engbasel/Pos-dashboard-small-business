@@ -79,11 +79,11 @@ class ItemDetailsScreen extends StatelessWidget {
             ListTile(
               title: Text(
                   AppLocalizations.of(context).translate('purchase_price')),
-              subtitle: Text(item.purchasePrice?.toString() ?? ''),
+              subtitle: Text(item.price?.toString() ?? ''),
             ),
             ListTile(
               title: Text(AppLocalizations.of(context).translate('sale_price')),
-              subtitle: Text(item.salePrice?.toString() ?? ''),
+              subtitle: Text(item.unitPrice?.toString() ?? ''),
             ),
             ListTile(
               title: Text(

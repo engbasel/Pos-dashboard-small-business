@@ -4,8 +4,8 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
 import 'package:pos_dashboard_v1/features/prodacts/views/prodacts_list_view.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/total_points_orders_visits_card.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/user_info_card.dart';
-import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
+import 'package:pos_dashboard_v1/features/userInformation/views/user_info_card.dart';
+import 'package:pos_dashboard_v1/features/userInformation/views/user_info_section.dart';
 
 import '../../../l10n/app_localizations.dart';
 

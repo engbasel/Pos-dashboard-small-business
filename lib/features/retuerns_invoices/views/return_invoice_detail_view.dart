@@ -4,6 +4,7 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoic
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/edit_return_invoice_item_view.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ReturnInvoiceDetailScreen extends StatefulWidget {
   final ReturnInvoiceModel returnInvoice;
@@ -33,29 +34,35 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
     });
   }
 
-  Future<void> generatePdf(BuildContext context) async {
+  Future<void> generatePdf() async {
     final pdf = pw.Document();
 
     pdf.addPage(
       pw.Page(
-        build: (pw.Context context) {
+        build: (pw.Context pwContext) {
           return pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.Text('Invoice ID: ${returnInvoice.id}'),
-              pw.SizedBox(height: 8),
-              pw.Text('Order ID: ${returnInvoice.orderId}'),
+              pw.Text(
+                  '${AppLocalizations.of(context).translate('invoiceId')}: ${returnInvoice.id}'),
               pw.SizedBox(height: 8),
               pw.Text(
-                  'Total Back Money: \$${returnInvoice.totalbackmony.toStringAsFixed(2)}'),
+                  '${AppLocalizations.of(context).translate('orderId')}: ${returnInvoice.orderId}'),
               pw.SizedBox(height: 8),
-              pw.Text('Return Date: ${returnInvoice.returnDate}'),
+              pw.Text(
+                  '${AppLocalizations.of(context).translate('totalBackMoney')}: \$${returnInvoice.totalbackmony.toStringAsFixed(2)}'),
               pw.SizedBox(height: 8),
-              pw.Text('Employee: ${returnInvoice.employee}'),
+              pw.Text(
+                  '${AppLocalizations.of(context).translate('returnDate')}: ${returnInvoice.returnDate}'),
               pw.SizedBox(height: 8),
-              pw.Text('Reason: ${returnInvoice.reason}'),
+              pw.Text(
+                  '${AppLocalizations.of(context).translate('employee')}: ${returnInvoice.employee}'),
               pw.SizedBox(height: 8),
-              pw.Text('Amount: \$${returnInvoice.amount.toStringAsFixed(2)}'),
+              pw.Text(
+                  '${AppLocalizations.of(context).translate('reason')}: ${returnInvoice.reason}'),
+              pw.SizedBox(height: 8),
+              pw.Text(
+                  '${AppLocalizations.of(context).translate('amount')}: \$${returnInvoice.amount.toStringAsFixed(2)}'),
             ],
           );
         },
@@ -74,7 +81,8 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
-        title: const Text('Return Invoice Details'),
+        title: Text(
+            AppLocalizations.of(context).translate('returnInvoiceDetails')),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -82,7 +90,7 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
               children: [
                 CustomSmallButton(
                   icon: Icons.edit,
-                  text: 'Edit',
+                  text: AppLocalizations.of(context).translate('edit'),
                   onTap: () async {
                     final updatedInvoice = await Navigator.push(
                       context,
@@ -102,8 +110,8 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
                 const SizedBox(width: 8),
                 CustomSmallButton(
                   icon: Icons.print,
-                  text: 'Print Order',
-                  onTap: () => generatePdf(context),
+                  text: AppLocalizations.of(context).translate('printOrder'),
+                  onTap: () => generatePdf(),
                 ),
               ],
             ),
@@ -116,15 +124,21 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildDetailRow('Invoice ID', returnInvoice.id),
-            buildDetailRow('Order ID', returnInvoice.orderId),
-            buildDetailRow('Total Back Money',
-                '\$${returnInvoice.totalbackmony.toStringAsFixed(2)}'),
-            buildDetailRow('Return Date', returnInvoice.returnDate),
-            buildDetailRow('Employee', returnInvoice.employee),
-            buildDetailRow('Reason', returnInvoice.reason),
+            buildDetailRow(AppLocalizations.of(context).translate('invoiceId'),
+                returnInvoice.id.toString()),
+            buildDetailRow(AppLocalizations.of(context).translate('orderId'),
+                returnInvoice.orderId.toString()),
             buildDetailRow(
-                'Amount', '\$${returnInvoice.amount.toStringAsFixed(2)}'),
+                AppLocalizations.of(context).translate('totalBackMoney'),
+                '\$${returnInvoice.totalbackmony.toStringAsFixed(2)}'),
+            buildDetailRow(AppLocalizations.of(context).translate('returnDate'),
+                returnInvoice.returnDate),
+            buildDetailRow(AppLocalizations.of(context).translate('employee'),
+                returnInvoice.employee),
+            buildDetailRow(AppLocalizations.of(context).translate('reason'),
+                returnInvoice.reason),
+            buildDetailRow(AppLocalizations.of(context).translate('amount'),
+                '\$${returnInvoice.amount.toStringAsFixed(2)}'),
           ],
         ),
       ),

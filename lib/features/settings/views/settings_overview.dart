@@ -12,7 +12,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const CustomAppBar(title: 'Settings'),
+        CustomAppBar(title: AppLocalizations.of(context).translate('settings')),
         const SizedBox(height: 16),
         ListTile(
           title: Text(AppLocalizations.of(context).translate('viewUserLogs')),

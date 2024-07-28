@@ -63,7 +63,9 @@ class CustomDrawer extends StatelessWidget {
           drawerItem(
             index: 1,
             icon: Icons.shopping_bag_outlined,
-            text: 'Products',
+            // text: 'Products',
+            text: localizations.translate('Products'),
+
             isSelected: selectedIndex == 1,
             onTap: () {
               onSelectItem(1);
@@ -72,7 +74,9 @@ class CustomDrawer extends StatelessWidget {
           drawerItem(
             index: 2,
             icon: Icons.category_outlined,
-            text: 'Categories',
+            // text: 'Categories',
+            text: localizations.translate('catigoryes'),
+
             isSelected: selectedIndex == 2,
             onTap: () {
               onSelectItem(2);
@@ -81,7 +85,9 @@ class CustomDrawer extends StatelessWidget {
           drawerItem(
             index: 3,
             icon: Icons.shopping_cart_outlined,
-            text: 'Orders',
+            // text: 'Orders',
+            text: localizations.translate('orders'),
+
             isSelected: selectedIndex == 3,
             onTap: () {
               onSelectItem(3);
@@ -90,7 +96,9 @@ class CustomDrawer extends StatelessWidget {
           drawerItem(
             index: 4,
             icon: Icons.assignment_return_outlined,
-            text: 'Return Invoices',
+            // text: 'Return Invoices',
+            text: localizations.translate('ReturnInvoices'),
+
             isSelected: selectedIndex == 4,
             onTap: () {
               onSelectItem(4);
@@ -99,7 +107,9 @@ class CustomDrawer extends StatelessWidget {
           drawerItem(
             index: 5,
             icon: Icons.inventory_outlined,
-            text: 'Needed Products',
+            // text: 'Needed Products',
+            text: localizations.translate('NeededProducts'),
+
             isSelected: selectedIndex == 5,
             onTap: () {
               onSelectItem(5);
@@ -108,7 +118,10 @@ class CustomDrawer extends StatelessWidget {
           drawerItem(
             index: 6,
             icon: Icons.my_library_books_outlined,
-            text: 'Reports',
+            // text: 'reports',
+
+            text: localizations.translate('reports'),
+
             isSelected: selectedIndex == 6,
             onTap: () {
               onSelectItem(6);
@@ -146,19 +159,19 @@ class CustomDrawer extends StatelessWidget {
                 (route) => false,
               );
             },
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 35),
-                Icon(
+                const SizedBox(width: 35),
+                const Icon(
                   Icons.logout_outlined,
                   color: Colors.white,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    'Logout',
-                    style: TextStyle(
+                    localizations.translate('logout'),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                     ),

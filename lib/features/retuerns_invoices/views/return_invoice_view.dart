@@ -10,6 +10,7 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_re
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
 import '../../../core/widgets/custom_button.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../dashboard/widgets/custom_text_form_field.dart';
 
 class ReturnInvoiceScreen extends StatefulWidget {
@@ -229,34 +230,71 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          CustomAppBar(
-            title: 'Return Invoices',
-            actions: [
-              CustomSmallButton(
-                icon: Icons.add,
-                text: 'Add A Return',
-                onTap: () => showAddReturnInvoiceForm(context),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ...returnInvoices.map(
-            (invoice) => Container(
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.all(6),
-              child: ListTile(
-                title: Text('Invoice ID: ${invoice.id}'),
-                subtitle: Text('Order ID: ${invoice.orderId}'),
-                onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+    return Scaffold(
+      backgroundColor: ColorsManager.backgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomAppBar(
+              title: AppLocalizations.of(context).translate('returnInvoices'),
+              actions: [
+                CustomSmallButton(
+                  icon: Icons.add,
+                  text: AppLocalizations.of(context).translate('addReturn'),
+                  onTap: () => showAddReturnInvoiceForm(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ...returnInvoices.map(
+              (invoice) => Container(
+                color: Colors.white,
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.all(6),
+                child: ListTile(
+                  title: Text(
+                      '${AppLocalizations.of(context).translate('invoiceId')}: ${invoice.id}'),
+                  subtitle: Text(
+                      '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}'),
+                  onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+    // return Scaffold(
+    //   backgroundColor: ColorsManager.backgroundColor,
+    //   body: SingleChildScrollView(
+    //     child: Column(
+    //       children: [
+    //         CustomAppBar(
+    //           title: 'Return Invoices',
+    //           actions: [
+    //             CustomSmallButton(
+    //               icon: Icons.add,
+    //               text: 'Add A Return',
+    //               onTap: () => showAddReturnInvoiceForm(context),
+    //             ),
+    //           ],
+    //         ),
+    //         const SizedBox(height: 8),
+    //         ...returnInvoices.map(
+    //           (invoice) => Container(
+    //             color: Colors.white,
+    //             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    //             padding: const EdgeInsets.all(6),
+    //             child: ListTile(
+    //               title: Text('Invoice ID: ${invoice.id}'),
+    //               subtitle: Text('Order ID: ${invoice.orderId}'),
+    //               onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

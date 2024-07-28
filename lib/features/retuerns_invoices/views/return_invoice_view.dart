@@ -229,33 +229,42 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          CustomAppBar(
-            title: 'Return Invoices',
-            actions: [
-              CustomSmallButton(
-                icon: Icons.add,
-                text: 'Add A Return',
-                onTap: () => showAddReturnInvoiceForm(context),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ...returnInvoices.map(
-            (invoice) => Container(
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.all(6),
-              child: ListTile(
-                title: Text('Invoice ID: ${invoice.id}'),
-                subtitle: Text('Order ID: ${invoice.orderId}'),
-                onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+    return Scaffold(
+      backgroundColor: ColorsManager.backgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomAppBar(
+              title: 'Return Invoices',
+              actions: [
+                CustomSmallButton(
+                  icon: Icons.add,
+                  text: 'Add A Return',
+                  onTap: () => showAddReturnInvoiceForm(context),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_forward),
+                )
+              ],
+            ),
+            const SizedBox(height: 8),
+            ...returnInvoices.map(
+              (invoice) => Container(
+                color: Colors.white,
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.all(6),
+                child: ListTile(
+                  title: Text('Invoice ID: ${invoice.id}'),
+                  subtitle: Text('Order ID: ${invoice.orderId}'),
+                  onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

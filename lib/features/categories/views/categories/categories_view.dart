@@ -135,81 +135,89 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomAppBar(
-          title: AppLocalizations.of(context).translate('title'),
-          actions: [
-            CustomSmallButton(
-              icon: Icons.add,
-              text: 'Add Category',
-              onTap: showAddCategoryDialog,
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Material(
-            color: Colors.white,
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText:
-                    AppLocalizations.of(context).translate('search_categories'),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorsManager.kPrimaryColor,
-                  ),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorsManager.kPrimaryColor,
-                  ),
-                ),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorsManager.kPrimaryColor,
-                  ),
-                ),
+    return Scaffold(
+      backgroundColor: ColorsManager.backgroundColor,
+      body: Column(
+        children: [
+          CustomAppBar(
+            title: AppLocalizations.of(context).translate('title'),
+            actions: [
+              CustomSmallButton(
+                icon: Icons.add,
+                text: 'Add Category',
+                onTap: showAddCategoryDialog,
               ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
               IconButton(
-                icon: Icon(
-                  isGridView ? Icons.view_list : Icons.view_module,
-                  color: const Color(0xff505251),
-                ),
-                onPressed: () {
-                  setState(
-                    () {
-                      isGridView = !isGridView;
-                    },
-                  );
-                },
-              ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_forward)),
             ],
           ),
-        ),
-        Expanded(
-          child: filteredCategories.isEmpty
-              ? Center(
-                  child: Text(AppLocalizations.of(context)
-                      .translate('category_not_available')),
-                )
-              : isGridView
-                  ? buildGridView()
-                  : buildListView(),
-        ),
-        const SizedBox(height: 16),
-      ],
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Material(
+              color: Colors.white,
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)
+                      .translate('search_categories'),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    isGridView ? Icons.view_list : Icons.view_module,
+                    color: const Color(0xff505251),
+                  ),
+                  onPressed: () {
+                    setState(
+                      () {
+                        isGridView = !isGridView;
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: filteredCategories.isEmpty
+                ? Center(
+                    child: Text(AppLocalizations.of(context)
+                        .translate('category_not_available')),
+                  )
+                : isGridView
+                    ? buildGridView()
+                    : buildListView(),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
     );
   }
 

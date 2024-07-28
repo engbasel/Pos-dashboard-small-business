@@ -176,36 +176,38 @@ class _OrdersListViewState extends State<OrdersListView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          CustomAppBar(
-            title: AppLocalizations.of(context).translate('orderList'),
-            actions: [
-              InkWell(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OrderDetailsScreen(orders: orders),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomAppBar(
+              title: AppLocalizations.of(context).translate('orderList'),
+              actions: [
+                InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderDetailsScreen(orders: orders),
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.table_view,
+                    color: Color(0xff505251),
                   ),
                 ),
-                child: const Icon(
-                  Icons.table_view,
-                  color: Color(0xff505251),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildInputSection(),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: addOrder,
-            child: Text(AppLocalizations.of(context).translate('addOrder')),
-          ),
-          const SizedBox(height: 16),
-          _buildOrdersList(),
-        ],
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildInputSection(),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: addOrder,
+              child: Text(AppLocalizations.of(context).translate('addOrder')),
+            ),
+            const SizedBox(height: 16),
+            _buildOrdersList(),
+          ],
+        ),
       ),
     );
   }

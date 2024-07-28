@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/client/widgets/custom_details_card.dart';
 import '../../../core/db/clients_database.dart';
 import '../widgets/add_customer_dialog.dart';
 import '../widgets/customer_detail_view.dart';
+import '../../../l10n/app_localizations.dart';
 
 class CustomersView extends StatefulWidget {
   const CustomersView({super.key});
@@ -81,11 +81,11 @@ class _CustomersViewState extends State<CustomersView> {
     return Column(
       children: [
         CustomAppBar(
-          title: 'Customers',
+          title: AppLocalizations.of(context).translate('customers'),
           actions: [
             CustomSmallButton(
               icon: Icons.add,
-              text: 'Add Customer',
+              text: AppLocalizations.of(context).translate('addCustomer'),
               onTap: () async {
                 final newCustomer = await showDialog<Map<String, String>>(
                   context: context,
@@ -102,7 +102,7 @@ class _CustomersViewState extends State<CustomersView> {
         TextField(
           controller: searchController,
           decoration: InputDecoration(
-            labelText: 'Search',
+            labelText: AppLocalizations.of(context).translate('search'),
             suffixIcon: IconButton(
               icon: const Icon(Icons.clear),
               onPressed: () {
@@ -113,7 +113,9 @@ class _CustomersViewState extends State<CustomersView> {
         ),
         Expanded(
           child: filteredCustomers.isEmpty
-              ? const Center(child: Text('Client not found'))
+              ? Center(
+                  child: Text(
+                      AppLocalizations.of(context).translate('clientNotFound')))
               : ListView.builder(
                   itemCount: filteredCustomers.length,
                   itemBuilder: (context, index) {

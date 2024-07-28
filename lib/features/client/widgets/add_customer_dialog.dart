@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 
 class AddCustomerDialog extends StatefulWidget {
   const AddCustomerDialog({super.key});
@@ -19,32 +20,40 @@ class _AddCustomerDialogState extends State<AddCustomerDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add New Customer'),
+      title: Text(AppLocalizations.of(context).translate('addNewCustomer')),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Full Name'),
+                decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('fullName')),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter full name';
+                    return AppLocalizations.of(context)
+                        .translate('pleaseEnterFullName');
                   }
                   return null;
                 },
                 onSaved: (value) => _customerData['fullName'] = value!,
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Indebtedness'),
+                decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('indebtedness')),
                 onSaved: (value) => _customerData['indebtedness'] = value!,
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Current Account'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('currentAccount')),
                 onSaved: (value) => _customerData['currentAccount'] = value!,
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Notes'),
+                decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).translate('notes')),
                 onSaved: (value) => _customerData['notes'] = value!,
               ),
             ],
@@ -54,7 +63,7 @@ class _AddCustomerDialogState extends State<AddCustomerDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context).translate('cancel')),
         ),
         ElevatedButton(
           onPressed: () {
@@ -63,7 +72,7 @@ class _AddCustomerDialogState extends State<AddCustomerDialog> {
               Navigator.of(context).pop(_customerData);
             }
           },
-          child: const Text('Add'),
+          child: Text(AppLocalizations.of(context).translate('add')),
         ),
       ],
     );

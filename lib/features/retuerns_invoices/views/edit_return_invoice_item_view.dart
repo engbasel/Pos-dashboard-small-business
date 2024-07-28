@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/features/dashboard/widgets/custom_text_form_field.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 
 import '../../../core/widgets/custom_snackbar.dart';
-import '../../dashboard/widgets/custom_text_form_field.dart';
+import '../../../l10n/app_localizations.dart';
 
 class EditReturnInvoiceItemScreen extends StatefulWidget {
   final ReturnInvoiceModel returnInvoice;
@@ -68,8 +69,12 @@ class _EditReturnInvoiceItemScreenState
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(content: Text('Return Invoice updated successfully')),
       // );
-      CustomSnackBar.show(context, 'Return Invoice updated successfully');
+      CustomSnackBar.show(
+          context,
+          AppLocalizations.of(context)
+              .translate('ReturnInvoiceupdatedsuccessfully'));
 
+// Return Invoice updated successfully
       // CustomSnackBar();
       widget.onUpdate(
           updatedReturnInvoice); // Call the callback function with updated invoice
@@ -79,7 +84,10 @@ class _EditReturnInvoiceItemScreenState
       //   SnackBar(content: Text('Error updating Return Invoice: $e')),
       // );
 
-      CustomSnackBar.show(context, 'Error updating Return Invoice: $e');
+      // CustomSnackBar.show(context, 'Error updating Return Invoice: $e');
+
+      CustomSnackBar.show(context,
+          AppLocalizations.of(context).translate('ErrorupdatingReturnInvoice'));
     }
   }
 
@@ -88,13 +96,14 @@ class _EditReturnInvoiceItemScreenState
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Edit Return Invoice'),
+        title:
+            Text(AppLocalizations.of(context).translate('editReturnInvoice')),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomSmallButton(
               icon: Icons.save,
-              text: 'Save',
+              text: AppLocalizations.of(context).translate('update'),
               onTap: updateReturnInvoice,
             ),
           ),
@@ -110,21 +119,22 @@ class _EditReturnInvoiceItemScreenState
               CoustomTextFormFiled(
                 readOnly: true,
                 controller: idController,
-                labelText: 'Invoice ID',
+                labelText: AppLocalizations.of(context).translate('invoiceID'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
               CoustomTextFormFiled(
                 readOnly: false,
                 controller: orderIdController,
-                labelText: 'Order ID',
+                labelText: AppLocalizations.of(context).translate('orderID'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
               CoustomTextFormFiled(
                 readOnly: false,
                 controller: totalbackmonyController,
-                labelText: 'Total Back Money',
+                labelText:
+                    AppLocalizations.of(context).translate('totalBackMoney'),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: <TextInputFormatter>[
@@ -135,7 +145,7 @@ class _EditReturnInvoiceItemScreenState
               CoustomTextFormFiled(
                 readOnly: false,
                 controller: returnDateController,
-                labelText: 'Return Date',
+                labelText: AppLocalizations.of(context).translate('returnDate'),
                 keyboardType: TextInputType.datetime,
                 onTap: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
@@ -157,21 +167,21 @@ class _EditReturnInvoiceItemScreenState
               CoustomTextFormFiled(
                 readOnly: false,
                 controller: employeeController,
-                labelText: 'Employee',
+                labelText: AppLocalizations.of(context).translate('employee'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
               CoustomTextFormFiled(
                 readOnly: false,
                 controller: reasonController,
-                labelText: 'Reason',
+                labelText: AppLocalizations.of(context).translate('reason'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
               CoustomTextFormFiled(
                 readOnly: false,
                 controller: amountController,
-                labelText: 'Amount',
+                labelText: AppLocalizations.of(context).translate('amount'),
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: <TextInputFormatter>[

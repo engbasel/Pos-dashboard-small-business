@@ -71,6 +71,7 @@ class _OverviewViewState extends State<OverviewView> {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
+    // ignore: unused_local_variable
     final localizations = AppLocalizations.of(context);
 
     return SingleChildScrollView(
@@ -103,16 +104,16 @@ class _OverviewViewState extends State<OverviewView> {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
+          const Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const UserInfoSection(),
-                    const SizedBox(height: 16),
-                    buildQuickAccessButtons(context, localizations),
-                    const SizedBox(height: 16),
+                    UserInfoSection(),
+                    SizedBox(height: 16),
+                    // buildQuickAccessButtons(context, localizations),
+                    SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -174,7 +175,7 @@ class _OverviewViewState extends State<OverviewView> {
           title: localizations.translate('عرض كافة التقارير'),
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AllReportesViwer()),
+            MaterialPageRoute(builder: (context) => const AllReportesViwer()),
           ),
           icon: Icons.assignment_return,
         ),

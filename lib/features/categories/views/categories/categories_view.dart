@@ -147,11 +147,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 text: 'Add Category',
                 onTap: showAddCategoryDialog,
               ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.arrow_forward)),
             ],
           ),
           const SizedBox(height: 16),

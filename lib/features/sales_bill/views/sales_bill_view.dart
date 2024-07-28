@@ -329,14 +329,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomAppBar(
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
+              actions: const [],
               title: AppLocalizations.of(context).translate('SalesBill'),
             ),
             TextField(

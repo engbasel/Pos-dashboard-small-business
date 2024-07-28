@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
@@ -184,7 +187,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: CustomButton(
                           text: 'Clear Fields',
-                          bgColor: const Color(0xff4985FF),
+                          bgColor: ColorsManager.kPrimaryColor,
                           onTap: clearTextFields,
                         ),
                       ),
@@ -194,7 +197,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: CustomButton(
                           text: 'Add Return Invoice',
-                          bgColor: const Color(0xff4985FF),
+                          bgColor: ColorsManager.kPrimaryColor,
                           onTap: addReturnInvoice,
                         ),
                       ),
@@ -226,40 +229,33 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Return Invoices'),
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.list),
-        //     onPressed: navigateToReturnInvoiceListScreen,
-        //   ),
-        // ],
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...returnInvoices.map((invoice) => ListTile(
-                    title: Text('Invoice ID: ${invoice.id}'),
-                    subtitle: Text('Order ID: ${invoice.orderId}'),
-                    onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
-                  )),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CustomAppBar(
+            title: 'Return Invoices',
+            actions: [
+              CustomSmallButton(
+                icon: Icons.add,
+                text: 'Add A Return',
+                onTap: () => showAddReturnInvoiceForm(context),
+              ),
             ],
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showAddReturnInvoiceForm(context),
-        tooltip: 'Add Return Invoice',
-        backgroundColor: const Color(0xff4985FF),
-        child: const Icon(Icons.add, color: Colors.white),
+          const SizedBox(height: 8),
+          ...returnInvoices.map(
+            (invoice) => Container(
+              color: Colors.white,
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.all(6),
+              child: ListTile(
+                title: Text('Invoice ID: ${invoice.id}'),
+                subtitle: Text('Order ID: ${invoice.orderId}'),
+                onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

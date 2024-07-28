@@ -1,13 +1,14 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/categories/views/categories/categories_view.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/AllReportesViwer.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/all_reports_viewer.dart';
+import 'package:pos_dashboard_v1/features/notifications/views/notifications_view.dart';
+import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
-import 'package:pos_dashboard_v1/features/prodacts/views/prodacts_list_view.dart';
 import 'package:pos_dashboard_v1/features/userInformation/views/user_info_section.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
-import 'package:pos_dashboard_v1/features/userInformation/user_info_card.dart';
 
 class OverviewView extends StatefulWidget {
   const OverviewView({super.key});
@@ -73,36 +74,52 @@ class _OverviewViewState extends State<OverviewView> {
     final localizations = AppLocalizations.of(context);
 
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const UserInfoSection(),
-                      const SizedBox(height: 16),
-                      buildQuickAccessButtons(context, localizations),
-                      const SizedBox(height: 16),
-                    ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomAppBar(
+            title: 'Dashboard',
+            actions: [
+              InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationsView(),
                   ),
                 ),
-                const SizedBox(width: 16),
-                const Expanded(
-                  child: UserInfoCard(),
+                child: const Icon(
+                  Icons.notifications_none,
+                  color: Color(0xff505251),
                 ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            // buildNotificationsSection(context, localizations),
-          ],
-        ),
+              ),
+              const SizedBox(width: 16),
+              const Text(
+                'Mohamed Elneny',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const UserInfoSection(),
+                    const SizedBox(height: 16),
+                    buildQuickAccessButtons(context, localizations),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
     );
   }
@@ -119,8 +136,8 @@ class _OverviewViewState extends State<OverviewView> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    OrdersListView(onProductsCountChanged: updateProductCount)),
+              builder: (context) => const OrdersListView(),
+            ),
           ),
           icon: Icons.inventory,
         ),

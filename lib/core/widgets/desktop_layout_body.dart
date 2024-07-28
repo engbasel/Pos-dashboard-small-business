@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/notifications/views/notifications_view.dart';
+import 'package:pos_dashboard_v1/features/categories/views/categories/categories_view.dart';
+import 'package:pos_dashboard_v1/features/dashboard/views/all_reports_viewer.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
-import 'package:pos_dashboard_v1/features/login/views/login_view.dart';
+import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
+import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
 import '../../features/client/views/customers_view.dart';
 import '../../features/dashboard/views/overview.dart';
 import '../../features/settings/views/settings_overview.dart';
@@ -27,32 +30,32 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(
-        selectedIndex: _selectedIndex,
-        onSelectItem: _onItemTapped,
-      ),
-      appBar: AppBar(
-        backgroundColor: const Color(0xfff8f9fd),
-        elevation: 0,
-        title: const Text(' Dashboard'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout_rounded),
-            onPressed: () {
-              // _onItemTapped(3);
+      // appBar: AppBar(
+      //   backgroundColor: const Color(0xfff8f9fd),
+      //   elevation: 0,
+      //   title: const Text(' Dashboard'),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.logout_rounded),
+      //       onPressed: () {
+      //         // _onItemTapped(3);
 
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return const LoginView();
-                },
-              ));
-            },
-          )
-        ],
-      ),
-      backgroundColor: const Color(0xfff8f9fd),
+      //         Navigator.push(context, MaterialPageRoute(
+      //           builder: (context) {
+      //             return const LoginView();
+      //           },
+      //         ));
+      //       },
+      //     )
+      //   ],
+      // ),
+
       body: Row(
         children: [
+          CustomDrawer(
+            selectedIndex: _selectedIndex,
+            onSelectItem: _onItemTapped,
+          ),
           Expanded(
             child: Column(
               children: [
@@ -62,9 +65,14 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
                     physics: const NeverScrollableScrollPhysics(),
                     children: const [
                       OverviewView(),
+                      OrdersListView(),
+                      CategoryScreen(),
+                      SalesBillScreen(),
+                      ReturnInvoiceScreen(),
+                      AllReportesViwer(),
+                      AllReportesViwer(),
                       CustomersView(),
                       SettingsView(),
-                      Notificationsviwe(),
                     ],
                   ),
                 ),

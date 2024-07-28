@@ -113,7 +113,7 @@ class UserInfoSection extends StatefulWidget {
   const UserInfoSection({super.key});
 
   @override
-  _UserInfoSectionState createState() => _UserInfoSectionState();
+  State<UserInfoSection> createState() => _UserInfoSectionState();
 }
 
 class _UserInfoSectionState extends State<UserInfoSection> {

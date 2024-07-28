@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/client/widgets/custom_details_card.dart';
 import '../../../core/db/clients_database.dart';
 import '../widgets/add_customer_dialog.dart';
@@ -75,43 +78,57 @@ class _CustomersViewState extends State<CustomersView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    searchController.clear();
-                  },
-                ),
-              ),
+    return Column(
+      children: [
+        CustomAppBar(
+          title: 'Customers',
+          actions: [
+            CustomSmallButton(
+              icon: Icons.add,
+              text: 'Add Customer',
+              onTap: () async {
+                final newCustomer = await showDialog<Map<String, String>>(
+                  context: context,
+                  builder: (context) => const AddCustomerDialog(),
+                );
+                if (newCustomer != null) {
+                  addCustomer(newCustomer);
+                }
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: searchController,
+          decoration: InputDecoration(
+            labelText: 'Search',
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () {
+                searchController.clear();
+              },
             ),
           ),
-          Expanded(
-            child: filteredCustomers.isEmpty
-                ? const Center(child: Text('Client not found'))
-                : ListView.builder(
-                    itemCount: filteredCustomers.length,
-                    itemBuilder: (context, index) {
-                      final customer = filteredCustomers[index];
-                      return CustomDetailsCard(
-                        customer: customer,
-                        onEdit: (editedCustomer) {
-                          updateCustomer(editedCustomer);
-                        },
-                        onDelete: (id) {
-                          deleteCustomer(id);
-                        },
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+        ),
+        Expanded(
+          child: filteredCustomers.isEmpty
+              ? const Center(child: Text('Client not found'))
+              : ListView.builder(
+                  itemCount: filteredCustomers.length,
+                  itemBuilder: (context, index) {
+                    final customer = filteredCustomers[index];
+                    return CustomDetailsCard(
+                      customer: customer,
+                      onEdit: (editedCustomer) {
+                        updateCustomer(editedCustomer);
+                      },
+                      onDelete: (id) {
+                        deleteCustomer(id);
+                      },
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
                             builder: (context) => CustomerDetailView(
                               customer: customer,
                               onEdit: (editedCustomer) {
@@ -121,28 +138,14 @@ class _CustomersViewState extends State<CustomersView> {
                                 deleteCustomer(id);
                               },
                             ),
-                          ));
-                        },
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final newCustomer = await showDialog<Map<String, String>>(
-            context: context,
-            builder: (context) => const AddCustomerDialog(),
-          );
-          if (newCustomer != null) {
-            addCustomer(newCustomer);
-          }
-        },
-        tooltip: 'Add Customer',
-        backgroundColor: const Color(0xff4985FF),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+        ),
+      ],
     );
   }
 }

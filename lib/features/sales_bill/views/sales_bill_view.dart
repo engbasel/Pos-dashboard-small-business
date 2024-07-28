@@ -3,6 +3,7 @@ import 'package:pdf/widgets.dart' as pdflib;
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_invoices_view.dart';
@@ -322,116 +323,108 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('SalesBill')),
-        backgroundColor: Colors.white,
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TextField(
-              controller: customerNameController,
-              decoration: InputDecoration(
-                labelText:
-                    AppLocalizations.of(context).translate('CustomerName'),
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CustomAppBar(
+            title: AppLocalizations.of(context).translate('SalesBill'),
+          ),
+          TextField(
+            controller: customerNameController,
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).translate('CustomerName'),
             ),
-            const SizedBox(height: 12),
-            Text('Date and Time: $currentDateTime'),
-            const SizedBox(height: 12),
-            Text('Invoice Number: ${invoiceNumberController.text}'),
-            const SizedBox(height: 24),
-            if (_selectedItem != null) ...[
-              Text(
-                'Selected Item: ${_selectedItem!.name}',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text('Quantity: ${_selectedItem!.quantity}'),
-              Text('Unit Price: \$${_selectedItem!.unitPrice}'),
-              const SizedBox(height: 24),
-            ],
-            DataTable(
-              columns: [
-                DataColumn(
-                    label: Text(AppLocalizations.of(context).translate('No.'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('Product'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('Quantity'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('UnitPrice'))),
-                DataColumn(
-                    label:
-                        Text(AppLocalizations.of(context).translate('Total'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('Discount'))),
-              ],
-              rows: items.asMap().entries.map((entry) {
-                final index = entry.key;
-                final item = entry.value;
-                return DataRow(
-                  cells: [
-                    DataCell(Text('${index + 1}')),
-                    DataCell(Text(item.name)),
-                    DataCell(Text('${item.quantity}')),
-                    DataCell(Text('\$${item.unitPrice}')),
-                    DataCell(Text('\$${item.total}')),
-                    DataCell(Text('\$${item.discount}')),
-                  ],
-                  onSelectChanged: (_) => editItem(index),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 24),
+          ),
+          const SizedBox(height: 12),
+          Text('Date and Time: $currentDateTime'),
+          const SizedBox(height: 12),
+          Text('Invoice Number: ${invoiceNumberController.text}'),
+          const SizedBox(height: 24),
+          if (_selectedItem != null) ...[
             Text(
-              '${AppLocalizations.of(context).translate('TotalAmount')} \$${calculateTotalAmount()}',
+              'Selected Item: ${_selectedItem!.name}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 12),
-            Text(
-              '${AppLocalizations.of(context).translate('Tax')} \$20',
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${AppLocalizations.of(context).translate('Total')}: \$${calculateGrandTotal()}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            Text('Quantity: ${_selectedItem!.quantity}'),
+            Text('Unit Price: \$${_selectedItem!.unitPrice}'),
             const SizedBox(height: 24),
-            CustomButton(
-              onTap: () => showAddItemDialog(context),
-              text: AppLocalizations.of(context).translate('AddItem'),
-            ),
-            const SizedBox(height: 12),
-            CustomButton(
-              onTap: exportAsPDF,
-              text: AppLocalizations.of(context).translate('ExportasPDF'),
-            ),
-            const SizedBox(height: 12),
-            CustomButton(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SalesInvoicesScreen(
-                      invoices: savedInvoices,
-                    ),
-                  ),
-                );
-              },
-              text: AppLocalizations.of(context).translate('ViewInvoices'),
-            )
           ],
-        ),
+          DataTable(
+            columns: [
+              DataColumn(
+                  label: Text(AppLocalizations.of(context).translate('No.'))),
+              DataColumn(
+                  label:
+                      Text(AppLocalizations.of(context).translate('Product'))),
+              DataColumn(
+                  label:
+                      Text(AppLocalizations.of(context).translate('Quantity'))),
+              DataColumn(
+                  label: Text(
+                      AppLocalizations.of(context).translate('UnitPrice'))),
+              DataColumn(
+                  label: Text(AppLocalizations.of(context).translate('Total'))),
+              DataColumn(
+                  label:
+                      Text(AppLocalizations.of(context).translate('Discount'))),
+            ],
+            rows: items.asMap().entries.map((entry) {
+              final index = entry.key;
+              final item = entry.value;
+              return DataRow(
+                cells: [
+                  DataCell(Text('${index + 1}')),
+                  DataCell(Text(item.name)),
+                  DataCell(Text('${item.quantity}')),
+                  DataCell(Text('\$${item.unitPrice}')),
+                  DataCell(Text('\$${item.total}')),
+                  DataCell(Text('\$${item.discount}')),
+                ],
+                onSelectChanged: (_) => editItem(index),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            '${AppLocalizations.of(context).translate('TotalAmount')} \$${calculateTotalAmount()}',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            '${AppLocalizations.of(context).translate('Tax')} \$20',
+            style: const TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            '${AppLocalizations.of(context).translate('Total')}: \$${calculateGrandTotal()}',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 24),
+          CustomButton(
+            onTap: () => showAddItemDialog(context),
+            text: AppLocalizations.of(context).translate('AddItem'),
+          ),
+          const SizedBox(height: 12),
+          CustomButton(
+            onTap: exportAsPDF,
+            text: AppLocalizations.of(context).translate('ExportasPDF'),
+          ),
+          const SizedBox(height: 12),
+          CustomButton(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SalesInvoicesScreen(
+                    invoices: savedInvoices,
+                  ),
+                ),
+              );
+            },
+            text: AppLocalizations.of(context).translate('ViewInvoices'),
+          )
+        ],
       ),
     );
   }

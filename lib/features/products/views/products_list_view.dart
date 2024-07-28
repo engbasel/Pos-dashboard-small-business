@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
-import 'package:pos_dashboard_v1/features/Prodacts/views/products_Item_details_view.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/dashboard/services/order_service.dart';
+import 'package:pos_dashboard_v1/features/products/views/products_item_details_view.dart';
 import '../../../core/db/new_products_store_database_helper.dart';
-import '../../../features/categories/database/category_database_helper.dart';
-import '../../../features/categories/models/category_model.dart';
+import '../../categories/database/category_database_helper.dart';
+import '../../categories/models/category_model.dart';
 import '../../../l10n/app_localizations.dart'; // Import your localization file.
 
 class OrdersListView extends StatefulWidget {
-  final ValueChanged<int> onProductsCountChanged;
-
-  const OrdersListView({super.key, required this.onProductsCountChanged});
+  const OrdersListView({super.key});
 
   @override
   State<OrdersListView> createState() => _OrdersListViewState();
@@ -63,7 +62,6 @@ class _OrdersListViewState extends State<OrdersListView> {
     final loadedOrders = await databaseHelper.getOrders();
     setState(() {
       orders = loadedOrders;
-      widget.onProductsCountChanged(orders.length);
     });
   }
 
@@ -178,33 +176,36 @@ class _OrdersListViewState extends State<OrdersListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('orderList')),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.table_view),
-            onPressed: navigateToOrdersTable,
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildInputSection(),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: addOrder,
-                child: Text(AppLocalizations.of(context).translate('addOrder')),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CustomAppBar(
+            title: AppLocalizations.of(context).translate('orderList'),
+            actions: [
+              InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderDetailsScreen(orders: orders),
+                  ),
+                ),
+                child: const Icon(
+                  Icons.table_view,
+                  color: Color(0xff505251),
+                ),
               ),
-              const SizedBox(height: 16),
-              _buildOrdersList(),
             ],
           ),
-        ),
+          const SizedBox(height: 16),
+          _buildInputSection(),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: addOrder,
+            child: Text(AppLocalizations.of(context).translate('addOrder')),
+          ),
+          const SizedBox(height: 16),
+          _buildOrdersList(),
+        ],
       ),
     );
   }

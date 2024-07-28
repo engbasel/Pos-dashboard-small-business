@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/desktop_layout_body.dart';
 import 'package:provider/provider.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
@@ -49,7 +50,7 @@ class PosSystem extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: ColorsManager.backgroundColor,
       ),
       // home: const LoginView(),
       home: const DesktopLayoutBoady(),

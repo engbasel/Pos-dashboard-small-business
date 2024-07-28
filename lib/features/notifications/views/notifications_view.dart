@@ -1,12 +1,12 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-class Notificationsviwe extends StatelessWidget {
-  const Notificationsviwe({super.key});
+class NotificationsView extends StatelessWidget {
+  const NotificationsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Notificationsviwe'),
+    return Scaffold(
+      appBar: AppBar(),
     );
   }
 }

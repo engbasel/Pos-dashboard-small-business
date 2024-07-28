@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
-import 'package:pos_dashboard_v1/features/Prodacts/views/products_Item_details_view.dart';
+import 'package:pos_dashboard_v1/features/products/views/products_item_details_view.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class OrdersListBody extends StatelessWidget {

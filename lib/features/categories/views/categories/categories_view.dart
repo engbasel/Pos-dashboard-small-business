@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/views/Items/item_screen.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -9,7 +12,7 @@ class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
 
   @override
-  _CategoryScreenState createState() => _CategoryScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
@@ -50,9 +53,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text(AppLocalizations.of(context).translate('add_category')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
                 controller: titleController,
@@ -79,7 +84,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(AppLocalizations.of(context).translate('cancel')),
+              child: Text(
+                AppLocalizations.of(context).translate('cancel'),
+                style: const TextStyle(
+                  color: ColorsManager.kPrimaryColor,
+                ),
+              ),
             ),
             TextButton(
               onPressed: () async {
@@ -94,7 +104,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 }
                 Navigator.of(context).pop();
               },
-              child: Text(AppLocalizations.of(context).translate('add')),
+              child: Text(
+                AppLocalizations.of(context).translate('add'),
+                style: const TextStyle(
+                  color: ColorsManager.kPrimaryColor,
+                ),
+              ),
             ),
           ],
         );
@@ -120,168 +135,206 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        scrolledUnderElevation: 0,
-        title: Text(AppLocalizations.of(context).translate('title')),
-        actions: [
-          IconButton(
-            icon: Icon(isGridView ? Icons.view_list : Icons.view_module),
-            onPressed: () {
-              setState(() {
-                isGridView = !isGridView;
-              });
-            },
-          ),
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                labelText:
-                    AppLocalizations.of(context).translate('search_categories'),
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: filteredCategories.isEmpty
-                  ? Center(
-                      child: Text(AppLocalizations.of(context)
-                          .translate('category_not_available')),
-                    )
-                  : isGridView
-                      ? buildGridView()
-                      : buildListView(),
+    return Column(
+      children: [
+        CustomAppBar(
+          title: AppLocalizations.of(context).translate('title'),
+          actions: [
+            CustomSmallButton(
+              icon: Icons.add,
+              text: 'Add Category',
+              onTap: showAddCategoryDialog,
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: showAddCategoryDialog,
-        backgroundColor: const Color(0xff4985FF),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Material(
+            color: Colors.white,
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText:
+                    AppLocalizations.of(context).translate('search_categories'),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: Icon(
+                  isGridView ? Icons.view_list : Icons.view_module,
+                  color: const Color(0xff505251),
+                ),
+                onPressed: () {
+                  setState(
+                    () {
+                      isGridView = !isGridView;
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: filteredCategories.isEmpty
+              ? Center(
+                  child: Text(AppLocalizations.of(context)
+                      .translate('category_not_available')),
+                )
+              : isGridView
+                  ? buildGridView()
+                  : buildListView(),
+        ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 
   Widget buildListView() {
-    return ReorderableListView.builder(
-      onReorder: _onReorder,
-      itemCount: filteredCategories.length,
-      itemBuilder: (context, index) {
-        final category = filteredCategories[index];
-        return Container(
-          padding: const EdgeInsets.all(6),
-          margin: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: Color(category.color),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          key: ValueKey(category.id),
-          child: ListTile(
-            title: Text(
-              category.title,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: ReorderableListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        onReorder: _onReorder,
+        itemCount: filteredCategories.length,
+        itemBuilder: (context, index) {
+          final category = filteredCategories[index];
+          return Container(
+            padding: const EdgeInsets.all(6),
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              color: Color(category.color),
+              borderRadius: BorderRadius.circular(10),
             ),
-            trailing: IconButton(
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.black,
+            key: ValueKey(category.id),
+            child: ListTile(
+              title: Text(
+                category.title,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-              onPressed: () async {
-                await CategoryDatabaseHelper.instance
-                    .deleteCategory(category.id!);
-                loadCategories();
+              trailing: IconButton(
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.black,
+                ),
+                onPressed: () async {
+                  await CategoryDatabaseHelper.instance
+                      .deleteCategory(category.id!);
+                  loadCategories();
+                },
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemScreen(categoryId: category.id!),
+                  ),
+                );
               },
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ItemScreen(categoryId: category.id!),
-                ),
-              );
-            },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
   Widget buildGridView() {
-    return GridView.builder(
-      padding: const EdgeInsets.all(8.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-      ),
-      itemCount: filteredCategories.length,
-      itemBuilder: (context, index) {
-        final category = filteredCategories[index];
-        return Material(
-          color: Color(category.color),
-          borderRadius: BorderRadius.circular(12),
-          child: InkWell(
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+        ),
+        itemCount: filteredCategories.length,
+        itemBuilder: (context, index) {
+          final category = filteredCategories[index];
+          return Material(
+            color: Color(category.color),
             borderRadius: BorderRadius.circular(12),
-            key: ValueKey(category.id),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ItemScreen(categoryId: category.id!),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              key: ValueKey(category.id),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemScreen(categoryId: category.id!),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Spacer(),
-                  Text(
-                    category.title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.black,
-                        ),
-                        onPressed: () async {
-                          await CategoryDatabaseHelper.instance
-                              .deleteCategory(category.id!);
-                          loadCategories();
-                        },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    Text(
+                      category.title,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ],
-                  ),
-                ],
+                      textAlign: TextAlign.center,
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.black,
+                          ),
+                          onPressed: () async {
+                            await CategoryDatabaseHelper.instance
+                                .deleteCategory(category.id!);
+                            loadCategories();
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

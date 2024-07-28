@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/categories/views/Items/item_dialog.dart';
@@ -106,7 +107,7 @@ class _ItemScreenState extends State<ItemScreen> {
         onPressed: () {
           showAddItemDialog(context, widget.categoryId, loadItems);
         },
-        backgroundColor: const Color(0xff4985FF),
+        backgroundColor: ColorsManager.kPrimaryColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

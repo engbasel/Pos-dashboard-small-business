@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 
 Widget drawerItem({
   required int index,
@@ -21,28 +22,21 @@ Widget drawerItem({
             width: isSelected ? 7.5 : 0, // Adjust width as needed
             height: isSelected ? 40 : 0, // Adjust height as needed
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.green, Colors.yellow], // Gradient colors
-              ),
-              borderRadius: BorderRadius.circular(
-                  30), // Adjust the border radius as needed
+              color: ColorsManager.kPrimaryColor,
+              borderRadius: BorderRadius.circular(30),
             ),
           ),
           const SizedBox(width: 35),
           Icon(
             icon,
-            color: isSelected ? const Color(0xff2cc56f) : null,
+            color: Colors.white,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               text,
-              style: TextStyle(
-                color: isSelected
-                    ? const Color(0xff2cc56f)
-                    : const Color(0xff828282),
+              style: const TextStyle(
+                color: Colors.white,
               ),
             ),
           ),

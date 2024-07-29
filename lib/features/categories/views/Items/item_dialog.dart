@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
@@ -9,25 +8,72 @@ import 'image_picker_helper.dart';
 Future<void> showAddItemDialog(
     BuildContext context, int categoryId, Function loadItems) async {
   final formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final skuController = TextEditingController();
-  final barcodeController = TextEditingController();
-  final purchasePriceController = TextEditingController();
-  final salePriceController = TextEditingController();
-  final wholesalePriceController = TextEditingController();
-  final taxRateController = TextEditingController();
-  final quantityController = TextEditingController();
-  final alertQuantityController = TextEditingController();
-  final imageController = TextEditingController();
-  final brandController = TextEditingController();
-  final sizeController = TextEditingController();
-  final weightController = TextEditingController();
-  final colorController = TextEditingController();
-  final materialController = TextEditingController();
-  final warrantyController = TextEditingController();
-  final supplierIdController = TextEditingController();
+  final controllers = {
+    'name': TextEditingController(),
+    'description': TextEditingController(),
+    'sku': TextEditingController(),
+    'barcode': TextEditingController(),
+    'purchasePrice': TextEditingController(),
+    'salePrice': TextEditingController(),
+    'wholesalePrice': TextEditingController(),
+    'taxRate': TextEditingController(),
+    'quantity': TextEditingController(),
+    'alertQuantity': TextEditingController(),
+    'image': TextEditingController(),
+    'brand': TextEditingController(),
+    'size': TextEditingController(),
+    'weight': TextEditingController(),
+    'color': TextEditingController(),
+    'material': TextEditingController(),
+    'warranty': TextEditingController(),
+    'supplierId': TextEditingController(),
+    'expiryDate': TextEditingController(),
+    'manufactureDate': TextEditingController(),
+  };
   String? itemStatus;
+
+  Widget buildTextField(String key, String label,
+      {bool isNumber = false, bool isRequired = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controllers[key],
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate(label),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+        validator: isRequired
+            ? (value) {
+                if (value == null || value.isEmpty) {
+                  return '${AppLocalizations.of(context).translate(label)} is required';
+                }
+                return null;
+              }
+            : null,
+      ),
+    );
+  }
+
+  Widget buildDateField(String key, String label) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: GestureDetector(
+        onTap: () => _selectDate(context, controllers[key]!),
+        child: AbsorbPointer(
+          child: TextFormField(
+            controller: controllers[key],
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).translate(label),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              suffixIcon: const Icon(Icons.calendar_today),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   await showDialog(
     context: context,
@@ -39,161 +85,57 @@ Future<void> showAddItemDialog(
           child: Form(
             key: formKey,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * .5,
+              width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextButton(
+                  ElevatedButton.icon(
                     onPressed: () async {
                       final path = await pickImage();
                       if (path != null) {
-                        imageController.text = path;
+                        controllers['image']!.text = path;
                       }
                     },
-                    child: Text(
+                    icon: const Icon(Icons.image),
+                    label: Text(
                         AppLocalizations.of(context).translate('select_image')),
                   ),
-                  imageController.text.isNotEmpty
-                      ? Image.file(File(imageController.text), height: 100)
+                  const SizedBox(height: 16),
+                  controllers['image']!.text.isNotEmpty
+                      ? Image.file(File(controllers['image']!.text),
+                          height: 100)
                       : const Icon(Icons.image, size: 100),
-                  TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('item_name')),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(context)
-                            .translate('name_required');
-                      }
-                      return null;
-                    },
-                  ),
-                  // Add other fields here...
-
-                  TextFormField(
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('description')),
-                  ),
-                  TextFormField(
-                    controller: skuController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('sku')),
-                  ),
-                  TextFormField(
-                    controller: barcodeController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('barcode')),
-                  ),
-                  TextFormField(
-                    controller: purchasePriceController,
-                    decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('purchase_price')),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(context)
-                            .translate('purchase_price_required');
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: salePriceController,
-                    decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('sale_price')),
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextFormField(
-                    controller: wholesalePriceController,
-                    decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('wholesale_price')),
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextFormField(
-                    controller: taxRateController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('tax_rate')),
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextFormField(
-                    controller: quantityController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('quantity')),
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextFormField(
-                    controller: alertQuantityController,
-                    decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('alert_quantity')),
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextFormField(
-                    controller: imageController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('image')),
-                  ),
-                  TextFormField(
-                    controller: brandController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('brand')),
-                  ),
-                  TextFormField(
-                    controller: sizeController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('size')),
-                  ),
-                  TextFormField(
-                    controller: weightController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('weight')),
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextFormField(
-                    controller: colorController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('color')),
-                  ),
-                  TextFormField(
-                    controller: materialController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('material')),
-                  ),
-                  TextFormField(
-                    controller: warrantyController,
-                    decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).translate('warranty')),
-                  ),
-                  TextFormField(
-                    controller: supplierIdController,
-                    decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('supplier_id')),
-                    keyboardType: TextInputType.number,
-                  ),
-
+                  const SizedBox(height: 16),
+                  buildTextField('name', 'item_name', isRequired: true),
+                  buildTextField('description', 'description'),
+                  buildTextField('sku', 'sku'),
+                  buildTextField('barcode', 'barcode'),
+                  buildTextField('purchasePrice', 'purchase_price',
+                      isNumber: true, isRequired: true),
+                  buildTextField('salePrice', 'sale_price', isNumber: true),
+                  buildTextField('wholesalePrice', 'wholesale_price',
+                      isNumber: true),
+                  buildTextField('taxRate', 'tax_rate', isNumber: true),
+                  buildTextField('quantity', 'quantity', isNumber: true),
+                  buildTextField('alertQuantity', 'alert_quantity',
+                      isNumber: true),
+                  buildTextField('brand', 'brand'),
+                  buildTextField('size', 'size'),
+                  buildTextField('weight', 'weight', isNumber: true),
+                  buildTextField('color', 'color'),
+                  buildTextField('material', 'material'),
+                  buildTextField('warranty', 'warranty'),
+                  buildTextField('supplierId', 'supplier_id', isNumber: true),
+                  buildDateField('expiryDate', 'expiry_date'),
+                  buildDateField('manufactureDate', 'manufacture_date'),
                   DropdownButtonFormField<String>(
                     value: itemStatus,
                     decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('item_status')),
+                      labelText:
+                          AppLocalizations.of(context).translate('item_status'),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
                     items: ['active', 'inactive', 'discontinued']
                         .map((status) => DropdownMenuItem(
                               value: status,
@@ -219,39 +161,45 @@ Future<void> showAddItemDialog(
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: Text(AppLocalizations.of(context).translate('cancel')),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: () async {
               if (formKey.currentState?.validate() ?? false) {
                 await ItemDatabaseHelper.instance.insertItem(
                   ItemModel(
                     id: null,
                     categoryId: categoryId,
-                    name: nameController.text,
-                    description: descriptionController.text,
-                    sku: skuController.text,
-                    barcode: barcodeController.text,
-                    price: double.tryParse(purchasePriceController.text) ?? 0.0,
-                    unitPrice: double.tryParse(salePriceController.text) ?? 0.0,
+                    name: controllers['name']!.text,
+                    description: controllers['description']!.text,
+                    sku: controllers['sku']!.text,
+                    barcode: controllers['barcode']!.text,
+                    price:
+                        double.tryParse(controllers['purchasePrice']!.text) ??
+                            0.0,
+                    unitPrice:
+                        double.tryParse(controllers['salePrice']!.text) ?? 0.0,
                     wholesalePrice:
-                        double.tryParse(wholesalePriceController.text) ?? 0.0,
-                    taxRate: double.tryParse(taxRateController.text) ?? 0.0,
-                    quantity: int.tryParse(quantityController.text) ?? 0,
+                        double.tryParse(controllers['wholesalePrice']!.text) ??
+                            0.0,
+                    taxRate:
+                        double.tryParse(controllers['taxRate']!.text) ?? 0.0,
+                    quantity: int.tryParse(controllers['quantity']!.text) ?? 0,
                     alertQuantity:
-                        int.tryParse(alertQuantityController.text) ?? 0,
-                    image: imageController.text,
-                    brand: brandController.text,
-                    size: sizeController.text,
-                    weight: double.tryParse(weightController.text) ?? 0.0,
-                    color: colorController.text,
-                    material: materialController.text,
-                    warranty: warrantyController.text,
-                    supplierId: int.tryParse(supplierIdController.text) ?? 0,
+                        int.tryParse(controllers['alertQuantity']!.text) ?? 0,
+                    image: controllers['image']!.text,
+                    brand: controllers['brand']!.text,
+                    size: controllers['size']!.text,
+                    weight: double.tryParse(controllers['weight']!.text) ?? 0.0,
+                    color: controllers['color']!.text,
+                    material: controllers['material']!.text,
+                    warranty: controllers['warranty']!.text,
+                    supplierId:
+                        int.tryParse(controllers['supplierId']!.text) ?? 0,
                     itemStatus: itemStatus ?? 'active',
+                    // dateAdded: controllers['expiryDate']!.text,
+                    // dateModified: controllers['manufactureDate']!.text,
                   ),
                 );
                 loadItems();
@@ -264,4 +212,17 @@ Future<void> showAddItemDialog(
       );
     },
   );
+}
+
+Future<void> _selectDate(
+    BuildContext context, TextEditingController controller) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2101),
+  );
+  if (picked != null) {
+    controller.text = picked.toIso8601String().split('T')[0];
+  }
 }

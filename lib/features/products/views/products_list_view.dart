@@ -6,7 +6,7 @@ import 'package:pos_dashboard_v1/features/products/views/products_item_details_v
 import '../../../core/db/new_products_store_database_helper.dart';
 import '../../categories/database/category_database_helper.dart';
 import '../../categories/models/category_model.dart';
-import '../../../l10n/app_localizations.dart'; // Import your localization file.
+import '../../../l10n/app_localizations.dart';
 
 class OrdersListView extends StatefulWidget {
   const OrdersListView({super.key});
@@ -19,14 +19,13 @@ class _OrdersListViewState extends State<OrdersListView> {
   final DatabaseHelper databaseHelper = DatabaseHelper();
   final CategoryDatabaseHelper categoryDatabaseHelper =
       CategoryDatabaseHelper.instance;
+  final OrderService _orderService = OrderService();
 
   List<Order> orders = [];
   List<CategoryModel> categories = [];
   String? selectedCategory;
   String? selectedPaymentMethod;
   final List<String> paymentMethods = ['Visa', 'Cash', 'PayPal'];
-  // ignore: unused_field
-  final OrderService _orderService = OrderService();
 
   final Map<String, TextEditingController> controllers = {
     'id': TextEditingController(),
@@ -50,12 +49,53 @@ class _OrdersListViewState extends State<OrdersListView> {
     super.initState();
     loadOrders();
     loadCategories();
-    databaseHelper.addCategoryColumn(); // Add this
+    databaseHelper.addCategoryColumn();
   }
 
-  Future<void> addCategoryColumn() async {
-    final db = await databaseHelper.database;
-    await db.execute('ALTER TABLE orders ADD COLUMN category TEXT');
+  Widget buildInputField(String key, String label) {
+    if (['dateTime', 'entryDate', 'exitDate'].contains(key)) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: GestureDetector(
+          onTap: () => selectDate(context, key),
+          child: AbsorbPointer(
+            child: TextFormField(
+              controller: controllers[key],
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).translate(label),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                suffixIcon: const Icon(Icons.calendar_today),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controllers[key],
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate(label),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+    );
+  }
+
+  Future<void> selectDate(BuildContext context, String key) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null) {
+      setState(() {
+        controllers[key]!.text = picked.toIso8601String().split('T')[0];
+      });
+    }
   }
 
   Future<void> loadOrders() async {
@@ -100,31 +140,6 @@ class _OrdersListViewState extends State<OrdersListView> {
   Future<void> removeOrder(int index) async {
     final orderToDelete = orders[index];
     await databaseHelper.deleteOrder(orderToDelete.id);
-    loadOrders();
-  }
-
-  Future<void> updateOrder(int index) async {
-    final updatedOrder = Order(
-      id: controllers['id']!.text,
-      dateTime: controllers['dateTime']!.text,
-      type: controllers['type']!.text,
-      employee: controllers['employee']!.text,
-      status: controllers['status']!.text,
-      paymentStatus: selectedPaymentMethod ?? '',
-      amount: double.tryParse(controllers['amount']!.text) ?? 0,
-      numberOfItems: int.tryParse(controllers['numberOfItems']!.text) ?? 0,
-      entryDate: controllers['entryDate']!.text,
-      exitDate: controllers['exitDate']!.text,
-      wholesalePrice: double.tryParse(controllers['wholesalePrice']!.text) ?? 0,
-      retailPrice: double.tryParse(controllers['retailPrice']!.text) ?? 0,
-      productStatus: controllers['productStatus']!.text,
-      productDetails: controllers['productDetails']!.text,
-      productModel: controllers['productModel']!.text,
-      category: selectedCategory ?? '',
-    );
-
-    await databaseHelper.updateOrder(updatedOrder);
-    clearTextFields();
     loadOrders();
   }
 
@@ -177,57 +192,83 @@ class _OrdersListViewState extends State<OrdersListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomAppBar(
-              title: AppLocalizations.of(context).translate('orderList'),
-              actions: [
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrderDetailsScreen(orders: orders),
+      body: Column(
+        children: [
+          CustomAppBar(
+            title: AppLocalizations.of(context).translate('orderList'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.table_view, color: Color(0xff505251)),
+                onPressed: navigateToOrdersTable,
+              ),
+            ],
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    buildInputSection(),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: addOrder,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: Text(
+                          AppLocalizations.of(context).translate('addOrder')),
                     ),
-                  ),
-                  child: const Icon(
-                    Icons.table_view,
-                    color: Color(0xff505251),
-                  ),
+                    const SizedBox(height: 24),
+                    // Text(
+                    //   AppLocalizations.of(context).translate('ordersList'),
+                    //   style: Theme.of(context).textTheme.titleLarge,
+                    // ),
+                    const SizedBox(height: 8),
+                    // _buildOrdersList(),
+                  ],
                 ),
-              ],
+              ),
             ),
-            const SizedBox(height: 16),
-            _buildInputSection(),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: addOrder,
-              child: Text(AppLocalizations.of(context).translate('addOrder')),
-            ),
-            const SizedBox(height: 16),
-            _buildOrdersList(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildInputSection() {
+  Widget buildInputSection() {
     return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ...controllers.entries.map((entry) => TextField(
-                  controller: entry.value,
-                  decoration: InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context).translate(entry.key),
-                  ),
-                )),
-            const SizedBox(height: 8),
-            DropdownButton<String>(
+            // Text(
+            //   AppLocalizations.of(context).translate('addNewOrder'),
+            //   style: Theme.of(context).textTheme.titleLarge,
+            // ),
+            const SizedBox(height: 16),
+            buildInputField('id', 'orderId'),
+            buildInputField('dateTime', 'dateTime'),
+            buildInputField('type', 'orderType'),
+            buildInputField('employee', 'employee'),
+            buildInputField('status', 'status'),
+            buildInputField('amount', 'amount'),
+            buildInputField('numberOfItems', 'numberOfItems'),
+            buildInputField('entryDate', 'entryDate'),
+            buildInputField('exitDate', 'exitDate'),
+            buildInputField('wholesalePrice', 'wholesalePrice'),
+            buildInputField('retailPrice', 'retailPrice'),
+            buildInputField('productStatus', 'productStatus'),
+            buildInputField('productDetails', 'productDetails'),
+            buildInputField('productModel', 'productModel'),
+            const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
               value: selectedPaymentMethod,
               onChanged: (newValue) {
                 setState(() {
@@ -235,21 +276,24 @@ class _OrdersListViewState extends State<OrdersListView> {
                 });
               },
               items: paymentMethods.map((method) {
-                return DropdownMenuItem(
-                  value: method,
-                  child: Text(method),
-                );
+                return DropdownMenuItem(value: method, child: Text(method));
               }).toList(),
-              hint: Text(AppLocalizations.of(context)
-                  .translate('select_payment_method')),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)
+                    .translate('select_payment_method'),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: showCategoryDialog,
               child: InputDecorator(
                 decoration: InputDecoration(
                   labelText:
                       AppLocalizations.of(context).translate('select_category'),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                 ),
                 child: Text(
                   selectedCategory ??
@@ -264,19 +308,40 @@ class _OrdersListViewState extends State<OrdersListView> {
     );
   }
 
-  Widget _buildOrdersList() {
+  Widget buildOrdersList() {
     return ListView.builder(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: orders.length,
       itemBuilder: (context, index) {
         final order = orders[index];
         return Card(
+          elevation: 2,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: ListTile(
-            title: Text(order.id),
-            subtitle:
-                Text(AppLocalizations.of(context).translate('order_details')),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            title: Text(
+              order.id,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 4),
+                Text(
+                    '${AppLocalizations.of(context).translate('date')}: ${order.dateTime}'),
+                Text(
+                    '${AppLocalizations.of(context).translate('amount')}: \$${order.amount.toStringAsFixed(2)}'),
+              ],
+            ),
             trailing: IconButton(
-              icon: const Icon(Icons.delete),
+              icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () => removeOrder(index),
             ),
           ),

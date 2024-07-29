@@ -144,7 +144,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             actions: [
               CustomSmallButton(
                 icon: Icons.add,
-                text: 'Add Category',
+                text: AppLocalizations.of(context).translate('add_category'),
                 onTap: showAddCategoryDialog,
               ),
             ],

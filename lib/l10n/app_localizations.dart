@@ -285,7 +285,7 @@ class AppLocalizations {
       "loginTitle": "تسجيل الدخول",
       "nameLabel": "الاسم",
       "nameHint": "أدخل اسمك",
-      "orders": "المنتجات:",
+      "orders": "فاتورة المبيعات",
       "nameError": "يرجى إدخال اسمك",
       "idLabel": "الرقم القومي",
       "idHint": "ادخل الرقم القومي",

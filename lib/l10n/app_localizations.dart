@@ -37,6 +37,7 @@ class AppLocalizations {
 
       "ordersTable": "Orders Table",
       "id": "ID",
+      "SalesInvoicesReportFile": "Sales_Invoices_Report_File",
       "dateTime": "Date and Time",
       "type": "Type",
       "Products": "Products",
@@ -298,6 +299,7 @@ class AppLocalizations {
       "customer": "عميل",
       "genderLabel": "الجنس",
       "male": "ذكر",
+      "SalesInvoicesReportFile": "ملف_فواتير_المبيعات ",
       "female": "أنثى",
       "emailLabel": "البريد الإلكتروني",
       "branchLabel": "الفرع",

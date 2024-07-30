@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/categories/views/categories/categories_view.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/all_reports_viewer.dart';
+import 'package:pos_dashboard_v1/features/reports/views/all_reports_viewer.dart';
 import 'package:pos_dashboard_v1/features/notifications/views/notifications_view.dart';
 import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';

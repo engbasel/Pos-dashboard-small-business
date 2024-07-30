@@ -1,54 +1,7 @@
-// import 'package:flutter/material.dart';
-// import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
-// import 'package:pos_dashboard_v1/features/dashboard/views/custom_genral_report_item.dart';
-
-// class AllReportesViwer extends StatelessWidget {
-//   const AllReportesViwer({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         const CustomAppBar(title: 'Reports '),
-//         const SizedBox(height: 16),
-//         Expanded(
-//           child: Container(
-//             color: Colors.white,
-//             margin: const EdgeInsets.symmetric(horizontal: 16),
-//             padding: const EdgeInsets.symmetric(horizontal: 16),
-//             child: GridView.count(
-//               crossAxisCount: 4,
-//               children: [
-//                 CoustomGenralReportItem(
-//                   title: 'تقارير المبيعات',
-//                   onTap: () {},
-//                 ),
-//                 CoustomGenralReportItem(
-//                   title: 'تقارير سجل دخول العاملين للنظام',
-//                   onTap: () {},
-//                 ),
-//                 CoustomGenralReportItem(
-//                   title: 'تقارير المسترجعات',
-//                   onTap: () {},
-//                 ),
-//                 CoustomGenralReportItem(
-//                   title: 'اتقارير لبضاعة بالمخزن',
-//                   onTap: () {},
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         const SizedBox(height: 16),
-//       ],
-//     );
-//   }
-// }
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:pos_dashboard_v1/features/dashboard/views/custom_genral_report_item.dart';
 import 'package:printing/printing.dart';
 import 'package:open_file/open_file.dart';
 import 'package:file_picker/file_picker.dart'; // Import file_picker package
@@ -59,55 +12,6 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoic
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoicee_form.dart';
 import '../../../l10n/app_localizations.dart';
-
-class AllReportesViwer extends StatelessWidget {
-  const AllReportesViwer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const CustomAppBar(title: 'Reports '),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Container(
-            color: Colors.white,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: GridView.count(
-              crossAxisCount: 4,
-              children: [
-                CoustomGenralReportItem(
-                  title: 'تقارير المبيعات',
-                  onTap: () {},
-                ),
-                CoustomGenralReportItem(
-                  title: 'تقارير سجل دخول العاملين للنظام',
-                  onTap: () {},
-                ),
-                CoustomGenralReportItem(
-                  title: 'تقارير المسترجعات',
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const ReternInvocMentMangaer(),
-                      ),
-                    );
-                  },
-                ),
-                CoustomGenralReportItem(
-                  title: 'اتقارير لبضاعة بالمخزن',
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-      ],
-    );
-  }
-}
 
 class ReternInvocMentMangaer extends StatefulWidget {
   const ReternInvocMentMangaer({super.key});

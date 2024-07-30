@@ -64,7 +64,7 @@ class AppLocalizations {
       "totalPoints": "Total products In Store:",
       "pointsUsed": "Points Used:",
       "outstandingPoints": "Outstanding Points",
-      "orders": "Orders:",
+      "orders": "Orders",
       "logout": "Logout:",
       "totalSpend": "Total Spend:",
       "averageOrderValue": "Average Order Value",

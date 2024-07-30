@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/edit_return_invoice_item_view.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import '../../../l10n/app_localizations.dart';
@@ -77,69 +76,73 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        scrolledUnderElevation: 0,
-        title: Text(
-            AppLocalizations.of(context).translate('returnInvoiceDetails')),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: [
-                CustomSmallButton(
-                  icon: Icons.edit,
-                  text: AppLocalizations.of(context).translate('edit'),
-                  onTap: () async {
-                    final updatedInvoice = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditReturnInvoiceItemScreen(
-                          returnInvoice: returnInvoice,
-                          onUpdate: updateReturnInvoice,
-                        ),
-                      ),
-                    );
-                    if (updatedInvoice != null) {
-                      updateReturnInvoice(
-                          updatedInvoice); // Update the UI with the new data
-                    }
-                  },
-                ),
-                const SizedBox(width: 8),
-                CustomSmallButton(
-                  icon: Icons.print,
-                  text: AppLocalizations.of(context).translate('printOrder'),
-                  onTap: () => generatePdf(),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildDetailRow(AppLocalizations.of(context).translate('invoiceId'),
-                returnInvoice.id.toString()),
-            buildDetailRow(AppLocalizations.of(context).translate('orderId'),
-                returnInvoice.orderId.toString()),
-            buildDetailRow(
-                AppLocalizations.of(context).translate('totalBackMoney'),
-                '\$${returnInvoice.totalbackmony.toStringAsFixed(2)}'),
-            buildDetailRow(AppLocalizations.of(context).translate('returnDate'),
-                returnInvoice.returnDate),
-            buildDetailRow(AppLocalizations.of(context).translate('employee'),
-                returnInvoice.employee),
-            buildDetailRow(AppLocalizations.of(context).translate('reason'),
-                returnInvoice.reason),
-            buildDetailRow(AppLocalizations.of(context).translate('amount'),
-                '\$${returnInvoice.amount.toStringAsFixed(2)}'),
-          ],
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.5,
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    AppLocalizations.of(context)
+                        .translate('returnInvoiceDetails'),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const Spacer(),
+                  // CustomSmallButton(
+                  //   icon: Icons.edit,
+                  //   text: AppLocalizations.of(context).translate('edit'),
+                  //   onTap: () async {
+                  //     final updatedInvoice = await Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => EditReturnInvoiceItemScreen(
+                  //           returnInvoice: returnInvoice,
+                  //           onUpdate: updateReturnInvoice,
+                  //         ),
+                  //       ),
+                  //     );
+                  //     if (updatedInvoice != null) {
+                  //       updateReturnInvoice(
+                  //           updatedInvoice); // Update the UI with the new data
+                  //     }
+                  //   },
+                  // ),
+                  const SizedBox(width: 8),
+                  CustomSmallButton(
+                    icon: Icons.print,
+                    text: AppLocalizations.of(context).translate('printOrder'),
+                    onTap: () => generatePdf(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              buildDetailRow(
+                  AppLocalizations.of(context).translate('invoiceId'),
+                  returnInvoice.id.toString()),
+              buildDetailRow(AppLocalizations.of(context).translate('orderId'),
+                  returnInvoice.orderId.toString()),
+              buildDetailRow(
+                  AppLocalizations.of(context).translate('totalBackMoney'),
+                  '\$${returnInvoice.totalbackmony.toStringAsFixed(2)}'),
+              buildDetailRow(
+                  AppLocalizations.of(context).translate('returnDate'),
+                  returnInvoice.returnDate),
+              buildDetailRow(AppLocalizations.of(context).translate('employee'),
+                  returnInvoice.employee),
+              buildDetailRow(AppLocalizations.of(context).translate('reason'),
+                  returnInvoice.reason),
+              buildDetailRow(AppLocalizations.of(context).translate('amount'),
+                  '\$${returnInvoice.amount.toStringAsFixed(2)}'),
+            ],
+          ),
         ),
       ),
     );

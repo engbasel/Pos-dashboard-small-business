@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
-import 'package:pos_dashboard_v1/features/dashboard/services/order_service.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/products/views/products_item_details_view.dart';
 import '../../../core/db/new_products_store_database_helper.dart';
 import '../../categories/database/category_database_helper.dart';
 import '../../categories/models/category_model.dart';
 import '../../../l10n/app_localizations.dart';
 
-class OrdersListView extends StatefulWidget {
-  const OrdersListView({super.key});
+class ProductsListView extends StatefulWidget {
+  const ProductsListView({super.key});
 
   @override
-  State<OrdersListView> createState() => _OrdersListViewState();
+  State<ProductsListView> createState() => _ProductsListViewState();
 }
 
-class _OrdersListViewState extends State<OrdersListView> {
+class _ProductsListViewState extends State<ProductsListView> {
   final DatabaseHelper databaseHelper = DatabaseHelper();
   final CategoryDatabaseHelper categoryDatabaseHelper =
       CategoryDatabaseHelper.instance;
-  final OrderService _orderService = OrderService();
 
   List<Order> orders = [];
   List<CategoryModel> categories = [];
@@ -135,6 +134,7 @@ class _OrdersListViewState extends State<OrdersListView> {
     await databaseHelper.insertOrder(newOrder);
     clearTextFields();
     loadOrders();
+    Navigator.of(context).pop();
   }
 
   Future<void> removeOrder(int index) async {
@@ -184,58 +184,30 @@ class _OrdersListViewState extends State<OrdersListView> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => OrderDetailsScreen(orders: orders),
+        builder: (context) => ProductsItemDetailsView(orders: orders),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          CustomAppBar(
-            title: AppLocalizations.of(context).translate('orderList'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.table_view, color: Color(0xff505251)),
-                onPressed: navigateToOrdersTable,
-              ),
-            ],
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    buildInputSection(),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: addOrder,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
-                      child: Text(
-                          AppLocalizations.of(context).translate('addOrder')),
-                    ),
-                    const SizedBox(height: 24),
-                    // Text(
-                    //   AppLocalizations.of(context).translate('ordersList'),
-                    //   style: Theme.of(context).textTheme.titleLarge,
-                    // ),
-                    const SizedBox(height: 8),
-                    // _buildOrdersList(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        CustomAppBar(
+          title: AppLocalizations.of(context).translate('Products'),
+          actions: [
+            CustomSmallButton(
+              icon: Icons.add,
+              text: 'Add A Product',
+              onTap: () => showCustomDialog(context),
+            )
+          ],
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ProductsItemDetailsView(orders: orders),
+        ),
+      ],
     );
   }
 
@@ -343,6 +315,49 @@ class _OrdersListViewState extends State<OrdersListView> {
             trailing: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () => removeOrder(index),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    buildInputSection(),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: addOrder,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context).translate('addOrder'),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
             ),
           ),
         );

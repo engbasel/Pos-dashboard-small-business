@@ -137,7 +137,7 @@ class _OverviewViewState extends State<OverviewView> {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const OrdersListView(),
+              builder: (context) => const ProductsListView(),
             ),
           ),
           icon: Icons.inventory,

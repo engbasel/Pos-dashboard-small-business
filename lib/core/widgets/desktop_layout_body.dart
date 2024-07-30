@@ -66,7 +66,7 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
                     physics: const NeverScrollableScrollPhysics(),
                     children: const [
                       OverviewView(),
-                      OrdersListView(),
+                      ProductsListView(),
                       CategoryScreen(),
                       SalesBillScreen(),
                       ReturnInvoiceScreen(),

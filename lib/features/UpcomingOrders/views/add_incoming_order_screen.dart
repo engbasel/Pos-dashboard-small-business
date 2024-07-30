@@ -170,6 +170,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/UpcomingOrders/database/database_incoming_orders_manager..dart';
 import 'package:pos_dashboard_v1/features/UpcomingOrders/views/incoming_orders_list_screen.dart';
 import 'package:uuid/uuid.dart';
@@ -180,7 +181,7 @@ class AddIncomingOrderScreen extends StatefulWidget {
   const AddIncomingOrderScreen({super.key});
 
   @override
-  _AddIncomingOrderScreenState createState() => _AddIncomingOrderScreenState();
+  State<AddIncomingOrderScreen> createState() => _AddIncomingOrderScreenState();
 }
 
 class _AddIncomingOrderScreenState extends State<AddIncomingOrderScreen> {
@@ -267,57 +268,51 @@ class _AddIncomingOrderScreenState extends State<AddIncomingOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('addOrder')),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.list),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const IncomingOrdersListScreen()),
-            ),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                _buildInputField('orderId', _orderIdController),
-                _buildInputField('supplierName', _supplierNameController),
-                _buildInputField('orderDate', _orderDateController,
-                    isDate: true),
-                _buildInputField(
-                    'expectedDeliveryDate', _expectedDeliveryDateController,
-                    isDate: true),
-                _buildInputField('orderStatus', _orderStatusController),
-                _buildInputField('totalAmount', _totalAmountController,
-                    isNumber: true),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _addIncomingOrder,
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Text(
-                      AppLocalizations.of(context).translate('addOrder'),
-                      style: const TextStyle(fontSize: 18),
-                    ),
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            CustomAppBar(
+              title: AppLocalizations.of(context).translate('addOrder'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.list),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const IncomingOrdersListScreen()),
                   ),
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 16),
+            _buildInputField('orderId', _orderIdController),
+            _buildInputField('supplierName', _supplierNameController),
+            _buildInputField('orderDate', _orderDateController, isDate: true),
+            _buildInputField(
+                'expectedDeliveryDate', _expectedDeliveryDateController,
+                isDate: true),
+            _buildInputField('orderStatus', _orderStatusController),
+            _buildInputField('totalAmount', _totalAmountController,
+                isNumber: true),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _addIncomingOrder,
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  AppLocalizations.of(context).translate('addOrder'),
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

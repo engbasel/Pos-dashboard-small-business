@@ -35,7 +35,7 @@ class OrdersListBody extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const OrderDetailsScreen(
+                            builder: (context) => const ProductsItemDetailsView(
                               orders: [],
                             ),
                           ),

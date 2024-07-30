@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
-import 'package:pos_dashboard_v1/features/dashboard/views/custom_genral_report_item.dart';
+import 'package:pos_dashboard_v1/features/reports/views/ReternInvocMentMangaer.dart';
+import 'package:pos_dashboard_v1/features/reports/views/SalesInvoicesReportScreen.dart';
+import 'package:pos_dashboard_v1/features/reports/widgets/custom_genral_report_item.dart';
 
 class AllReportesViwer extends StatelessWidget {
   const AllReportesViwer({super.key});
@@ -21,7 +23,13 @@ class AllReportesViwer extends StatelessWidget {
               children: [
                 CoustomGenralReportItem(
                   title: 'تقارير المبيعات',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SalesInvoicesReportScreen(),
+                      ),
+                    );
+                  },
                 ),
                 CoustomGenralReportItem(
                   title: 'تقارير سجل دخول العاملين للنظام',
@@ -29,7 +37,13 @@ class AllReportesViwer extends StatelessWidget {
                 ),
                 CoustomGenralReportItem(
                   title: 'تقارير المسترجعات',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ReternInvocMentMangaer(),
+                      ),
+                    );
+                  },
                 ),
                 CoustomGenralReportItem(
                   title: 'اتقارير لبضاعة بالمخزن',

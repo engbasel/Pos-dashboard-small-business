@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
+import 'package:pos_dashboard_v1/features/sales_bill/databases/sales_database_helper.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_invoices_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
@@ -36,7 +37,20 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     super.initState();
     updateDateTime();
     invoiceNumberController.text = '${DateTime.now().millisecondsSinceEpoch}';
-    // items.add(SalesItem('', 0, 0, 0, 0));
+    _initializeDatabase();
+  }
+
+  Future<void> _initializeDatabase() async {
+    await SalesDatabaseHelper.instance.ensureDbIsInitialized();
+    await _loadSavedInvoices();
+  }
+
+  Future<void> _loadSavedInvoices() async {
+    final loadedInvoices =
+        await SalesDatabaseHelper.instance.getSalesInvoices();
+    setState(() {
+      savedInvoices = loadedInvoices;
+    });
   }
 
   double calculateTotalAmount() {
@@ -299,23 +313,61 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     if (result != null) {
       final file = File(result);
       await file.writeAsBytes(await pdf.save());
-      // ignore: avoid_print
       print('PDF saved to ${file.path}');
 
-      // Save invoice data
-      setState(() {
-        savedInvoices.add(
-          SalesInvoice(
-            customerName: customerNameController.text,
-            invoiceDate: currentDateTime,
-            invoiceNumber: invoiceNumberController.text,
-            items: List.from(items), // Ensure items are copied
-          ),
+      // Save invoice data to the database
+      final newInvoice = SalesInvoice(
+        customerName: customerNameController.text,
+        invoiceDate: currentDateTime,
+        invoiceNumber: invoiceNumberController.text,
+        items: List.from(items),
+      );
+
+      try {
+        await SalesDatabaseHelper.instance.insertSalesInvoice(newInvoice);
+
+        // Update the savedInvoices list
+        setState(() {
+          savedInvoices.add(newInvoice);
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invoice saved successfully')),
         );
-      });
+      } catch (e) {
+        print('Error saving invoice: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving invoice: $e')),
+        );
+      }
     } else {
-      // ignore: avoid_print
       print('No file selected');
+    }
+  }
+
+  Future<void> savedata() async {
+    final newInvoice = SalesInvoice(
+      customerName: customerNameController.text,
+      invoiceDate: currentDateTime,
+      invoiceNumber: invoiceNumberController.text,
+      items: List.from(items),
+    );
+    try {
+      await SalesDatabaseHelper.instance.insertSalesInvoice(newInvoice);
+
+      // Update the savedInvoices list
+      setState(() {
+        savedInvoices.add(newInvoice);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invoice saved successfully')),
+      );
+    } catch (e) {
+      print('Error saving invoice: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving invoice: $e')),
+      );
     }
   }
 
@@ -425,9 +477,85 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
               );
             },
             text: AppLocalizations.of(context).translate('ViewInvoices'),
+          ),
+          const SizedBox(height: 12),
+          CustomButton(
+            onTap: () {
+              savedata();
+            },
+            text: AppLocalizations.of(context).translate('حفظ الفواتير'),
           )
         ],
       ),
     );
   }
 }
+
+  // Future<void> exportAsPDF() async {
+  //   final pdf = pdflib.Document();
+  //   pdf.addPage(
+  //     pdflib.Page(
+  //       build: (context) => pdflib.Column(
+  //         crossAxisAlignment: pdflib.CrossAxisAlignment.start,
+  //         children: [
+  //           pdflib.Text('Customer Name: ${customerNameController.text}'),
+  //           pdflib.Text('Date: $currentDateTime'),
+  //           pdflib.Text('Invoice Number: ${invoiceNumberController.text}'),
+  //           pdflib.SizedBox(height: 12),
+  //           pdflib.Text('Items:'),
+  //           pdflib.SizedBox(height: 12),
+  //           ...items.asMap().entries.map((entry) {
+  //             final index = entry.key;
+  //             final item = entry.value;
+  //             return pdflib.Row(
+  //               mainAxisAlignment: pdflib.MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 pdflib.Text('${index + 1}'), // Counter for item number
+  //                 pdflib.Text(item.name),
+  //                 pdflib.Text('Quantity: ${item.quantity}'),
+  //                 pdflib.Text('Unit Price: \$${item.unitPrice}'),
+  //                 pdflib.Text('Total: \$${item.total}'),
+  //                 pdflib.Text('Discount: \$${item.discount}'),
+  //               ],
+  //             );
+  //           }),
+  //           pdflib.SizedBox(height: 12),
+  //           pdflib.Text('Total Amount: \$${calculateTotalAmount()}'),
+  //           pdflib.SizedBox(height: 12),
+  //           pdflib.Text('Tax: \$20'),
+  //           pdflib.SizedBox(height: 12),
+  //           pdflib.Text('Grand Total: \$${calculateGrandTotal()}'),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+
+  //   final result = await FilePicker.platform.saveFile(
+  //     dialogTitle: 'Save PDF',
+  //     fileName:
+  //         '${customerNameController.text}_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.pdf',
+  //     allowedExtensions: ['pdf'],
+  //   );
+
+  //   if (result != null) {
+  //     final file = File(result);
+  //     await file.writeAsBytes(await pdf.save());
+  //     // ignore: avoid_print
+  //     print('PDF saved to ${file.path}');
+
+  //     // Save invoice data
+  //     setState(() {
+  //       savedInvoices.add(
+  //         SalesInvoice(
+  //           customerName: customerNameController.text,
+  //           invoiceDate: currentDateTime,
+  //           invoiceNumber: invoiceNumberController.text,
+  //           items: List.from(items), // Ensure items are copied
+  //         ),
+  //       );
+  //     });
+  //   } else {
+  //     // ignore: avoid_print
+  //     print('No file selected');
+  //   }
+  // }

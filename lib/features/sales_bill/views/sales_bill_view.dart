@@ -345,6 +345,32 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     }
   }
 
+  Future<void> savedata() async {
+    final newInvoice = SalesInvoice(
+      customerName: customerNameController.text,
+      invoiceDate: currentDateTime,
+      invoiceNumber: invoiceNumberController.text,
+      items: List.from(items),
+    );
+    try {
+      await SalesDatabaseHelper.instance.insertSalesInvoice(newInvoice);
+
+      // Update the savedInvoices list
+      setState(() {
+        savedInvoices.add(newInvoice);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invoice saved successfully')),
+      );
+    } catch (e) {
+      print('Error saving invoice: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving invoice: $e')),
+      );
+    }
+  }
+
   // ... (keep the rest of the methods as they are)
 
   @override
@@ -451,6 +477,13 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
               );
             },
             text: AppLocalizations.of(context).translate('ViewInvoices'),
+          ),
+          const SizedBox(height: 12),
+          CustomButton(
+            onTap: () {
+              savedata();
+            },
+            text: AppLocalizations.of(context).translate('حفظ الفواتير'),
           )
         ],
       ),

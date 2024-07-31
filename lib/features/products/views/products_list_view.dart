@@ -5,6 +5,7 @@ import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/products/views/products_item_details_view.dart';
 import '../../../core/db/new_products_store_database_helper.dart';
 import '../../categories/database/category_database_helper.dart';
+import 'dart:io';
 import '../../categories/models/category_model.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -49,52 +50,6 @@ class _ProductsListViewState extends State<ProductsListView> {
     loadOrders();
     loadCategories();
     databaseHelper.addCategoryColumn();
-  }
-
-  Widget buildInputField(String key, String label) {
-    if (['dateTime', 'entryDate', 'exitDate'].contains(key)) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: GestureDetector(
-          onTap: () => selectDate(context, key),
-          child: AbsorbPointer(
-            child: TextFormField(
-              controller: controllers[key],
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).translate(label),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                suffixIcon: const Icon(Icons.calendar_today),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        controller: controllers[key],
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).translate(label),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      ),
-    );
-  }
-
-  Future<void> selectDate(BuildContext context, String key) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null) {
-      setState(() {
-        controllers[key]!.text = picked.toIso8601String().split('T')[0];
-      });
-    }
   }
 
   Future<void> loadOrders() async {
@@ -191,87 +146,59 @@ class _ProductsListViewState extends State<ProductsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomAppBar(
-          title: AppLocalizations.of(context).translate('Products'),
-          actions: [
-            CustomSmallButton(
-              icon: Icons.add,
-              text: 'Add A Product',
-              onTap: () => showCustomDialog(context),
-            )
-          ],
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: ProductsItemDetailsView(orders: orders),
-        ),
-      ],
-    );
-  }
-
-  Widget buildInputSection() {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Text(
-            //   AppLocalizations.of(context).translate('addNewOrder'),
-            //   style: Theme.of(context).textTheme.titleLarge,
-            // ),
-            const SizedBox(height: 16),
-            buildInputField('id', 'orderId'),
-            buildInputField('dateTime', 'dateTime'),
-            buildInputField('type', 'orderType'),
-            buildInputField('employee', 'employee'),
-            buildInputField('status', 'status'),
-            buildInputField('amount', 'amount'),
-            buildInputField('numberOfItems', 'numberOfItems'),
-            buildInputField('entryDate', 'entryDate'),
-            buildInputField('exitDate', 'exitDate'),
-            buildInputField('wholesalePrice', 'wholesalePrice'),
-            buildInputField('retailPrice', 'retailPrice'),
-            buildInputField('productStatus', 'productStatus'),
-            buildInputField('productDetails', 'productDetails'),
-            buildInputField('productModel', 'productModel'),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: selectedPaymentMethod,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedPaymentMethod = newValue;
-                });
-              },
-              items: paymentMethods.map((method) {
-                return DropdownMenuItem(value: method, child: Text(method));
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)
-                    .translate('select_payment_method'),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-              ),
+            CustomAppBar(
+              title: AppLocalizations.of(context).translate('Products'),
+              actions: [
+                CustomSmallButton(
+                  icon: Icons.add,
+                  text: 'Add A Product',
+                  onTap: () => showCustomDialog(context),
+                ),
+                CustomSmallButton(
+                  icon: Icons.table_chart,
+                  text: 'View Table',
+                  onTap: navigateToOrdersTable,
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            GestureDetector(
-              onTap: showCategoryDialog,
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('select_category'),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-                child: Text(
-                  selectedCategory ??
-                      AppLocalizations.of(context).translate('category'),
-                  style: const TextStyle(color: Colors.black),
-                ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+                  return Card(
+                    elevation: 2,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      leading: order.productDetails.isNotEmpty
+                          ? Image.file(
+                              File(order.productDetails),
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
+                          : const Icon(Icons.image, size: 50),
+                      title: Text(order.id),
+                      subtitle: Text(order.dateTime),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => removeOrder(index),
+                      ),
+                      onTap: () {
+                        // Navigate to details page if needed
+                      },
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -280,86 +207,116 @@ class _ProductsListViewState extends State<ProductsListView> {
     );
   }
 
-  Widget buildOrdersList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: orders.length,
-      itemBuilder: (context, index) {
-        final order = orders[index];
-        return Card(
-          elevation: 2,
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            title: Text(
-              order.id,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.bold),
+  Widget buildInputSection() {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text(
+              AppLocalizations.of(context).translate('add_a_product'),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4),
-                Text(
-                    '${AppLocalizations.of(context).translate('date')}: ${order.dateTime}'),
-                Text(
-                    '${AppLocalizations.of(context).translate('amount')}: \$${order.amount.toStringAsFixed(2)}'),
-              ],
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => removeOrder(index),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void showCustomDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.5,
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    buildInputSection(),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: addOrder,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context).translate('addOrder'),
-                      ),
+            const SizedBox(height: 8),
+            ...controllers.entries.map((entry) {
+              final label = entry.key;
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: TextField(
+                  controller: entry.value,
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).translate(label),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: 24),
-                  ],
+                  ),
+                ),
+              );
+            }),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: DropdownButtonFormField<String>(
+                value: selectedCategory,
+                items: categories.map((category) {
+                  return DropdownMenuItem<String>(
+                    value: category.title,
+                    child: Text(category.title),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedCategory = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('category'),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: DropdownButtonFormField<String>(
+                value: selectedPaymentMethod,
+                items: paymentMethods.map((method) {
+                  return DropdownMenuItem<String>(
+                    value: method,
+                    child: Text(method),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedPaymentMethod = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('paymentMethod'),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: addOrder,
+              child: Text(AppLocalizations.of(context)
+                  .translate(' add in catigory related ')),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> showCustomDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context).translate('add_a_product')),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                buildInputSection(),
+              ],
+            ),
           ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context).translate('cancel')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );

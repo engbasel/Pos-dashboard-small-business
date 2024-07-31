@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_constans.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/databases/sales_database_helper.dart';
@@ -50,7 +49,7 @@ class _SalesInvoicesReportScreenState extends State<SalesInvoicesReportScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('PDF saved to ${file.path}')),
           );
-          await OpenFile.open(file.path);
+          // await OpenFile.open(file.path);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Failed to save PDF')),

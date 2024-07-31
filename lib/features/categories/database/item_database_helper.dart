@@ -72,6 +72,28 @@ class ItemDatabaseHelper {
     print("Inserted item: ${item.name}");
   }
 
+  Future<void> insertItemInTransaction(
+      DatabaseExecutor txn, ItemModel item) async {
+    await txn.insert(
+      ItemDatabaseConstants.itemsTable,
+      item.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    print("Inserted item: ${item.name}");
+  }
+
+  Future<List<ItemModel>> getAllItems() async {
+    final db = await database;
+    var items = await db.query(
+      ItemDatabaseConstants.itemsTable,
+      orderBy: ItemDatabaseConstants.columnId,
+    );
+    List<ItemModel> itemList =
+        items.isNotEmpty ? items.map((i) => ItemModel.fromMap(i)).toList() : [];
+    print("Fetched all items: ${itemList.length}");
+    return itemList;
+  }
+
   Future<List<ItemModel>> getItems(int categoryId) async {
     final db = await database;
     var items = await db.query(

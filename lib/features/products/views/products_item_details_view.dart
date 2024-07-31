@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/utils/models/order_model.dart';
+import 'package:pos_dashboard_v1/core/utils/models/order_model.dart';
 import '../../../l10n/app_localizations.dart';
 
 class ProductsItemDetailsView extends StatelessWidget {
@@ -11,50 +11,73 @@ class ProductsItemDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columns: [
-            DataColumn(label: Text(localizations.translate('id'))),
-            DataColumn(label: Text(localizations.translate('dateTime'))),
-            DataColumn(label: Text(localizations.translate('type'))),
-            DataColumn(label: Text(localizations.translate('employee'))),
-            DataColumn(label: Text(localizations.translate('status'))),
-            DataColumn(label: Text(localizations.translate('paymentStatus'))),
-            DataColumn(label: Text(localizations.translate('amount'))),
-            DataColumn(label: Text(localizations.translate('numberOfItems'))),
-            DataColumn(label: Text(localizations.translate('entryDate'))),
-            DataColumn(label: Text(localizations.translate('exitDate'))),
-            DataColumn(label: Text(localizations.translate('wholesalePrice'))),
-            DataColumn(label: Text(localizations.translate('retailPrice'))),
-            DataColumn(label: Text(localizations.translate('productStatus'))),
-            DataColumn(label: Text(localizations.translate('productDetails'))),
-            DataColumn(label: Text(localizations.translate('productModel'))),
-            DataColumn(label: Text(localizations.translate('category'))),
-          ],
-          rows: orders.map((order) {
-            return DataRow(cells: [
-              DataCell(Text(order.id)),
-              DataCell(Text(order.dateTime)),
-              DataCell(Text(order.type)),
-              DataCell(Text(order.employee)),
-              DataCell(Text(order.status)),
-              DataCell(Text(order.paymentStatus)),
-              DataCell(Text(order.amount.toString())),
-              DataCell(Text(order.numberOfItems.toString())),
-              DataCell(Text(order.entryDate)),
-              DataCell(Text(order.exitDate)),
-              DataCell(Text(order.wholesalePrice.toString())),
-              DataCell(Text(order.retailPrice.toString())),
-              DataCell(Text(order.productStatus)),
-              DataCell(Text(order.productDetails)),
-              DataCell(Text(order.productModel)),
-              DataCell(Text(order.category)),
-            ]);
-          }).toList(),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(localizations.translate('orderDetails')),
+      ),
+      body: ListView.builder(
+        itemCount: orders.length,
+        itemBuilder: (context, index) {
+          final order = orders[index];
+          return Card(
+            elevation: 2,
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(16),
+              leading:
+                  const Icon(Icons.shopping_bag, size: 50, color: Colors.blue),
+              title: Text(
+                '${localizations.translate('id')}: ${order.id}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      '${localizations.translate('dateTime')}: ${order.dateTime}'),
+                  Text('${localizations.translate('type')}: ${order.type}'),
+                  Text(
+                      '${localizations.translate('employee')}: ${order.employee}'),
+                  Text('${localizations.translate('status')}: ${order.status}'),
+                  Text(
+                      '${localizations.translate('paymentStatus')}: ${order.paymentStatus}'),
+                  Text(
+                      '${localizations.translate('amount')}: ${order.amount.toString()}'),
+                  Text(
+                      '${localizations.translate('numberOfItems')}: ${order.numberOfItems.toString()}'),
+                  Text(
+                      '${localizations.translate('entryDate')}: ${order.entryDate}'),
+                  Text(
+                      '${localizations.translate('exitDate')}: ${order.exitDate}'),
+                  Text(
+                      '${localizations.translate('wholesalePrice')}: ${order.wholesalePrice.toString()}'),
+                  Text(
+                      '${localizations.translate('retailPrice')}: ${order.retailPrice.toString()}'),
+                  Text(
+                      '${localizations.translate('productStatus')}: ${order.productStatus}'),
+                  Text(
+                      '${localizations.translate('productDetails')}: ${order.productDetails}'),
+                  Text(
+                      '${localizations.translate('productModel')}: ${order.productModel}'),
+                  Text(
+                      '${localizations.translate('category')}: ${order.category}'),
+                ],
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () {
+                  // Implement your delete functionality here
+                },
+              ),
+              onTap: () {
+                // Implement your onTap functionality here if needed
+              },
+            ),
+          );
+        },
       ),
     );
   }

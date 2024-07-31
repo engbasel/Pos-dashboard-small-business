@@ -1,4 +1,7 @@
 import 'package:path/path.dart';
+import 'package:pos_dashboard_v1/features/categories/database/category_database_constants.dart';
+import 'package:pos_dashboard_v1/features/categories/database/item_database_constants.dart';
+import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:sqflite/sqflite.dart';
 import '../utils/models/order_model.dart';
 
@@ -37,23 +40,32 @@ class DatabaseHelper {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE orders(
-        id TEXT PRIMARY KEY,
-        dateTime TEXT,
-        type TEXT,
-        employee TEXT,
-        status TEXT,
-        paymentStatus TEXT,
-        amount REAL,
-        numberOfItems INTEGER,
-        entryDate TEXT,
-        exitDate TEXT,
-        wholesalePrice REAL,
-        retailPrice REAL,
-        productStatus TEXT,
-        productDetails TEXT,
-        productModel TEXT,
-        category TEXT
+      CREATE TABLE ${ItemDatabaseConstants.itemsTable} (
+        ${ItemDatabaseConstants.columnId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${ItemDatabaseConstants.columnCategoryId} INTEGER,
+        ${ItemDatabaseConstants.columnName} TEXT NOT NULL,
+        ${ItemDatabaseConstants.columnDescription} TEXT,
+        ${ItemDatabaseConstants.columnSKU} TEXT,
+        ${ItemDatabaseConstants.columnBarcode} TEXT,
+        ${ItemDatabaseConstants.columnPurchasePrice} REAL,
+        ${ItemDatabaseConstants.columnSalePrice} REAL,
+        ${ItemDatabaseConstants.columnWholesalePrice} REAL,
+        ${ItemDatabaseConstants.columnTaxRate} REAL,
+        ${ItemDatabaseConstants.columnQuantity} INTEGER,
+        ${ItemDatabaseConstants.columnAlertQuantity} INTEGER,
+        ${ItemDatabaseConstants.columnImage} TEXT,
+        ${ItemDatabaseConstants.columnBrand} TEXT,
+        ${ItemDatabaseConstants.columnSize} TEXT,
+        ${ItemDatabaseConstants.columnWeight} REAL,
+        ${ItemDatabaseConstants.columnColor} TEXT,
+        ${ItemDatabaseConstants.columnMaterial} TEXT,
+        ${ItemDatabaseConstants.columnWarranty} TEXT,
+        ${ItemDatabaseConstants.columnSupplierId} INTEGER,
+        ${ItemDatabaseConstants.columnItemStatus} TEXT CHECK (${ItemDatabaseConstants.columnItemStatus} IN ('active', 'inactive', 'discontinued')),
+        ${ItemDatabaseConstants.columnDateAdded} TEXT,
+        ${ItemDatabaseConstants.columnDateModified} TEXT,
+        FOREIGN KEY (${ItemDatabaseConstants.columnCategoryId}) REFERENCES categories (${CategoryDatabaseConstants.columnId}),
+        FOREIGN KEY (${ItemDatabaseConstants.columnSupplierId}) REFERENCES suppliers (supplierId)
       )
     ''');
   }
@@ -66,6 +78,25 @@ class DatabaseHelper {
 
   Future<void> _addCategoryColumn(Database db) async {
     await db.execute('ALTER TABLE orders ADD COLUMN category TEXT');
+  }
+
+  Future<void> insertOrderAndItem(Order order, ItemModel item) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      // Insert the order
+      await txn.insert(
+        'orders',
+        order.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+
+      // Insert the item
+      await txn.insert(
+        ItemDatabaseConstants.itemsTable,
+        item.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    });
   }
 
   Future<List<Order>> getOrders() async {

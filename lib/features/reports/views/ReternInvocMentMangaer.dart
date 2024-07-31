@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:open_file/open_file.dart';
 import 'package:file_picker/file_picker.dart'; // Import file_picker package
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
@@ -136,7 +135,7 @@ class _ReternInvocMentMangaerState extends State<ReternInvocMentMangaer> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('PDF saved to ${file.path}')),
       );
-      await OpenFile.open(file.path);
+      // await OpenFile.open(file.path);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('PDF export canceled')),

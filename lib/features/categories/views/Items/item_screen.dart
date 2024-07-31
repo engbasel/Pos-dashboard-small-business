@@ -91,9 +91,8 @@ class _ItemScreenState extends State<ItemScreen> {
             const SizedBox(height: 16),
             Expanded(
               child: filteredItems.isEmpty
-                  ? Center(
-                      child: Text(AppLocalizations.of(context)
-                          .translate('item_not_available')),
+                  ? const Center(
+                      child: Text(''),
                     )
                   : isGridView
                       ? buildGridView(context, filteredItems, updateItem)

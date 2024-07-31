@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
@@ -24,8 +25,10 @@ class _ProductsListViewState extends State<ProductsListView> {
   final CategoryDatabaseHelper categoryDatabaseHelper =
       CategoryDatabaseHelper.instance;
   final ItemDatabaseHelper itemDatabaseHelper = ItemDatabaseHelper.instance;
+  TextEditingController searchController = TextEditingController();
 
   List<ItemModel> items = [];
+  List<ItemModel> filteredItems = [];
   List<CategoryModel> categories = [];
   String? selectedCategory;
   String? path;
@@ -54,12 +57,14 @@ class _ProductsListViewState extends State<ProductsListView> {
     super.initState();
     loadItems();
     loadCategories();
+    searchController.addListener(filterItems);
   }
 
   Future<void> loadItems() async {
     final loadedItems = await itemDatabaseHelper.getAllItems();
     setState(() {
       items = loadedItems;
+      filteredItems = loadedItems;
     });
   }
 
@@ -67,6 +72,15 @@ class _ProductsListViewState extends State<ProductsListView> {
     final loadedCategories = await categoryDatabaseHelper.getCategories();
     setState(() {
       categories = loadedCategories;
+    });
+  }
+
+  void filterItems() {
+    final query = searchController.text.toLowerCase();
+    setState(() {
+      filteredItems = items.where((item) {
+        return item.name.toLowerCase().contains(query);
+      }).toList();
     });
   }
 
@@ -128,67 +142,110 @@ class _ProductsListViewState extends State<ProductsListView> {
               text: 'Add A Product',
               onTap: () => showCustomDialog(context),
             ),
-            const SizedBox(width: 8),
-            CustomSmallButton(
-              icon: Icons.table_chart,
-              text: 'View Table',
-              onTap: navigateToItemsTable,
-            ),
+            // const SizedBox(width: 8),
+            // CustomSmallButton(
+            //   icon: Icons.table_chart,
+            //   text: 'View Table',
+            //   onTap: navigateToItemsTable,
+            // ),
           ],
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Material(
+            color: Colors.white,
+            child: TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                hintText: 'Search for a product...',
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
         Expanded(
           child: Container(
             color: Colors.white,
             margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(16),
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                return Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    leading: item.image != null
-                        ? Image.file(
-                            File(item.image!),
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          )
-                        : const Icon(Icons.image, size: 50),
-                    title: Text(item.name),
-                    subtitle: Text(item.description ?? ''),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => removeItem(item.id!),
-                    ),
-                    onTap: () {
-                      // Navigate to details page if needed
+            child: filteredItems.isEmpty
+                ? const Center(
+                    child: Text(''),
+                  )
+                : ListView.builder(
+                    itemCount: filteredItems.length,
+                    itemBuilder: (context, index) {
+                      final item = filteredItems[index];
+                      return Card(
+                        elevation: 2,
+                        color: ColorsManager.backgroundColor,
+                        margin: const EdgeInsets.all(8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 6,
+                          ),
+                          leading: item.image != null
+                              ? Image.file(
+                                  File(item.image!),
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Icon(Icons.image, size: 50),
+                          title: Text(
+                            item.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          subtitle: Text(item.description ?? ''),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () => removeItem(item.id!),
+                          ),
+                          onTap: () {
+                            // Navigate to details page if needed
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
-            ),
           ),
         ),
       ],
     );
   }
 
-  Widget buildInputSection() {
+  Widget buildInputSection(StateSetter updateState) {
     return Column(
       children: [
         GestureDetector(
           onTap: () async {
             final _path = await pickImage();
             if (_path != null) {
-              path = _path;
-              setState(() {});
+              updateState(() {
+                path = _path;
+              });
             }
           },
           child: Container(
@@ -236,7 +293,7 @@ class _ProductsListViewState extends State<ProductsListView> {
               );
             }).toList(),
             onChanged: (value) {
-              setState(() {
+              updateState(() {
                 selectedCategory = value;
               });
             },
@@ -261,15 +318,21 @@ class _ProductsListViewState extends State<ProductsListView> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).translate('add_a_product')),
-          content: SizedBox(
-            width: MediaQuery.of(context).size.width * .5,
-            height: MediaQuery.of(context).size.height * .75,
-            child: SingleChildScrollView(
-              child: buildInputSection(),
-            ),
-          ),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title:
+                  Text(AppLocalizations.of(context).translate('Add a product')),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * .5,
+                height: MediaQuery.of(context).size.height * .75,
+                child: SingleChildScrollView(
+                  child: buildInputSection(setState),
+                ),
+              ),
+            );
+          },
         );
       },
     );

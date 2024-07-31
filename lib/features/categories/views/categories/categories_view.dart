@@ -200,9 +200,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ),
         Expanded(
           child: filteredCategories.isEmpty
-              ? Center(
-                  child: Text(AppLocalizations.of(context)
-                      .translate('category_not_available')),
+              ? const Center(
+                  child: Text(''),
                 )
               : isGridView
                   ? buildGridView()

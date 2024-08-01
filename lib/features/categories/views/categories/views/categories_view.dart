@@ -5,8 +5,8 @@ import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/views/Items/item_screen.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../models/category_model.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../../models/category_model.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -106,6 +106,80 @@ class _CategoryScreenState extends State<CategoryScreen> {
               },
               child: Text(
                 AppLocalizations.of(context).translate('add'),
+                style: const TextStyle(
+                  color: ColorsManager.kPrimaryColor,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showEditCategoryDialog(CategoryModel category) async {
+    TextEditingController titleController =
+        TextEditingController(text: category.title);
+    Color pickerColor = Color(category.color);
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text(AppLocalizations.of(context).translate('edit_category')),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  labelText:
+                      AppLocalizations.of(context).translate('category_title'),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(AppLocalizations.of(context).translate('pick_color')),
+              const SizedBox(height: 10),
+              BlockPicker(
+                pickerColor: pickerColor,
+                onColorChanged: (color) {
+                  setState(() {
+                    pickerColor = color;
+                  });
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                AppLocalizations.of(context).translate('cancel'),
+                style: const TextStyle(
+                  color: ColorsManager.kPrimaryColor,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (titleController.text.isNotEmpty) {
+                  await CategoryDatabaseHelper.instance.updateCategory(
+                    CategoryModel(
+                      id: category.id,
+                      title: titleController.text,
+                      color: pickerColor.value,
+                    ),
+                  );
+                  loadCategories();
+                }
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                AppLocalizations.of(context).translate('save'),
                 style: const TextStyle(
                   color: ColorsManager.kPrimaryColor,
                 ),
@@ -239,16 +313,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              trailing: IconButton(
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.black,
-                ),
-                onPressed: () async {
-                  await CategoryDatabaseHelper.instance
-                      .deleteCategory(category.id!);
-                  loadCategories();
-                },
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      showEditCategoryDialog(category);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.black,
+                    ),
+                    onPressed: () async {
+                      await CategoryDatabaseHelper.instance
+                          .deleteCategory(category.id!);
+                      loadCategories();
+                    },
+                  ),
+                ],
               ),
               onTap: () {
                 Navigator.push(
@@ -314,6 +402,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            showEditCategoryDialog(category);
+                          },
+                        ),
                         IconButton(
                           icon: const Icon(
                             Icons.delete,

@@ -77,6 +77,7 @@ class AppLocalizations {
       "staff": "Staff",
       "users": "Users", "returnInvoiceDetails": "Return Invoice Details",
       "edit": "Edit",
+      "userNameNotFound": "User Not Found in staff database",
       "update": "update",
       "printReport": "print Reports",
       "printOrder": "Print Order",
@@ -379,6 +380,7 @@ class AppLocalizations {
       "brand": "العلامة التجارية",
       "size": "الحجم",
       "weight": "الوزن",
+
       "color": "اللون",
       "material": "المادة",
       "warranty": "الضمان",
@@ -389,6 +391,8 @@ class AppLocalizations {
       "active": "نشط",
       "inactive": "غير نشط",
       "discontinued": "ملغى",
+      "userNameNotFound": "المستخدم غير مسجل في قاعدة العاملين",
+
       "items": "العناصر",
       "search_items": "ابحث عن العناصر",
       "item_not_available": "العنصر غير متاح",

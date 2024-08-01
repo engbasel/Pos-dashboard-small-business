@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import '../../../../core/db/login_sql_helper.dart';
+import '../../../../core/db/Log_file_database_helper.dart';
 import '../../../../core/widgets/custom_snackbar.dart';
 import '../../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -61,6 +61,9 @@ class _LoginViewState extends State<LoginView> {
           return const LayoutBuilder_resize_screens_defrant_sizes();
         },
       ));
+    } else {
+      CustomSnackBar.show(
+          context, AppLocalizations.of(context).translate('userNameNotFound'));
     }
   }
 
@@ -72,123 +75,61 @@ class _LoginViewState extends State<LoginView> {
         title: Text(AppLocalizations.of(context).translate('loginTitle')),
       ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(26),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: usernameController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('nameLabel'),
-                  hintText: AppLocalizations.of(context).translate('nameHint'),
-                  border: const OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context).translate('nameError');
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: iD,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('idLabel'),
-                  hintText: AppLocalizations.of(context).translate('idHint'),
-                  border: const OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context).translate('idError');
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: privilege,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('privilegeLabel'),
-                        border: const OutlineInputBorder(),
-                      ),
-                      onChanged: (newValue) {
-                        setState(() {
-                          privilege = newValue!;
-                        });
-                      },
-                      items: <String>['Admin', 'Customer']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(AppLocalizations.of(context)
-                              .translate(value.toLowerCase())),
-                        );
-                      }).toList(),
-                    ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(26),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('nameLabel'),
+                    hintText:
+                        AppLocalizations.of(context).translate('nameHint'),
+                    border: const OutlineInputBorder(),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: gender,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)
-                            .translate('genderLabel'),
-                        border: const OutlineInputBorder(),
-                      ),
-                      onChanged: (newValue) {
-                        setState(() {
-                          gender = newValue!;
-                        });
-                      },
-                      items: <String>['Male', 'Female']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(AppLocalizations.of(context)
-                              .translate(value.toLowerCase())),
-                        );
-                      }).toList(),
-                    ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppLocalizations.of(context)
+                          .translate('nameError');
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: iD,
+                  decoration: InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('Password'),
+                    hintText:
+                        AppLocalizations.of(context).translate('Password'),
+                    border: const OutlineInputBorder(),
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('emailLabel'),
-                  border: const OutlineInputBorder(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return AppLocalizations.of(context)
+                          .translate('InvalidPassword');
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: branchController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('branchLabel'),
-                  border: const OutlineInputBorder(),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: CustomButton(
+                    text: AppLocalizations.of(context)
+                        .translate('letsWorkButton'),
+                    onTap: saveData,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: CustomButton(
-                  text:
-                      AppLocalizations.of(context).translate('letsWorkButton'),
-                  onTap: saveData,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

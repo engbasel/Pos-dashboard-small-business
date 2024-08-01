@@ -20,7 +20,7 @@ class StaffDatabaseHelper {
     String path = join(await getDatabasesPath(), 'staff.db');
     return await openDatabase(
       path,
-      version: 2, // Increment the version number
+      version: 2,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -41,11 +41,11 @@ class StaffDatabaseHelper {
         salary REAL
       )
     ''');
+    print("Database Created and Table staff created");
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      // Add new columns in version 2
       await _addColumnIfNotExists(db, 'staff', 'firstName', 'TEXT');
       await _addColumnIfNotExists(db, 'staff', 'midName', 'TEXT');
       await _addColumnIfNotExists(db, 'staff', 'lastName', 'TEXT');
@@ -55,6 +55,7 @@ class StaffDatabaseHelper {
       await _addColumnIfNotExists(db, 'staff', 'city', 'TEXT');
       await _addColumnIfNotExists(db, 'staff', 'experienceInPosition', 'TEXT');
       await _addColumnIfNotExists(db, 'staff', 'salary', 'REAL');
+      print("Database Upgraded to version $newVersion");
     }
   }
 
@@ -66,27 +67,37 @@ class StaffDatabaseHelper {
     if (!columnExists) {
       await db
           .execute('ALTER TABLE $tableName ADD COLUMN $columnName $columnType');
+      print("Column $columnName added to table $tableName");
     }
   }
 
   Future<int> saveStaff(Map<String, dynamic> staff) async {
     var dbClient = await db;
-    return await dbClient.insert('staff', staff);
+    int result = await dbClient.insert('staff', staff);
+    print("Inserted staff: $staff with result: $result");
+    return result;
   }
 
   Future<List<Map<String, dynamic>>> getStaff() async {
     var dbClient = await db;
-    return await dbClient.query('staff');
+    var result = await dbClient.query('staff');
+    print("Fetched staff: $result");
+    return result;
   }
 
   Future<int> deleteStaff(int id) async {
     var dbClient = await db;
-    return await dbClient.delete('staff', where: 'id = ?', whereArgs: [id]);
+    int result =
+        await dbClient.delete('staff', where: 'id = ?', whereArgs: [id]);
+    print("Deleted staff with id: $id, result: $result");
+    return result;
   }
 
   Future<int> updateStaff(Map<String, dynamic> staff) async {
     var dbClient = await db;
-    return await dbClient
+    int result = await dbClient
         .update('staff', staff, where: 'id = ?', whereArgs: [staff['id']]);
+    print("Updated staff: $staff with result: $result");
+    return result;
   }
 }

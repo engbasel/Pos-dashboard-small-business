@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/UpcomingOrders/views/add_incoming_order_screen.dart';
-import 'package:pos_dashboard_v1/features/categories/views/categories/categories_view.dart';
+import 'package:pos_dashboard_v1/features/categories/views/categories/views/categories_view.dart';
 import 'package:pos_dashboard_v1/features/reports/views/all_reports_viewer.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
 import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';

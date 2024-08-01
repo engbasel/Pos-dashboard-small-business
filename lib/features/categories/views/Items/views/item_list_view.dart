@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
-import '../../database/item_database_helper.dart';
-import 'item_details_screen.dart';
+import '../../../database/item_database_helper.dart';
+import '../widgets/item_details_screen.dart';
 
 Widget buildListView(BuildContext context, List<ItemModel> filteredItems,
     Function updateItem, Future<void> Function() loadItems) {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
-import 'package:pos_dashboard_v1/features/categories/views/Items/item_dialog.dart';
-import 'package:pos_dashboard_v1/features/categories/views/Items/item_grid_view.dart';
-import 'package:pos_dashboard_v1/features/categories/views/Items/item_list_view.dart';
-import '../../../../l10n/app_localizations.dart';
+import 'package:pos_dashboard_v1/features/categories/views/Items/widgets/item_dialog.dart';
+import 'package:pos_dashboard_v1/features/categories/views/Items/widgets/item_grid_view.dart';
+import 'package:pos_dashboard_v1/features/categories/views/Items/views/item_list_view.dart';
+import '../../../../../l10n/app_localizations.dart';
 
 class ItemScreen extends StatefulWidget {
   final int categoryId;

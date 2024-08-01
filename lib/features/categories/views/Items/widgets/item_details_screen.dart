@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 
-import '../../../../l10n/app_localizations.dart';
+import '../../../../../l10n/app_localizations.dart';
 import 'edit_item_view.dart';
 
 class ItemDetailsScreen extends StatelessWidget {

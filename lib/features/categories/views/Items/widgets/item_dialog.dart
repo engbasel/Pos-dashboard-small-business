@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../../../l10n/app_localizations.dart';
 import 'image_picker_helper.dart';
 
 Future<void> showAddItemDialog(

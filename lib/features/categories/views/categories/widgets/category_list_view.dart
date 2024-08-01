@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
-import 'package:pos_dashboard_v1/features/categories/views/Items/item_screen.dart';
+import 'package:pos_dashboard_v1/features/categories/views/Items/widgets/item_screen.dart';
 import '../../../models/category_model.dart';
 
 class CategoryListView extends StatelessWidget {

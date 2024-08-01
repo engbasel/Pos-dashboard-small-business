@@ -196,7 +196,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 CustomButton(
                   text:
                       widget.employee == null ? 'Add Employee' : 'Save Changes',
-                  onTap: () => saveEmployee,
+                  onTap: saveEmployee,
                 ),
               ],
             ),

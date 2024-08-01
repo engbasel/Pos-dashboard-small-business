@@ -36,6 +36,10 @@ class _LoginViewState extends State<LoginView> {
 
   void saveData() async {
     if (_formKey.currentState!.validate()) {
+      DateTime now = DateTime.now();
+      String currentDate = "${now.year}-${now.month}-${now.day}";
+      String currentTime = "${now.hour}:${now.minute}:${now.second}";
+
       Map<String, dynamic> user = {
         'username': usernameController.text,
         'birthday': iD.text,
@@ -43,6 +47,8 @@ class _LoginViewState extends State<LoginView> {
         'gender': gender,
         'email': emailController.text,
         'branch': branchController.text,
+        'createdAt': currentDate,
+        'createdTime': currentTime,
       };
 
       await sqldb.insertUser(user);
@@ -66,6 +72,39 @@ class _LoginViewState extends State<LoginView> {
           context, AppLocalizations.of(context).translate('userNameNotFound'));
     }
   }
+
+  // void saveData() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     Map<String, dynamic> user = {
+  //       'username': usernameController.text,
+  //       'birthday': iD.text,
+  //       'privilege': privilege,
+  //       'gender': gender,
+  //       'email': emailController.text,
+  //       'branch': branchController.text,
+  //     };
+
+  //     await sqldb.insertUser(user);
+
+  //     CustomSnackBar.show(
+  //       context,
+  //       AppLocalizations.of(context).translate('loginRecordedSuccessfully'),
+  //       backgroundColor: Colors.blue,
+  //       textColor: Colors.white,
+  //       icon: Icons.info,
+  //     );
+  //     loadUserData();
+
+  //     Navigator.push(context, MaterialPageRoute(
+  //       builder: (context) {
+  //         return const LayoutBuilder_resize_screens_defrant_sizes();
+  //       },
+  //     ));
+  //   } else {
+  //     CustomSnackBar.show(
+  //         context, AppLocalizations.of(context).translate('userNameNotFound'));
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

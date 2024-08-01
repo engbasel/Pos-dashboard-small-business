@@ -23,17 +23,30 @@ class Sqldb {
     );
   }
 
+  // Future<void> onCreate(Database db, int version) async {
+  //   await db.execute(
+  //     '''CREATE TABLE user (
+  //        id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //        username TEXT NOT NULL
+
+  //      )''',
+  //   );
+  //   debugPrint('=========== Database Created ===========');
+  // }
+
   Future<void> onCreate(Database db, int version) async {
     await db.execute(
       '''CREATE TABLE user (
-         id INTEGER PRIMARY KEY AUTOINCREMENT,
-         username TEXT NOT NULL,
-         birthday TEXT NOT NULL,
-         privilege TEXT NOT NULL,
-         gender TEXT NOT NULL,
-         email TEXT NOT NULL,
-         branch TEXT NOT NULL
-       )''',
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       username TEXT NOT NULL,
+       birthday TEXT,
+       privilege TEXT,
+       gender TEXT,
+       email TEXT,
+       branch TEXT,
+       createdAt TEXT,
+       createdTime TEXT
+     )''',
     );
     debugPrint('=========== Database Created ===========');
   }

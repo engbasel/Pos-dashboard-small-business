@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/login_sql_helper.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../widgets/user_list.dart';
 
 class UserLogsView extends StatefulWidget {

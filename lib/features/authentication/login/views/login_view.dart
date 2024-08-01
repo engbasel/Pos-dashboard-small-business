@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import '../../../core/db/login_sql_helper.dart';
-import '../../../core/widgets/custom_snackbar.dart';
-import '../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../../core/db/login_sql_helper.dart';
+import '../../../../core/widgets/custom_snackbar.dart';
+import '../../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

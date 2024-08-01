@@ -38,15 +38,15 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     super.initState();
     updateDateTime();
     invoiceNumberController.text = '${DateTime.now().millisecondsSinceEpoch}';
-    _initializeDatabase();
+    initializeDatabase();
   }
 
-  Future<void> _initializeDatabase() async {
+  Future<void> initializeDatabase() async {
     await SalesDatabaseHelper.instance.ensureDbIsInitialized();
-    await _loadSavedInvoices();
+    await loadSavedInvoices();
   }
 
-  Future<void> _loadSavedInvoices() async {
+  Future<void> loadSavedInvoices() async {
     final loadedInvoices =
         await SalesDatabaseHelper.instance.getSalesInvoices();
     setState(() {
@@ -379,8 +379,6 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
       CustomSnackBar.show(context, 'Error saving invoice: $e');
     }
   }
-
-  // ... (keep the rest of the methods as they are)
 
   @override
   Widget build(BuildContext context) {

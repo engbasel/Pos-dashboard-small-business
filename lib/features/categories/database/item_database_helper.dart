@@ -82,6 +82,17 @@ class ItemDatabaseHelper {
     print("Inserted item: ${item.name}");
   }
 
+  Future<void> updateItem(ItemModel item) async {
+    final db = await database;
+    await db.update(
+      ItemDatabaseConstants.itemsTable,
+      item.toMap(),
+      where: '${ItemDatabaseConstants.columnId} = ?',
+      whereArgs: [item.id],
+    );
+    print("Updated item with id: ${item.id}");
+  }
+
   Future<List<ItemModel>> getAllItems() async {
     final db = await database;
     var items = await db.query(
@@ -115,14 +126,14 @@ class ItemDatabaseHelper {
     print("Deleted item with id: $id");
   }
 
-  Future<void> updateItem(ItemModel item) async {
-    final db = await database;
-    await db.update(
-      ItemDatabaseConstants.itemsTable,
-      item.toMap(),
-      where: '${ItemDatabaseConstants.columnId} = ?',
-      whereArgs: [item.id],
-    );
-    print("Updated item with id: ${item.id}");
-  }
+  // Future<void> updateItem(ItemModel item) async {
+  //   final db = await database;
+  //   await db.update(
+  //     ItemDatabaseConstants.itemsTable,
+  //     item.toMap(),
+  //     where: '${ItemDatabaseConstants.columnId} = ?',
+  //     whereArgs: [item.id],
+  //   );
+  //   print("Updated item with id: ${item.id}");
+  // }
 }

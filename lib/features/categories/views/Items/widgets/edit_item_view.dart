@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import '../../../database/item_database_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -90,32 +91,45 @@ class _EditItemScreenState extends State<EditItemScreen> {
     super.dispose();
   }
 
-  Future<void> _updateItem() async {
+  Widget buildTextField(
+      TextEditingController controller, String localizationKey) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context).translate(localizationKey),
+      ),
+    );
+  }
+
+  Future<void> updateItem() async {
     if (nameController.text.isNotEmpty && itemStatus != null) {
-      await ItemDatabaseHelper.instance.updateItem(
-        widget.item.copyWith(
-          name: nameController.text,
-          description: descriptionController.text,
-          sku: skuController.text,
-          barcode: barcodeController.text,
-          purchasePrice: double.tryParse(purchasePriceController.text),
-          salePrice: double.tryParse(salePriceController.text),
-          wholesalePrice: double.tryParse(wholesalePriceController.text),
-          taxRate: double.tryParse(taxRateController.text),
-          quantity: int.tryParse(quantityController.text),
-          alertQuantity: int.tryParse(alertQuantityController.text),
-          image: imageController.text,
-          brand: brandController.text,
-          size: sizeController.text,
-          weight: double.tryParse(weightController.text),
-          color: colorController.text,
-          material: materialController.text,
-          warranty: warrantyController.text,
-          supplierId: int.tryParse(supplierIdController.text),
-          itemStatus: itemStatus!,
-          dateModified: DateTime.now(),
-        ),
+      final updatedItem = widget.item.copyWith(
+        name: nameController.text,
+        description: descriptionController.text,
+        sku: skuController.text,
+        barcode: barcodeController.text,
+        purchasePrice: double.tryParse(purchasePriceController.text),
+        salePrice: double.tryParse(salePriceController.text),
+        wholesalePrice: double.tryParse(wholesalePriceController.text),
+        taxRate: double.tryParse(taxRateController.text),
+        quantity: int.tryParse(quantityController.text),
+        alertQuantity: int.tryParse(alertQuantityController.text),
+        image: imageController.text,
+        brand: brandController.text,
+        size: sizeController.text,
+        weight: double.tryParse(weightController.text),
+        color: colorController.text,
+        material: materialController.text,
+        warranty: warrantyController.text,
+        supplierId: int.tryParse(supplierIdController.text),
+        itemStatus: itemStatus!,
+        dateModified: DateTime.now(),
       );
+
+      CustomSnackBar.show(context, 'dataUpdated');
+      print("Updating item: ${updatedItem.toMap()}");
+
+      await ItemDatabaseHelper.instance.updateItem(updatedItem);
       Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -140,23 +154,29 @@ class _EditItemScreenState extends State<EditItemScreen> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('item_name'),
-                ),
-              ),
+              buildTextField(nameController, 'item_name'),
               const SizedBox(height: 20),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('description'),
-                ),
-              ),
+              buildTextField(descriptionController, 'description'),
+              buildTextField(skuController, 'skuController'),
+              buildTextField(barcodeController, 'barcodeController'),
+              buildTextField(
+                  purchasePriceController, 'purchasePriceController'),
+              buildTextField(salePriceController, 'salePriceController'),
+              buildTextField(
+                  wholesalePriceController, 'wholesalePriceController'),
+              buildTextField(taxRateController, 'taxRateController'),
+              buildTextField(quantityController, 'quantityController'),
+              buildTextField(
+                  alertQuantityController, 'alertQuantityController'),
+              buildTextField(imageController, 'imageController'),
+              buildTextField(brandController, 'brandController'),
+              buildTextField(sizeController, 'sizeController'),
+              buildTextField(weightController, 'weightController'),
+              buildTextField(colorController, 'colorController'),
+              buildTextField(materialController, 'materialController'),
+              buildTextField(warrantyController, 'warrantyController'),
+              buildTextField(supplierIdController, 'supplierIdController'),
               const SizedBox(height: 20),
-              // Other fields follow the same pattern...
               DropdownButtonFormField<String>(
                 value: itemStatus,
                 decoration: InputDecoration(
@@ -181,8 +201,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CustomButton(
-                  text: AppLocalizations.of(context).translate('save'),
-                  onTap: _updateItem,
+                  text: AppLocalizations.of(context).translate('update'),
+                  onTap: updateItem,
                 ),
               ),
             ],

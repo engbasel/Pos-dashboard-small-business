@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pdf/widgets.dart' as pdflib;
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
+import 'package:pos_dashboard_v1/features/categories/models/category_model.dart';
+import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
+import 'package:pos_dashboard_v1/features/sales_bill/views/edit_item_dialog.dart';
+import 'package:pos_dashboard_v1/features/sales_bill/views/export_as_pdf.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/databases/sales_database_helper.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/views/sales_invoices_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
-import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/model/sales_item_model.dart';
-
-import '../../../core/widgets/custom_snackbar.dart';
-import '../../categories/database/category_database_helper.dart';
-import '../../categories/models/category_model.dart';
-import '../../categories/models/item_model.dart';
+import 'package:pos_dashboard_v1/features/sales_bill/views/sales_invoices_view.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class SalesBillScreen extends StatefulWidget {
   const SalesBillScreen({super.key});
@@ -31,7 +29,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   ItemModel? _selectedItem;
 
   final List<SalesItem> items = [];
-  static List<SalesInvoice> savedInvoices = []; // Store saved invoices
+  static List<SalesInvoice> savedInvoices = [];
 
   @override
   void initState() {
@@ -44,29 +42,6 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   Future<void> initializeDatabase() async {
     await SalesDatabaseHelper.instance.ensureDbIsInitialized();
     await loadSavedInvoices();
-  }
-
-  Future<void> loadSavedInvoices() async {
-    final loadedInvoices =
-        await SalesDatabaseHelper.instance.getSalesInvoices();
-    setState(() {
-      savedInvoices = loadedInvoices;
-    });
-  }
-
-  double calculateTotalAmount() {
-    return items.fold(0, (sum, item) => sum + item.total);
-  }
-
-  void updateDateTime() {
-    setState(() {
-      currentDateTime =
-          DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
-    });
-  }
-
-  double calculateGrandTotal() {
-    return calculateTotalAmount() + 20; // Assuming a fixed tax for now
   }
 
   Future<void> showAddItemDialog(BuildContext context) async {
@@ -178,10 +153,18 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     if (result != null) {
       setState(() {
         _selectedItem = result;
+        // items.add(SalesItem(
+        //   result.name,
+        //   1,
+        //   result.unitPrice as double,
+        //   0,
+        //   result.id as int,
+        // ));
+
         items.add(SalesItem(
           result.name,
           1,
-          result.unitPrice as double,
+          result.unitPrice?.toDouble() ?? 0.0,
           0,
           result.id as int,
         ));
@@ -189,167 +172,41 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     }
   }
 
+  Future<void> loadSavedInvoices() async {
+    final loadedInvoices =
+        await SalesDatabaseHelper.instance.getSalesInvoices();
+    setState(() {
+      savedInvoices = loadedInvoices;
+    });
+  }
+
+  double calculateTotalAmount() {
+    return items.fold(0, (sum, item) => sum + item.total);
+  }
+
+  void updateDateTime() {
+    setState(() {
+      currentDateTime =
+          DateFormat('yyyy-MM-dd ||  HH:mm:ss').format(DateTime.now());
+    });
+  }
+
+  double calculateGrandTotal() {
+    return calculateTotalAmount() + 20; // Assuming a fixed tax for now
+  }
+
   void editItem(int index) {
     showDialog(
       context: context,
-      builder: (context) {
-        final item = items[index];
-        final nameController = TextEditingController(text: item.name);
-        final quantityController =
-            TextEditingController(text: item.quantity.toString());
-        final unitPriceController =
-            TextEditingController(text: item.unitPrice.toString());
-        final discountController =
-            TextEditingController(text: item.discount.toString());
-
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).translate('EditItem')),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)
-                          .translate('ProductName')),
-                  readOnly: true, // Make the name field read-only
-                ),
-                TextFormField(
-                  controller: quantityController,
-                  decoration: InputDecoration(
-                      labelText:
-                          AppLocalizations.of(context).translate('Quantity')),
-                  keyboardType: TextInputType.number,
-                ),
-                TextFormField(
-                  controller: unitPriceController,
-                  decoration: InputDecoration(
-                      labelText:
-                          AppLocalizations.of(context).translate('UnitPrice')),
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                ),
-                TextFormField(
-                  controller: discountController,
-                  decoration: InputDecoration(
-                      labelText:
-                          AppLocalizations.of(context).translate('Discount')),
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                final updatedItem = SalesItem(
-                  item.name,
-                  int.tryParse(quantityController.text) ?? item.quantity,
-                  double.tryParse(unitPriceController.text) ?? item.unitPrice,
-                  double.tryParse(discountController.text) ?? item.discount,
-                  item.itemID,
-                );
-                setState(() {
-                  items[index] = updatedItem;
-                });
-                Navigator.of(context).pop();
-              },
-              child: Text(AppLocalizations.of(context).translate('Save')),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(AppLocalizations.of(context).translate('Cancel')),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> exportAsPDF() async {
-    final pdf = pdflib.Document();
-    pdf.addPage(
-      pdflib.Page(
-        build: (context) => pdflib.Column(
-          crossAxisAlignment: pdflib.CrossAxisAlignment.start,
-          children: [
-            pdflib.Text('Customer Name: ${customerNameController.text}'),
-            pdflib.Text('Date: $currentDateTime'),
-            pdflib.Text('Invoice Number: ${invoiceNumberController.text}'),
-            pdflib.SizedBox(height: 12),
-            pdflib.Text('Items:'),
-            pdflib.SizedBox(height: 12),
-            ...items.asMap().entries.map((entry) {
-              final index = entry.key;
-              final item = entry.value;
-              return pdflib.Row(
-                mainAxisAlignment: pdflib.MainAxisAlignment.spaceBetween,
-                children: [
-                  pdflib.Text('${index + 1}'), // Counter for item number
-                  pdflib.Text(item.name),
-                  pdflib.Text('Quantity: ${item.quantity}'),
-                  pdflib.Text('Unit Price: \$${item.unitPrice}'),
-                  pdflib.Text('Total: \$${item.total}'),
-                  pdflib.Text('Discount: \$${item.discount}'),
-                ],
-              );
-            }),
-            pdflib.SizedBox(height: 12),
-            pdflib.Text('Total Amount: \$${calculateTotalAmount()}'),
-            pdflib.SizedBox(height: 12),
-            pdflib.Text('Tax: \$20'),
-            pdflib.SizedBox(height: 12),
-            pdflib.Text('Grand Total: \$${calculateGrandTotal()}'),
-          ],
-        ),
+      builder: (context) => EditItemDialog(
+        item: items[index],
+        onSave: (updatedItem) {
+          setState(() {
+            items[index] = updatedItem;
+          });
+        },
       ),
     );
-
-    final result = await FilePicker.platform.saveFile(
-      dialogTitle: 'Save PDF',
-      fileName:
-          '${customerNameController.text}_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.pdf',
-      allowedExtensions: ['pdf'],
-    );
-
-    if (result != null) {
-      final file = File(result);
-      await file.writeAsBytes(await pdf.save());
-      print('PDF saved to ${file.path}');
-
-      // Save invoice data to the database
-      final newInvoice = SalesInvoice(
-        customerName: customerNameController.text,
-        invoiceDate: currentDateTime,
-        invoiceNumber: invoiceNumberController.text,
-        items: List.from(items),
-      );
-
-      try {
-        await SalesDatabaseHelper.instance.insertSalesInvoice(newInvoice);
-
-        // Update the savedInvoices list
-        setState(() {
-          savedInvoices.add(newInvoice);
-        });
-
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(content: Text('Invoice saved successfully')),
-        // );
-
-        CustomSnackBar.show(context, 'Invoice saved successfully');
-      } catch (e) {
-        print('Error saving invoice: $e');
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(content: Text('Error saving invoice: $e')),
-        // );
-        CustomSnackBar.show(context, 'Error saving invoice: $e');
-      }
-    } else {
-      print('No file selected');
-    }
   }
 
   Future<void> savedata() async {
@@ -361,21 +218,11 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     );
     try {
       await SalesDatabaseHelper.instance.insertSalesInvoice(newInvoice);
-
-      // Update the savedInvoices list
       setState(() {
         savedInvoices.add(newInvoice);
       });
-
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Invoice saved successfully')),
-      // );
       CustomSnackBar.show(context, 'Invoice saved successfully');
     } catch (e) {
-      print('Error saving invoice: $e');
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text('Error saving invoice: $e')),
-      // );
       CustomSnackBar.show(context, 'Error saving invoice: $e');
     }
   }
@@ -387,30 +234,81 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomAppBar(
-            actions: const [],
+            actions: [
+              CustomSmallButton(
+                icon: Icons.add,
+                onTap: () => showAddItemDialog(context),
+                text: AppLocalizations.of(context).translate('AddItem'),
+              ),
+              const SizedBox(height: 12),
+              CustomSmallButton(
+                icon: Icons.picture_as_pdf,
+                onTap: () => exportAsPDF(
+                  context,
+                  customerNameController.text,
+                  currentDateTime,
+                  invoiceNumberController.text,
+                  items,
+                  calculateTotalAmount(),
+                  calculateGrandTotal(),
+                ),
+                text: AppLocalizations.of(context).translate('ExportasPDF'),
+              ),
+              const SizedBox(height: 12),
+              CustomSmallButton(
+                icon: Icons.report,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SalesInvoicesScreen(
+                        invoices: savedInvoices,
+                      ),
+                    ),
+                  );
+                },
+                text: AppLocalizations.of(context).translate('ViewInvoices'),
+              ),
+              const SizedBox(height: 12),
+              CustomSmallButton(
+                icon: Icons.save,
+                onTap: savedata,
+                text: AppLocalizations.of(context).translate('حفظ الفواتير'),
+              ),
+            ],
             title: AppLocalizations.of(context).translate('orders'),
           ),
           const SizedBox(height: 16),
-          TextField(
-            controller: customerNameController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context).translate('CustomerName'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: customerNameController,
+              decoration: InputDecoration(
+                labelText:
+                    AppLocalizations.of(context).translate('CustomerName'),
+              ),
             ),
           ),
           const SizedBox(height: 12),
-          Text('Date and Time: $currentDateTime'),
+          Text(
+            'Date || Time: $currentDateTime',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 12),
-          Text('Invoice Number: ${invoiceNumberController.text}'),
+          Text(
+            'Invoice Number: ${invoiceNumberController.text}',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 24),
-          if (_selectedItem != null) ...[
-            Text(
-              'Selected Item: ${_selectedItem!.name}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Text('Quantity: ${_selectedItem!.quantity}'),
-            Text('Unit Price: \$${_selectedItem!.unitPrice}'),
-            const SizedBox(height: 24),
-          ],
+          // if (_selectedItem != null) ...[
+          //   Text(
+          //     'Selected Item: ${_selectedItem!.name}',
+          //     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          //   ),
+          //   Text('Quantity: ${_selectedItem!.quantity}'),
+          //   Text('Unit Price: \$${_selectedItem!.unitPrice}'),
+          //   const SizedBox(height: 24),
+          // ],
           DataTable(
             columns: [
               DataColumn(
@@ -462,35 +360,11 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
-          CustomButton(
-            onTap: () => showAddItemDialog(context),
-            text: AppLocalizations.of(context).translate('AddItem'),
-          ),
-          const SizedBox(height: 12),
-          CustomButton(
-            onTap: exportAsPDF,
-            text: AppLocalizations.of(context).translate('ExportasPDF'),
-          ),
-          const SizedBox(height: 12),
-          CustomButton(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SalesInvoicesScreen(
-                    invoices: savedInvoices,
-                  ),
-                ),
-              );
-            },
-            text: AppLocalizations.of(context).translate('ViewInvoices'),
-          ),
-          const SizedBox(height: 12),
-          CustomButton(
-            onTap: () {
-              savedata();
-            },
-            text: AppLocalizations.of(context).translate('حفظ الفواتير'),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50),
+            child: Column(
+              children: [],
+            ),
           )
         ],
       ),

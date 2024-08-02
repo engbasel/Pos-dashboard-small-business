@@ -23,17 +23,6 @@ class Sqldb {
     );
   }
 
-  // Future<void> onCreate(Database db, int version) async {
-  //   await db.execute(
-  //     '''CREATE TABLE user (
-  //        id INTEGER PRIMARY KEY AUTOINCREMENT,
-  //        username TEXT NOT NULL
-
-  //      )''',
-  //   );
-  //   debugPrint('=========== Database Created ===========');
-  // }
-
   Future<void> onCreate(Database db, int version) async {
     await db.execute(
       '''CREATE TABLE user (

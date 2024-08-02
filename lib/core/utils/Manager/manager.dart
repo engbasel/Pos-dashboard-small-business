@@ -22,7 +22,7 @@ class ImagesManger {
 }
 
 class DBmanger {
-  static const String databaseName = 'FirstDatabase';
+  static const String databaseName = 'FirstDatabase.db';
   static const String tABLEName = 'UserInfo';
   static const String columnName = 'note';
 }

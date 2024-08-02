@@ -41,8 +41,7 @@ class _ItemScreenState extends State<ItemScreen> {
     final query = searchController.text.toLowerCase();
     setState(() {
       filteredItems = items.where((item) {
-        return item.name.toLowerCase().contains(query) ||
-            item.description.toLowerCase().contains(query);
+        return item.name.toLowerCase().contains(query);
       }).toList();
     });
   }

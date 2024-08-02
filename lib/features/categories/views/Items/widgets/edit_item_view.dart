@@ -1,214 +1,237 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
-import '../../../database/item_database_helper.dart';
+import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
+import 'image_picker_helper.dart';
 
-class EditItemScreen extends StatefulWidget {
-  final ItemModel item;
+Future<void> showEditItemDialog(
+    BuildContext context, ItemModel item, Function loadItems) async {
+  final formKey = GlobalKey<FormState>();
+  final controllers = {
+    'name': TextEditingController(text: item.name),
+    'description': TextEditingController(text: item.description),
+    'sku': TextEditingController(text: item.sku),
+    'barcode': TextEditingController(text: item.barcode),
+    'purchasePrice': TextEditingController(text: item.price?.toString() ?? ''),
+    'salePrice': TextEditingController(text: item.unitPrice?.toString() ?? ''),
+    'wholesalePrice':
+        TextEditingController(text: item.wholesalePrice?.toString() ?? ''),
+    'taxRate': TextEditingController(text: item.taxRate?.toString() ?? ''),
+    'quantity': TextEditingController(text: item.quantity?.toString() ?? ''),
+    'alertQuantity':
+        TextEditingController(text: item.alertQuantity?.toString() ?? ''),
+    'image': TextEditingController(text: item.image),
+    'brand': TextEditingController(text: item.brand),
+    'size': TextEditingController(text: item.size),
+    'weight': TextEditingController(text: item.weight?.toString() ?? ''),
+    'color': TextEditingController(text: item.color),
+    'material': TextEditingController(text: item.material),
+    'warranty': TextEditingController(text: item.warranty),
+    'supplierId':
+        TextEditingController(text: item.supplierId?.toString() ?? ''),
+  };
+  String? itemStatus = item.itemStatus;
+  String? path;
 
-  const EditItemScreen({super.key, required this.item});
-
-  @override
-  State<EditItemScreen> createState() => _EditItemScreenState();
-}
-
-class _EditItemScreenState extends State<EditItemScreen> {
-  late TextEditingController nameController;
-  late TextEditingController descriptionController;
-  late TextEditingController skuController;
-  late TextEditingController barcodeController;
-  late TextEditingController purchasePriceController;
-  late TextEditingController salePriceController;
-  late TextEditingController wholesalePriceController;
-  late TextEditingController taxRateController;
-  late TextEditingController quantityController;
-  late TextEditingController alertQuantityController;
-  late TextEditingController imageController;
-  late TextEditingController brandController;
-  late TextEditingController sizeController;
-  late TextEditingController weightController;
-  late TextEditingController colorController;
-  late TextEditingController materialController;
-  late TextEditingController warrantyController;
-  late TextEditingController supplierIdController;
-  String? itemStatus;
-
-  @override
-  void initState() {
-    super.initState();
-    nameController = TextEditingController(text: widget.item.name);
-    descriptionController =
-        TextEditingController(text: widget.item.description);
-    skuController = TextEditingController(text: widget.item.sku);
-    barcodeController = TextEditingController(text: widget.item.barcode);
-    purchasePriceController =
-        TextEditingController(text: widget.item.price?.toString());
-    salePriceController =
-        TextEditingController(text: widget.item.unitPrice?.toString());
-    wholesalePriceController =
-        TextEditingController(text: widget.item.wholesalePrice?.toString());
-    taxRateController =
-        TextEditingController(text: widget.item.taxRate?.toString());
-    quantityController =
-        TextEditingController(text: widget.item.quantity?.toString());
-    alertQuantityController =
-        TextEditingController(text: widget.item.alertQuantity?.toString());
-    imageController = TextEditingController(text: widget.item.image);
-    brandController = TextEditingController(text: widget.item.brand);
-    sizeController = TextEditingController(text: widget.item.size);
-    weightController =
-        TextEditingController(text: widget.item.weight?.toString());
-    colorController = TextEditingController(text: widget.item.color);
-    materialController = TextEditingController(text: widget.item.material);
-    warrantyController = TextEditingController(text: widget.item.warranty);
-    supplierIdController =
-        TextEditingController(text: widget.item.supplierId?.toString());
-    itemStatus = widget.item.itemStatus;
-  }
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    descriptionController.dispose();
-    skuController.dispose();
-    barcodeController.dispose();
-    purchasePriceController.dispose();
-    salePriceController.dispose();
-    wholesalePriceController.dispose();
-    taxRateController.dispose();
-    quantityController.dispose();
-    alertQuantityController.dispose();
-    imageController.dispose();
-    brandController.dispose();
-    sizeController.dispose();
-    weightController.dispose();
-    colorController.dispose();
-    materialController.dispose();
-    warrantyController.dispose();
-    supplierIdController.dispose();
-    super.dispose();
-  }
-
-  Widget buildTextField(
-      TextEditingController controller, String localizationKey) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: AppLocalizations.of(context).translate(localizationKey),
+  Widget buildTextField(String key, String label,
+      {bool isNumber = false, bool isRequired = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controllers[key],
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate(label),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+        validator: isRequired
+            ? (value) {
+                if (value == null || value.isEmpty) {
+                  return '${AppLocalizations.of(context).translate(label)} is required';
+                }
+                return null;
+              }
+            : null,
       ),
     );
   }
 
-  Future<void> updateItem() async {
-    if (nameController.text.isNotEmpty && itemStatus != null) {
-      final updatedItem = widget.item.copyWith(
-        name: nameController.text,
-        description: descriptionController.text,
-        sku: skuController.text,
-        barcode: barcodeController.text,
-        purchasePrice: double.tryParse(purchasePriceController.text),
-        salePrice: double.tryParse(salePriceController.text),
-        wholesalePrice: double.tryParse(wholesalePriceController.text),
-        taxRate: double.tryParse(taxRateController.text),
-        quantity: int.tryParse(quantityController.text),
-        alertQuantity: int.tryParse(alertQuantityController.text),
-        image: imageController.text,
-        brand: brandController.text,
-        size: sizeController.text,
-        weight: double.tryParse(weightController.text),
-        color: colorController.text,
-        material: materialController.text,
-        warranty: warrantyController.text,
-        supplierId: int.tryParse(supplierIdController.text),
-        itemStatus: itemStatus!,
-        dateModified: DateTime.now(),
-      );
-
-      CustomSnackBar.show(context, 'dataUpdated');
-      print("Updating item: ${updatedItem.toMap()}");
-
-      await ItemDatabaseHelper.instance.updateItem(updatedItem);
-      Navigator.of(context).pop();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)
-              .translate('please_fill_required_fields')),
-        ),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(AppLocalizations.of(context).translate('Edit Item')),
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              buildTextField(nameController, 'item_name'),
-              const SizedBox(height: 20),
-              buildTextField(descriptionController, 'description'),
-              buildTextField(skuController, 'skuController'),
-              buildTextField(barcodeController, 'barcodeController'),
-              buildTextField(
-                  purchasePriceController, 'purchasePriceController'),
-              buildTextField(salePriceController, 'salePriceController'),
-              buildTextField(
-                  wholesalePriceController, 'wholesalePriceController'),
-              buildTextField(taxRateController, 'taxRateController'),
-              buildTextField(quantityController, 'quantityController'),
-              buildTextField(
-                  alertQuantityController, 'alertQuantityController'),
-              buildTextField(imageController, 'imageController'),
-              buildTextField(brandController, 'brandController'),
-              buildTextField(sizeController, 'sizeController'),
-              buildTextField(weightController, 'weightController'),
-              buildTextField(colorController, 'colorController'),
-              buildTextField(materialController, 'materialController'),
-              buildTextField(warrantyController, 'warrantyController'),
-              buildTextField(supplierIdController, 'supplierIdController'),
-              const SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: itemStatus,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).translate('item_status'),
-                ),
-                items: ['active', 'inactive', 'discontinued']
-                    .map((status) => DropdownMenuItem(
-                          value: status,
-                          child: Text(
-                            AppLocalizations.of(context).translate(status),
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    itemStatus = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 50),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: CustomButton(
-                  text: AppLocalizations.of(context).translate('update'),
-                  onTap: updateItem,
-                ),
-              ),
-            ],
+  Widget buildDateField(String key, String label) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: GestureDetector(
+        onTap: () => _selectDate(context, controllers[key]!),
+        child: AbsorbPointer(
+          child: TextFormField(
+            controller: controllers[key],
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).translate(label),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              suffixIcon: const Icon(Icons.calendar_today),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text(AppLocalizations.of(context).translate('edit_item')),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * .7,
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          path = await pickImage();
+                          if (path != null) {
+                            setState(() {
+                              controllers['image']!.text = path!;
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: controllers['image']!.text.isNotEmpty
+                              ? Image.file(
+                                  File(controllers['image']!.text),
+                                  fit: BoxFit.cover,
+                                )
+                              : Icon(
+                                  Icons.add_a_photo,
+                                  color: Colors.grey[800],
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      buildTextField('name', 'item_name', isRequired: true),
+                      buildTextField('description', 'description'),
+                      buildTextField('sku', 'sku'),
+                      buildTextField('barcode', 'barcode'),
+                      buildTextField('purchasePrice', 'purchase_price',
+                          isNumber: true, isRequired: true),
+                      buildTextField('salePrice', 'sale_price', isNumber: true),
+                      buildTextField('wholesalePrice', 'wholesale_price',
+                          isNumber: true),
+                      buildTextField('taxRate', 'tax_rate', isNumber: true),
+                      buildTextField('quantity', 'quantity', isNumber: true),
+                      buildTextField('alertQuantity', 'alert_quantity',
+                          isNumber: true),
+                      buildTextField('brand', 'brand'),
+                      buildTextField('size', 'size'),
+                      buildTextField('weight', 'weight', isNumber: true),
+                      buildTextField('color', 'color'),
+                      buildTextField('material', 'material'),
+                      buildTextField('warranty', 'warranty'),
+                      buildTextField('supplierId', 'supplier_id',
+                          isNumber: true),
+                      DropdownButtonFormField<String>(
+                        value: itemStatus,
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)
+                              .translate('item_status'),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        items: ['active', 'inactive', 'discontinued']
+                            .map((status) => DropdownMenuItem(
+                                  value: status,
+                                  child: Text(AppLocalizations.of(context)
+                                      .translate(status)),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          itemStatus = value;
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)
+                                .translate('status_required');
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(AppLocalizations.of(context).translate('cancel')),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (formKey.currentState?.validate() ?? false) {
+                    final updatedItem = item.copyWith(
+                      name: controllers['name']!.text,
+                      description: controllers['description']!.text,
+                      sku: controllers['sku']!.text,
+                      barcode: controllers['barcode']!.text,
+                      purchasePrice:
+                          double.tryParse(controllers['purchasePrice']!.text),
+                      salePrice:
+                          double.tryParse(controllers['salePrice']!.text),
+                      wholesalePrice:
+                          double.tryParse(controllers['wholesalePrice']!.text),
+                      taxRate: double.tryParse(controllers['taxRate']!.text),
+                      quantity: int.tryParse(controllers['quantity']!.text),
+                      alertQuantity:
+                          int.tryParse(controllers['alertQuantity']!.text),
+                      image: controllers['image']!.text,
+                      brand: controllers['brand']!.text,
+                      size: controllers['size']!.text,
+                      weight: double.tryParse(controllers['weight']!.text),
+                      color: controllers['color']!.text,
+                      material: controllers['material']!.text,
+                      warranty: controllers['warranty']!.text,
+                      supplierId: int.tryParse(controllers['supplierId']!.text),
+                      itemStatus: itemStatus!,
+                      dateModified: DateTime.now(),
+                    );
+                    await ItemDatabaseHelper.instance.updateItem(updatedItem);
+                    loadItems();
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Text(AppLocalizations.of(context).translate('update')),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+Future<void> _selectDate(
+    BuildContext context, TextEditingController controller) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2101),
+  );
+  if (picked != null) {
+    controller.text = picked.toIso8601String().split('T')[0];
   }
 }

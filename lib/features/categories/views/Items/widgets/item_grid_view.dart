@@ -19,13 +19,9 @@ Widget buildGridView(
         child: InkWell(
           onTap: () async {
             // Navigate to ItemDetailsScreen with the selected item
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ItemDetailsScreen(
-                  item: item,
-                ),
-              ),
+            showDialog(
+              context: context,
+              builder: (context) => ItemDetailsDialog(item: item),
             );
           },
           child: Column(

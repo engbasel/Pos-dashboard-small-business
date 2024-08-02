@@ -88,7 +88,6 @@ Future<void> showAddProductDialog(BuildContext context,
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(12),
             ),
-            // ignore: unnecessary_null_comparison
             child: path != null
                 ? Image.file(
                     File(path!),

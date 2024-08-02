@@ -230,10 +230,14 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             title: AppLocalizations.of(context).translate('orders'),
           ),
           const SizedBox(height: 16),
-          TextField(
-            controller: customerNameController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context).translate('CustomerName'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: customerNameController,
+              decoration: InputDecoration(
+                labelText:
+                    AppLocalizations.of(context).translate('CustomerName'),
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -301,42 +305,49 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
-          CustomButton(
-            onTap: () => showAddItemDialog(context),
-            text: AppLocalizations.of(context).translate('AddItem'),
-          ),
-          const SizedBox(height: 12),
-          CustomButton(
-            onTap: () => exportAsPDF(
-              context,
-              customerNameController.text,
-              currentDateTime,
-              invoiceNumberController.text,
-              items,
-              calculateTotalAmount(),
-              calculateGrandTotal(),
-            ),
-            text: AppLocalizations.of(context).translate('ExportasPDF'),
-          ),
-          const SizedBox(height: 12),
-          CustomButton(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SalesInvoicesScreen(
-                    invoices: savedInvoices,
-                  ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Column(
+              children: [
+                CustomButton(
+                  onTap: () => showAddItemDialog(context),
+                  text: AppLocalizations.of(context).translate('AddItem'),
                 ),
-              );
-            },
-            text: AppLocalizations.of(context).translate('ViewInvoices'),
-          ),
-          const SizedBox(height: 12),
-          CustomButton(
-            onTap: savedata,
-            text: AppLocalizations.of(context).translate('حفظ الفواتير'),
-          ),
+                const SizedBox(height: 12),
+                CustomButton(
+                  onTap: () => exportAsPDF(
+                    context,
+                    customerNameController.text,
+                    currentDateTime,
+                    invoiceNumberController.text,
+                    items,
+                    calculateTotalAmount(),
+                    calculateGrandTotal(),
+                  ),
+                  text: AppLocalizations.of(context).translate('ExportasPDF'),
+                ),
+                const SizedBox(height: 12),
+                CustomButton(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SalesInvoicesScreen(
+                          invoices: savedInvoices,
+                        ),
+                      ),
+                    );
+                  },
+                  text: AppLocalizations.of(context).translate('ViewInvoices'),
+                ),
+                const SizedBox(height: 12),
+                CustomButton(
+                  onTap: savedata,
+                  text: AppLocalizations.of(context).translate('حفظ الفواتير'),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

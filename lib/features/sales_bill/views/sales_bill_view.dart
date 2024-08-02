@@ -8,7 +8,6 @@ import 'package:pos_dashboard_v1/features/categories/models/category_model.dart'
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/edit_item_dialog.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/export_as_pdf.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/databases/sales_database_helper.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
@@ -154,10 +153,18 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     if (result != null) {
       setState(() {
         _selectedItem = result;
+        // items.add(SalesItem(
+        //   result.name,
+        //   1,
+        //   result.unitPrice as double,
+        //   0,
+        //   result.id as int,
+        // ));
+
         items.add(SalesItem(
           result.name,
           1,
-          result.unitPrice as double,
+          result.unitPrice?.toDouble() ?? 0.0,
           0,
           result.id as int,
         ));

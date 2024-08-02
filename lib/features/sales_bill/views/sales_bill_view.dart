@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
+import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
+import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
+import 'package:pos_dashboard_v1/features/categories/models/category_model.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/views/add_item_dialog.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/edit_item_dialog.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/export_as_pdf.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
@@ -40,6 +42,126 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   Future<void> initializeDatabase() async {
     await SalesDatabaseHelper.instance.ensureDbIsInitialized();
     await loadSavedInvoices();
+  }
+
+  Future<void> showAddItemDialog(BuildContext context) async {
+    final categoryDatabaseHelper = CategoryDatabaseHelper.instance;
+    final itemDatabaseHelper = ItemDatabaseHelper.instance;
+
+    List<CategoryModel> categories =
+        await categoryDatabaseHelper.getCategories();
+    CategoryModel? selectedCategory;
+    ItemModel? selectedItem;
+
+    final result = await showDialog<ItemModel>(
+      // ignore: use_build_context_synchronously
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text('Select Item'),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DropdownButtonFormField<CategoryModel>(
+                      decoration: const InputDecoration(labelText: 'Category'),
+                      items: categories.map((category) {
+                        return DropdownMenuItem<CategoryModel>(
+                          value: category,
+                          child: Text(category.title),
+                        );
+                      }).toList(),
+                      onChanged: (value) async {
+                        setDialogState(() {
+                          selectedCategory = value;
+                          selectedItem = null;
+                        });
+
+                        if (selectedCategory != null) {
+                          List<ItemModel> items = await itemDatabaseHelper
+                              .getItems(selectedCategory!.id as int);
+                          showDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Select Item'),
+                                content: SizedBox(
+                                  width: double.maxFinite,
+                                  height: 300,
+                                  child: ListView.builder(
+                                    itemCount: items.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title: Text(items[index].name),
+                                        onTap: () {
+                                          setDialogState(() {
+                                            selectedItem = items[index];
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      value: selectedCategory,
+                    ),
+                    if (selectedItem != null)
+                      Text('Selected Item: ${selectedItem!.name}'),
+                    if (selectedCategory == null && selectedItem != null)
+                      const Text('Please choose a category first',
+                          style: TextStyle(color: Colors.red)),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    if (selectedItem != null) {
+                      Navigator.of(context).pop(selectedItem);
+                    } else {
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   const SnackBar(
+                      //       content: Text('Please choose an item first')),
+                      // );
+
+                      CustomSnackBar.show(
+                          context, 'Please choose an item first');
+                    }
+                  },
+                  child: const Text('Add'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Cancel'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        _selectedItem = result;
+        items.add(SalesItem(
+          result.name,
+          1,
+          result.unitPrice as double,
+          0,
+          result.id as int,
+        ));
+      });
+    }
   }
 
   Future<void> loadSavedInvoices() async {

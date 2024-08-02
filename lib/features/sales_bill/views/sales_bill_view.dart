@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/category_model.dart';
@@ -179,7 +180,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   void updateDateTime() {
     setState(() {
       currentDateTime =
-          DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+          DateFormat('yyyy-MM-dd ||  HH:mm:ss').format(DateTime.now());
     });
   }
 
@@ -226,7 +227,48 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomAppBar(
-            actions: const [],
+            actions: [
+              CustomSmallButton(
+                icon: Icons.add,
+                onTap: () => showAddItemDialog(context),
+                text: AppLocalizations.of(context).translate('AddItem'),
+              ),
+              const SizedBox(height: 12),
+              CustomSmallButton(
+                icon: Icons.picture_as_pdf,
+                onTap: () => exportAsPDF(
+                  context,
+                  customerNameController.text,
+                  currentDateTime,
+                  invoiceNumberController.text,
+                  items,
+                  calculateTotalAmount(),
+                  calculateGrandTotal(),
+                ),
+                text: AppLocalizations.of(context).translate('ExportasPDF'),
+              ),
+              const SizedBox(height: 12),
+              CustomSmallButton(
+                icon: Icons.report,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SalesInvoicesScreen(
+                        invoices: savedInvoices,
+                      ),
+                    ),
+                  );
+                },
+                text: AppLocalizations.of(context).translate('ViewInvoices'),
+              ),
+              const SizedBox(height: 12),
+              CustomSmallButton(
+                icon: Icons.save,
+                onTap: savedata,
+                text: AppLocalizations.of(context).translate('حفظ الفواتير'),
+              ),
+            ],
             title: AppLocalizations.of(context).translate('orders'),
           ),
           const SizedBox(height: 16),
@@ -241,19 +283,25 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          Text('Date and Time: $currentDateTime'),
+          Text(
+            'Date || Time: $currentDateTime',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 12),
-          Text('Invoice Number: ${invoiceNumberController.text}'),
+          Text(
+            'Invoice Number: ${invoiceNumberController.text}',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 24),
-          if (_selectedItem != null) ...[
-            Text(
-              'Selected Item: ${_selectedItem!.name}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Text('Quantity: ${_selectedItem!.quantity}'),
-            Text('Unit Price: \$${_selectedItem!.unitPrice}'),
-            const SizedBox(height: 24),
-          ],
+          // if (_selectedItem != null) ...[
+          //   Text(
+          //     'Selected Item: ${_selectedItem!.name}',
+          //     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          //   ),
+          //   Text('Quantity: ${_selectedItem!.quantity}'),
+          //   Text('Unit Price: \$${_selectedItem!.unitPrice}'),
+          //   const SizedBox(height: 24),
+          // ],
           DataTable(
             columns: [
               DataColumn(
@@ -305,47 +353,10 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50),
             child: Column(
-              children: [
-                CustomButton(
-                  onTap: () => showAddItemDialog(context),
-                  text: AppLocalizations.of(context).translate('AddItem'),
-                ),
-                const SizedBox(height: 12),
-                CustomButton(
-                  onTap: () => exportAsPDF(
-                    context,
-                    customerNameController.text,
-                    currentDateTime,
-                    invoiceNumberController.text,
-                    items,
-                    calculateTotalAmount(),
-                    calculateGrandTotal(),
-                  ),
-                  text: AppLocalizations.of(context).translate('ExportasPDF'),
-                ),
-                const SizedBox(height: 12),
-                CustomButton(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SalesInvoicesScreen(
-                          invoices: savedInvoices,
-                        ),
-                      ),
-                    );
-                  },
-                  text: AppLocalizations.of(context).translate('ViewInvoices'),
-                ),
-                const SizedBox(height: 12),
-                CustomButton(
-                  onTap: savedata,
-                  text: AppLocalizations.of(context).translate('حفظ الفواتير'),
-                ),
-              ],
+              children: [],
             ),
           )
         ],

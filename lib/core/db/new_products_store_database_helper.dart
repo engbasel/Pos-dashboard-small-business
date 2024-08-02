@@ -16,17 +16,17 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDatabase();
+    _database = await initDatabase();
     return _database!;
   }
 
-  Future<Database> _initDatabase() async {
+  Future<Database> initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(
       path,
       version: _databaseVersion,
-      onCreate: _onCreate,
-      onUpgrade: _onUpgrade,
+      onCreate: onCreate,
+      onUpgrade: onUpgrade,
     );
   }
 
@@ -38,7 +38,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> _onCreate(Database db, int version) async {
+  Future<void> onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE ${ItemDatabaseConstants.itemsTable} (
         ${ItemDatabaseConstants.columnId} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,7 +70,7 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+  Future<void> onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await _addCategoryColumn(db);
     }

@@ -32,6 +32,8 @@ class UserList extends StatelessWidget {
                     '${localizations.translate('email')}: ${users[index]['email']}'),
                 Text(
                     '${localizations.translate('createdAt')}: ${users[index]['createdAt']}'),
+                Text(
+                    '${localizations.translate('createdTime')}: ${users[index]['createdTime']}'),
               ],
             ),
             trailing: IconButton(

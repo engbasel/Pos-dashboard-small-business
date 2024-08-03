@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/UpcomingOrders/database/database_incoming_orders_manager..dart';
-import 'package:pos_dashboard_v1/features/UpcomingOrders/model/incoming_order_model.dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/database/database_incoming_orders_manager..dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/model/incoming_order_model.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:uuid/uuid.dart';
 

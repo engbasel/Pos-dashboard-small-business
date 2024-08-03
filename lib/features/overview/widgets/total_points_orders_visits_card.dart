@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class TotalPointAndOrdersAndVisetsCard extends StatelessWidget {
   final String title;
   final String? value;
@@ -10,9 +9,9 @@ class TotalPointAndOrdersAndVisetsCard extends StatelessWidget {
   final int? numberOfProductsInStore;
   final IconData? icon;
   final Color? color;
-  void Function()? onTap;
+  final void Function()? onTap;
 
-  TotalPointAndOrdersAndVisetsCard({
+  const TotalPointAndOrdersAndVisetsCard({
     super.key,
     required this.title,
     this.value,

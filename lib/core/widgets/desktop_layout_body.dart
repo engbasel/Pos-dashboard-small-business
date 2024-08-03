@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/UpcomingOrders/views/add_incoming_order_screen.dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/views/add_incoming_order_screen.dart';
 import 'package:pos_dashboard_v1/features/categories/views/categories/views/categories_view.dart';
 import 'package:pos_dashboard_v1/features/reports/views/all_reports_viewer.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
@@ -8,7 +8,7 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
 import 'package:window_manager/window_manager.dart';
 import '../../features/client/views/customers_view.dart';
-import '../../features/dashboard/views/overview.dart';
+import '../../features/overview/views/overview_view.dart';
 import '../../features/settings/views/settings_overview.dart';
 
 class DesktopLayoutBoady extends StatefulWidget {

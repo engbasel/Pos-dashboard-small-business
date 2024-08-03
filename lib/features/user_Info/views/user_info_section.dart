@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/userInformation/widgets/custom_label.dart';
+import 'package:pos_dashboard_v1/features/user_Info/widgets/custom_label.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import '../../../core/utils/manager/manager.dart';
 import 'package:intl/intl.dart';

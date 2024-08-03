@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
-import 'package:pos_dashboard_v1/features/UpcomingOrders/database/database_incoming_orders_manager..dart';
-import 'package:pos_dashboard_v1/features/UpcomingOrders/views/needed_products_details.dart';
-import 'package:pos_dashboard_v1/features/UpcomingOrders/views/needed_products_form.dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/database/database_incoming_orders_manager..dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/views/needed_products_details.dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/views/needed_products_form.dart';
 import '../../../l10n/app_localizations.dart';
 import '../model/incoming_order_model.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
-import 'package:pos_dashboard_v1/features/userInformation/widgets/label_info_card.dart';
+import 'package:pos_dashboard_v1/features/user_Info/widgets/label_info_card.dart';
 
 // ignore: camel_case_types
 class UserInfoCard extends StatelessWidget {

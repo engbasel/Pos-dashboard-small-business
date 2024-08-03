@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/views/invoice_item_detail_view.dart';
+import 'package:pos_dashboard_v1/features/sales_bill/widgets/invoice_item_detail_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
-
 import '../../../l10n/app_localizations.dart';
 import '../databases/sales_database_helper.dart';
 
@@ -11,7 +10,7 @@ class SalesInvoicesScreen extends StatefulWidget {
   final List<SalesInvoice> invoices;
 
   @override
-  _SalesInvoicesScreenState createState() => _SalesInvoicesScreenState();
+  State<SalesInvoicesScreen> createState() => _SalesInvoicesScreenState();
 }
 
 class _SalesInvoicesScreenState extends State<SalesInvoicesScreen> {

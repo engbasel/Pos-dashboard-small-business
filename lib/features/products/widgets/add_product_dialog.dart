@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/features/categories/models/category_model.dart';
-import 'package:pos_dashboard_v1/features/categories/views/Items/widgets/image_picker_helper.dart';
+import 'package:pos_dashboard_v1/core/utils/image_picker_helper.dart';
 import 'dart:io';
 import '../../../l10n/app_localizations.dart';
 import '../../categories/database/item_database_helper.dart';

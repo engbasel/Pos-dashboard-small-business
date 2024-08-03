@@ -7,7 +7,7 @@ import 'package:pos_dashboard_v1/features/notifications/views/notifications_view
 import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
-import 'package:pos_dashboard_v1/features/userInformation/views/user_info_section.dart';
+import 'package:pos_dashboard_v1/features/user_Info/views/user_info_section.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class OverviewView extends StatefulWidget {

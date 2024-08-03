@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:path/path.dart';
-import 'package:pos_dashboard_v1/features/UpcomingOrders/model/incoming_order_model.dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/model/incoming_order_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'incoming_order_database_constants.dart';
 

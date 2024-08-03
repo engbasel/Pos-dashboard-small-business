@@ -473,6 +473,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                       return ProductListItem(
                         item: item,
                         onRemove: () => removeItem(item.id!),
+                        loadItems: loadItems,
                       );
                     },
                   ),

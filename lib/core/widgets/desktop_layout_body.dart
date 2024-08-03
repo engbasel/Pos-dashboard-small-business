@@ -6,6 +6,7 @@ import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
 import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
+import 'package:window_manager/window_manager.dart';
 import '../../features/client/views/customers_view.dart';
 import '../../features/dashboard/views/overview.dart';
 import '../../features/settings/views/settings_overview.dart';
@@ -17,7 +18,8 @@ class DesktopLayoutBoady extends StatefulWidget {
   State<DesktopLayoutBoady> createState() => _DesktopLayoutBoadyState();
 }
 
-class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
+class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady>
+    with WindowListener {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
@@ -29,28 +31,57 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    windowManager.addListener(this);
+    _init();
+  }
+
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
+  }
+
+  void _init() async {
+    // Add this line to override the default close handler
+    await windowManager.setPreventClose(true);
+    setState(() {});
+  }
+
+  @override
+  void onWindowClose() async {
+    bool isPreventClose = await windowManager.isPreventClose();
+    if (isPreventClose) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: const Text('Are you sure you want to close this window?'),
+            actions: [
+              TextButton(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Yes'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await windowManager.destroy();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: const Color(0xfff8f9fd),
-      //   elevation: 0,
-      //   title: const Text(' Dashboard'),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.logout_rounded),
-      //       onPressed: () {
-      //         // _onItemTapped(3);
-
-      //         Navigator.push(context, MaterialPageRoute(
-      //           builder: (context) {
-      //             return const LoginView();
-      //           },
-      //         ));
-      //       },
-      //     )
-      //   ],
-      // ),
-
       body: Row(
         children: [
           CustomDrawer(

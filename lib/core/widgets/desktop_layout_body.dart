@@ -6,6 +6,7 @@ import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
 import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
 import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:window_manager/window_manager.dart';
 import '../../features/client/views/customers_view.dart';
 import '../../features/overview/views/overview_view.dart';
@@ -57,16 +58,31 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady>
         context: context,
         builder: (_) {
           return AlertDialog(
-            title: const Text('Are you sure you want to close this window?'),
+            title: Text(
+              AppLocalizations.of(context).translate('AlertDiloageCloseApp'),
+              style: const TextStyle(
+                color: Colors.red,
+              ),
+            ),
             actions: [
               TextButton(
-                child: const Text('No'),
+                child: Text(
+                  AppLocalizations.of(context).translate('No'),
+                  style: const TextStyle(
+                    color: Colors.green,
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: const Text('Yes'),
+                child: Text(
+                  AppLocalizations.of(context).translate('Yes'),
+                  style: const TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   await windowManager.destroy();

@@ -19,9 +19,9 @@ class _UserInfoSectionState extends State<UserInfoSection> {
   @override
   void initState() {
     super.initState();
-    _updateDateTime();
-    _timer = Timer.periodic(
-        const Duration(seconds: 1), (timer) => _updateDateTime());
+    updateDateTime();
+    _timer =
+        Timer.periodic(const Duration(seconds: 1), (timer) => updateDateTime());
   }
 
   @override
@@ -30,13 +30,13 @@ class _UserInfoSectionState extends State<UserInfoSection> {
     super.dispose();
   }
 
-  void _updateDateTime() {
+  void updateDateTime() {
     setState(() {
-      _currentDateTime = _getCurrentDateTime();
+      _currentDateTime = getCurrentDateTime();
     });
   }
 
-  String _getCurrentDateTime() {
+  String getCurrentDateTime() {
     final now = DateTime.now();
     final dayFormatter = DateFormat('EEEE');
     final dateTimeFormatter = DateFormat('MMM dd, yyyy hh:mm:ss a');

@@ -80,12 +80,6 @@ class _EditReturnInvoiceItemScreenState
           updatedReturnInvoice); // Call the callback function with updated invoice
       Navigator.pop(context); // Close the screen
     } catch (e) {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text('Error updating Return Invoice: $e')),
-      // );
-
-      // CustomSnackBar.show(context, 'Error updating Return Invoice: $e');
-
       CustomSnackBar.show(context,
           AppLocalizations.of(context).translate('ErrorupdatingReturnInvoice'));
     }

@@ -153,13 +153,6 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     if (result != null) {
       setState(() {
         _selectedItem = result;
-        // items.add(SalesItem(
-        //   result.name,
-        //   1,
-        //   result.unitPrice as double,
-        //   0,
-        //   result.id as int,
-        // ));
 
         items.add(SalesItem(
           result.name,
@@ -209,18 +202,61 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
     );
   }
 
-  Future<void> savedata() async {
-    final newInvoice = SalesInvoice(
-      customerName: customerNameController.text,
-      invoiceDate: currentDateTime,
-      invoiceNumber: invoiceNumberController.text,
-      items: List.from(items),
-    );
+  Future<void> removeFromItemsDatabase() async {
+    final itemDatabaseHelper = ItemDatabaseHelper.instance;
+
+    for (var item in items) {
+      // Fetch the current item details from the database
+      final currentItem = await itemDatabaseHelper.getItem(item.itemID);
+
+      if (currentItem == null) {
+        // Handle the case where the item does not exist in the database
+        CustomSnackBar.show(context, 'Item with ID ${item.itemID} not found');
+        return;
+      }
+
+      // Calculate the new quantity
+      final newQuantity = (currentItem.quantity ?? 0) - (item.quantity ?? 0);
+
+      if (newQuantity < 0) {
+        // Handle the case where the quantity is not sufficient
+        CustomSnackBar.show(
+            context, 'Not enough stock for ${currentItem.name}');
+        return;
+      }
+
+      if (newQuantity <= 0) {
+        // Delete the item from the database if the quantity is zero or less
+        await itemDatabaseHelper.deleteItem(item.itemID);
+        CustomSnackBar.show(
+            context, 'Item ${currentItem.name} deleted successfully');
+      } else {
+        // Update the item quantity in the database if it's more than zero
+        final updatedItem = currentItem.copyWith(quantity: newQuantity);
+        await itemDatabaseHelper.updateItem(updatedItem);
+        CustomSnackBar.show(
+            context, 'Item ${currentItem.name} quantity updated successfully');
+      }
+    }
+  }
+
+  Future<void> saveData() async {
     try {
+      await removeFromItemsDatabase(); // Ensure this completes before saving the invoice
+
+      final newInvoice = SalesInvoice(
+        customerName: customerNameController.text,
+        invoiceDate: currentDateTime,
+        invoiceNumber: invoiceNumberController.text,
+        items: List.from(items),
+      );
+
       await SalesDatabaseHelper.instance.insertSalesInvoice(newInvoice);
+
       setState(() {
         savedInvoices.add(newInvoice);
       });
+
       CustomSnackBar.show(context, 'Invoice saved successfully');
     } catch (e) {
       CustomSnackBar.show(context, 'Error saving invoice: $e');
@@ -272,7 +308,9 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
               const SizedBox(height: 12),
               CustomSmallButton(
                 icon: Icons.save,
-                onTap: savedata,
+                onTap: () {
+                  saveData();
+                },
                 text: AppLocalizations.of(context).translate('حفظ الفواتير'),
               ),
             ],

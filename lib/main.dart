@@ -7,32 +7,14 @@ import 'package:provider/provider.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'l10n/ocale_provider.dart';
 
-void main(List<String> args) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
+void main(List<String> args) {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-
-  WindowOptions windowOptions = const WindowOptions(
-    titleBarStyle: TitleBarStyle.normal,
-    backgroundColor: Colors.transparent,
-    center: true,
-    skipTaskbar: false,
-    title: 'POS',
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-
-    await windowManager.setResizable(false);
-  });
-
   runApp(
     DevicePreview(
       enabled: false,
@@ -75,16 +57,3 @@ class PosSystem extends StatelessWidget {
     );
   }
 }
-// ----------------------------------
-// disgen Link
-// ----------------------------------
-// https://www.figma.com/design/sa77wX8SKrQpkCc1W7RAgf/POS-System-Dashboard-Dark-(Community)?node-id=1-14&t=a9INnTrgS1dYpRAR-0
-// ----------------------------------
-// requirements in pos System 
-// Logic
-// Employy (staff) Futers  {Add - delete - edit - serche - export data as pdf -}
-// Coustomres (Clients) Futers {Add - delete - edit - serche - export data as pdf - }
-// Prodacts { {Add - delete - edit - serche - export data as pdf } 
-// 
-// ----------------------------------
-// vvv

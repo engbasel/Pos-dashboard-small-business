@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/categories/views/categories/views/categories_view.dart';
 import 'package:pos_dashboard_v1/features/reports/views/all_reports_viewer.dart';
@@ -104,16 +105,28 @@ class _OverviewViewState extends State<OverviewView> {
             ],
           ),
           const SizedBox(height: 16),
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    UserInfoSection(),
-                    SizedBox(height: 16),
+                    const UserInfoSection(),
+                    const SizedBox(height: 16),
                     // buildQuickAccessButtons(context, localizations),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
+                    Container(
+                      height: 120,
+                      width: 400,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.red,
+                      ),
+                      child: const Center(
+                        child:
+                            Text('you have enouf count of this item in Store '),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -188,52 +201,4 @@ class _OverviewViewState extends State<OverviewView> {
       ],
     );
   }
-
-//   Widget buildNotificationsSection(
-//       BuildContext context, AppLocalizations localizations) {
-//     return Container(
-//       padding: const EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(8),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.grey.withOpacity(0.1),
-//             spreadRadius: 1,
-//             blurRadius: 2,
-//             offset: const Offset(0, 1),
-//           ),
-//         ],
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             localizations.translate('Notifications'),
-//             style: Theme.of(context).textTheme.titleLarge,
-//           ),
-//           const SizedBox(height: 8),
-//           buildNotificationItem(
-//             icon: Icons.warning,
-//             color: Colors.orange,
-//             title: localizations.translate('Low Stock Alert'),
-//             message:
-//                 localizations.translate('5 products are running low on stock'),
-//           ),
-//           buildNotificationItem(
-//             icon: Icons.event,
-//             color: Colors.blue,
-//             title: localizations.translate('Upcoming Sale'),
-//             message: localizations.translate('Summer sale starts in 2 days'),
-//           ),
-//           buildNotificationItem(
-//             icon: Icons.receipt,
-//             color: Colors.green,
-//             title: localizations.translate('New Order'),
-//             message: localizations.translate('Order #1234 needs processing'),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
 }

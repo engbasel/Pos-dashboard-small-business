@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -183,6 +184,11 @@ Future<void> showAddItemDialog(
               ElevatedButton(
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
+                    int quantity =
+                        int.tryParse(controllers['quantity']!.text) ?? 0;
+                    int alertQuantity =
+                        int.tryParse(controllers['alertQuantity']!.text) ?? 0;
+
                     await ItemDatabaseHelper.instance.insertItem(
                       ItemModel(
                         id: null,
@@ -203,11 +209,8 @@ Future<void> showAddItemDialog(
                         taxRate:
                             double.tryParse(controllers['taxRate']!.text) ??
                                 0.0,
-                        quantity:
-                            int.tryParse(controllers['quantity']!.text) ?? 0,
-                        alertQuantity:
-                            int.tryParse(controllers['alertQuantity']!.text) ??
-                                0,
+                        quantity: quantity,
+                        alertQuantity: alertQuantity,
                         image: controllers['image']!.text,
                         brand: controllers['brand']!.text,
                         size: controllers['size']!.text,
@@ -219,10 +222,18 @@ Future<void> showAddItemDialog(
                         supplierId:
                             int.tryParse(controllers['supplierId']!.text) ?? 0,
                         itemStatus: itemStatus ?? 'active',
-                        // dateAdded: controllers['expiryDate']!.text,
-                        // dateModified: controllers['manufactureDate']!.text,
+                        dateAdded: DateTime.now(),
+                        dateModified: DateTime.now(),
                       ),
                     );
+
+                    if (alertQuantity >= quantity) {
+                      print(
+                          "Data in store is less than normal. Remember to buy new items for your shop.");
+                      CustomSnackBar.show(context,
+                          'Data in store is less than normal. Remember to buy new items for your shop.');
+                    }
+
                     loadItems();
                     Navigator.of(context).pop();
                   }

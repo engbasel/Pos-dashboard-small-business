@@ -14,6 +14,8 @@ class AppLocalizations {
   static const LocalizationsDelegate<AppLocalizations> delegate =
       AppLocalizationsDelegate();
 
+// ============================ English Section ==========================
+
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
       // =========================== login screen ==========================================
@@ -231,6 +233,7 @@ class AppLocalizations {
           "The password you entered is incorrect.",
     }
 
+// ============================ English Section ==========================
 // ============================ arabic Section ==========================
     ,
     'ar': {

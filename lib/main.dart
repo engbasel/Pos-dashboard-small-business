@@ -57,16 +57,3 @@ class PosSystem extends StatelessWidget {
     );
   }
 }
-// ----------------------------------
-// disgen Link
-// ----------------------------------
-// https://www.figma.com/design/sa77wX8SKrQpkCc1W7RAgf/POS-System-Dashboard-Dark-(Community)?node-id=1-14&t=a9INnTrgS1dYpRAR-0
-// ----------------------------------
-// requirements in pos System 
-// Logic
-// Employy (staff) Futers  {Add - delete - edit - serche - export data as pdf -}
-// Coustomres (Clients) Futers {Add - delete - edit - serche - export data as pdf - }
-// Prodacts { {Add - delete - edit - serche - export data as pdf } 
-// 
-// ----------------------------------
-// vvv

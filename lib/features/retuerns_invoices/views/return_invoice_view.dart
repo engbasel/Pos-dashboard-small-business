@@ -54,6 +54,34 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     }
   }
 
+  Future<void> deletitem(ReturnInvoiceModel invoice) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context).translate('confirmDelete')),
+          content: Text(
+              AppLocalizations.of(context).translate('confirmDeleteMessage')),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(AppLocalizations.of(context).translate('cancel')),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(AppLocalizations.of(context).translate('delete')),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      await databaseHelper.deleteReturnInvoice(invoice.id);
+      loadReturnInvoices();
+    }
+  }
+
   void navigateToReturnInvoiceDetailScreen(ReturnInvoiceModel invoice) {
     showDialog(
       context: context,
@@ -93,13 +121,49 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               padding: const EdgeInsets.all(6),
               child: ListTile(
+                trailing: IconButton(
+                    onPressed: () {
+                      deletitem(invoice);
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    )),
                 title: Text(
                     '${AppLocalizations.of(context).translate('invoiceId')}: ${invoice.id}'),
-                subtitle: Text(
-                    '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}'),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}'),
+                    Text(
+                        '${AppLocalizations.of(context).translate('returnDate')}: ${invoice.returnDate}'),
+                    Text(
+                        '${AppLocalizations.of(context).translate('employee')}: ${invoice.employee}'),
+                    Text(
+                        '${AppLocalizations.of(context).translate('reason')}: ${invoice.reason}'),
+                    Text(
+                        '${AppLocalizations.of(context).translate('amount')}: ${invoice.amount.toStringAsFixed(2)}'),
+                    Text(
+                        '${AppLocalizations.of(context).translate('totalBackMoney')}: ${invoice.totalbackmony.toStringAsFixed(2)}'),
+                  ],
+                ),
                 onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
               ),
             ),
+
+            // Container(
+            //   color: Colors.white,
+            //   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            //   padding: const EdgeInsets.all(6),
+            //   child: ListTile(
+            //     title: Text(
+            //         '${AppLocalizations.of(context).translate('invoiceId')}: ${invoice.id}'),
+            //     subtitle: Text(
+            //         '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}'),
+            //     onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+            //   ),
+            // ),
           ),
         ],
       ),

@@ -189,54 +189,53 @@ Future<void> showAddItemDialog(
                     int alertQuantity =
                         int.tryParse(controllers['alertQuantity']!.text) ?? 0;
 
+                    await ItemDatabaseHelper.instance.insertItem(
+                      ItemModel(
+                        id: null,
+                        categoryId: categoryId,
+                        name: controllers['name']!.text,
+                        description: controllers['description']!.text,
+                        sku: controllers['sku']!.text,
+                        barcode: controllers['barcode']!.text,
+                        price: double.tryParse(
+                                controllers['purchasePrice']!.text) ??
+                            0.0,
+                        unitPrice:
+                            double.tryParse(controllers['salePrice']!.text) ??
+                                0.0,
+                        wholesalePrice: double.tryParse(
+                                controllers['wholesalePrice']!.text) ??
+                            0.0,
+                        taxRate:
+                            double.tryParse(controllers['taxRate']!.text) ??
+                                0.0,
+                        quantity: quantity,
+                        alertQuantity: alertQuantity,
+                        image: controllers['image']!.text,
+                        brand: controllers['brand']!.text,
+                        size: controllers['size']!.text,
+                        weight:
+                            double.tryParse(controllers['weight']!.text) ?? 0.0,
+                        color: controllers['color']!.text,
+                        material: controllers['material']!.text,
+                        warranty: controllers['warranty']!.text,
+                        supplierId:
+                            int.tryParse(controllers['supplierId']!.text) ?? 0,
+                        itemStatus: itemStatus ?? 'active',
+                        dateAdded: DateTime.now(),
+                        dateModified: DateTime.now(),
+                      ),
+                    );
+
                     if (alertQuantity >= quantity) {
                       print(
                           "Data in store is less than normal. Remember to buy new items for your shop.");
                       CustomSnackBar.show(context,
-                          'data in store is less than normal. Remember to buy new items for your shop.');
-                    } else {
-                      await ItemDatabaseHelper.instance.insertItem(
-                        ItemModel(
-                          id: null,
-                          categoryId: categoryId,
-                          name: controllers['name']!.text,
-                          description: controllers['description']!.text,
-                          sku: controllers['sku']!.text,
-                          barcode: controllers['barcode']!.text,
-                          price: double.tryParse(
-                                  controllers['purchasePrice']!.text) ??
-                              0.0,
-                          unitPrice:
-                              double.tryParse(controllers['salePrice']!.text) ??
-                                  0.0,
-                          wholesalePrice: double.tryParse(
-                                  controllers['wholesalePrice']!.text) ??
-                              0.0,
-                          taxRate:
-                              double.tryParse(controllers['taxRate']!.text) ??
-                                  0.0,
-                          quantity: quantity,
-                          alertQuantity: alertQuantity,
-                          image: controllers['image']!.text,
-                          brand: controllers['brand']!.text,
-                          size: controllers['size']!.text,
-                          weight:
-                              double.tryParse(controllers['weight']!.text) ??
-                                  0.0,
-                          color: controllers['color']!.text,
-                          material: controllers['material']!.text,
-                          warranty: controllers['warranty']!.text,
-                          supplierId:
-                              int.tryParse(controllers['supplierId']!.text) ??
-                                  0,
-                          itemStatus: itemStatus ?? 'active',
-                          dateAdded: DateTime.now(),
-                          dateModified: DateTime.now(),
-                        ),
-                      );
-                      loadItems();
-                      Navigator.of(context).pop();
+                          'Data in store is less than normal. Remember to buy new items for your shop.');
                     }
+
+                    loadItems();
+                    Navigator.of(context).pop();
                   }
                 },
                 child: Text(AppLocalizations.of(context).translate('add')),

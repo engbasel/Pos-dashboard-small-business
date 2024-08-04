@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -183,48 +184,59 @@ Future<void> showAddItemDialog(
               ElevatedButton(
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
-                    await ItemDatabaseHelper.instance.insertItem(
-                      ItemModel(
-                        id: null,
-                        categoryId: categoryId,
-                        name: controllers['name']!.text,
-                        description: controllers['description']!.text,
-                        sku: controllers['sku']!.text,
-                        barcode: controllers['barcode']!.text,
-                        price: double.tryParse(
-                                controllers['purchasePrice']!.text) ??
-                            0.0,
-                        unitPrice:
-                            double.tryParse(controllers['salePrice']!.text) ??
-                                0.0,
-                        wholesalePrice: double.tryParse(
-                                controllers['wholesalePrice']!.text) ??
-                            0.0,
-                        taxRate:
-                            double.tryParse(controllers['taxRate']!.text) ??
-                                0.0,
-                        quantity:
-                            int.tryParse(controllers['quantity']!.text) ?? 0,
-                        alertQuantity:
-                            int.tryParse(controllers['alertQuantity']!.text) ??
-                                0,
-                        image: controllers['image']!.text,
-                        brand: controllers['brand']!.text,
-                        size: controllers['size']!.text,
-                        weight:
-                            double.tryParse(controllers['weight']!.text) ?? 0.0,
-                        color: controllers['color']!.text,
-                        material: controllers['material']!.text,
-                        warranty: controllers['warranty']!.text,
-                        supplierId:
-                            int.tryParse(controllers['supplierId']!.text) ?? 0,
-                        itemStatus: itemStatus ?? 'active',
-                        // dateAdded: controllers['expiryDate']!.text,
-                        // dateModified: controllers['manufactureDate']!.text,
-                      ),
-                    );
-                    loadItems();
-                    Navigator.of(context).pop();
+                    int quantity =
+                        int.tryParse(controllers['quantity']!.text) ?? 0;
+                    int alertQuantity =
+                        int.tryParse(controllers['alertQuantity']!.text) ?? 0;
+
+                    if (alertQuantity >= quantity) {
+                      print(
+                          "Data in store is less than normal. Remember to buy new items for your shop.");
+                      CustomSnackBar.show(context,
+                          'data in store is less than normal. Remember to buy new items for your shop.');
+                    } else {
+                      await ItemDatabaseHelper.instance.insertItem(
+                        ItemModel(
+                          id: null,
+                          categoryId: categoryId,
+                          name: controllers['name']!.text,
+                          description: controllers['description']!.text,
+                          sku: controllers['sku']!.text,
+                          barcode: controllers['barcode']!.text,
+                          price: double.tryParse(
+                                  controllers['purchasePrice']!.text) ??
+                              0.0,
+                          unitPrice:
+                              double.tryParse(controllers['salePrice']!.text) ??
+                                  0.0,
+                          wholesalePrice: double.tryParse(
+                                  controllers['wholesalePrice']!.text) ??
+                              0.0,
+                          taxRate:
+                              double.tryParse(controllers['taxRate']!.text) ??
+                                  0.0,
+                          quantity: quantity,
+                          alertQuantity: alertQuantity,
+                          image: controllers['image']!.text,
+                          brand: controllers['brand']!.text,
+                          size: controllers['size']!.text,
+                          weight:
+                              double.tryParse(controllers['weight']!.text) ??
+                                  0.0,
+                          color: controllers['color']!.text,
+                          material: controllers['material']!.text,
+                          warranty: controllers['warranty']!.text,
+                          supplierId:
+                              int.tryParse(controllers['supplierId']!.text) ??
+                                  0,
+                          itemStatus: itemStatus ?? 'active',
+                          dateAdded: DateTime.now(),
+                          dateModified: DateTime.now(),
+                        ),
+                      );
+                      loadItems();
+                      Navigator.of(context).pop();
+                    }
                   }
                 },
                 child: Text(AppLocalizations.of(context).translate('add')),

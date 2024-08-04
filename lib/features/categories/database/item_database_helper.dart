@@ -82,6 +82,19 @@ class ItemDatabaseHelper {
     print("Inserted item: ${item.name}");
   }
 
+  Future<ItemModel?> getItem(int id) async {
+    final db = await database;
+    var result = await db.query(
+      ItemDatabaseConstants.itemsTable,
+      where: '${ItemDatabaseConstants.columnId} = ?',
+      whereArgs: [id],
+    );
+    if (result.isNotEmpty) {
+      return ItemModel.fromMap(result.first);
+    }
+    return null;
+  }
+
   Future<void> updateItem(ItemModel item) async {
     final db = await database;
     await db.update(
@@ -125,15 +138,4 @@ class ItemDatabaseHelper {
         where: '${ItemDatabaseConstants.columnId} = ?', whereArgs: [id]);
     print("Deleted item with id: $id");
   }
-
-  // Future<void> updateItem(ItemModel item) async {
-  //   final db = await database;
-  //   await db.update(
-  //     ItemDatabaseConstants.itemsTable,
-  //     item.toMap(),
-  //     where: '${ItemDatabaseConstants.columnId} = ?',
-  //     whereArgs: [item.id],
-  //   );
-  //   print("Updated item with id: ${item.id}");
-  // }
 }

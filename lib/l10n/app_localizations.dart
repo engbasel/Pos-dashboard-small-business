@@ -54,6 +54,7 @@ class AppLocalizations {
       "productDetails": "Product Details",
       "productModel": "Product Model",
       "category": "Category",
+      "AlertDiloageCloseApp": "Are you sure you want to close this window?",
       "customerDetails": "ustomer Details",
 
       // =========================== Home view screen ==========================================
@@ -196,6 +197,7 @@ class AppLocalizations {
 
       // ======================== Orders section ===========================
       "all": "All",
+      "Yes": "Yes",
       "monthly": "Monthly",
       "weekly": "Weekly",
       "today": "Today",
@@ -237,6 +239,7 @@ class AppLocalizations {
       "dateTime": "التاريخ/الوقت",
       "orderType": "نوع الطلب",
       "employee": "الموظف",
+      "AlertDiloageCloseApp": "هل تريد اغلاق التطبيق",
       "customerDetails": "تفاصيل العميل",
       "NeededProducts": "المنتجات الناقصة",
       "Ok": "موافق",
@@ -411,6 +414,7 @@ class AppLocalizations {
       'orderList': 'قائمة الطلبات',
 
       "catigoryes": "الأصناف",
+      "Yes": "نعم",
       "privilege": "الامتياز",
       "gender": "الجنس",
       "reports": "التقارير",

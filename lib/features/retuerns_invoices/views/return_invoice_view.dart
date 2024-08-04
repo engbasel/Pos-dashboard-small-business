@@ -3,6 +3,7 @@ import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/views/edit_return_invoice_item_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoicee_form.dart';
 import '../../../l10n/app_localizations.dart';
@@ -54,7 +55,7 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     }
   }
 
-  Future<void> deletitem(ReturnInvoiceModel invoice) async {
+  Future<void> deleteItem(ReturnInvoiceModel invoice) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
@@ -99,6 +100,36 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     );
   }
 
+  void navigateToEditReturnInvoiceItemScreen(ReturnInvoiceModel invoice) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: EditReturnInvoiceItemScreen(
+            returnInvoice: invoice,
+            onUpdate: (updatedInvoice) {
+              setState(() {
+                final index = returnInvoices
+                    .indexWhere((inv) => inv.id == updatedInvoice.id);
+                if (index != -1) {
+                  returnInvoices[index] = updatedInvoice;
+                }
+              });
+            },
+          ),
+        );
+      },
+    );
+
+    if (result == true) {
+      loadReturnInvoices();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -121,14 +152,26 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               padding: const EdgeInsets.all(6),
               child: ListTile(
-                trailing: IconButton(
-                    onPressed: () {
-                      deletitem(invoice);
-                    },
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    )),
+                trailing: Wrap(
+                  spacing: 12, // space between two icons
+                  children: <Widget>[
+                    IconButton(
+                      onPressed: () =>
+                          navigateToEditReturnInvoiceItemScreen(invoice),
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => deleteItem(invoice),
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
                 title: Text(
                     '${AppLocalizations.of(context).translate('invoiceId')}: ${invoice.id}'),
                 subtitle: Column(
@@ -151,19 +194,6 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
                 onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
               ),
             ),
-
-            // Container(
-            //   color: Colors.white,
-            //   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            //   padding: const EdgeInsets.all(6),
-            //   child: ListTile(
-            //     title: Text(
-            //         '${AppLocalizations.of(context).translate('invoiceId')}: ${invoice.id}'),
-            //     subtitle: Text(
-            //         '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}'),
-            //     onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
-            //   ),
-            // ),
           ),
         ],
       ),

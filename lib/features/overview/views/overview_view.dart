@@ -16,11 +16,31 @@ class OverviewView extends StatefulWidget {
 
 class _OverviewViewState extends State<OverviewView> {
   late Future<List<ItemModel>> _itemsBelowAlertQuantity;
+  Color _notificationIconColor = const Color(0xff505251);
+  IconData _notificationIcon = Icons.notifications_none;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
+  // }
 
   @override
   void initState() {
     super.initState();
     _itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
+
+    _fetchItemsBelowAlertQuantity().then((items) {
+      setState(() {
+        _itemsBelowAlertQuantity = Future.value(items);
+        if (items.isNotEmpty) {
+          _notificationIconColor = Colors.red;
+          _notificationIcon = Icons.notifications_active;
+        } else {
+          _notificationIconColor = const Color(0xff505251);
+          _notificationIcon = Icons.notifications_none;
+        }
+      });
+    });
   }
 
   Future<List<ItemModel>> _fetchItemsBelowAlertQuantity() async {
@@ -47,9 +67,9 @@ class _OverviewViewState extends State<OverviewView> {
                     },
                   );
                 },
-                child: const Icon(
-                  Icons.notifications_none,
-                  color: Color(0xff505251),
+                child: Icon(
+                  _notificationIcon,
+                  color: _notificationIconColor,
                 ),
               ),
               const SizedBox(width: 16),

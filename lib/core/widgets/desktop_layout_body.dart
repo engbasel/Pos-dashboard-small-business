@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/upcoming_orders/views/add_incoming_order_screen.dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/views/needed_products_view.dart';
 import 'package:pos_dashboard_v1/features/categories/views/categories/views/categories_view.dart';
 import 'package:pos_dashboard_v1/features/reports/views/all_reports_viewer.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
@@ -117,7 +117,7 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady>
                       CategoryScreen(),
                       SalesBillScreen(),
                       ReturnInvoiceScreen(),
-                      AddIncomingOrderScreen(),
+                      NeededProductsView(),
                       AllReportesViwer(),
                       CustomersView(),
                       SettingsView(),

@@ -26,8 +26,6 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
   final customerNameController = TextEditingController();
   late String currentDateTime;
   final invoiceNumberController = TextEditingController();
-  ItemModel? _selectedItem;
-
   final List<SalesItem> items = [];
   static List<SalesInvoice> savedInvoices = [];
 
@@ -152,8 +150,6 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
 
     if (result != null) {
       setState(() {
-        _selectedItem = result;
-
         items.add(SalesItem(
           result.name,
           1,
@@ -216,7 +212,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
       }
 
       // Calculate the new quantity
-      final newQuantity = (currentItem.quantity ?? 0) - (item.quantity ?? 0);
+      final newQuantity = (currentItem.quantity ?? 0) - (item.quantity);
 
       if (newQuantity < 0) {
         // Handle the case where the quantity is not sufficient

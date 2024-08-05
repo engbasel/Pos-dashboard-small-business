@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
-import 'package:pos_dashboard_v1/features/reports/views/ReternInvocMentMangaer.dart';
-import 'package:pos_dashboard_v1/features/reports/views/SalesInvoicesReportScreen.dart';
+import 'package:pos_dashboard_v1/features/reports/views/retern_invoices_manager.dart';
+import 'package:pos_dashboard_v1/features/reports/views/sales_invoices_report_view.dart';
 import 'package:pos_dashboard_v1/features/reports/widgets/custom_genral_report_item.dart';
 
 class AllReportesViwer extends StatelessWidget {

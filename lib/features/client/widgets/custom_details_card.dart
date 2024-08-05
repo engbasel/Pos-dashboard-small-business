@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import '../../../l10n/app_localizations.dart';
 import 'edit_customer_dialog.dart';
 
@@ -21,24 +22,26 @@ class CustomDetailsCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
+        color: ColorsManager.backgroundColor,
         margin: const EdgeInsets.all(8.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                  '${AppLocalizations.of(context).translate('fullName')}: ${customer['fullName']}',
-                  style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 8),
-              Text(
-                  '${AppLocalizations.of(context).translate('indebtedness')}: ${customer['indebtedness']}'),
-              Text(
-                  '${AppLocalizations.of(context).translate('currentAccount')}: ${customer['currentAccount']}'),
-              Text(
-                  '${AppLocalizations.of(context).translate('notes')}: ${customer['notes']}'),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${customer['fullName']}',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
                     onPressed: () async {
@@ -52,7 +55,10 @@ class CustomDetailsCard extends StatelessWidget {
                         onEdit(updatedCustomer);
                       }
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(
+                      Icons.edit,
+                      color: ColorsManager.kPrimaryColor,
+                    ),
                     tooltip: AppLocalizations.of(context).translate('edit'),
                   ),
                   IconButton(
@@ -82,7 +88,10 @@ class CustomDetailsCard extends StatelessWidget {
                         ),
                       );
                     },
-                    icon: const Icon(Icons.delete),
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
                     tooltip: AppLocalizations.of(context).translate('delete'),
                   ),
                 ],

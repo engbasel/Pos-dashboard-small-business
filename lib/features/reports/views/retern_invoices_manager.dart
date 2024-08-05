@@ -8,8 +8,8 @@ import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoicee_form.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/widgets/return_invoice_detail_view.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/widgets/return_invoicee_form.dart';
 import '../../../l10n/app_localizations.dart';
 
 class ReternInvocMentMangaer extends StatefulWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/client/widgets/custom_details_card.dart';
@@ -99,53 +100,70 @@ class _CustomersViewState extends State<CustomersView> {
           ],
         ),
         const SizedBox(height: 16),
-        TextField(
-          controller: searchController,
-          decoration: InputDecoration(
-            labelText: AppLocalizations.of(context).translate('search'),
-            suffixIcon: IconButton(
-              icon: const Icon(Icons.clear),
-              onPressed: () {
-                searchController.clear();
-              },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Material(
+            color: Colors.white,
+            child: TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                hintText: 'Search for a customer...',
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorsManager.kPrimaryColor,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
         Expanded(
-          child: filteredCustomers.isEmpty
-              ? Center(
-                  child: Text(
-                      AppLocalizations.of(context).translate('clientNotFound')))
-              : ListView.builder(
-                  itemCount: filteredCustomers.length,
-                  itemBuilder: (context, index) {
-                    final customer = filteredCustomers[index];
-                    return CustomDetailsCard(
-                      customer: customer,
-                      onEdit: (editedCustomer) {
-                        updateCustomer(editedCustomer);
-                      },
-                      onDelete: (id) {
-                        deleteCustomer(id);
-                      },
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => CustomerDetailView(
-                              customer: customer,
-                              onEdit: (editedCustomer) {
-                                updateCustomer(editedCustomer);
-                              },
-                              onDelete: (id) {
-                                deleteCustomer(id);
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+          child: Container(
+            color: Colors.white,
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
+            child: filteredCustomers.isEmpty
+                ? const Center(child: Text(''))
+                : ListView.builder(
+                    itemCount: filteredCustomers.length,
+                    itemBuilder: (context, index) {
+                      final customer = filteredCustomers[index];
+                      return CustomDetailsCard(
+                        customer: customer,
+                        onEdit: (editedCustomer) {
+                          updateCustomer(editedCustomer);
+                        },
+                        onDelete: (id) {
+                          deleteCustomer(id);
+                        },
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: CustomerDetailView(customer: customer),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+          ),
         ),
       ],
     );

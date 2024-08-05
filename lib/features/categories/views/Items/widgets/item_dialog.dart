@@ -20,7 +20,6 @@ Future<void> showAddItemDialog(
     'taxRate': TextEditingController(),
     'quantity': TextEditingController(),
     'alertQuantity': TextEditingController(),
-    'image': TextEditingController(),
     'brand': TextEditingController(),
     'size': TextEditingController(),
     'weight': TextEditingController(),
@@ -99,7 +98,7 @@ Future<void> showAddItemDialog(
                           path = await pickImage();
                           if (path != null) {
                             setState(() {
-                              controllers['image']!.text = path!;
+                              path = path!;
                             });
                           }
                         },
@@ -110,9 +109,9 @@ Future<void> showAddItemDialog(
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: controllers['image']!.text.isNotEmpty
+                          child: path != null
                               ? Image.file(
-                                  File(controllers['image']!.text),
+                                  File(path!),
                                   fit: BoxFit.cover,
                                 )
                               : Icon(
@@ -211,7 +210,7 @@ Future<void> showAddItemDialog(
                                 0.0,
                         quantity: quantity,
                         alertQuantity: alertQuantity,
-                        image: controllers['image']!.text,
+                        image: path,
                         brand: controllers['brand']!.text,
                         size: controllers['size']!.text,
                         weight:

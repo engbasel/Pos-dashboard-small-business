@@ -96,26 +96,6 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
                     ),
                   ),
                   const Spacer(),
-                  // CustomSmallButton(
-                  //   icon: Icons.edit,
-                  //   text: AppLocalizations.of(context).translate('edit'),
-                  //   onTap: () async {
-                  //     final updatedInvoice = await Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => EditReturnInvoiceItemScreen(
-                  //           returnInvoice: returnInvoice,
-                  //           onUpdate: updateReturnInvoice,
-                  //         ),
-                  //       ),
-                  //     );
-                  //     if (updatedInvoice != null) {
-                  //       updateReturnInvoice(
-                  //           updatedInvoice); // Update the UI with the new data
-                  //     }
-                  //   },
-                  // ),
-                  const SizedBox(width: 8),
                   CustomSmallButton(
                     icon: Icons.print,
                     text: AppLocalizations.of(context).translate('printOrder'),

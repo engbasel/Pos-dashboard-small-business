@@ -18,7 +18,7 @@ class SalesInvoicesReportScreen extends StatefulWidget {
   const SalesInvoicesReportScreen({super.key});
 
   @override
-  _SalesInvoicesReportScreenState createState() =>
+  State<SalesInvoicesReportScreen> createState() =>
       _SalesInvoicesReportScreenState();
 }
 

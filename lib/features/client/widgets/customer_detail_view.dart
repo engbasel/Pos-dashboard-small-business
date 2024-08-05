@@ -1,89 +1,78 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
-import 'edit_customer_dialog.dart';
 
 class CustomerDetailView extends StatelessWidget {
   final Map<String, dynamic> customer;
-  final Function(Map<String, String>) onEdit;
-  final Function(int) onDelete;
 
   const CustomerDetailView({
     required this.customer,
-    required this.onEdit,
-    required this.onDelete,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('customerDetails')),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              final updatedCustomer = await showDialog<Map<String, String>>(
-                context: context,
-                builder: (context) => EditCustomerDialog(customer: customer),
-              );
-              if (updatedCustomer != null) {
-                onEdit(updatedCustomer);
-                Navigator.of(context).pop();
-              }
-            },
-            icon: const Icon(Icons.edit),
-            tooltip: AppLocalizations.of(context).translate('edit'),
-          ),
-          IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: Text(
-                      AppLocalizations.of(context).translate('confirmDelete')),
-                  content: Text(AppLocalizations.of(context)
-                      .translate('deleteConfirmation')),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: Text(
-                          AppLocalizations.of(context).translate('cancel')),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        onDelete(customer['id']);
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                          AppLocalizations.of(context).translate('delete')),
-                    ),
-                  ],
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.5,
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppLocalizations.of(context).translate('customerDetails'),
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
-              );
-            },
-            icon: const Icon(Icons.delete),
-            tooltip: AppLocalizations.of(context).translate('delete'),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).translate('fullName'),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(customer['fullName']),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).translate('indebtedness'),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(customer['indebtedness']),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).translate('currentAccount'),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(customer['currentAccount']),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).translate('notes'),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(customer['notes']),
+                ],
+              ),
+            ],
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${AppLocalizations.of(context).translate('fullName')}: ${customer['fullName']}',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            Text(
-                '${AppLocalizations.of(context).translate('indebtedness')}: ${customer['indebtedness']}'),
-            Text(
-                '${AppLocalizations.of(context).translate('currentAccount')}: ${customer['currentAccount']}'),
-            Text(
-                '${AppLocalizations.of(context).translate('notes')}: ${customer['notes']}'),
-          ],
         ),
       ),
     );

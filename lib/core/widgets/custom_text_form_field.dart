@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
-class CoustomTextFormFiled extends StatelessWidget {
-  CoustomTextFormFiled({
+class CustomTextFormField extends StatelessWidget {
+  CustomTextFormField({
     super.key,
     required this.controller,
     required this.labelText,
@@ -17,7 +17,7 @@ class CoustomTextFormFiled extends StatelessWidget {
   final String labelText;
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
-  void Function()? onTap;
+  final void Function()? onTap;
   bool readOnly = false;
   @override
   Widget build(BuildContext context) {

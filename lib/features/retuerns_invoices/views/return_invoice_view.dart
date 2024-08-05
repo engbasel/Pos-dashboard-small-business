@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/edit_return_invoice_item_view.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_detail_view.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoicee_form.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/widgets/edit_return_invoice_item_view.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/widgets/return_invoice_detail_view.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/widgets/return_invoicee_form.dart';
 import '../../../l10n/app_localizations.dart';
 
 class ReturnInvoiceScreen extends StatefulWidget {
@@ -36,16 +37,12 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     final result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
+        return AlertDialog(
           backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+          title: Text(
+            AppLocalizations.of(context).translate('addReturn'),
           ),
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            width: MediaQuery.of(context).size.width * .5,
-            child: const ReturnInvoiceeForm(),
-          ),
+          content: const ReturnInvoiceeForm(),
         );
       },
     );
@@ -104,23 +101,17 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     final result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: EditReturnInvoiceItemScreen(
-            returnInvoice: invoice,
-            onUpdate: (updatedInvoice) {
-              setState(() {
-                final index = returnInvoices
-                    .indexWhere((inv) => inv.id == updatedInvoice.id);
-                if (index != -1) {
-                  returnInvoices[index] = updatedInvoice;
-                }
-              });
-            },
-          ),
+        return EditReturnInvoiceItemDialog(
+          returnInvoice: invoice,
+          onUpdate: (updatedInvoice) {
+            setState(() {
+              final index = returnInvoices
+                  .indexWhere((inv) => inv.id == updatedInvoice.id);
+              if (index != -1) {
+                returnInvoices[index] = updatedInvoice;
+              }
+            });
+          },
         );
       },
     );
@@ -150,48 +141,61 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
             (invoice) => Container(
               color: Colors.white,
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.all(6),
-              child: ListTile(
-                trailing: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: () =>
-                          navigateToEditReturnInvoiceItemScreen(invoice),
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => deleteItem(invoice),
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ],
-                ),
-                title: Text(
-                    '${AppLocalizations.of(context).translate('invoiceId')}: ${invoice.id}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                        '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}'),
-                    Text(
-                        '${AppLocalizations.of(context).translate('returnDate')}: ${invoice.returnDate}'),
-                    Text(
-                        '${AppLocalizations.of(context).translate('employee')}: ${invoice.employee}'),
-                    Text(
-                        '${AppLocalizations.of(context).translate('reason')}: ${invoice.reason}'),
-                    Text(
-                        '${AppLocalizations.of(context).translate('amount')}: ${invoice.amount.toStringAsFixed(2)}'),
-                    Text(
-                        '${AppLocalizations.of(context).translate('totalBackMoney')}: ${invoice.totalbackmony.toStringAsFixed(2)}'),
-                  ],
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: InkWell(
                 onTap: () => navigateToReturnInvoiceDetailScreen(invoice),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          '${AppLocalizations.of(context).translate('employee')}: ${invoice.employee}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          '${AppLocalizations.of(context).translate('amount')}: ${invoice.amount.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () =>
+                              navigateToEditReturnInvoiceItemScreen(invoice),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: ColorsManager.kPrimaryColor,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => deleteItem(invoice),
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

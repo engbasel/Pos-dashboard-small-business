@@ -7,6 +7,7 @@ import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_text_form_field.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class ReturnInvoiceeForm extends StatefulWidget {
   const ReturnInvoiceeForm({super.key});
@@ -72,24 +73,25 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * .5,
+      child: SingleChildScrollView(
         child: Column(
           children: [
-            CoustomTextFormFiled(
+            const SizedBox(height: 16.0),
+            CustomTextFormField(
               controller: idController,
               labelText: 'Invoice ID',
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
-            CoustomTextFormFiled(
+            CustomTextFormField(
               controller: orderIdController,
               labelText: 'Order ID',
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
-            CoustomTextFormFiled(
+            CustomTextFormField(
               controller: totalbackmonyController,
               labelText: 'Total Back Money',
               keyboardType:
@@ -99,7 +101,7 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
               ],
             ),
             const SizedBox(height: 16.0),
-            CoustomTextFormFiled(
+            CustomTextFormField(
               controller: returnDateController,
               labelText: 'Return Date',
               keyboardType: TextInputType.datetime,
@@ -120,19 +122,19 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
               },
             ),
             const SizedBox(height: 16.0),
-            CoustomTextFormFiled(
+            CustomTextFormField(
               controller: employeeController,
               labelText: 'Employee',
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
-            CoustomTextFormFiled(
+            CustomTextFormField(
               controller: reasonController,
               labelText: 'Reason',
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
-            CoustomTextFormFiled(
+            CustomTextFormField(
               controller: amountController,
               labelText: 'Amount',
               keyboardType:
@@ -141,24 +143,21 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 26),
             Row(
               children: [
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: CustomButton(
-                      text: 'Clear Fields',
-                      bgColor: ColorsManager.kPrimaryColor,
-                      onTap: clearTextFields,
-                    ),
+                  child: CustomButton(
+                    text: AppLocalizations.of(context).translate('cancel'),
+                    onTap: () => Navigator.of(context).pop(),
                   ),
                 ),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: CustomButton(
-                      text: 'Add Return Invoice',
+                      text: AppLocalizations.of(context).translate('add'),
                       bgColor: ColorsManager.kPrimaryColor,
                       onTap: addReturnInvoice,
                     ),
@@ -166,7 +165,6 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
           ],
         ),
       ),

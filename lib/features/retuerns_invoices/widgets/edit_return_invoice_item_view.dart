@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_text_form_field.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
@@ -9,23 +9,23 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_re
 import '../../../core/widgets/custom_snackbar.dart';
 import '../../../l10n/app_localizations.dart';
 
-class EditReturnInvoiceItemScreen extends StatefulWidget {
+class EditReturnInvoiceItemDialog extends StatefulWidget {
   final ReturnInvoiceModel returnInvoice;
   final ValueChanged<ReturnInvoiceModel> onUpdate;
 
-  const EditReturnInvoiceItemScreen({
+  const EditReturnInvoiceItemDialog({
     super.key,
     required this.returnInvoice,
     required this.onUpdate,
   });
 
   @override
-  State<EditReturnInvoiceItemScreen> createState() =>
-      _EditReturnInvoiceItemScreenState();
+  State<EditReturnInvoiceItemDialog> createState() =>
+      _EditReturnInvoiceItemDialogState();
 }
 
-class _EditReturnInvoiceItemScreenState
-    extends State<EditReturnInvoiceItemScreen> {
+class _EditReturnInvoiceItemDialogState
+    extends State<EditReturnInvoiceItemDialog> {
   final DatabaseReturnsInvoice databaseHelper = DatabaseReturnsInvoice();
 
   late TextEditingController idController;
@@ -66,19 +66,14 @@ class _EditReturnInvoiceItemScreenState
 
     try {
       await databaseHelper.updateReturnInvoice(updatedReturnInvoice);
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Return Invoice updated successfully')),
-      // );
       CustomSnackBar.show(
           context,
           AppLocalizations.of(context)
               .translate('ReturnInvoiceupdatedsuccessfully'));
 
-// Return Invoice updated successfully
-      // CustomSnackBar();
       widget.onUpdate(
           updatedReturnInvoice); // Call the callback function with updated invoice
-      Navigator.pop(context); // Close the screen
+      Navigator.pop(context); // Close the dialog
     } catch (e) {
       CustomSnackBar.show(context,
           AppLocalizations.of(context).translate('ErrorupdatingReturnInvoice'));
@@ -87,44 +82,34 @@ class _EditReturnInvoiceItemScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title:
-            Text(AppLocalizations.of(context).translate('editReturnInvoice')),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: CustomSmallButton(
-              icon: Icons.save,
-              text: AppLocalizations.of(context).translate('update'),
-              onTap: updateReturnInvoice,
-            ),
-          ),
-        ],
-      ),
+    return AlertDialog(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      title: Text(
+        AppLocalizations.of(context).translate('editReturnInvoice'),
+      ),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width * .5,
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              CoustomTextFormFiled(
+              const SizedBox(height: 16.0),
+              CustomTextFormField(
                 readOnly: true,
                 controller: idController,
                 labelText: AppLocalizations.of(context).translate('invoiceID'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
-              CoustomTextFormFiled(
+              CustomTextFormField(
                 readOnly: false,
                 controller: orderIdController,
                 labelText: AppLocalizations.of(context).translate('orderID'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
-              CoustomTextFormFiled(
+              CustomTextFormField(
                 readOnly: false,
                 controller: totalbackmonyController,
                 labelText:
@@ -136,7 +121,7 @@ class _EditReturnInvoiceItemScreenState
                 ],
               ),
               const SizedBox(height: 16.0),
-              CoustomTextFormFiled(
+              CustomTextFormField(
                 readOnly: false,
                 controller: returnDateController,
                 labelText: AppLocalizations.of(context).translate('returnDate'),
@@ -158,21 +143,21 @@ class _EditReturnInvoiceItemScreenState
                 },
               ),
               const SizedBox(height: 16.0),
-              CoustomTextFormFiled(
+              CustomTextFormField(
                 readOnly: false,
                 controller: employeeController,
                 labelText: AppLocalizations.of(context).translate('employee'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
-              CoustomTextFormFiled(
+              CustomTextFormField(
                 readOnly: false,
                 controller: reasonController,
                 labelText: AppLocalizations.of(context).translate('reason'),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16.0),
-              CoustomTextFormFiled(
+              CustomTextFormField(
                 readOnly: false,
                 controller: amountController,
                 labelText: AppLocalizations.of(context).translate('amount'),
@@ -182,7 +167,24 @@ class _EditReturnInvoiceItemScreenState
                   FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 26),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomButton(
+                      text: AppLocalizations.of(context).translate('cancel'),
+                      onTap: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: CustomButton(
+                      text: AppLocalizations.of(context).translate('update'),
+                      onTap: updateReturnInvoice,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

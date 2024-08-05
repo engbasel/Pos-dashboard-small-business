@@ -57,7 +57,7 @@ class AppLocalizations {
       "productModel": "Product Model",
       "category": "Category",
       "AlertDiloageCloseApp": "Are you sure you want to close this window?",
-      "customerDetails": "ustomer Details",
+      "customerDetails": "Customer Details",
 
       // =========================== Home view screen ==========================================
       "email": "Email",

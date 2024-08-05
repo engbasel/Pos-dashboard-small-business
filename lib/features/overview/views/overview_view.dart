@@ -68,6 +68,62 @@ class _OverviewViewState extends State<OverviewView> {
               children: [
                 const UserInfoSection(),
                 const SizedBox(height: 16),
+                // FutureBuilder<List<ItemModel>>(
+                //   future: _itemsBelowAlertQuantity,
+                //   builder: (context, snapshot) {
+                //     if (snapshot.connectionState == ConnectionState.waiting) {
+                //       return const Center(child: CircularProgressIndicator());
+                //     } else if (snapshot.hasError) {
+                //       return Text('Error: ${snapshot.error}');
+                //     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                //       return Container(
+                //         padding: const EdgeInsets.all(16),
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(12),
+                //           color: Colors.green,
+                //         ),
+                //         child: const Text(
+                //           'All products have sufficient quantity.',
+                //           style: TextStyle(color: Colors.white),
+                //           textAlign: TextAlign.center,
+                //         ),
+                //       );
+                //     } else {
+                //       final items = snapshot.data!;
+                //       return ListView.builder(
+                //         shrinkWrap: true,
+                //         itemCount: items.length,
+                //         itemBuilder: (context, index) {
+                //           final item = items[index];
+                //           return Container(
+                //             margin: const EdgeInsets.only(bottom: 8),
+                //             padding: const EdgeInsets.all(16),
+                //             decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(12),
+                //               color: Colors.red[100],
+                //             ),
+                //             child: Column(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               children: [
+                //                 Text(
+                //                   'Item ID: ${item.id}',
+                //                   style: const TextStyle(
+                //                     fontWeight: FontWeight.bold,
+                //                   ),
+                //                 ),
+                //                 Text('Name: ${item.name}'),
+                //                 Text('Quantity: ${item.quantity}'),
+                //                 Text('Alert Quantity: ${item.alertQuantity}'),
+                //                 // Add more fields if needed
+                //               ],
+                //             ),
+                //           );
+                //         },
+                //       );
+                //     }
+                //   },
+                // ),
+
                 FutureBuilder<List<ItemModel>>(
                   future: _itemsBelowAlertQuantity,
                   builder: (context, snapshot) {
@@ -77,6 +133,7 @@ class _OverviewViewState extends State<OverviewView> {
                       return Text('Error: ${snapshot.error}');
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return Container(
+                        width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -90,34 +147,61 @@ class _OverviewViewState extends State<OverviewView> {
                       );
                     } else {
                       final items = snapshot.data!;
+                      // Create a list with the static text and fetched items
+                      final displayedItems = [
+                        'Deficiencies',
+                        ...items,
+                      ];
+
                       return ListView.builder(
                         shrinkWrap: true,
-                        itemCount: items.length,
+                        itemCount: displayedItems.length,
                         itemBuilder: (context, index) {
-                          final item = items[index];
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.red[100],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Item ID: ${item.id}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          if (index == 0) {
+                            // Return the static text as the first item
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color:
+                                    Colors.blue[100], // Adjust color if needed
+                              ),
+                              child: const Text(
+                                'Deficiencies',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
-                                Text('Name: ${item.name}'),
-                                Text('Quantity: ${item.quantity}'),
-                                Text('Alert Quantity: ${item.alertQuantity}'),
-                                // Add more fields if needed
-                              ],
-                            ),
-                          );
+                              ),
+                            );
+                          } else {
+                            // Return the actual item from the fetched list
+                            final item = displayedItems[index] as ItemModel;
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.red[100],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Item ID: ${item.id}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text('Name: ${item.name}'),
+                                  Text('Quantity: ${item.quantity}'),
+                                  Text('Alert Quantity: ${item.alertQuantity}'),
+                                  // Add more fields if needed
+                                ],
+                              ),
+                            );
+                          }
                         },
                       );
                     }

@@ -116,13 +116,3 @@ class _NotificationPopupState extends State<NotificationPopup> {
     );
   }
 }
-        // NotificationItem(
-                    //     text: "You dont have enough products in the store"),
-                    // NotificationItem(text: "This item is needed"),
-                    // NotificationItem(text: "This item is needed"),
-                    // NotificationItem(text: "This item is needed"),
-                    // NotificationItem(text: "This item is needed"),
-                    // NotificationItem(text: "This item is needed"),
-                    // NotificationItem(text: "This item is needed"),
-                    // NotificationItem(text: "This item is needed"),
-                    // NotificationItem(text: "This item is needed"),

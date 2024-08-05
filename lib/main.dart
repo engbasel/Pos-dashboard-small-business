@@ -27,10 +27,10 @@ void main(List<String> args) async {
     title: 'POS',
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
+    // await windowManager.show();
+    // await windowManager.focus();
 
-    await windowManager.setResizable(false);
+    // await windowManager.setResizable(false);
   });
 
   runApp(

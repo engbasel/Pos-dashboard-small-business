@@ -34,6 +34,13 @@ class CategoryDatabaseHelper {
       ''');
   }
 
+  Future<int> getCategoryCount() async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(
+            await db.rawQuery('SELECT COUNT(*) FROM categories')) ??
+        0;
+  }
+
   Future<List<CategoryModel>> getCategories() async {
     Database db = await instance.database;
     var categories = await db.query('categories', orderBy: 'title');

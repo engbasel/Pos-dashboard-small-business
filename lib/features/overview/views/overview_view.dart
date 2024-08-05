@@ -18,10 +18,17 @@ class _OverviewViewState extends State<OverviewView> {
   late Future<List<ItemModel>> _itemsBelowAlertQuantity;
   Color _notificationIconColor = const Color(0xff505251);
   IconData _notificationIcon = Icons.notifications_none;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
+  // }
 
   @override
   void initState() {
     super.initState();
+    _itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
+
     _fetchItemsBelowAlertQuantity().then((items) {
       setState(() {
         _itemsBelowAlertQuantity = Future.value(items);

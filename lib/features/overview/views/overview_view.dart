@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
-import 'package:pos_dashboard_v1/features/overview/views/notification_view.dart';
+import 'package:pos_dashboard_v1/features/notifications/view/notification_view.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
+
+import '../../../l10n/app_localizations.dart';
 
 class OverviewView extends StatefulWidget {
   const OverviewView({super.key});
@@ -33,7 +35,7 @@ class _OverviewViewState extends State<OverviewView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomAppBar(
-            title: 'Dashboard',
+            title: AppLocalizations.of(context).translate('dashboard'),
             actions: [
               InkWell(
                 onTap: () {
@@ -62,75 +64,22 @@ class _OverviewViewState extends State<OverviewView> {
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const UserInfoSection(),
                 const SizedBox(height: 16),
-                // FutureBuilder<List<ItemModel>>(
-                //   future: _itemsBelowAlertQuantity,
-                //   builder: (context, snapshot) {
-                //     if (snapshot.connectionState == ConnectionState.waiting) {
-                //       return const Center(child: CircularProgressIndicator());
-                //     } else if (snapshot.hasError) {
-                //       return Text('Error: ${snapshot.error}');
-                //     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                //       return Container(
-                //         padding: const EdgeInsets.all(16),
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(12),
-                //           color: Colors.green,
-                //         ),
-                //         child: const Text(
-                //           'All products have sufficient quantity.',
-                //           style: TextStyle(color: Colors.white),
-                //           textAlign: TextAlign.center,
-                //         ),
-                //       );
-                //     } else {
-                //       final items = snapshot.data!;
-                //       return ListView.builder(
-                //         shrinkWrap: true,
-                //         itemCount: items.length,
-                //         itemBuilder: (context, index) {
-                //           final item = items[index];
-                //           return Container(
-                //             margin: const EdgeInsets.only(bottom: 8),
-                //             padding: const EdgeInsets.all(16),
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(12),
-                //               color: Colors.red[100],
-                //             ),
-                //             child: Column(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               children: [
-                //                 Text(
-                //                   'Item ID: ${item.id}',
-                //                   style: const TextStyle(
-                //                     fontWeight: FontWeight.bold,
-                //                   ),
-                //                 ),
-                //                 Text('Name: ${item.name}'),
-                //                 Text('Quantity: ${item.quantity}'),
-                //                 Text('Alert Quantity: ${item.alertQuantity}'),
-                //                 // Add more fields if needed
-                //               ],
-                //             ),
-                //           );
-                //         },
-                //       );
-                //     }
-                //   },
-                // ),
-
                 FutureBuilder<List<ItemModel>>(
                   future: _itemsBelowAlertQuantity,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                      return Text(
+                          '${AppLocalizations.of(context).translate('error')}: ${snapshot.error}');
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return Container(
                         width: double.infinity,
@@ -139,9 +88,10 @@ class _OverviewViewState extends State<OverviewView> {
                           borderRadius: BorderRadius.circular(12),
                           color: Colors.green,
                         ),
-                        child: const Text(
-                          'All products have sufficient quantity.',
-                          style: TextStyle(color: Colors.white),
+                        child: Text(
+                          AppLocalizations.of(context)
+                              .translate('Allproductshavesufficientquantity'),
+                          style: const TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
                       );
@@ -149,7 +99,8 @@ class _OverviewViewState extends State<OverviewView> {
                       final items = snapshot.data!;
                       // Create a list with the static text and fetched items
                       final displayedItems = [
-                        'Deficiencies',
+                        (AppLocalizations.of(context)
+                            .translate('Deficiencies')),
                         ...items,
                       ];
 
@@ -167,9 +118,10 @@ class _OverviewViewState extends State<OverviewView> {
                                 color:
                                     Colors.blue[100], // Adjust color if needed
                               ),
-                              child: const Text(
-                                'Deficiencies',
-                                style: TextStyle(
+                              child: Text(
+                                AppLocalizations.of(context)
+                                    .translate('Deficiencies'),
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
@@ -178,27 +130,33 @@ class _OverviewViewState extends State<OverviewView> {
                           } else {
                             // Return the actual item from the fetched list
                             final item = displayedItems[index] as ItemModel;
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 8),
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.red[100],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Item ID: ${item.id}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 8),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.red[100],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${AppLocalizations.of(context).translate('ItemID')}: ${item.id}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  Text('Name: ${item.name}'),
-                                  Text('Quantity: ${item.quantity}'),
-                                  Text('Alert Quantity: ${item.alertQuantity}'),
-                                  // Add more fields if needed
-                                ],
+                                    Text(
+                                        '${AppLocalizations.of(context).translate('nameLabel')}: ${item.name}'),
+                                    Text(
+                                        '${AppLocalizations.of(context).translate('quantity')}: ${item.quantity}'),
+                                    Text(
+                                        '${AppLocalizations.of(context).translate('alert_quantity')}: ${item.alertQuantity}'),
+                                    // Add more fields if needed
+                                  ],
+                                ),
                               ),
                             );
                           }

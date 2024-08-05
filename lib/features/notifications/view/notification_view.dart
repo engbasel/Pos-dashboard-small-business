@@ -78,23 +78,27 @@ class _NotificationPopupState extends State<NotificationPopup> {
                             itemCount: items.length,
                             itemBuilder: (context, index) {
                               final item = items[index];
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 8),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.red[100],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Item ID: ${item.id}'),
-                                    Text('Name: ${item.name}'),
-                                    Text('Quantity: ${item.quantity}'),
-                                    Text('price: ${item.price}'),
-                                    Text(
-                                        'Alert Quantity: ${item.alertQuantity}')
-                                  ],
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 8),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.red[100],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Item ID: ${item.id}'),
+                                      Text('Name: ${item.name}'),
+                                      Text('Quantity: ${item.quantity}'),
+                                      Text('price: ${item.price}'),
+                                      Text(
+                                          'Alert Quantity: ${item.alertQuantity}')
+                                    ],
+                                  ),
                                 ),
                               );
                             },

@@ -307,7 +307,7 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
                 onTap: () {
                   saveData();
                 },
-                text: AppLocalizations.of(context).translate('حفظ الفواتير'),
+                text: AppLocalizations.of(context).translate('saveInvocis'),
               ),
             ],
             title: AppLocalizations.of(context).translate('orders'),
@@ -325,12 +325,12 @@ class _SalesBillScreenState extends State<SalesBillScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Date || Time: $currentDateTime',
+            '${AppLocalizations.of(context).translate('date')} || ${AppLocalizations.of(context).translate('time')}: $currentDateTime',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           Text(
-            'Invoice Number: ${invoiceNumberController.text}',
+            '${AppLocalizations.of(context).translate('InvoiceNumber')}: ${invoiceNumberController.text}',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),

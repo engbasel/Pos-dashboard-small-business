@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/func/check_lang.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class NotificationPopup extends StatefulWidget {
   const NotificationPopup({super.key});
@@ -33,7 +34,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
           left: isArabic(context) ? 120 : null,
           right: isArabic(context) ? null : 120,
           child: AlertDialog(
-            title: const Text('Notification'),
+            title:
+                Text(AppLocalizations.of(context).translate('notifications')),
             contentPadding: EdgeInsets.zero,
             titlePadding: const EdgeInsets.all(16),
             elevation: 3,
@@ -56,7 +58,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
+                          return Text(
+                              '${AppLocalizations.of(context).translate('error')}: ${snapshot.error}');
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
                           return Container(
@@ -65,9 +68,10 @@ class _NotificationPopupState extends State<NotificationPopup> {
                               borderRadius: BorderRadius.circular(12),
                               color: Colors.green,
                             ),
-                            child: const Text(
-                              'All products have sufficient quantity.',
-                              style: TextStyle(color: Colors.white),
+                            child: Text(
+                              (AppLocalizations.of(context).translate(
+                                  'Allproductshavesufficientquantity')),
+                              style: const TextStyle(color: Colors.white),
                               textAlign: TextAlign.center,
                             ),
                           );
@@ -91,12 +95,19 @@ class _NotificationPopupState extends State<NotificationPopup> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('Item ID: ${item.id}'),
-                                      Text('Name: ${item.name}'),
-                                      Text('Quantity: ${item.quantity}'),
-                                      Text('price: ${item.price}'),
+                                      // Text('Item ID: ${item.id}'),
+                                      // Text('Name: ${item.name}'),
+                                      // Text('Quantity: ${item.quantity}'),
+                                      // Text('price: ${item.price}'),
+                                      // Text(
+                                      //     'Alert Quantity: ${item.alertQuantity}')
+
                                       Text(
-                                          'Alert Quantity: ${item.alertQuantity}')
+                                          '${AppLocalizations.of(context).translate('nameLabel')}: ${item.name}'),
+                                      Text(
+                                          '${AppLocalizations.of(context).translate('quantity')}: ${item.quantity}'),
+                                      Text(
+                                          '${AppLocalizations.of(context).translate('alert_quantity')}: ${item.alertQuantity}'),
                                     ],
                                   ),
                                 ),

@@ -23,8 +23,9 @@ class InvoiceDetailScreen extends StatelessWidget {
             Text(
                 ' ${AppLocalizations.of(context).translate('CustomerName')}: ${invoice.customerName}'),
             Text(
-                '${AppLocalizations.of(context).translate('Date')}: ${invoice.invoiceDate}'),
-            Text('Invoice Number: ${invoice.invoiceNumber}'),
+                '${AppLocalizations.of(context).translate('date')}: ${invoice.invoiceDate}'),
+            Text(
+                ' ${AppLocalizations.of(context).translate('InvoiceNumber')}: ${invoice.invoiceNumber}'),
             const SizedBox(height: 12),
             Text('${AppLocalizations.of(context).translate('Items')}:'),
             const SizedBox(height: 12),

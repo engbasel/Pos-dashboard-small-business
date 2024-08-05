@@ -73,7 +73,7 @@ class _ProductsListViewState extends State<ProductsListView> {
           actions: [
             CustomSmallButton(
               icon: Icons.add,
-              text: 'Add A Product',
+              text: AppLocalizations.of(context).translate('AddAProduc'),
               onTap: () => showAddProductDialog(context, categories, loadItems),
             ),
           ],
@@ -85,19 +85,20 @@ class _ProductsListViewState extends State<ProductsListView> {
             color: Colors.white,
             child: TextField(
               controller: searchController,
-              decoration: const InputDecoration(
-                hintText: 'Search for a product...',
-                focusedBorder: OutlineInputBorder(
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)
+                    .translate('Search_for_a_product'),
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: ColorsManager.kPrimaryColor,
                   ),
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: ColorsManager.kPrimaryColor,
                   ),
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: ColorsManager.kPrimaryColor,
                   ),
@@ -113,7 +114,7 @@ class _ProductsListViewState extends State<ProductsListView> {
             padding: const EdgeInsets.all(16),
             child: filteredItems.isEmpty
                 ? const Center(
-                    child: Text(''),
+                    child: Text('cdzfadfadfsdgsfg'),
                   )
                 : ListView.builder(
                     itemCount: filteredItems.length,

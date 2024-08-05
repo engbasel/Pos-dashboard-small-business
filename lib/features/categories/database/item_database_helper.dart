@@ -59,7 +59,8 @@ class ItemDatabaseHelper {
       )
     ''');
     print(
-        "Created items table with columns: ${ItemDatabaseConstants.columnId}, ${ItemDatabaseConstants.columnCategoryId}, ${ItemDatabaseConstants.columnName}, ${ItemDatabaseConstants.columnDescription}, ${ItemDatabaseConstants.columnSKU}, ${ItemDatabaseConstants.columnBarcode}, ${ItemDatabaseConstants.columnPurchasePrice}, ${ItemDatabaseConstants.columnSalePrice}, ${ItemDatabaseConstants.columnWholesalePrice}, ${ItemDatabaseConstants.columnTaxRate}, ${ItemDatabaseConstants.columnQuantity}, ${ItemDatabaseConstants.columnAlertQuantity}, ${ItemDatabaseConstants.columnImage}, ${ItemDatabaseConstants.columnBrand}, ${ItemDatabaseConstants.columnSize}, ${ItemDatabaseConstants.columnWeight}, ${ItemDatabaseConstants.columnColor}, ${ItemDatabaseConstants.columnMaterial}, ${ItemDatabaseConstants.columnWarranty}, ${ItemDatabaseConstants.columnSupplierId}, ${ItemDatabaseConstants.columnItemStatus}, ${ItemDatabaseConstants.columnDateAdded}, ${ItemDatabaseConstants.columnDateModified}");
+      "Created items table with columns: ${ItemDatabaseConstants.columnId}, ${ItemDatabaseConstants.columnCategoryId}, ${ItemDatabaseConstants.columnName}, ${ItemDatabaseConstants.columnDescription}, ${ItemDatabaseConstants.columnSKU}, ${ItemDatabaseConstants.columnBarcode}, ${ItemDatabaseConstants.columnPurchasePrice}, ${ItemDatabaseConstants.columnSalePrice}, ${ItemDatabaseConstants.columnWholesalePrice}, ${ItemDatabaseConstants.columnTaxRate}, ${ItemDatabaseConstants.columnQuantity}, ${ItemDatabaseConstants.columnAlertQuantity}, ${ItemDatabaseConstants.columnImage}, ${ItemDatabaseConstants.columnBrand}, ${ItemDatabaseConstants.columnSize}, ${ItemDatabaseConstants.columnWeight}, ${ItemDatabaseConstants.columnColor}, ${ItemDatabaseConstants.columnMaterial}, ${ItemDatabaseConstants.columnWarranty}, ${ItemDatabaseConstants.columnSupplierId}, ${ItemDatabaseConstants.columnItemStatus}, ${ItemDatabaseConstants.columnDateAdded}, ${ItemDatabaseConstants.columnDateModified}",
+    );
   }
 
   Future<void> insertItem(ItemModel item) async {
@@ -137,5 +138,58 @@ class ItemDatabaseHelper {
     await db.delete(ItemDatabaseConstants.itemsTable,
         where: '${ItemDatabaseConstants.columnId} = ?', whereArgs: [id]);
     print("Deleted item with id: $id");
+  }
+
+  Future<void> printItemsBelowAlertQuantity() async {
+    final db = await database;
+
+    // Query to get items where columnQuantity < columnAlertQuantity
+    var result = await db.rawQuery('''
+    SELECT * FROM ${ItemDatabaseConstants.itemsTable}
+    WHERE ${ItemDatabaseConstants.columnQuantity} < ${ItemDatabaseConstants.columnAlertQuantity}
+  ''');
+
+    if (result.isNotEmpty) {
+      for (var item in result) {
+        // Assuming ItemModel has a fromMap method to create an instance from a map
+        var itemModel = ItemModel.fromMap(item);
+        print('Item ID: ${itemModel.id}');
+        print('Name: ${itemModel.name}');
+        print('Category ID: ${itemModel.categoryId}');
+        print('Description: ${itemModel.description}');
+        print('SKU: ${itemModel.sku}');
+        print('Barcode: ${itemModel.barcode}');
+        print('Wholesale Price: ${itemModel.wholesalePrice}');
+        print('Tax Rate: ${itemModel.taxRate}');
+        print('Quantity: ${itemModel.quantity}');
+        print('Alert Quantity: ${itemModel.alertQuantity}');
+        print('Image: ${itemModel.image}');
+        print('Brand: ${itemModel.brand}');
+        print('Size: ${itemModel.size}');
+        print('Weight: ${itemModel.weight}');
+        print('Color: ${itemModel.color}');
+        print('Material: ${itemModel.material}');
+        print('Warranty: ${itemModel.warranty}');
+        print('Supplier ID: ${itemModel.supplierId}');
+        print('Item Status: ${itemModel.itemStatus}');
+        print('Date Added: ${itemModel.dateAdded}');
+        print('Date Modified: ${itemModel.dateModified}');
+        print('---');
+      }
+    } else {
+      print('No items found where quantity is less than alert quantity.');
+    }
+  }
+
+  Future<List<ItemModel>> getItemsBelowAlertQuantity() async {
+    final db = await database;
+    var result = await db.rawQuery('''
+    SELECT * FROM ${ItemDatabaseConstants.itemsTable}
+    WHERE ${ItemDatabaseConstants.columnQuantity} < ${ItemDatabaseConstants.columnAlertQuantity}
+  ''');
+    List<ItemModel> itemList = result.isNotEmpty
+        ? result.map((i) => ItemModel.fromMap(i)).toList()
+        : [];
+    return itemList;
   }
 }

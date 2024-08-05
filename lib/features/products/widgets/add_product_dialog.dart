@@ -6,6 +6,7 @@ import 'dart:io';
 import '../../../l10n/app_localizations.dart';
 import '../../categories/database/item_database_helper.dart';
 import '../../categories/models/item_model.dart';
+import 'package:flutter/services.dart';
 
 Future<void> showAddProductDialog(BuildContext context,
     List<CategoryModel> categories, Future<void> Function() loadItems) async {
@@ -66,10 +67,134 @@ Future<void> showAddProductDialog(BuildContext context,
 
     await itemDatabaseHelper.insertItem(newItem);
     clearTextFields();
-    loadItems();
+    await loadItems();
     Navigator.of(context).pop();
   }
 
+  // Widget buildInputSection(StateSetter updateState) {
+  //   return Form(
+  //     key: formKey,
+  //     child: Column(
+  //       children: [
+  //         GestureDetector(
+  //           onTap: () async {
+  //             try {
+  //               final selectedPath = await pickImage();
+  //               if (selectedPath != null && File(selectedPath).existsSync()) {
+  //                 updateState(() {
+  //                   path = selectedPath;
+  //                 });
+  //               } else {
+  //                 print(
+  //                     'Selected image path is invalid or file does not exist.');
+  //               }
+  //             } catch (e) {
+  //               print('Error picking image: $e');
+  //             }
+  //           },
+  //           child: Container(
+  //             width: 100,
+  //             height: 100,
+  //             decoration: BoxDecoration(
+  //               color: Colors.grey[200],
+  //               borderRadius: BorderRadius.circular(12),
+  //             ),
+  //             child: path != null
+  //                 ? Image.file(
+  //                     File(path!),
+  //                     fit: BoxFit.cover,
+  //                   )
+  //                 : Icon(
+  //                     Icons.add_a_photo,
+  //                     color: Colors.grey[800],
+  //                   ),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 8),
+  //         ...controllers.entries.map((entry) {
+  //           final label = entry.key;
+  //           return Padding(
+  //             padding: const EdgeInsets.symmetric(vertical: 4),
+  //             child: TextField(
+  //               controller: entry.value,
+  //               keyboardType: label == 'size' ||
+  //                       label == 'weight' ||
+  //                       label == 'alertQuantity' ||
+  //                       label == 'quantity' ||
+  //                       label == 'salePrice'
+  //                   ? const TextInputType.numberWithOptions(decimal: true)
+  //                   : TextInputType.text,
+  //               inputFormatters: label == 'size' ||
+  //                       label == 'weight' ||
+  //                       label == 'alertQuantity' ||
+  //                       label == 'quantity' ||
+  //                       label == 'salePrice'
+  //                   ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+  //                   : null,
+  //               decoration: InputDecoration(
+  //                 labelText: AppLocalizations.of(context).translate(label),
+  //                 border: OutlineInputBorder(
+  //                   borderRadius: BorderRadius.circular(12),
+  //                 ),
+  //               ),
+  //             ),
+  //           );
+  //         }),
+  //         Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 4),
+  //           child: DropdownButtonFormField<String>(
+  //             value: selectedCategory,
+  //             items: categories.map((category) {
+  //               return DropdownMenuItem<String>(
+  //                 value: category.title,
+  //                 child: Text(category.title),
+  //               );
+  //             }).toList(),
+  //             onChanged: (value) {
+  //               updateState(() {
+  //                 selectedCategory = value;
+  //               });
+  //             },
+  //             validator: (value) {
+  //               if (value == null) {
+  //                 return 'Please select a category';
+  //               }
+  //               return null;
+  //             },
+  //             decoration: InputDecoration(
+  //               labelText: AppLocalizations.of(context).translate('category'),
+  //               border: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(12),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 26),
+  //         Row(
+  //           children: [
+  //             Expanded(
+  //               child: CustomButton(
+  //                 text: AppLocalizations.of(context).translate('cancel'),
+  //                 onTap: () => Navigator.of(context).pop(),
+  //               ),
+  //             ),
+  //             const SizedBox(width: 16),
+  //             Expanded(
+  //               child: CustomButton(
+  //                 text: AppLocalizations.of(context).translate('add'),
+  //                 onTap: () {
+  //                   if (formKey.currentState?.validate() ?? false) {
+  //                     addItem();
+  //                   }
+  //                 },
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget buildInputSection(StateSetter updateState) {
     return Form(
       key: formKey,
@@ -77,11 +202,18 @@ Future<void> showAddProductDialog(BuildContext context,
         children: [
           GestureDetector(
             onTap: () async {
-              path = await pickImage();
-              if (path != null) {
-                updateState(() {
-                  path = path;
-                });
+              try {
+                final selectedPath = await pickImage();
+                if (selectedPath != null && File(selectedPath).existsSync()) {
+                  updateState(() {
+                    path = selectedPath;
+                  });
+                } else {
+                  print(
+                      'Selected image path is invalid or file does not exist.');
+                }
+              } catch (e) {
+                print('Error picking image: $e');
               }
             },
             child: Container(
@@ -105,10 +237,27 @@ Future<void> showAddProductDialog(BuildContext context,
           const SizedBox(height: 8),
           ...controllers.entries.map((entry) {
             final label = entry.key;
+            final isDoubleField = [
+              'barcode',
+              'purchasePrice',
+              'salePrice',
+              'wholesalePrice',
+              'taxRate',
+              'quantity',
+              'alertQuantity',
+              'size',
+              'weight'
+            ].contains(label);
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: TextField(
                 controller: entry.value,
+                keyboardType: isDoubleField
+                    ? const TextInputType.numberWithOptions(decimal: true)
+                    : TextInputType.text,
+                inputFormatters: isDoubleField
+                    ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+                    : null,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).translate(label),
                   border: OutlineInputBorder(

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
-import 'package:pos_dashboard_v1/features/overview/views/notification_view.dart';
+import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
+import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
+import 'package:pos_dashboard_v1/features/notifications/view/notification_view.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
+
+import '../../../l10n/app_localizations.dart';
 
 class OverviewView extends StatefulWidget {
   const OverviewView({super.key});
@@ -11,6 +15,19 @@ class OverviewView extends StatefulWidget {
 }
 
 class _OverviewViewState extends State<OverviewView> {
+  late Future<List<ItemModel>> _itemsBelowAlertQuantity;
+
+  @override
+  void initState() {
+    super.initState();
+    _itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
+  }
+
+  Future<List<ItemModel>> _fetchItemsBelowAlertQuantity() async {
+    final dbHelper = ItemDatabaseHelper.instance;
+    return await dbHelper.getItemsBelowAlertQuantity();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -18,7 +35,7 @@ class _OverviewViewState extends State<OverviewView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomAppBar(
-            title: 'Dashboard',
+            title: AppLocalizations.of(context).translate('dashboard'),
             actions: [
               InkWell(
                 onTap: () {
@@ -47,24 +64,107 @@ class _OverviewViewState extends State<OverviewView> {
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const UserInfoSection(),
                 const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.red,
-                  ),
-                  child: const Text(
-                    'you dont have enough products in the store',
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                )
+                FutureBuilder<List<ItemModel>>(
+                  future: _itemsBelowAlertQuantity,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text(
+                          '${AppLocalizations.of(context).translate('error')}: ${snapshot.error}');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.green,
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)
+                              .translate('Allproductshavesufficientquantity'),
+                          style: const TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    } else {
+                      final items = snapshot.data!;
+                      // Create a list with the static text and fetched items
+                      final displayedItems = [
+                        (AppLocalizations.of(context)
+                            .translate('Deficiencies')),
+                        ...items,
+                      ];
+
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: displayedItems.length,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            // Return the static text as the first item
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color:
+                                    Colors.blue[100], // Adjust color if needed
+                              ),
+                              child: Text(
+                                AppLocalizations.of(context)
+                                    .translate('Deficiencies'),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            );
+                          } else {
+                            // Return the actual item from the fetched list
+                            final item = displayedItems[index] as ItemModel;
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 8),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.red[100],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${AppLocalizations.of(context).translate('ItemID')}: ${item.id}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                        '${AppLocalizations.of(context).translate('nameLabel')}: ${item.name}'),
+                                    Text(
+                                        '${AppLocalizations.of(context).translate('quantity')}: ${item.quantity}'),
+                                    Text(
+                                        '${AppLocalizations.of(context).translate('alert_quantity')}: ${item.alertQuantity}'),
+                                    // Add more fields if needed
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),

@@ -108,7 +108,7 @@ class _NeededProductsViewState extends State<NeededProductsView> {
           actions: [
             CustomSmallButton(
               icon: Icons.add,
-              text: 'Add A Product',
+              text: AppLocalizations.of(context).translate('AddAProduc'),
               onTap: () async {
                 showCustomDialog(context);
               },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_item_model.dart';
+import 'package:pos_dashboard_v1/features/orders/model/sales_item_model.dart';
 
 class EditItemDialog extends StatefulWidget {
   final SalesItem item;
@@ -12,7 +12,7 @@ class EditItemDialog extends StatefulWidget {
   });
 
   @override
-  _EditItemDialogState createState() => _EditItemDialogState();
+  State<EditItemDialog> createState() => _EditItemDialogState();
 }
 
 class _EditItemDialogState extends State<EditItemDialog> {

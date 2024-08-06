@@ -70,6 +70,7 @@ void showChangeLanguageDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        backgroundColor: Colors.white,
         title: Text(AppLocalizations.of(context).translate('changeLanguage')),
         content: Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/authentication/create_account/models/createAccounts.dart';
-import '../database/createAccoutesdatabasHelpers.dart';
+import '../database/accounts_db_helper.dart';
 
 class Createdaccountsuser extends StatelessWidget {
   const Createdaccountsuser({super.key});
@@ -31,7 +31,7 @@ class Createdaccountsuser extends StatelessWidget {
                 return ListTile(
                   // title: Text(account.name),
                   subtitle: Text(account.email),
-                  trailing: Text(account.phone ?? ''),
+                  trailing: Text(account.phone),
                 );
               },
             );

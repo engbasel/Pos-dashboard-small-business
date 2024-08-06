@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_item_model.dart';
+import 'package:pos_dashboard_v1/features/orders/model/sales_item_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 void exportAsPDF(

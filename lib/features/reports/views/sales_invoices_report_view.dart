@@ -4,9 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_constans.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/databases/sales_database_helper.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/widgets/invoice_item_detail_view.dart';
+import 'package:pos_dashboard_v1/features/orders/databases/sales_database_helper.dart';
+import 'package:pos_dashboard_v1/features/orders/model/order_model.dart';
+import 'package:pos_dashboard_v1/features/orders/widgets/order_details.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -23,7 +23,7 @@ class SalesInvoicesReportScreen extends StatefulWidget {
 }
 
 class _SalesInvoicesReportScreenState extends State<SalesInvoicesReportScreen> {
-  List<SalesInvoice> invoices = [];
+  List<Order> invoices = [];
   // List<ReturnInvoiceModel> returnInvoices = [];
 
   @override
@@ -213,7 +213,7 @@ class _SalesInvoicesReportScreenState extends State<SalesInvoicesReportScreen> {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return InvoiceDetailScreen(invoice: invoice);
+                        return OrderDetails(invoice: invoice);
                       },
                     ));
                     // You can navigate to a detailed view of the invoice here if needed

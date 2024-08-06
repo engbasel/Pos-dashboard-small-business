@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_invoice.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_item_model.dart';
+import 'package:pos_dashboard_v1/features/orders/model/order_model.dart';
+import 'package:pos_dashboard_v1/features/orders/model/sales_item_model.dart';
 
 class SalesDatabaseHelper {
   static final SalesDatabaseHelper instance = SalesDatabaseHelper._init();
@@ -41,7 +41,7 @@ class SalesDatabaseHelper {
     );
   }
 
-  Future<List<SalesInvoice>> getSalesInvoices() async {
+  Future<List<Order>> getSalesInvoices() async {
     final db = await instance.database;
 
     final invoices = await db.query('sales_invoice');
@@ -53,7 +53,7 @@ class SalesDatabaseHelper {
         whereArgs: [invoice['id']],
       );
 
-      return SalesInvoice(
+      return Order(
         customerName: invoice['customerName'] as String,
         invoiceDate: invoice['invoiceDate'] as String,
         invoiceNumber: invoice['invoiceNumber'] as String,
@@ -70,7 +70,7 @@ class SalesDatabaseHelper {
     }));
   }
 
-  Future<int> insertSalesInvoice(SalesInvoice invoice) async {
+  Future<int> insertSalesInvoice(Order invoice) async {
     final db = await instance.database;
 
     print('Inserting sales invoice'); // Add this line

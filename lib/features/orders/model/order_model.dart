@@ -1,7 +1,7 @@
-import 'package:pos_dashboard_v1/features/sales_bill/model/sales_item_model.dart';
+import 'package:pos_dashboard_v1/features/orders/model/sales_item_model.dart';
 
-class SalesInvoice {
-  SalesInvoice({
+class Order {
+  Order({
     required this.customerName,
     required this.invoiceDate,
     required this.invoiceNumber,

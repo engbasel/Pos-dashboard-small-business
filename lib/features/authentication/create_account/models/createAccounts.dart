@@ -1,4 +1,4 @@
-import 'package:pos_dashboard_v1/features/authentication/create_account/database/createAccoutesdatabasHelpers.dart';
+import 'package:pos_dashboard_v1/features/authentication/create_account/database/accounts_db_helper.dart';
 
 class Account {
   int? id;

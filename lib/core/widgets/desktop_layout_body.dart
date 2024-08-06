@@ -5,7 +5,7 @@ import 'package:pos_dashboard_v1/features/reports/views/all_reports_viewer.dart'
 import 'package:pos_dashboard_v1/core/widgets/custom_drawer.dart';
 import 'package:pos_dashboard_v1/features/products/views/products_list_view.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice_view.dart';
-import 'package:pos_dashboard_v1/features/sales_bill/views/sales_bill_view.dart';
+import 'package:pos_dashboard_v1/features/orders/views/orders_view.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:window_manager/window_manager.dart';
 import '../../features/client/views/customers_view.dart';
@@ -115,7 +115,7 @@ class _DesktopLayoutBoadyState extends State<DesktopLayoutBoady>
                       OverviewView(),
                       ProductsListView(),
                       CategoryScreen(),
-                      SalesBillScreen(),
+                      OrdersView(),
                       ReturnInvoiceScreen(),
                       NeededProductsView(),
                       AllReportesViwer(),

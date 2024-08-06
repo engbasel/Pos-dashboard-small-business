@@ -124,7 +124,7 @@ class _ProductsListViewState extends State<ProductsListView> {
             padding: const EdgeInsets.all(16),
             child: filteredItems.isEmpty
                 ? const Center(
-                    child: Text('cdzfadfadfsdgsfg'),
+                    child: Text(''),
                   )
                 : ListView.builder(
                     itemCount: filteredItems.length,

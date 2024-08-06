@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/func/check_lang.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
@@ -45,7 +46,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
               borderRadius: BorderRadius.circular(10),
             ),
             content: SizedBox(
-              width: MediaQuery.of(context).size.width * .4,
+              width: MediaQuery.of(context).size.width * .35,
               height: MediaQuery.of(context).size.height * .5,
               child: SingleChildScrollView(
                 child: Column(
@@ -82,34 +83,44 @@ class _NotificationPopupState extends State<NotificationPopup> {
                             itemCount: items.length,
                             itemBuilder: (context, index) {
                               final item = items[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.red[100],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // Text('Item ID: ${item.id}'),
-                                      // Text('Name: ${item.name}'),
-                                      // Text('Quantity: ${item.quantity}'),
-                                      // Text('price: ${item.price}'),
-                                      // Text(
-                                      //     'Alert Quantity: ${item.alertQuantity}')
-
-                                      Text(
-                                          '${AppLocalizations.of(context).translate('nameLabel')}: ${item.name}'),
-                                      Text(
-                                          '${AppLocalizations.of(context).translate('quantity')}: ${item.quantity}'),
-                                      Text(
-                                          '${AppLocalizations.of(context).translate('alert_quantity')}: ${item.alertQuantity}'),
-                                    ],
-                                  ),
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 6),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: ColorsManager.kPrimaryColor
+                                      .withOpacity(.8),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${AppLocalizations.of(context).translate('nameLabel')}: ${item.name}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${AppLocalizations.of(context).translate('quantity')}: ${item.quantity}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${AppLocalizations.of(context).translate('alert_quantity')}: ${item.alertQuantity}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },

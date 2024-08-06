@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
+import 'package:pos_dashboard_v1/features/authentication/create_account/views/accoutesviwe.dart';
 import 'add_employee_view.dart';
 import 'employee_list_view.dart'; // Import the new screen
 
@@ -121,6 +122,34 @@ class _staffOverviewState extends State<staffOverview> {
                   child: const Center(
                     child: Text(
                       'salaries of employees this month',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const Createdaccountsuser();
+                    },
+                  ));
+                },
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Emploey Acssssscontes',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,

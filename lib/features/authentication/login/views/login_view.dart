@@ -1,314 +1,11 @@
-// // import 'package:flutter/material.dart';
-// // import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-// // import '../../../../core/db/Log_file_database_helper.dart';
-// // import '../../../../core/widgets/custom_snackbar.dart';
-// // import '../../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
-// // import '../../../../l10n/app_localizations.dart';
-
-// // class LoginView extends StatefulWidget {
-// //   const LoginView({super.key});
-
-// //   @override
-// //   State<LoginView> createState() => _LoginViewState();
-// // }
-
-// // class _LoginViewState extends State<LoginView> {
-// //   final _formKey = GlobalKey<FormState>();
-// //   final usernameController = TextEditingController();
-// //   final iD = TextEditingController();
-// //   String privilege = 'Customer';
-// //   String gender = 'Male';
-// //   final emailController = TextEditingController();
-// //   final branchController = TextEditingController();
-// //   final Sqldb sqldb = Sqldb();
-// //   List<Map<String, dynamic>> users = [];
-
-// //   @override
-// //   void initState() {
-// //     super.initState();
-// //     loadUserData();
-// //   }
-
-// //   void loadUserData() async {
-// //     users = await sqldb.getUserData();
-// //     setState(() {});
-// //   }
-
-// //   void saveData() async {
-// //     if (_formKey.currentState!.validate()) {
-// //       DateTime now = DateTime.now();
-// //       String currentDate = "${now.year}-${now.month}-${now.day}";
-// //       String currentTime = "${now.hour}:${now.minute}:${now.second}";
-
-// //       Map<String, dynamic> user = {
-// //         'username': usernameController.text,
-// //         'birthday': iD.text,
-// //         'privilege': privilege,
-// //         'gender': gender,
-// //         'email': emailController.text,
-// //         'branch': branchController.text,
-// //         'createdAt': currentDate,
-// //         'createdTime': currentTime,
-// //       };
-
-// //       await sqldb.insertUser(user);
-
-// //       CustomSnackBar.show(
-// //         context,
-// //         AppLocalizations.of(context).translate('loginRecordedSuccessfully'),
-// //         backgroundColor: Colors.blue,
-// //         textColor: Colors.white,
-// //         icon: Icons.info,
-// //       );
-// //       loadUserData();
-
-// //       Navigator.push(context, MaterialPageRoute(
-// //         builder: (context) {
-// //           return const LayoutBuilder_resize_screens_defrant_sizes();
-// //         },
-// //       ));
-// //     } else {
-// //       CustomSnackBar.show(
-// //           context, AppLocalizations.of(context).translate('userNameNotFound'));
-// //     }
-// //   }
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //         backgroundColor: Colors.white,
-// //         title: Text(AppLocalizations.of(context).translate('loginTitle')),
-// //       ),
-// //       backgroundColor: Colors.white,
-// //       body: Center(
-// //         child: SingleChildScrollView(
-// //           padding: const EdgeInsets.all(26),
-// //           child: Form(
-// //             key: _formKey,
-// //             child: Column(
-// //               crossAxisAlignment: CrossAxisAlignment.center,
-// //               mainAxisAlignment: MainAxisAlignment.center,
-// //               children: [
-// //                 TextFormField(
-// //                   controller: usernameController,
-// //                   decoration: InputDecoration(
-// //                     labelText:
-// //                         AppLocalizations.of(context).translate('nameLabel'),
-// //                     hintText:
-// //                         AppLocalizations.of(context).translate('nameHint'),
-// //                     border: const OutlineInputBorder(),
-// //                   ),
-// //                   validator: (value) {
-// //                     if (value == null || value.isEmpty) {
-// //                       return AppLocalizations.of(context)
-// //                           .translate('nameError');
-// //                     }
-// //                     return null;
-// //                   },
-// //                 ),
-// //                 const SizedBox(height: 20),
-// //                 TextFormField(
-// //                   controller: iD,
-// //                   decoration: InputDecoration(
-// //                     labelText:
-// //                         AppLocalizations.of(context).translate('Password'),
-// //                     hintText:
-// //                         AppLocalizations.of(context).translate('Password'),
-// //                     border: const OutlineInputBorder(),
-// //                   ),
-// //                   validator: (value) {
-// //                     if (value == null || value.isEmpty) {
-// //                       return AppLocalizations.of(context)
-// //                           .translate('InvalidPassword');
-// //                     }
-// //                     return null;
-// //                   },
-// //                 ),
-// //                 const SizedBox(height: 20),
-// //                 Padding(
-// //                   padding: const EdgeInsets.symmetric(horizontal: 50),
-// //                   child: CustomButton(
-// //                     text: AppLocalizations.of(context)
-// //                         .translate('letsWorkButton'),
-// //                     onTap: saveData,
-// //                   ),
-// //                 ),
-// //               ],
-// //             ),
-// //           ),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
-
-// import 'package:flutter/material.dart';
-// import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-// import 'package:pos_dashboard_v1/features/authentication/create_account/views/accoutesviwe.dart';
-// import '../../../../core/db/Log_file_database_helper.dart';
-// import '../../../../core/widgets/custom_snackbar.dart';
-// import '../../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
-// import '../../../../l10n/app_localizations.dart';
-
-// class LoginView extends StatefulWidget {
-//   const LoginView({super.key});
-
-//   @override
-//   State<LoginView> createState() => _LoginViewState();
-// }
-
-// class _LoginViewState extends State<LoginView> {
-//   final _formKey = GlobalKey<FormState>();
-//   final usernameController = TextEditingController();
-//   final iD = TextEditingController();
-//   String privilege = 'Customer';
-//   String gender = 'Male';
-//   final emailController = TextEditingController();
-//   final branchController = TextEditingController();
-//   final Sqldb sqldb = Sqldb();
-//   List<Map<String, dynamic>> users = [];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     loadUserData();
-//   }
-
-//   void loadUserData() async {
-//     users = await sqldb.getUserData();
-//     setState(() {});
-//   }
-
-//   void saveData() async {
-//     if (_formKey.currentState!.validate()) {
-//       DateTime now = DateTime.now();
-//       String currentDate = "${now.year}-${now.month}-${now.day}";
-//       String currentTime = "${now.hour}:${now.minute}:${now.second}";
-
-//       Map<String, dynamic> user = {
-//         'username': usernameController.text,
-//         'birthday': iD.text,
-//         'privilege': privilege,
-//         'gender': gender,
-//         'email': emailController.text,
-//         'branch': branchController.text,
-//         'createdAt': currentDate,
-//         'createdTime': currentTime,
-//       };
-
-//       await sqldb.insertUser(user);
-
-//       CustomSnackBar.show(
-//         context,
-//         AppLocalizations.of(context).translate('loginRecordedSuccessfully'),
-//         backgroundColor: Colors.blue,
-//         textColor: Colors.white,
-//         icon: Icons.info,
-//       );
-//       loadUserData();
-
-//       Navigator.push(context, MaterialPageRoute(
-//         builder: (context) {
-//           return const LayoutBuilder_resize_screens_defrant_sizes();
-//         },
-//       ));
-//     } else {
-//       CustomSnackBar.show(
-//           context, AppLocalizations.of(context).translate('userNameNotFound'));
-//     }
-//   }
-
-//   void navigateToRegister() {
-//     Navigator.push(
-//         context,
-//         MaterialPageRoute(
-//           builder: (context) => const RegistrationScreen(),
-//         ));
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         title: Text(AppLocalizations.of(context).translate('loginTitle')),
-//       ),
-//       backgroundColor: Colors.white,
-//       body: Center(
-//         child: SingleChildScrollView(
-//           padding: const EdgeInsets.all(26),
-//           child: Form(
-//             key: _formKey,
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 TextFormField(
-//                   controller: usernameController,
-//                   decoration: InputDecoration(
-//                     labelText:
-//                         AppLocalizations.of(context).translate('nameLabel'),
-//                     hintText:
-//                         AppLocalizations.of(context).translate('nameHint'),
-//                     border: const OutlineInputBorder(),
-//                   ),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return AppLocalizations.of(context)
-//                           .translate('nameError');
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 const SizedBox(height: 20),
-//                 TextFormField(
-//                   controller: iD,
-//                   decoration: InputDecoration(
-//                     labelText:
-//                         AppLocalizations.of(context).translate('Password'),
-//                     hintText:
-//                         AppLocalizations.of(context).translate('Password'),
-//                     border: const OutlineInputBorder(),
-//                   ),
-//                   validator: (value) {
-//                     if (value == null || value.isEmpty) {
-//                       return AppLocalizations.of(context)
-//                           .translate('InvalidPassword');
-//                     }
-//                     return null;
-//                   },
-//                 ),
-//                 const SizedBox(height: 20),
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 50),
-//                   child: CustomButton(
-//                     text: AppLocalizations.of(context)
-//                         .translate('letsWorkButton'),
-//                     onTap: saveData,
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20),
-//                 CustomButton(
-//                   text: AppLocalizations.of(context).translate('createAccount'),
-//                   onTap: navigateToRegister,
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/authentication/create_account/views/accoutesviwe.dart';
-import '../../../../core/db/Log_file_database_helper.dart';
+import 'package:pos_dashboard_v1/features/authentication/create_account/database/createAccoutesdatabasHelpers.dart';
+import 'package:pos_dashboard_v1/features/authentication/create_account/views/sigenUpAccunts.dart';
 import '../../../../core/widgets/custom_snackbar.dart';
 import '../../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:pos_dashboard_v1/features/authentication/create_account/models/createAccounts.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -319,62 +16,41 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final usernameController = TextEditingController();
-  final iD = TextEditingController();
-  String privilege = 'Customer';
-  String gender = 'Male';
   final emailController = TextEditingController();
-  final branchController = TextEditingController();
-  final Sqldb sqldb = Sqldb();
-  List<Map<String, dynamic>> users = [];
+  final passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
-  @override
-  void initState() {
-    super.initState();
-    loadUserData();
-  }
-
-  void loadUserData() async {
-    users = await sqldb.getUserData();
-    setState(() {});
-  }
-
-  void saveData() async {
+  void login() async {
     if (_formKey.currentState!.validate()) {
-      DateTime now = DateTime.now();
-      String currentDate = "${now.year}-${now.month}-${now.day}";
-      String currentTime = "${now.hour}:${now.minute}:${now.second}";
+      String email = emailController.text;
+      String password = passwordController.text;
 
-      Map<String, dynamic> user = {
-        'username': usernameController.text,
-        'birthday': iD.text,
-        'privilege': privilege,
-        'gender': gender,
-        'email': emailController.text,
-        'branch': branchController.text,
-        'createdAt': currentDate,
-        'createdTime': currentTime,
-      };
+      Account? account = await _authService.login(email, password);
 
-      await sqldb.insertUser(user);
+      if (account != null) {
+        CustomSnackBar.show(
+          context,
+          AppLocalizations.of(context).translate('loginSuccess'),
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          icon: Icons.check_circle,
+        );
 
-      CustomSnackBar.show(
-        context,
-        AppLocalizations.of(context).translate('loginRecordedSuccessfully'),
-        backgroundColor: Colors.blue,
-        textColor: Colors.white,
-        icon: Icons.info,
-      );
-      loadUserData();
-
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) {
-          return const LayoutBuilder_resize_screens_defrant_sizes();
-        },
-      ));
-    } else {
-      CustomSnackBar.show(
-          context, AppLocalizations.of(context).translate('userNameNotFound'));
+        // Navigate to the main screen
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return const LayoutBuilder_resize_screens_defrant_sizes();
+          },
+        ));
+      } else {
+        CustomSnackBar.show(
+          context,
+          AppLocalizations.of(context).translate('userNameNotFound'),
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          icon: Icons.error,
+        );
+      }
     }
   }
 
@@ -404,36 +80,37 @@ class _LoginViewState extends State<LoginView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  controller: usernameController,
+                  controller: emailController,
                   decoration: InputDecoration(
                     labelText:
-                        AppLocalizations.of(context).translate('nameLabel'),
+                        AppLocalizations.of(context).translate('emailLabel'),
                     hintText:
-                        AppLocalizations.of(context).translate('nameHint'),
+                        AppLocalizations.of(context).translate('emailHint'),
                     border: const OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return AppLocalizations.of(context)
-                          .translate('nameError');
+                          .translate('emailError');
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: iD,
+                  controller: passwordController,
                   decoration: InputDecoration(
                     labelText:
-                        AppLocalizations.of(context).translate('Password'),
+                        AppLocalizations.of(context).translate('passwordLabel'),
                     hintText:
-                        AppLocalizations.of(context).translate('Password'),
+                        AppLocalizations.of(context).translate('passwordHint'),
                     border: const OutlineInputBorder(),
                   ),
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return AppLocalizations.of(context)
-                          .translate('InvalidPassword');
+                          .translate('passwordError');
                     }
                     return null;
                   },
@@ -444,7 +121,7 @@ class _LoginViewState extends State<LoginView> {
                   child: CustomButton(
                     text: AppLocalizations.of(context)
                         .translate('letsWorkButton'),
-                    onTap: saveData,
+                    onTap: login,
                   ),
                 ),
                 const SizedBox(height: 20),

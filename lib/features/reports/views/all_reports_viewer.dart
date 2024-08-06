@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
+import 'package:pos_dashboard_v1/features/reports/views/ClientsReportsDietalis.dart';
+import 'package:pos_dashboard_v1/features/reports/views/ProdactsReportsDietalis.dart';
 import 'package:pos_dashboard_v1/features/reports/views/retern_invoices_manager.dart';
 import 'package:pos_dashboard_v1/features/reports/views/sales_invoices_report_view.dart';
 import 'package:pos_dashboard_v1/features/reports/widgets/custom_genral_report_item.dart';
@@ -32,10 +34,6 @@ class AllReportesViwer extends StatelessWidget {
                   },
                 ),
                 CoustomGenralReportItem(
-                  title: 'تقارير سجل دخول العاملين للنظام',
-                  onTap: () {},
-                ),
-                CoustomGenralReportItem(
                   title: 'تقارير المسترجعات',
                   onTap: () {
                     Navigator.of(context).push(
@@ -44,6 +42,44 @@ class AllReportesViwer extends StatelessWidget {
                       ),
                     );
                   },
+                ),
+                CoustomGenralReportItem(
+                  title: 'تقارير العملاء',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const ClientsReportsDietalis();
+                        },
+                      ),
+                    );
+                  },
+                ),
+                CoustomGenralReportItem(
+                  title: 'اتقارير لبضاعة بالمخزن',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const ProdactsReportsDietalis();
+                        },
+                      ),
+                    );
+                  },
+                ),
+                CoustomGenralReportItem(
+                  title: 'اتقارير لبضاعة بالمخزن',
+                  onTap: () {},
+                ),
+                CoustomGenralReportItem(
+                  title: 'اتقارير لبضاعة بالمخزن',
+                  onTap: () {},
+                ),
+                CoustomGenralReportItem(
+                  title: 'تقارير سجل دخول العاملين للنظام',
+                  onTap: () {},
                 ),
                 CoustomGenralReportItem(
                   title: 'اتقارير لبضاعة بالمخزن',

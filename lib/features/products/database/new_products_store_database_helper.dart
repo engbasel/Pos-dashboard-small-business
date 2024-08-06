@@ -3,7 +3,7 @@ import 'package:pos_dashboard_v1/features/categories/database/category_database_
 import 'package:pos_dashboard_v1/features/categories/database/item_database_constants.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:sqflite/sqflite.dart';
-import '../utils/models/order_model.dart';
+import '../../../core/utils/models/order_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();

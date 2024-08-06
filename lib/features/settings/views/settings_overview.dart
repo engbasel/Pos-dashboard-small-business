@@ -3,7 +3,7 @@ import 'package:pos_dashboard_v1/core/utils/manager/function_manger.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../../authentication/login/views/user_logs_view.dart';
+import '../../authentication/Log/views/user_logs_view.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});

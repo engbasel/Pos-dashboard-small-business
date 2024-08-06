@@ -18,7 +18,7 @@ class UserList extends StatelessWidget {
       itemCount: users.length,
       itemBuilder: (context, index) {
         return Card(
-          color: Colors.white70,
+          color: Colors.white,
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
             title: Text(

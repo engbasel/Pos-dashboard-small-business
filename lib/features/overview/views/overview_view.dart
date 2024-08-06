@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/db/Log_file_database_helper.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/notifications/view/notification_view.dart';
+import 'package:pos_dashboard_v1/features/overview/widgets/profile_dialog.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -16,31 +19,27 @@ class OverviewView extends StatefulWidget {
 
 class _OverviewViewState extends State<OverviewView> {
   late Future<List<ItemModel>> _itemsBelowAlertQuantity;
-  Color _notificationIconColor = const Color(0xff505251);
-  IconData _notificationIcon = Icons.notifications_none;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
-  // }
+  int? itemsNum;
+  final Sqldb sqldb = Sqldb();
+  List<Map<String, dynamic>> users = [];
 
   @override
   void initState() {
     super.initState();
+    loadUserData();
     _itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
 
     _fetchItemsBelowAlertQuantity().then((items) {
       setState(() {
         _itemsBelowAlertQuantity = Future.value(items);
-        if (items.isNotEmpty) {
-          _notificationIconColor = Colors.red;
-          _notificationIcon = Icons.notifications_active;
-        } else {
-          _notificationIconColor = const Color(0xff505251);
-          _notificationIcon = Icons.notifications_none;
-        }
+        itemsNum = items.length;
       });
     });
+  }
+
+  void loadUserData() async {
+    users = await sqldb.getUserData();
+    setState(() {});
   }
 
   Future<List<ItemModel>> _fetchItemsBelowAlertQuantity() async {
@@ -67,17 +66,44 @@ class _OverviewViewState extends State<OverviewView> {
                     },
                   );
                 },
-                child: Icon(
-                  _notificationIcon,
-                  color: _notificationIconColor,
+                child: Badge(
+                  isLabelVisible: itemsNum == 0 ? false : true,
+                  backgroundColor: ColorsManager.kPrimaryColor,
+                  label: Text(
+                    itemsNum.toString(),
+                  ),
+                  child: const Icon(
+                    Icons.notifications_none_outlined,
+                    color: Color(0xff505251),
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
-              const Text(
-                'Mohamed Elneny',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+              InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    barrierColor: Colors.transparent,
+                    builder: (BuildContext context) {
+                      return ProfileDialog(users: users);
+                    },
+                  );
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      users.isEmpty
+                          ? ''
+                          : '${users[users.length - 1]['username']}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.keyboard_arrow_down_outlined),
+                  ],
                 ),
               ),
             ],

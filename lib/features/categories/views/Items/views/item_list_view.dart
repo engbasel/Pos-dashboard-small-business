@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/categories/views/Items/widgets/edit_item_view.dart';
 import '../../../database/item_database_helper.dart';
@@ -39,8 +40,17 @@ Widget buildListView(
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () async {
-                await ItemDatabaseHelper.instance.deleteItem(item.id!);
-                await loadItems(); // Reload items after deletion
+                final confirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const DeleteConformationDialog();
+                  },
+                );
+
+                if (confirmed == true) {
+                  await ItemDatabaseHelper.instance.deleteItem(item.id!);
+                  await loadItems();
+                }
               },
             ),
           ],

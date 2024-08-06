@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
-
-import '../../../../../l10n/app_localizations.dart';
+import 'package:pos_dashboard_v1/features/categories/views/Items/widgets/item_details_row.dart';
 
 class ItemDetailsDialog extends StatelessWidget {
   final ItemModel item;
@@ -15,10 +14,11 @@ class ItemDetailsDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       child: Container(
         padding: const EdgeInsets.all(16),
-        width: MediaQuery.of(context).size.width * .6,
+        width: MediaQuery.of(context).size.width * .5,
         height: MediaQuery.of(context).size.height * .8,
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (item.image != null)
                 Image.file(
@@ -27,95 +27,104 @@ class ItemDetailsDialog extends StatelessWidget {
                   height: 300,
                 ),
               const SizedBox(height: 16),
-              ListTile(
-                title:
-                    Text(AppLocalizations.of(context).translate('item_name')),
-                subtitle: Text(item.name),
+              ItemDetailsRow(
+                labelKey: 'item_name',
+                value: item.name,
               ),
-              ListTile(
-                title:
-                    Text(AppLocalizations.of(context).translate('description')),
-                subtitle: Text(item.description),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'description',
+                value: item.description,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('sku')),
-                subtitle: Text(item.sku ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'sku',
+                value: item.sku,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('barcode')),
-                subtitle: Text(item.barcode ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'barcode',
+                value: item.barcode,
               ),
-              ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('purchase_price')),
-                subtitle: Text(item.price?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'purchase_price',
+                value: item.price?.toString(),
               ),
-              ListTile(
-                title:
-                    Text(AppLocalizations.of(context).translate('sale_price')),
-                subtitle: Text(item.unitPrice?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'sale_price',
+                value: item.unitPrice?.toString(),
               ),
-              ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('wholesale_price')),
-                subtitle: Text(item.wholesalePrice?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'wholesale_price',
+                value: item.wholesalePrice?.toString(),
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('tax_rate')),
-                subtitle: Text(item.taxRate?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'tax_rate',
+                value: item.taxRate?.toString(),
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('quantity')),
-                subtitle: Text(item.quantity?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'quantity',
+                value: item.quantity?.toString(),
               ),
-              ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('alert_quantity')),
-                subtitle: Text(item.alertQuantity?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'alert_quantity',
+                value: item.alertQuantity?.toString(),
               ),
-              ListTile(
-                title:
-                    Text(AppLocalizations.of(context).translate('image_url')),
-                subtitle: Text(item.image ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'image_url',
+                value: item.image,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('brand')),
-                subtitle: Text(item.brand ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'brand',
+                value: item.brand,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('size')),
-                subtitle: Text(item.size ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'size',
+                value: item.size,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('weight')),
-                subtitle: Text(item.weight?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'weight',
+                value: item.weight?.toString(),
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('color')),
-                subtitle: Text(item.color ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'color',
+                value: item.color,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('material')),
-                subtitle: Text(item.material ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'material',
+                value: item.material,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).translate('warranty')),
-                subtitle: Text(item.warranty ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'warranty',
+                value: item.warranty,
               ),
-              ListTile(
-                title:
-                    Text(AppLocalizations.of(context).translate('supplier_id')),
-                subtitle: Text(item.supplierId?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'supplier_id',
+                value: item.supplierId?.toString(),
               ),
-              ListTile(
-                title:
-                    Text(AppLocalizations.of(context).translate('item_status')),
-                subtitle: Text(item.itemStatus ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'item_status',
+                value: item.itemStatus,
               ),
-              ListTile(
-                title: Text(
-                    AppLocalizations.of(context).translate('date_modified')),
-                subtitle: Text(item.dateModified?.toString() ?? ''),
+              const Divider(),
+              ItemDetailsRow(
+                labelKey: 'date_modified',
+                value: item.dateModified?.toString(),
               ),
             ],
           ),

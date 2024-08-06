@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
+import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
 import '../../../l10n/app_localizations.dart';
 import 'edit_customer_dialog.dart';
 
@@ -62,31 +63,18 @@ class CustomDetailsCard extends StatelessWidget {
                     tooltip: AppLocalizations.of(context).translate('edit'),
                   ),
                   IconButton(
-                    onPressed: () {
-                      showDialog(
+                    onPressed: () async {
+                      final confirmed = await showDialog<bool>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: Text(AppLocalizations.of(context)
-                              .translate('confirmDelete')),
-                          content: Text(AppLocalizations.of(context)
-                              .translate('confirmDeleteMessage')),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(false),
-                              child: Text(AppLocalizations.of(context)
-                                  .translate('cancel')),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                onDelete(customer['id']);
-                                Navigator.of(context).pop(true);
-                              },
-                              child: Text(AppLocalizations.of(context)
-                                  .translate('delete')),
-                            ),
-                          ],
-                        ),
+                        builder: (BuildContext context) {
+                          return const DeleteConformationDialog();
+                        },
                       );
+
+                      if (confirmed == true) {
+                        onDelete(customer['id']);
+                        Navigator.of(context).pop(true);
+                      }
                     },
                     icon: const Icon(
                       Icons.delete,

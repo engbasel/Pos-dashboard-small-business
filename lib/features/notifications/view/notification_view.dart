@@ -31,8 +31,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
       children: [
         Positioned(
           top: 36,
-          left: isArabic(context) ? 120 : null,
-          right: isArabic(context) ? null : 120,
+          left: isArabic(context) ? 80 : null,
+          right: isArabic(context) ? null : 80,
           child: AlertDialog(
             title:
                 Text(AppLocalizations.of(context).translate('notifications')),

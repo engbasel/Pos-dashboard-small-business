@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/products/widgets/add_product_dialog.dart';
 import 'package:pos_dashboard_v1/features/products/widgets/product_list_item.dart';
@@ -59,9 +60,18 @@ class _ProductsListViewState extends State<ProductsListView> {
     });
   }
 
-  Future<void> removeItem(int id) async {
-    await itemDatabaseHelper.deleteItem(id);
-    loadItems();
+  Future<void> deleteItem(int id) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return const DeleteConformationDialog();
+      },
+    );
+
+    if (confirmed == true) {
+      await itemDatabaseHelper.deleteItem(id);
+      loadItems();
+    }
   }
 
   @override
@@ -122,7 +132,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                       final item = filteredItems[index];
                       return ProductListItem(
                         item: item,
-                        onRemove: () => removeItem(item.id!),
+                        onRemove: () => deleteItem(item.id!),
                         loadItems: loadItems,
                       );
                     },

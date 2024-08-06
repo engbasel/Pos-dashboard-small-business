@@ -99,7 +99,7 @@ Future<void> showEditItemDialog(
                           path = await pickImage();
                           if (path != null) {
                             setState(() {
-                              controllers['image']!.text = path!;
+                              path = path!;
                             });
                           }
                         },
@@ -110,9 +110,9 @@ Future<void> showEditItemDialog(
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: controllers['image']!.text.isNotEmpty
+                          child: path != null
                               ? Image.file(
-                                  File(controllers['image']!.text),
+                                  File(path!),
                                   fit: BoxFit.cover,
                                 )
                               : Icon(
@@ -197,7 +197,7 @@ Future<void> showEditItemDialog(
                       quantity: int.tryParse(controllers['quantity']!.text),
                       alertQuantity:
                           int.tryParse(controllers['alertQuantity']!.text),
-                      image: controllers['image']!.text,
+                      image: path,
                       brand: controllers['brand']!.text,
                       size: controllers['size']!.text,
                       weight: double.tryParse(controllers['weight']!.text),

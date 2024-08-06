@@ -244,7 +244,7 @@ class AppLocalizations {
       "ReturnInvoices": "Return Invoices",
       "NeededProducts": "Needed Products",
       "select_image": "select Image",
-      "confirmDeleteMessage": "Are you sure you want to delete this customer?",
+      "confirmDeleteMessage": "Are you sure you want to delete this item?",
       "Ok": "Ok",
       "Thepasswordyouenteredisincorrect":
           "The password you entered is incorrect.",
@@ -254,6 +254,7 @@ class AppLocalizations {
 // ============================ arabic Section ==========================
     ,
     'ar': {
+      "confirmDeleteMessage": "هل أنت متأكد أنك تريد حذف هذا العنصر؟",
       "orderID": "معرف الطلب",
       "Password": "الرقم السري",
       "dateTime": "التاريخ/الوقت",

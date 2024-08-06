@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/Log_file_database_helper.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../widgets/user_list.dart';
 
@@ -36,10 +37,10 @@ class _UserLogsViewState extends State<UserLogsView> {
 
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // User must enter password
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirm Delete'),
+          backgroundColor: Colors.white,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -55,19 +56,16 @@ class _UserLogsViewState extends State<UserLogsView> {
           ),
           actions: <Widget>[
             TextButton(
-              // child: const Text('Cancel'),
               child: Text(
                 AppLocalizations.of(context).translate('Cancel'),
               ),
-
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              // child: const Text('Delete'),
               child: Text(
-                AppLocalizations.of(context).translate('Cancel'),
+                AppLocalizations.of(context).translate('delete'),
               ),
               onPressed: () {
                 if (passwordController.text == adminPassword) {
@@ -90,16 +88,14 @@ class _UserLogsViewState extends State<UserLogsView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // title: const Text('Invalid Password'),
+          backgroundColor: Colors.white,
           title: Text(
             AppLocalizations.of(context).translate('InvalidPassword'),
           ),
-          // content: const Text('The password you entered is incorrect.'),
           content: Text(
             AppLocalizations.of(context)
                 .translate('Thepasswordyouenteredisincorrect'),
           ),
-
           actions: <Widget>[
             TextButton(
               child: Text(
@@ -120,16 +116,19 @@ class _UserLogsViewState extends State<UserLogsView> {
     final localizations = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(localizations.translate('userLogs')),
         backgroundColor: Colors.white,
       ),
+      backgroundColor: ColorsManager.backgroundColor,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            UserList(users: users, onDelete: confirmDelete),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              UserList(users: users, onDelete: confirmDelete),
+            ],
+          ),
         ),
       ),
     );

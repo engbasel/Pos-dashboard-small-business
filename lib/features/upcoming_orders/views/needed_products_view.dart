@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
 import 'package:pos_dashboard_v1/features/upcoming_orders/database/database_incoming_orders_manager..dart';
 import 'package:pos_dashboard_v1/features/upcoming_orders/widgets/needed_products_details.dart';
 import 'package:pos_dashboard_v1/features/upcoming_orders/widgets/needed_products_form.dart';
@@ -81,12 +82,21 @@ class _NeededProductsViewState extends State<NeededProductsView> {
     }
   }
 
-  void removeItem(String itemId) async {
-    await DatabaseIncomingOrdersManager().deleteIncomingOrder(itemId);
-    setState(() {
-      _incomingOrdersFuture =
-          DatabaseIncomingOrdersManager().getIncomingOrders();
-    });
+  Future<void> deleteItem(String itemId) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return const DeleteConformationDialog();
+      },
+    );
+
+    if (confirmed == true) {
+      await DatabaseIncomingOrdersManager().deleteIncomingOrder(itemId);
+      setState(() {
+        _incomingOrdersFuture =
+            DatabaseIncomingOrdersManager().getIncomingOrders();
+      });
+    }
   }
 
   @override
@@ -182,7 +192,7 @@ class _NeededProductsViewState extends State<NeededProductsView> {
                                     ),
                                     IconButton(
                                       onPressed: () {
-                                        removeItem(order.id);
+                                        deleteItem(order.id);
                                       },
                                       icon: const Icon(
                                         Icons.delete,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/views/Items/widgets/item_screen.dart';
 import '../../../models/category_model.dart';
@@ -63,9 +64,18 @@ class CategoryListView extends StatelessWidget {
                       color: Colors.black,
                     ),
                     onPressed: () async {
-                      await CategoryDatabaseHelper.instance
-                          .deleteCategory(category.id!);
-                      loadCategories();
+                      final confirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const DeleteConformationDialog();
+                        },
+                      );
+
+                      if (confirmed == true) {
+                        await CategoryDatabaseHelper.instance
+                            .deleteCategory(category.id!);
+                        loadCategories();
+                      }
                     },
                   ),
                 ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
+import 'package:pos_dashboard_v1/features/orders/databases/sales_database_helper.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_label.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import '../../../core/utils/manager/manager.dart';
@@ -21,6 +22,7 @@ class _UserInfoSectionState extends State<UserInfoSection> {
   final ValueNotifier<int> _categoryCountNotifier = ValueNotifier<int>(0);
   late Future<List<ItemModel>> itemsBelowAlertQuantity;
   int? itemsNum;
+  late Future<int> savedBillsCountFuture;
 
   @override
   void initState() {
@@ -29,9 +31,10 @@ class _UserInfoSectionState extends State<UserInfoSection> {
     _timer =
         Timer.periodic(const Duration(seconds: 1), (timer) => updateDateTime());
     loadCategoryCount();
-    itemsBelowAlertQuantity = _fetchItemsBelowAlertQuantity();
+    itemsBelowAlertQuantity = fetchItemsBelowAlertQuantity();
+    savedBillsCountFuture = fetchSavedBillsCount();
 
-    _fetchItemsBelowAlertQuantity().then((items) {
+    fetchItemsBelowAlertQuantity().then((items) {
       setState(() {
         itemsBelowAlertQuantity = Future.value(items);
         itemsNum = items.length;
@@ -46,9 +49,13 @@ class _UserInfoSectionState extends State<UserInfoSection> {
     super.dispose();
   }
 
-  Future<List<ItemModel>> _fetchItemsBelowAlertQuantity() async {
+  Future<List<ItemModel>> fetchItemsBelowAlertQuantity() async {
     final dbHelper = ItemDatabaseHelper.instance;
     return await dbHelper.getItemsBelowAlertQuantity();
+  }
+
+  Future<int> fetchSavedBillsCount() async {
+    return await SalesDatabaseHelper.instance.getSavedBillsCount();
   }
 
   void updateDateTime() {
@@ -101,11 +108,35 @@ class _UserInfoSectionState extends State<UserInfoSection> {
                   );
                 },
               ),
-              CustomLabel(
-                color: const Color(0xffe0f7fa),
-                labelValue: appLocalizations.translate('totalPaymentsToday'),
-                content: '\$1,234.56',
-                imagename: ImagesManger.shoppingbag,
+              FutureBuilder<int>(
+                future: savedBillsCountFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CustomLabel(
+                      color: const Color(0xffe0f7fa),
+                      labelValue:
+                          appLocalizations.translate('totalBillExportedToday'),
+                      content: 'Loading...',
+                      imagename: ImagesManger.shoppingbag,
+                    );
+                  } else if (snapshot.hasError) {
+                    return CustomLabel(
+                      color: const Color(0xffe0f7fa),
+                      labelValue:
+                          appLocalizations.translate('totalBillExportedToday'),
+                      content: 'Error',
+                      imagename: ImagesManger.shoppingbag,
+                    );
+                  } else {
+                    return CustomLabel(
+                      color: const Color(0xffe0f7fa),
+                      labelValue:
+                          appLocalizations.translate('totalBillExportedToday'),
+                      content: '${snapshot.data ?? 0}',
+                      imagename: ImagesManger.shoppingbag,
+                    );
+                  }
+                },
               ),
             ],
           ),
@@ -115,9 +146,8 @@ class _UserInfoSectionState extends State<UserInfoSection> {
             children: [
               CustomLabel(
                 color: const Color(0xffffebee),
-                labelValue:
-                    appLocalizations.translate('totalBillExportedToday'),
-                content: '42',
+                labelValue: appLocalizations.translate('current user login at'),
+                content: '10:34:5 AM',
                 imagename: ImagesManger.sex,
               ),
               CustomLabel(
@@ -131,7 +161,7 @@ class _UserInfoSectionState extends State<UserInfoSection> {
                 color: const Color(0xfffff3e0),
                 labelValue: appLocalizations.translate('notifications'),
                 content:
-                    ' ${appLocalizations.translate('newalerts')} ${itemsNum.toString()}',
+                    '${appLocalizations.translate('newalerts')} ${itemsNum.toString()}',
                 imagename: ImagesManger.sex,
               ),
             ],
@@ -141,4 +171,3 @@ class _UserInfoSectionState extends State<UserInfoSection> {
     );
   }
 }
-// new alerts

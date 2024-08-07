@@ -70,6 +70,15 @@ class SalesDatabaseHelper {
     }));
   }
 
+  Future<int> getSavedBillsCount() async {
+    final db = await instance.database;
+    final count = await db.query(
+      'sales_invoice',
+      columns: ['id'],
+    );
+    return count.length;
+  }
+
   Future<int> insertSalesInvoice(Order invoice) async {
     final db = await instance.database;
 

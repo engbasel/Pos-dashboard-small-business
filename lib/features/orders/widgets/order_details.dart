@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:file_picker/file_picker.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/orders/model/order_model.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key, required this.invoice});
@@ -30,6 +32,11 @@ class OrderDetails extends StatelessWidget {
     try {
       final pdf = pw.Document();
 
+      // Load the custom Arabic font
+      final arabicFontData =
+          await rootBundle.load('assets/fonts/Traditional-Arabic.ttf');
+      final arabicFont = pw.Font.ttf(arabicFontData);
+
       pdf.addPage(
         pw.Page(
           build: (context) {
@@ -39,14 +46,26 @@ class OrderDetails extends StatelessWidget {
                 pw.Text(
                   '$invoiceText  #${invoice.invoiceNumber}',
                   style: pw.TextStyle(
-                      fontSize: 24, fontWeight: pw.FontWeight.bold),
+                    fontSize: 24,
+                    fontWeight: pw.FontWeight.bold,
+                    font: arabicFont,
+                  ),
+                  textDirection: pw.TextDirection.rtl,
                 ),
                 pw.SizedBox(height: 16),
-                pw.Text('$customerNameText: ${invoice.customerName}'),
-                pw.Text('$dateText: ${invoice.invoiceDate}'),
-                pw.Text('$invoiceNumberText: ${invoice.invoiceNumber}'),
+                pw.Text('$customerNameText: ${invoice.customerName}',
+                    style: pw.TextStyle(font: arabicFont),
+                    textDirection: pw.TextDirection.rtl),
+                pw.Text('$dateText: ${invoice.invoiceDate}',
+                    style: pw.TextStyle(font: arabicFont),
+                    textDirection: pw.TextDirection.rtl),
+                pw.Text('$invoiceNumberText: ${invoice.invoiceNumber}',
+                    style: pw.TextStyle(font: arabicFont),
+                    textDirection: pw.TextDirection.rtl),
                 pw.SizedBox(height: 16),
-                pw.Text('$itemsText:'),
+                pw.Text('$itemsText:',
+                    style: pw.TextStyle(font: arabicFont),
+                    textDirection: pw.TextDirection.rtl),
                 pw.SizedBox(height: 12),
                 pw.Table.fromTextArray(
                   headers: [
@@ -69,11 +88,32 @@ class OrderDetails extends StatelessWidget {
                       '\$${item.discount}',
                     ];
                   }).toList(),
+                  cellStyle: pw.TextStyle(font: arabicFont),
+                  headerStyle: pw.TextStyle(
+                      font: arabicFont, fontWeight: pw.FontWeight.bold),
+                  cellAlignment: pw.Alignment.centerRight,
+                  columnWidths: {
+                    0: const pw.FixedColumnWidth(30),
+                    1: const pw.FixedColumnWidth(120),
+                    2: const pw.FixedColumnWidth(50),
+                    3: const pw.FixedColumnWidth(50),
+                    4: const pw.FixedColumnWidth(50),
+                    5: const pw.FixedColumnWidth(50),
+                  },
+                  cellAlignments: {
+                    0: pw.Alignment.centerRight,
+                    1: pw.Alignment.centerRight,
+                    2: pw.Alignment.centerRight,
+                    3: pw.Alignment.centerRight,
+                    4: pw.Alignment.centerRight,
+                    5: pw.Alignment.centerRight,
+                  },
                 ),
                 pw.SizedBox(height: 12),
                 pw.Text(
                   '$taxText \$20',
-                  style: const pw.TextStyle(fontSize: 16),
+                  style: pw.TextStyle(fontSize: 16, font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
                 ),
                 pw.SizedBox(height: 16),
               ],

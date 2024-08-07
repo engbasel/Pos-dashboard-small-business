@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
 import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
+
+import '../../../core/widgets/custom_small_button.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -10,17 +14,45 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final AuthService _authService = AuthService();
 
-  void _register() async {
-    String name = _nameController.text;
-    String email = _emailController.text;
-    String password = _passwordController.text;
-    String phone = _phoneController.text;
+  void showEmptyFieldSnackbar(String fieldName) {
+    CustomSnackBar.show(
+      context,
+      '${AppLocalizations.of(context).translate(fieldName)} ${AppLocalizations.of(context).translate('cannotBeEmpty')}',
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      icon: Icons.error,
+    );
+  }
+
+  void register() async {
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    String phone = phoneController.text;
+
+    // Check for empty fields
+    if (name.isEmpty) {
+      showEmptyFieldSnackbar('name');
+      return;
+    }
+    if (email.isEmpty) {
+      showEmptyFieldSnackbar('email');
+      return;
+    }
+    if (password.isEmpty) {
+      showEmptyFieldSnackbar('password');
+      return;
+    }
+    if (phone.isEmpty) {
+      showEmptyFieldSnackbar('phone');
+      return;
+    }
 
     var newAccount = Account(
       name: name,
@@ -38,43 +70,84 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (result > 0) {
       // Navigate to login screen
       Navigator.pop(context);
+      CustomSnackBar.show(
+        context,
+        AppLocalizations.of(context).translate('accountCreated'),
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        icon: Icons.create,
+      );
     } else {
       // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration failed')),
+      CustomSnackBar.show(
+        context,
+        AppLocalizations.of(context).translate('registrationFailed'),
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        icon: Icons.error,
       );
     }
+  }
+
+  Widget buildTextField({
+    required TextEditingController controller,
+    required String labelKey,
+    bool obscureText = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context).translate(labelKey),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+        obscureText: obscureText,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Register')),
-      body: Padding(
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context).translate('createAccount'),
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+      ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
+            const SizedBox(height: 20),
+            buildTextField(
+              controller: nameController,
+              labelKey: AppLocalizations.of(context).translate('nameLabel'),
             ),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+            buildTextField(
+              controller: emailController,
+              labelKey: AppLocalizations.of(context).translate('emailLabel'),
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
+            buildTextField(
+              controller: passwordController,
+              labelKey: AppLocalizations.of(context).translate('Password'),
               obscureText: true,
             ),
-            TextField(
-              controller: _phoneController,
-              decoration: const InputDecoration(labelText: 'Phone'),
+            buildTextField(
+              controller: phoneController,
+              labelKey: AppLocalizations.of(context).translate('phone'),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _register,
-              child: const Text('Register'),
+            Align(
+              alignment: Alignment.centerRight,
+              child: CustomSmallButton(
+                onTap: register,
+                text: AppLocalizations.of(context).translate('Register'),
+              ),
             ),
           ],
         ),

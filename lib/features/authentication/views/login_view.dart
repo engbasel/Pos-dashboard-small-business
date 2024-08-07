@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
 import 'package:pos_dashboard_v1/features/authentication/views/signup_accounts.dart';
 import '../../../core/widgets/custom_snackbar.dart';
@@ -84,8 +84,8 @@ class _LoginViewState extends State<LoginView> {
                   decoration: InputDecoration(
                     labelText:
                         AppLocalizations.of(context).translate('emailLabel'),
-                    hintText:
-                        AppLocalizations.of(context).translate('emailHint'),
+                    hintText: AppLocalizations.of(context)
+                        .translate('user@company.domain'),
                     border: const OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -101,16 +101,26 @@ class _LoginViewState extends State<LoginView> {
                   controller: passwordController,
                   decoration: InputDecoration(
                     labelText:
-                        AppLocalizations.of(context).translate('passwordLabel'),
+                        AppLocalizations.of(context).translate('Password'),
                     hintText:
-                        AppLocalizations.of(context).translate('passwordHint'),
+                        AppLocalizations.of(context).translate('********'),
                     border: const OutlineInputBorder(),
                   ),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)
-                          .translate('passwordError');
+                      // CustomSnackBar.show(
+                      //     context, 'passoword or email is empty');
+                      // return AppLocalizations.of(context)
+                      //     .translate('passwordError');
+                      CustomSnackBar.show(
+                        context,
+                        AppLocalizations.of(context)
+                            .translate('passoword_or_email_is_empty'),
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        icon: Icons.error,
+                      );
                     }
                     return null;
                   },
@@ -118,14 +128,16 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: CustomButton(
+                  child: CustomSmallButton(
                     text: AppLocalizations.of(context)
                         .translate('letsWorkButton'),
                     onTap: login,
                   ),
                 ),
                 const SizedBox(height: 20),
-                CustomButton(
+                CustomSmallButton(
+                  height: 50,
+                  width: 250,
                   text: AppLocalizations.of(context).translate('createAccount'),
                   onTap: navigateToRegister,
                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/authentication/create_account/database/accounts_db_helper.dart';
+import 'package:pos_dashboard_v1/features/authentication/create_account/database/AuthService.dart';
 import 'package:pos_dashboard_v1/features/authentication/create_account/views/signup_accounts.dart';
 import '../../../../core/widgets/custom_snackbar.dart';
 import '../../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';

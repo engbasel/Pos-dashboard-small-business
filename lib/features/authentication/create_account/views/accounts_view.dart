@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/features/authentication/create_account/database/AuthService.dart';
 import 'package:pos_dashboard_v1/features/authentication/create_account/models/createAccounts.dart';
-import '../database/accounts_db_helper.dart';
 
 class Createdaccountsuser extends StatelessWidget {
   const Createdaccountsuser({super.key});

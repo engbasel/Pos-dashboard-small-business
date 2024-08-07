@@ -148,7 +148,7 @@ class _UserInfoSectionState extends State<UserInfoSection> {
                 color: const Color(0xffffebee),
                 labelValue: appLocalizations.translate('current user login at'),
                 content: '10:34:5 AM',
-                imagename: ImagesManger.sex,
+                imagename: ImagesManger.agency,
               ),
               CustomLabel(
                 color: const Color(0xffe8f5e9),
@@ -162,7 +162,7 @@ class _UserInfoSectionState extends State<UserInfoSection> {
                 labelValue: appLocalizations.translate('notifications'),
                 content:
                     '${appLocalizations.translate('newalerts')} ${itemsNum.toString()}',
-                imagename: ImagesManger.sex,
+                imagename: ImagesManger.notofication,
               ),
             ],
           ),

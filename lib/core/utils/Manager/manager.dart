@@ -13,7 +13,10 @@ class ColorsManager {
 }
 
 class ImagesManger {
+  static const String notofication = 'assets/notofication.png';
+
   static const String agency = 'assets/agency.png';
+  static const String user = 'assets/user.png';
   static const String mail = 'assets/mail.png';
   static const String edit = 'assets/edit.png';
   static const String shoppingbag = 'assets/shoppingbag.png';

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -13,8 +12,6 @@ class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key, required this.invoice});
 
   final Order invoice;
-
-  get localizations => null;
 
   Future<void> _exportPDF(
     BuildContext context, {
@@ -125,7 +122,8 @@ class OrderDetails extends StatelessWidget {
       );
 
       final result = await FilePicker.platform.saveFile(
-        dialogTitle: 'Select where to save the PDF',
+        dialogTitle:
+            AppLocalizations.of(context).translate('select_where_to_save_pdf'),
         fileName: 'invoice_${invoice.invoiceNumber}.pdf',
       );
 
@@ -135,22 +133,30 @@ class OrderDetails extends StatelessWidget {
 
         if (await file.exists()) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('PDF saved to ${file.path}')),
+            SnackBar(
+                content: Text(
+                    '${AppLocalizations.of(context).translate('pdf_saved_to')} ${file.path}')),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to save PDF')),
+            SnackBar(
+                content: Text(AppLocalizations.of(context)
+                    .translate('failed_to_save_pdf'))),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('PDF export canceled')),
+          SnackBar(
+              content: Text(AppLocalizations.of(context)
+                  .translate('pdf_export_canceled'))),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('${localizations.translate('ErrorsavingPDF')} : $e')),
+          content: Text(
+              '${AppLocalizations.of(context).translate('error_saving_pdf')} : $e'),
+        ),
       );
     }
   }
@@ -184,7 +190,7 @@ class OrderDetails extends StatelessWidget {
               taxText: localizations.translate('Tax'),
             ),
             icon: Icons.print,
-            text: 'pdf',
+            text: AppLocalizations.of(context).translate('file'),
           ),
         ],
       ),

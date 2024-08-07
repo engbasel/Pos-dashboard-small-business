@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/category_model.dart';
@@ -60,6 +62,12 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
     );
   }
 
+  void deleteItem(int index) {
+    setState(() {
+      items.removeAt(index);
+    });
+  }
+
   Future<void> showAddItemDialog(BuildContext context) async {
     final categoryDatabaseHelper = CategoryDatabaseHelper.instance;
     final itemDatabaseHelper = ItemDatabaseHelper.instance;
@@ -76,14 +84,17 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
           builder: (context, setDialogState) {
             return AlertDialog(
               backgroundColor: Colors.white,
-              title: const Text('Select Item'),
+              title:
+                  Text(AppLocalizations.of(context).translate('Select_Item')),
               content: SizedBox(
                 width: MediaQuery.of(context).size.width * .3,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     DropdownButtonFormField<CategoryModel>(
-                      decoration: const InputDecoration(labelText: 'Category'),
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)
+                              .translate('category')),
                       items: categories.map((category) {
                         return DropdownMenuItem<CategoryModel>(
                           value: category,
@@ -104,7 +115,8 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                             builder: (context) {
                               return AlertDialog(
                                 backgroundColor: Colors.white,
-                                title: const Text('Select Item'),
+                                title: Text(AppLocalizations.of(context)
+                                    .translate('Select_Item')),
                                 content: SizedBox(
                                   width: MediaQuery.of(context).size.width * .3,
                                   height: 300,
@@ -131,10 +143,13 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                       value: selectedCategory,
                     ),
                     if (selectedItem != null)
-                      Text('Selected Item: ${selectedItem!.name}'),
+                      Text(
+                          '${AppLocalizations.of(context).translate('Selected_Item')}: ${selectedItem!.name}'),
                     if (selectedCategory == null && selectedItem != null)
-                      const Text('Please choose a category first',
-                          style: TextStyle(color: Colors.red)),
+                      Text(
+                          AppLocalizations.of(context)
+                              .translate('please_choose_a_category_first'),
+                          style: const TextStyle(color: Colors.red)),
                   ],
                 ),
               ),
@@ -148,11 +163,11 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                           context, 'Please choose an item first');
                     }
                   },
-                  child: const Text('Add'),
+                  child: Text(AppLocalizations.of(context).translate('add')),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context).translate('cancel')),
                 ),
               ],
             );
@@ -249,9 +264,25 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              '${AppLocalizations.of(context).translate('date')} || ${AppLocalizations.of(context).translate('time')}: $currentDateTime',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                const Spacer(
+                  flex: 3,
+                ),
+                Text(
+                  '${AppLocalizations.of(context).translate('date')} || ${AppLocalizations.of(context).translate('time')}: $currentDateTime',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                CustomSmallButton(
+                  icon: CupertinoIcons.add,
+                  onTap: () {
+                    showAddItemDialog(context);
+                  },
+                  text: AppLocalizations.of(context).translate('AddItem'),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
             Text(
@@ -259,11 +290,6 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.add),
-              label: Text(AppLocalizations.of(context).translate('AddItem')),
-              onPressed: () => showAddItemDialog(context),
-            ),
             const SizedBox(height: 16),
             DataTable(
               columns: [
@@ -284,6 +310,9 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                 DataColumn(
                     label: Text(
                         AppLocalizations.of(context).translate('Discount'))),
+                DataColumn(
+                    label:
+                        Text(AppLocalizations.of(context).translate('Action'))),
               ],
               rows: items.asMap().entries.map((entry) {
                 final index = entry.key;
@@ -296,8 +325,21 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                     DataCell(Text('\$${item.unitPrice}')),
                     DataCell(Text('\$${item.total}')),
                     DataCell(Text('\$${item.discount}')),
+                    DataCell(
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => editItem(index),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () => deleteItem(index),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
-                  onSelectChanged: (_) => editItem(index),
                 );
               }).toList(),
             ),
@@ -320,14 +362,20 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(AppLocalizations.of(context).translate('Cancel')),
+                CustomSmallButton(
+                  icon: Icons.cancel,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  text: AppLocalizations.of(context).translate('Cancel'),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: saveData,
-                  child: Text(AppLocalizations.of(context).translate('Save')),
+                CustomSmallButton(
+                  icon: Icons.save,
+                  onTap: () {
+                    saveData();
+                  },
+                  text: AppLocalizations.of(context).translate('save'),
                 ),
               ],
             ),

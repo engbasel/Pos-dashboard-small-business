@@ -3,6 +3,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/desktop_layout_body.dart';
+import 'package:pos_dashboard_v1/features/authentication/views/login_view.dart';
 import 'package:provider/provider.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -70,8 +71,8 @@ class PosSystem extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: ColorsManager.backgroundColor,
       ),
-      // home: const LoginView(),
-      home: const DesktopLayoutBoady(),
+      home: const LoginView(),
+      // home: const DesktopLayoutBoady(),
     );
   }
 }

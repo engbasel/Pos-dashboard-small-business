@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
-import 'package:pos_dashboard_v1/features/authentication/create_account/views/accounts_view.dart';
+import 'package:pos_dashboard_v1/features/authentication/views/accounts_view.dart';
 import 'add_employee_view.dart';
 import 'employee_list_view.dart'; // Import the new screen
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/authentication/create_account/database/AuthService.dart';
-import 'package:pos_dashboard_v1/features/authentication/create_account/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});

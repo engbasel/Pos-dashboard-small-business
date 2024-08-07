@@ -1,4 +1,4 @@
-import 'package:pos_dashboard_v1/features/authentication/create_account/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

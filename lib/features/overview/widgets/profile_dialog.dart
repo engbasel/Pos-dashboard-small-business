@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/func/check_lang.dart';
-import 'package:pos_dashboard_v1/features/authentication/create_account/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
 
 class ProfileDialog extends StatelessWidget {
   const ProfileDialog({super.key, required this.users});

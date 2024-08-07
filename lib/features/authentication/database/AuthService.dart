@@ -1,5 +1,5 @@
-import 'package:pos_dashboard_v1/features/authentication/create_account/database/accounts_db_helper.dart';
-import 'package:pos_dashboard_v1/features/authentication/create_account/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/database/accounts_db_helper.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
 
 class AuthService {
   final CreateacountesDatabase _dbHelper = CreateacountesDatabase();

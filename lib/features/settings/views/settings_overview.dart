@@ -3,7 +3,6 @@ import 'package:pos_dashboard_v1/core/utils/manager/function_manger.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../../authentication/Log/views/user_logs_view.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -18,10 +17,10 @@ class SettingsView extends StatelessWidget {
           title: Text(AppLocalizations.of(context).translate('viewUserLogs')),
           leading: const Icon(Icons.history),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const UserLogsView()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const UserLogsView()),
+            // );
           },
         ),
         const Divider(),

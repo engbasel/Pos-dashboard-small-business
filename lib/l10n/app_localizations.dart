@@ -133,6 +133,8 @@ class AppLocalizations {
       "Close": "Close",
       "Quantity": "Quantity",
       "InvoiceNumber": "Invoice Number",
+      'please_choose_a_category_first': 'Please choose a category first',
+
       "SalesInvoices": "Sales Invoices",
       "CustomerName": "Customer Name",
       "SalesBill": "Sales Bill",
@@ -254,6 +256,7 @@ class AppLocalizations {
       "ReturnInvoices": "Return Invoices",
       "NeededProducts": "Needed Products",
       "select_image": "select Image",
+      "Select_Item": "Select Item",
       "confirmDeleteMessage": "Are you sure you want to delete this item?",
       "Ok": "Ok",
       "Thepasswordyouenteredisincorrect":
@@ -386,6 +389,8 @@ class AppLocalizations {
       "InvoiceNumber": "رقم الفاتورة",
       "SalesInvoices": "فاتورة مبيعات",
       "CustomerName": "اسم العميل",
+      'please_choose_a_category_first': 'يرجى اختيار فئة أولاً',
+
       "TotalAmount": "اجمالي العناصر قبل الضرائب",
       "Tax": "الضرائب",
       "Deficiencies": "النواقص",
@@ -400,6 +405,8 @@ class AppLocalizations {
 
       // ======================== Catigorys section ===========================
       "Catigorys": "الأصناف",
+      "Select_Item": "اختر عنصر",
+      "Selected_Item": "العنصر المختار",
       "edit_category": "تعديل الفئة",
       "invoiceID": "رقم الفاتورة",
       "catigoryscreen": "عرض الأصناف",

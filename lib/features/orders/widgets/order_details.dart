@@ -253,7 +253,7 @@ class OrderDetails extends StatelessWidget {
                   CustomSmallButton(
                     icon: Icons.close,
                     onTap: () => Navigator.of(context).pop(),
-                    text: localizations.translate('Close'),
+                    text: localizations.translate('close'),
                   ),
                 ],
               ),

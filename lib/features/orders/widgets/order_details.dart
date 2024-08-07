@@ -14,6 +14,8 @@ class OrderDetails extends StatelessWidget {
 
   final Order invoice;
 
+  get localizations => null;
+
   Future<void> _exportPDF(
     BuildContext context, {
     required String invoiceText,
@@ -147,7 +149,8 @@ class OrderDetails extends StatelessWidget {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving PDF: $e')),
+        SnackBar(
+            content: Text('${localizations.translate('ErrorsavingPDF')} : $e')),
       );
     }
   }

@@ -41,6 +41,7 @@ class _EditItemDialogState extends State<EditItemDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
+            readOnly: true,
             controller: nameController,
             decoration: const InputDecoration(labelText: 'Name'),
           ),

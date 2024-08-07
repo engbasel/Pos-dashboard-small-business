@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/orders/model/order_model.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -11,8 +12,18 @@ class OrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: Text(
-          '${AppLocalizations.of(context).translate('Invoice')}  #${invoice.invoiceNumber}'),
+      title: Row(
+        children: [
+          Text(
+              '${AppLocalizations.of(context).translate('Invoice')}  #${invoice.invoiceNumber}'),
+          const Spacer(),
+          CustomSmallButton(
+            onTap: () {},
+            icon: Icons.print,
+            text: 'print',
+          ),
+        ],
+      ),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * .5,
         child: Padding(
@@ -77,16 +88,20 @@ class OrderDetails extends StatelessWidget {
                 '${AppLocalizations.of(context).translate('Tax')} \$20',
                 style: const TextStyle(fontSize: 16),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomSmallButton(
+                    icon: Icons.close,
+                    onTap: () => Navigator.of(context).pop(),
+                    text: AppLocalizations.of(context).translate('Close'),
+                  ),
+                ],
+              )
             ],
           ),
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(AppLocalizations.of(context).translate('Close')),
-        ),
-      ],
     );
   }
 }

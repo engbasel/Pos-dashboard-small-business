@@ -60,6 +60,12 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
     );
   }
 
+  void deleteItem(int index) {
+    setState(() {
+      items.removeAt(index);
+    });
+  }
+
   Future<void> showAddItemDialog(BuildContext context) async {
     final categoryDatabaseHelper = CategoryDatabaseHelper.instance;
     final itemDatabaseHelper = ItemDatabaseHelper.instance;
@@ -284,6 +290,9 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                 DataColumn(
                     label: Text(
                         AppLocalizations.of(context).translate('Discount'))),
+                DataColumn(
+                    label:
+                        Text(AppLocalizations.of(context).translate('Action'))),
               ],
               rows: items.asMap().entries.map((entry) {
                 final index = entry.key;
@@ -296,8 +305,21 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                     DataCell(Text('\$${item.unitPrice}')),
                     DataCell(Text('\$${item.total}')),
                     DataCell(Text('\$${item.discount}')),
+                    DataCell(
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => editItem(index),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () => deleteItem(index),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
-                  onSelectChanged: (_) => editItem(index),
                 );
               }).toList(),
             ),

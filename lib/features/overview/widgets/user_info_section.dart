@@ -6,7 +6,7 @@ import 'package:pos_dashboard_v1/features/orders/databases/sales_database_helper
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_label.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/ReturnInvoicesScreen.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoices_today.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import '../../../core/utils/manager/manager.dart';
 import 'package:intl/intl.dart';
@@ -272,8 +272,6 @@ class _UserInfoSectionState extends State<UserInfoSection> {
         itemsNum = items.length;
       });
     });
-
-    _returnInvoicesFuture = _databaseHelper.getReturnInvoices();
   }
 
   @override
@@ -423,21 +421,6 @@ class _UserInfoSectionState extends State<UserInfoSection> {
                   imagename: ImagesManger.notofication,
                 ),
               ],
-            ),
-            const SizedBox(height: 16),
-            // New Icon Button to Navigate to the ReturnInvoicesScreen
-            IconButton(
-              icon: const Icon(Icons.receipt_long),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ReturnInvoicesScreen(
-                      returnInvoicesFuture: _returnInvoicesFuture,
-                    ),
-                  ),
-                );
-              },
             ),
           ],
         ),

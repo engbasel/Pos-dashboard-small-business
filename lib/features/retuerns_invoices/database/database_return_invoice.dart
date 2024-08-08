@@ -30,18 +30,6 @@ class DatabaseReturnsInvoice {
     );
   }
 
-  Future<void> updateReturnInvoice(ReturnInvoiceModel returnInvoice) async {
-    final db = await database;
-    await db.update(
-      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
-      returnInvoice.toMap(),
-      where: '${RetuernInvocmentDatabaseConstants.columnId} = ?',
-      whereArgs: [returnInvoice.id],
-    );
-    print('============= updated Return Invoice ======================');
-    print(returnInvoice.toMap());
-  }
-
   Future<void> onCreate(Database db, int version) async {
     await db.execute(
       '''
@@ -87,6 +75,18 @@ Created with columns names is :
         '============= deleted Invoice item ${RetuernInvocmentDatabaseConstants.columnId} from database table :  ${RetuernInvocmentDatabaseConstants.returnInvoicesTable} ======================');
   }
 
+  Future<void> updateReturnInvoice(ReturnInvoiceModel returnInvoice) async {
+    final db = await database;
+    await db.update(
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
+      returnInvoice.toMap(),
+      where: '${RetuernInvocmentDatabaseConstants.columnId} = ?',
+      whereArgs: [returnInvoice.id],
+    );
+    print('============= updated Return Invoice ======================');
+    print(returnInvoice.toMap());
+  }
+
   Future<List<ReturnInvoiceModel>> getReturnInvoices() async {
     final db = await database;
     final List<Map<String, dynamic>> maps =
@@ -107,7 +107,7 @@ Created with columns names is :
     );
 
     print(
-        '================updated databae table Name:  $tableName ===========================');
+        '================updated database table Name:  $tableName ===========================');
     debugPrint(
         "=================================== $data      ======================");
   }
@@ -138,6 +138,24 @@ Created with columns names is :
 
     print(
         '============= Number of invoices created on $day: ${maps.length} ======================');
+
+    return List.generate(maps.length, (i) {
+      return ReturnInvoiceModel.fromMap(maps[i]);
+    });
+  }
+
+  // Method to get invoices created today
+  Future<List<ReturnInvoiceModel>> getTodayInvoices() async {
+    final db = await database;
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final List<Map<String, dynamic>> maps = await db.query(
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
+      where: "${RetuernInvocmentDatabaseConstants.columnReturnDate} LIKE ?",
+      whereArgs: ['$today%'],
+    );
+
+    print(
+        '============= Number of invoices created today: ${maps.length} ======================');
 
     return List.generate(maps.length, (i) {
       return ReturnInvoiceModel.fromMap(maps[i]);

@@ -3,13 +3,11 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/desktop_layout_body.dart';
-import 'package:pos_dashboard_v1/features/authentication/views/login_view.dart';
 import 'package:provider/provider.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:window_manager/window_manager.dart';
-
 import 'l10n/ocale_provider.dart';
 
 void main(List<String> args) async {
@@ -28,10 +26,9 @@ void main(List<String> args) async {
     title: 'POS',
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    // await windowManager.show();
-    // await windowManager.focus();
-
-    // await windowManager.setResizable(false);
+    await windowManager.show();
+    await windowManager.focus();
+    await windowManager.setResizable(false);
   });
 
   runApp(

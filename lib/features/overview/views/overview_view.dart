@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
-import 'package:pos_dashboard_v1/features/authentication/database/accounts_db_helper.dart';
 import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/notifications/view/notification_view.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/profile_dialog.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoices_today.dart';
 import '../../../l10n/app_localizations.dart';
 
 class OverviewView extends StatefulWidget {
@@ -23,6 +26,8 @@ class _OverviewViewState extends State<OverviewView> {
   int? itemsNum;
   AuthService authService = AuthService();
   List<Account> users = [];
+  late Future<List<ReturnInvoiceModel>> _returnInvoicesFuture;
+  final DatabaseReturnsInvoice _databaseHelper = DatabaseReturnsInvoice();
 
   @override
   void initState() {
@@ -36,6 +41,7 @@ class _OverviewViewState extends State<OverviewView> {
         itemsNum = items.length;
       });
     });
+    _returnInvoicesFuture = _databaseHelper.getTodayInvoices();
   }
 
   void loadUserData() async {
@@ -50,78 +56,137 @@ class _OverviewViewState extends State<OverviewView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomAppBar(
-            title: AppLocalizations.of(context).translate('dashboard'),
-            actions: [
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    barrierColor: Colors.transparent,
-                    builder: (BuildContext context) {
-                      return const NotificationPopup();
-                    },
-                  );
-                },
-                child: Badge(
-                  isLabelVisible: itemsNum == 0 ? false : true,
-                  backgroundColor: ColorsManager.kPrimaryColor,
-                  label: Text(
-                    itemsNum.toString(),
-                  ),
-                  child: const Icon(
-                    Icons.notifications_none_outlined,
-                    color: Color(0xff505251),
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomAppBar(
+          title: AppLocalizations.of(context).translate('dashboard'),
+          actions: [
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  barrierColor: Colors.transparent,
+                  builder: (BuildContext context) {
+                    return const NotificationPopup();
+                  },
+                );
+              },
+              child: Badge(
+                isLabelVisible: itemsNum == 0 ? false : true,
+                backgroundColor: ColorsManager.kPrimaryColor,
+                label: Text(
+                  itemsNum.toString(),
+                ),
+                child: const Icon(
+                  Icons.notifications_none_outlined,
+                  color: Color(0xff505251),
                 ),
               ),
-              const SizedBox(width: 16),
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    barrierColor: Colors.transparent,
-                    builder: (BuildContext context) {
-                      return ProfileDialog(users: users);
-                    },
-                  );
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      users.isEmpty ? '' : '${users[users.length - 1].name}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
+            ),
+            const SizedBox(width: 16),
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  barrierColor: Colors.transparent,
+                  builder: (BuildContext context) {
+                    return ProfileDialog(users: users);
+                  },
+                );
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    users.isEmpty ? '' : '${users[users.length - 1].name}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
                     ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.keyboard_arrow_down_outlined),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.keyboard_arrow_down_outlined),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
               horizontal: 16,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                UserInfoSection(),
-                SizedBox(height: 16),
+                const UserInfoSection(),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                          ),
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Text(
+                                  'Orders for today :',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Text(
+                                  'Return Products for today :',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              ReturnInvoicesToday(
+                                returnInvoicesFuture: _returnInvoicesFuture,
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

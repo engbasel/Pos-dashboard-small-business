@@ -251,7 +251,7 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
       ),
       child: Container(
         padding: const EdgeInsets.all(16),
-        width: MediaQuery.of(context).size.width * .6,
+        width: MediaQuery.of(context).size.width * .7,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -109,5 +110,37 @@ Created with columns names is :
         '================updated databae table Name:  $tableName ===========================');
     debugPrint(
         "=================================== $data      ======================");
+  }
+
+  // Method to get the number of invoices created today
+  Future<int> getTodayInvoicesCount() async {
+    final db = await database;
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final List<Map<String, dynamic>> maps = await db.query(
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
+      where: "${RetuernInvocmentDatabaseConstants.columnReturnDate} LIKE ?",
+      whereArgs: ['$today%'],
+    );
+
+    print(
+        '============= Number of invoices created today: ${maps.length} ======================');
+    return maps.length;
+  }
+
+  // Method to get invoices by a specific day
+  Future<List<ReturnInvoiceModel>> getInvoicesByDay(String day) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      RetuernInvocmentDatabaseConstants.returnInvoicesTable,
+      where: "${RetuernInvocmentDatabaseConstants.columnReturnDate} LIKE ?",
+      whereArgs: ['$day%'],
+    );
+
+    print(
+        '============= Number of invoices created on $day: ${maps.length} ======================');
+
+    return List.generate(maps.length, (i) {
+      return ReturnInvoiceModel.fromMap(maps[i]);
+    });
   }
 }

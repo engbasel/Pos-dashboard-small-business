@@ -38,19 +38,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     // Check for empty fields
     if (name.isEmpty) {
-      showEmptyFieldSnackbar('name');
+      showEmptyFieldSnackbar(
+          AppLocalizations.of(context).translate('nameLabel'));
       return;
     }
     if (email.isEmpty) {
-      showEmptyFieldSnackbar('email');
+      showEmptyFieldSnackbar(
+          AppLocalizations.of(context).translate('emailLabel'));
       return;
     }
     if (password.isEmpty) {
-      showEmptyFieldSnackbar('password');
+      showEmptyFieldSnackbar(
+          AppLocalizations.of(context).translate('Password'));
       return;
     }
     if (phone.isEmpty) {
-      showEmptyFieldSnackbar('phone');
+      showEmptyFieldSnackbar(AppLocalizations.of(context).translate('phone'));
       return;
     }
 

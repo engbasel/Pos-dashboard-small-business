@@ -89,6 +89,7 @@ class _OrdersViewState extends State<OrdersView> {
             ),
           ],
         ),
+        const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Material(

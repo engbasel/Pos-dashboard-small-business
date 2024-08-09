@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
@@ -8,7 +9,7 @@ class ReturnInvoicesScreen extends StatefulWidget {
   const ReturnInvoicesScreen({super.key});
 
   @override
-  _ReturnInvoicesScreenState createState() => _ReturnInvoicesScreenState();
+  State<ReturnInvoicesScreen> createState() => _ReturnInvoicesScreenState();
 }
 
 class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
@@ -57,6 +58,7 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
   Widget buildInvoiceCard(ReturnInvoiceModel invoice) {
     return Card(
       elevation: 3,
+      color: ColorsManager.backgroundColor,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -101,36 +103,54 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
         title: Text(_selectedDate == null
             ? AppLocalizations.of(context).translate('All_Bills')
             : '${AppLocalizations.of(context).translate('Bills_on')} ${DateFormat('yyyy-MM-dd').format(_selectedDate!)}'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () => pickDate(context),
-          ),
-        ],
       ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context).translate('search'),
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText:
+                            AppLocalizations.of(context).translate('search'),
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          searchQuery = value;
+                        });
+                      },
+                    ),
                   ),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    searchQuery = value;
-                  });
-                },
+                  const SizedBox(width: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: ColorsManager.kPrimaryColor,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.filter_list,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => pickDate(context),
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(

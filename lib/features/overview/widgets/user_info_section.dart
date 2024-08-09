@@ -3,7 +3,7 @@ import 'package:pos_dashboard_v1/features/categories/database/category_database_
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/orders/databases/sales_database_helper.dart';
-import 'package:pos_dashboard_v1/features/overview/views/ReturnInvoicesScreen.dart';
+import 'package:pos_dashboard_v1/features/overview/views/ReturnInvoicesScreenFultrationWithDataDay.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/custom_label.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
@@ -114,7 +114,7 @@ class _UserInfoSectionState extends State<UserInfoSection> {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomLabel(
                   color: const Color(0xfff3e5f5),
@@ -168,7 +168,7 @@ class _UserInfoSectionState extends State<UserInfoSection> {
             ),
             const SizedBox(height: 16),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomLabel(
                   color: const Color(0xffffebee),
@@ -196,10 +196,9 @@ class _UserInfoSectionState extends State<UserInfoSection> {
                     color: const Color(0xffe8f5e9),
                     labelValue:
                         appLocalizations.translate('totalReturnProductsToday'),
-                    content: _selectedDate != null
-                        ? DateFormat('yyyy-MM-dd').format(_selectedDate!)
-                        : 'John Doe - Cashier',
-                    imagename: ImagesManger.sex,
+                    content: appLocalizations
+                        .translate('Click_to_view_all_invoices'),
+                    imagename: ImagesManger.bill,
                   ),
                 ),
               ],

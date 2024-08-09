@@ -143,9 +143,9 @@ class AppLocalizations {
       "SalesBill": "Sales Bill",
       "dateTodayAndTimeNow": "Date today and time now",
       "numberOfCategories": "Number of categories",
-      "totalPaymentsToday": "Total payments today",
-      "totalBillExportedToday": "Total bill exported today",
-      "totalReturnProductsToday": "Total return products today",
+      "totalPaymentsToday": "Total payments ",
+      "totalBillExportedToday": "Total bill exported ",
+      "totalReturnProductsToday": "Total return products ",
       "notifications": "Notifications",
       "item_details": "item details",
       "ViewInvoices": "View Invoices",
@@ -233,6 +233,7 @@ class AppLocalizations {
 
       // ======================== Orders section ===========================
       "all": "All",
+      "Click_to_view_all_invoices": "Click to view all invoices",
       "Yes": "Yes",
       "monthly": "Monthly",
       "weekly": "Weekly",
@@ -410,9 +411,9 @@ class AppLocalizations {
       "AddItem": "اضافة عنصر",
       "dateTodayAndTimeNow": "التاريخ اليوم والوقت الآن",
       "numberOfCategories": "عدد الفئات",
-      "totalPaymentsToday": "إجمالي المدفوعات اليوم",
-      "totalBillExportedToday": "إجمالي الفواتير الصادرة اليوم",
-      "totalReturnProductsToday": "إجمالي المنتجات المرتجعة اليوم",
+      "totalPaymentsToday": "إجمالي المدفوعات",
+      "totalBillExportedToday": "إجمالي الفواتير الصادرة",
+      "totalReturnProductsToday": "إجمالي المنتجات المرتجعة",
       "notifications": "الإشعارات",
       "ViewInvoices": "عرض الفواتير",
 
@@ -452,6 +453,8 @@ class AppLocalizations {
       "passoword_or_email_is_empty": "كلمة المرور أو البريد الإلكتروني فارغ",
       "alert_quantity": "كمية التنبيه",
       "image": "الصورة",
+      "Click_to_view_all_invoices": "اضغط لعرض جميع الفواتير",
+
       "passwordError": "كلمة السري خطاء",
       "emailError": "الحساب خطاء",
       "brand": "العلامة التجارية",

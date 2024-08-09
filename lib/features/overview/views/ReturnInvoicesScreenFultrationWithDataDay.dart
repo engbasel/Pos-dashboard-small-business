@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class ReturnInvoicesScreen extends StatefulWidget {
   const ReturnInvoicesScreen({super.key});
@@ -14,7 +15,7 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
   late Future<List<ReturnInvoiceModel>> _returnInvoicesFuture;
   final DatabaseReturnsInvoice _databaseHelper = DatabaseReturnsInvoice();
   DateTime? _selectedDate;
-  String _searchQuery = '';
+  String searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -23,7 +24,7 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
     _returnInvoicesFuture = _databaseHelper.getReturnInvoices();
   }
 
-  Future<void> _pickDate(BuildContext context) async {
+  Future<void> pickDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
@@ -40,20 +41,20 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
     }
   }
 
-  List<ReturnInvoiceModel> _filterInvoices(List<ReturnInvoiceModel> invoices) {
-    if (_searchQuery.isEmpty) return invoices;
+  List<ReturnInvoiceModel> filterInvoices(List<ReturnInvoiceModel> invoices) {
+    if (searchQuery.isEmpty) return invoices;
     return invoices.where((invoice) {
-      return invoice.id.toString().contains(_searchQuery) ||
-          invoice.orderId.toString().contains(_searchQuery) ||
-          invoice.returnDate.contains(_searchQuery) ||
-          invoice.employee.contains(_searchQuery) ||
-          invoice.reason.contains(_searchQuery) ||
-          invoice.amount.toString().contains(_searchQuery) ||
-          invoice.totalbackmony.toString().contains(_searchQuery);
+      return invoice.id.toString().contains(searchQuery) ||
+          invoice.orderId.toString().contains(searchQuery) ||
+          invoice.returnDate.contains(searchQuery) ||
+          invoice.employee.contains(searchQuery) ||
+          invoice.reason.contains(searchQuery) ||
+          invoice.amount.toString().contains(searchQuery) ||
+          invoice.totalbackmony.toString().contains(searchQuery);
     }).toList();
   }
 
-  Widget _buildInvoiceCard(ReturnInvoiceModel invoice) {
+  Widget buildInvoiceCard(ReturnInvoiceModel invoice) {
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -66,24 +67,30 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Invoice ID: ${invoice.id}',
+              '${AppLocalizations.of(context).translate('invoiceID')}: ${invoice.id}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
             const SizedBox(height: 8),
-            Text('Order ID: ${invoice.orderId}'),
+            Text(
+                '${AppLocalizations.of(context).translate('orderId')}: ${invoice.orderId}'),
             const SizedBox(height: 4),
-            Text('Return Date: ${invoice.returnDate}'),
+            Text(
+                '${AppLocalizations.of(context).translate('returnDate')}: ${invoice.returnDate}'),
             const SizedBox(height: 4),
-            Text('Employee: ${invoice.employee}'),
+            Text(
+                '${AppLocalizations.of(context).translate('employee')}: ${invoice.employee}'),
             const SizedBox(height: 4),
-            Text('Reason: ${invoice.reason}'),
+            Text(
+                '${AppLocalizations.of(context).translate('reason')}: ${invoice.reason}'),
             const SizedBox(height: 4),
-            Text('Amount: ${invoice.amount}'),
+            Text(
+                '${AppLocalizations.of(context).translate('amount')}: ${invoice.amount}'),
             const SizedBox(height: 4),
-            Text('Total Back Money: ${invoice.totalbackmony}'),
+            Text(
+                '${AppLocalizations.of(context).translate('Total_Back_Money')}: ${invoice.totalbackmony}'),
           ],
         ),
       ),
@@ -95,12 +102,12 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_selectedDate == null
-            ? 'All Bills'
-            : 'Bills on ${DateFormat('yyyy-MM-dd').format(_selectedDate!)}'),
+            ? AppLocalizations.of(context).translate('All_Bills')
+            : '${AppLocalizations.of(context).translate('Bills_on')} ${DateFormat('yyyy-MM-dd').format(_selectedDate!)}'),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
-            onPressed: () => _pickDate(context),
+            onPressed: () => pickDate(context),
           ),
         ],
       ),
@@ -113,7 +120,7 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: AppLocalizations.of(context).translate('search'),
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -121,7 +128,7 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _searchQuery = value;
+                    searchQuery = value;
                   });
                 },
               ),
@@ -133,17 +140,20 @@ class _ReturnInvoicesScreenState extends State<ReturnInvoicesScreen> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                    return Center(
+                        child: Text(
+                            '${AppLocalizations.of(context).translate('error')}: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(
-                        child: Text('No return invoices found.'));
+                    return Center(
+                        child: Text(AppLocalizations.of(context)
+                            .translate('No_return_invoices_found')));
                   } else {
-                    final filteredInvoices = _filterInvoices(snapshot.data!);
+                    final filteredInvoices = filterInvoices(snapshot.data!);
                     return ListView.builder(
                       itemCount: filteredInvoices.length,
                       itemBuilder: (context, index) {
                         final invoice = filteredInvoices[index];
-                        return _buildInvoiceCard(invoice);
+                        return buildInvoiceCard(invoice);
                       },
                     );
                   }

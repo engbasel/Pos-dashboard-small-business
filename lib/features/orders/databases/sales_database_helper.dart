@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:pos_dashboard_v1/features/orders/model/order_model.dart';
@@ -137,5 +138,41 @@ class SalesDatabaseHelper {
     if (oldVersion < newVersion) {
       await createDB(db, newVersion);
     }
+  }
+
+  Future<List<Order>> getTodayInvoices() async {
+    final db = await instance.database;
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'sales_invoice',
+      where: "invoiceDate LIKE ?",
+      whereArgs: ['$today%'],
+    );
+
+    print('Number of invoices created today: ${maps.length}');
+
+    return Future.wait(maps.map((invoice) async {
+      final items = await db.query(
+        'sales_item',
+        where: 'invoiceId = ?',
+        whereArgs: [invoice['id']],
+      );
+
+      return Order(
+        customerName: invoice['customerName'] as String,
+        invoiceDate: invoice['invoiceDate'] as String,
+        invoiceNumber: invoice['invoiceNumber'] as String,
+        items: items
+            .map((item) => SalesItem(
+                  item['name'] as String,
+                  item['quantity'] as int,
+                  item['unitPrice'] as double,
+                  item['discount'] as double,
+                  item['itemId'] as int,
+                ))
+            .toList(),
+      );
+    }).toList());
   }
 }

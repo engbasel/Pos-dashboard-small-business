@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
@@ -11,7 +10,6 @@ import 'package:pos_dashboard_v1/features/overview/widgets/profile_dialog.dart';
 import 'package:pos_dashboard_v1/features/overview/widgets/user_info_section.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_return_invoice.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoices_today.dart';
 import '../../../l10n/app_localizations.dart';
 
 class OverviewView extends StatefulWidget {
@@ -26,6 +24,7 @@ class _OverviewViewState extends State<OverviewView> {
   int? itemsNum;
   AuthService authService = AuthService();
   List<Account> users = [];
+  // ignore: unused_field
   late Future<List<ReturnInvoiceModel>> _returnInvoicesFuture;
   final DatabaseReturnsInvoice _databaseHelper = DatabaseReturnsInvoice();
 
@@ -113,75 +112,16 @@ class _OverviewViewState extends State<OverviewView> {
           ],
         ),
         const SizedBox(height: 16),
-        Expanded(
+        const Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: 16,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const UserInfoSection(),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          child: const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Text(
-                                  'Orders for today :',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 16),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Text(
-                                  'Return Products for today :',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              ReturnInvoicesToday(
-                                returnInvoicesFuture: _returnInvoicesFuture,
-                              ),
-                              const SizedBox(height: 16),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
+                UserInfoSection(),
+                SizedBox(height: 16),
               ],
             ),
           ),

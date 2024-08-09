@@ -22,6 +22,7 @@ class ImagesManger {
   static const String shoppingbag = 'assets/shoppingbag.png';
   static const String birthdaycake = 'assets/birthday-cake.png';
   static const String sex = 'assets/sex.png';
+  static const String bill = 'assets/bill.png';
 }
 
 class DBmanger {

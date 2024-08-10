@@ -136,15 +136,11 @@ class _NeededProductsViewState extends State<NeededProductsView> {
             actions: [
               CustomSmallButton(
                 icon: Icons.add,
-                text: AppLocalizations.of(context).translate('AddAProduct'),
+                text: AppLocalizations.of(context).translate('AddAProduc'),
                 onTap: () async {
                   showCustomDialog(context);
                 },
               ),
-              // IconButton(
-              //   icon: const Icon(Icons.filter_list, color: Colors.white),
-              //   onPressed: filterByDate,
-              // ),
             ],
           ),
           const SizedBox(height: 16),
@@ -230,77 +226,70 @@ class _NeededProductsViewState extends State<NeededProductsView> {
                     itemCount: filteredOrders.length,
                     itemBuilder: (context, index) {
                       final order = filteredOrders[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      return Container(
+                        color: Colors.white,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
                         child: InkWell(
-                          borderRadius: BorderRadius.circular(8.0),
                           onTap: () {
                             showProductsDetails(order);
                           },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: ColorsManager.backgroundColor,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Order ID : ${order.orderId}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16.0,
-                                      ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${AppLocalizations.of(context).translate('orderId')}: ${order.orderId}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
                                     ),
-                                    const SizedBox(height: 3),
-                                    Text(
-                                      'Supplier : ${order.supplierName}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16.0,
-                                      ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    '${AppLocalizations.of(context).translate('supplier')}: ${order.supplierName}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
                                     ),
-                                    const SizedBox(height: 3),
-                                    Text(
-                                      'Total Amount : \$${order.totalAmount.toStringAsFixed(2)}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16.0,
-                                      ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    '${AppLocalizations.of(context).translate('totalAmount')}: \$${order.totalAmount.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
                                     ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        showEditDialog(order);
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: ColorsManager.kPrimaryColor,
-                                      ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      showEditDialog(order);
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: ColorsManager.kPrimaryColor,
                                     ),
-                                    IconButton(
-                                      onPressed: () {
-                                        deleteItem(order.id);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                      ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      deleteItem(order.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       );

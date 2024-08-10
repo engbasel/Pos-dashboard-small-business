@@ -46,20 +46,20 @@ class StaffDatabaseHelper {
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      await _addColumnIfNotExists(db, 'staff', 'firstName', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'midName', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'lastName', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'position', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'qualifications', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'department', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'city', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'experienceInPosition', 'TEXT');
-      await _addColumnIfNotExists(db, 'staff', 'salary', 'REAL');
+      await addColumnIfNotExists(db, 'staff', 'firstName', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'midName', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'lastName', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'position', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'qualifications', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'department', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'city', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'experienceInPosition', 'TEXT');
+      await addColumnIfNotExists(db, 'staff', 'salary', 'REAL');
       print("Database Upgraded to version $newVersion");
     }
   }
 
-  Future<void> _addColumnIfNotExists(Database db, String tableName,
+  Future<void> addColumnIfNotExists(Database db, String tableName,
       String columnName, String columnType) async {
     var tableInfo = await db.rawQuery('PRAGMA table_info($tableName)');
     var columnExists = tableInfo.any((column) => column['name'] == columnName);

@@ -18,10 +18,10 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
 
   final _orderIdController = TextEditingController();
   final _supplierNameController = TextEditingController();
-  final _orderDateController = TextEditingController();
-  final _expectedDeliveryDateController = TextEditingController();
-  final _orderStatusController = TextEditingController();
   final _totalAmountController = TextEditingController();
+
+  DateTime? _orderDate;
+  DateTime? _expectedDeliveryDate;
 
   @override
   void initState() {
@@ -29,9 +29,9 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
     if (widget.order != null) {
       _orderIdController.text = widget.order!.orderId;
       _supplierNameController.text = widget.order!.supplierName;
-      _orderDateController.text = widget.order!.orderDate;
-      _expectedDeliveryDateController.text = widget.order!.expectedDeliveryDate;
-      _orderStatusController.text = widget.order!.orderStatus;
+      _orderDate = DateTime.parse(widget.order!.orderDate);
+      _expectedDeliveryDate =
+          DateTime.parse(widget.order!.expectedDeliveryDate);
       _totalAmountController.text = widget.order!.totalAmount.toString();
     }
   }
@@ -40,11 +40,21 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
   void dispose() {
     _orderIdController.dispose();
     _supplierNameController.dispose();
-    _orderDateController.dispose();
-    _expectedDeliveryDateController.dispose();
-    _orderStatusController.dispose();
     _totalAmountController.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDate(BuildContext context, DateTime? initialDate,
+      ValueChanged<DateTime?> onDateSelected) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != initialDate) {
+      onDateSelected(picked);
+    }
   }
 
   Future<void> saveForm() async {
@@ -53,9 +63,9 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
         id: widget.order?.id ?? DateTime.now().toString(),
         orderId: _orderIdController.text,
         supplierName: _supplierNameController.text,
-        orderDate: _orderDateController.text,
-        expectedDeliveryDate: _expectedDeliveryDateController.text,
-        orderStatus: _orderStatusController.text,
+        orderDate: _orderDate!.toIso8601String(),
+        expectedDeliveryDate: _expectedDeliveryDate!.toIso8601String(),
+        orderStatus: widget.order?.orderStatus ?? 'Pending',
         totalAmount: double.parse(_totalAmountController.text),
       );
 
@@ -90,10 +100,6 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter order ID';
                   }
-                  final number = num.tryParse(value);
-                  if (number == null) {
-                    return 'Please enter a valid number';
-                  }
                   return null;
                 },
               ),
@@ -113,49 +119,63 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
                 },
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                controller: _orderDateController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText:
-                      AppLocalizations.of(context).translate('orderDate'),
+              GestureDetector(
+                onTap: () => _selectDate(context, _orderDate, (date) {
+                  setState(() {
+                    _orderDate = date;
+                  });
+                }),
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText:
+                          AppLocalizations.of(context).translate('orderDate'),
+                      suffixIcon: const Icon(Icons.calendar_today),
+                    ),
+                    controller: TextEditingController(
+                      text: _orderDate != null
+                          ? '${_orderDate!.year}-${_orderDate!.month.toString().padLeft(2, '0')}-${_orderDate!.day.toString().padLeft(2, '0')}'
+                          : '',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select order date';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter order date';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                controller: _expectedDeliveryDateController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)
-                      .translate('expectedDeliveryDate'),
+              GestureDetector(
+                onTap: () =>
+                    _selectDate(context, _expectedDeliveryDate, (date) {
+                  setState(() {
+                    _expectedDeliveryDate = date;
+                  });
+                }),
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: AppLocalizations.of(context)
+                          .translate('expectedDeliveryDate'),
+                      suffixIcon: const Icon(Icons.calendar_today),
+                    ),
+                    controller: TextEditingController(
+                      text: _expectedDeliveryDate != null
+                          ? '${_expectedDeliveryDate!.year}-${_expectedDeliveryDate!.month.toString().padLeft(2, '0')}-${_expectedDeliveryDate!.day.toString().padLeft(2, '0')}'
+                          : '',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select expected delivery date';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter expected delivery date';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _orderStatusController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText:
-                      AppLocalizations.of(context).translate('orderStatus'),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter order status';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 16),
               TextFormField(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:pos_dashboard_v1/features/upcoming_orders/model/incoming_order_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -83,6 +84,94 @@ class DatabaseIncomingOrdersManager {
     final db = await database;
     final List<Map<String, dynamic>> maps =
         await db.query(IncomingOrderDatabaseConstants.incomingOrdersTable);
+    return List.generate(maps.length, (i) {
+      return IncomingOrderModel.fromMap(maps[i]);
+    });
+  }
+
+  // Method to get incoming orders by a specific day
+  Future<List<IncomingOrderModel>> getOrdersByDay(String day) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      IncomingOrderDatabaseConstants.incomingOrdersTable,
+      where: "${IncomingOrderDatabaseConstants.columnOrderDate} LIKE ?",
+      whereArgs: ['$day%'],
+    );
+
+    print(
+        '============= Number of orders created on $day: ${maps.length} ======================');
+
+    return List.generate(maps.length, (i) {
+      return IncomingOrderModel.fromMap(maps[i]);
+    });
+  }
+
+  // Method to get incoming orders by a specific month
+  Future<List<IncomingOrderModel>> getOrdersByMonth(String month) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      IncomingOrderDatabaseConstants.incomingOrdersTable,
+      where: "${IncomingOrderDatabaseConstants.columnOrderDate} LIKE ?",
+      whereArgs: ['$month%'],
+    );
+
+    print(
+        '============= Number of orders created in $month: ${maps.length} ======================');
+
+    return List.generate(maps.length, (i) {
+      return IncomingOrderModel.fromMap(maps[i]);
+    });
+  }
+
+  // Method to get incoming orders by a specific year
+  Future<List<IncomingOrderModel>> getOrdersByYear(String year) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      IncomingOrderDatabaseConstants.incomingOrdersTable,
+      where: "${IncomingOrderDatabaseConstants.columnOrderDate} LIKE ?",
+      whereArgs: ['$year%'],
+    );
+
+    print(
+        '============= Number of orders created in $year: ${maps.length} ======================');
+
+    return List.generate(maps.length, (i) {
+      return IncomingOrderModel.fromMap(maps[i]);
+    });
+  }
+
+  // Method to get incoming orders created today
+  Future<List<IncomingOrderModel>> getTodayOrders() async {
+    final db = await database;
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final List<Map<String, dynamic>> maps = await db.query(
+      IncomingOrderDatabaseConstants.incomingOrdersTable,
+      where: "${IncomingOrderDatabaseConstants.columnOrderDate} LIKE ?",
+      whereArgs: ['$today%'],
+    );
+
+    print(
+        '============= Number of orders created today: ${maps.length} ======================');
+
+    return List.generate(maps.length, (i) {
+      return IncomingOrderModel.fromMap(maps[i]);
+    });
+  }
+
+  // Method to get incoming orders by a specific range of dates
+  Future<List<IncomingOrderModel>> getOrdersByDateRange(
+      String startDate, String endDate) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      IncomingOrderDatabaseConstants.incomingOrdersTable,
+      where:
+          "${IncomingOrderDatabaseConstants.columnOrderDate} BETWEEN ? AND ?",
+      whereArgs: [startDate, endDate],
+    );
+
+    print(
+        '============= Number of orders between $startDate and $endDate: ${maps.length} ======================');
+
     return List.generate(maps.length, (i) {
       return IncomingOrderModel.fromMap(maps[i]);
     });

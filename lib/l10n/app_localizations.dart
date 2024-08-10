@@ -482,9 +482,9 @@ class AppLocalizations {
       "returnInvoiceDetails": "تفاصيل فاتورة المرتجع",
       "printOrder": "طباعة الطلب",
       "item_status": "حالة العنصر",
-      "active": "نشط",
-      "inactive": "غير نشط",
-      "discontinued": "ملغى",
+      "active": "اكثر طلبا",
+      "inactive": "اقل طلبا",
+      "discontinued": "متوسط الطلب",
       "userNameNotFound": "المستخدم غير مسجل في قاعدة العاملين",
 
       "items": "العناصر",

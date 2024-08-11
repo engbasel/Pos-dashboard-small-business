@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,7 +15,16 @@ class Sqldb {
 
   Future<Database> initDatabase() async {
     var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, DBmanger.databaseName);
+
+    // String path = join(databasesPath, DBmanger.databaseName);
+
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
+    String path = join(appDocPath, 'POSdatabases', DBmanger.databaseName);
+
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+    }
 
     return await openDatabase(
       path,

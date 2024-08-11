@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -18,8 +20,17 @@ class CreateacountesDatabase {
   }
 
   Future<Database> _initDatabase() async {
+    // String path =
+    //     join(await getDatabasesPath(), DatabaseConstants.databaseName);
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
     String path =
-        join(await getDatabasesPath(), DatabaseConstants.databaseName);
+        join(appDocPath, 'POSdatabases', DatabaseConstants.databaseName);
+
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+    }
+
     print("Initializing database at: $path");
     return await openDatabase(
       path,

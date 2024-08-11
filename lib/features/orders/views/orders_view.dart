@@ -117,67 +117,6 @@ class _OrdersViewState extends State<OrdersView> {
           ],
         ),
         const SizedBox(height: 16),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 16),
-        //   child: Material(
-        //     color: Colors.white,
-        //     child: Column(
-        //       children: [
-        //         TextField(
-        //           controller: searchController,
-        //           decoration: InputDecoration(
-        //             hintText: AppLocalizations.of(context)
-        //                 .translate('Search_for_a_product'),
-        //             focusedBorder: const OutlineInputBorder(
-        //               borderSide: BorderSide(
-        //                 color: ColorsManager.kPrimaryColor,
-        //               ),
-        //             ),
-        //             enabledBorder: const OutlineInputBorder(
-        //               borderSide: BorderSide(
-        //                 color: ColorsManager.kPrimaryColor,
-        //               ),
-        //             ),
-        //             border: const OutlineInputBorder(
-        //               borderSide: BorderSide(
-        //                 color: ColorsManager.kPrimaryColor,
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(height: 16),
-        //         // TextField(
-        //         //   controller: dateController,
-        //         //   readOnly: true,
-        //         //   decoration: InputDecoration(
-        //         //     hintText:
-        //         //         AppLocalizations.of(context).translate('Select a date'),
-        //         //     suffixIcon: IconButton(
-        //         //       icon: const Icon(Icons.calendar_today),
-        //         //       onPressed: () => pickDate(context),
-        //         //     ),
-        //         //     focusedBorder: const OutlineInputBorder(
-        //         //       borderSide: BorderSide(
-        //         //         color: ColorsManager.kPrimaryColor,
-        //         //       ),
-        //         //     ),
-        //         //     enabledBorder: const OutlineInputBorder(
-        //         //       borderSide: BorderSide(
-        //         //         color: ColorsManager.kPrimaryColor,
-        //         //       ),
-        //         //     ),
-        //         //     border: const OutlineInputBorder(
-        //         //       borderSide: BorderSide(
-        //         //         color: ColorsManager.kPrimaryColor,
-        //         //       ),
-        //         //     ),
-        //         //   ),
-        //         // ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Material(
@@ -209,11 +148,6 @@ class _OrdersViewState extends State<OrdersView> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                // IconButton(
-                //   icon: const Icon(Icons.filter_list),
-                //   onPressed: () => pickDate(context),
-                // ),
-
                 Container(
                   decoration: BoxDecoration(
                     color: ColorsManager.kPrimaryColor,

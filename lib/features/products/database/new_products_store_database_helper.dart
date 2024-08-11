@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:path/path.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_constants.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_constants.dart';
@@ -21,7 +23,15 @@ class DatabaseHelper {
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), _databaseName);
+    // String path = join(await getDatabasesPath(), _databaseName);
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
+    String path = join(appDocPath, 'POSdatabases', _databaseName);
+
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+    }
+
     return await openDatabase(
       path,
       version: _databaseVersion,

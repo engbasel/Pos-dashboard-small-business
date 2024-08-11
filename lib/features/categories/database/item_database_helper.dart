@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:path/path.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_constants.dart';
 import 'package:sqflite/sqflite.dart';
@@ -19,8 +20,17 @@ class ItemDatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path =
-        join(await getDatabasesPath(), ItemDatabaseConstants.databaseFileName);
+    // String path =
+    //     join(await getDatabasesPath(), ItemDatabaseConstants.databaseFileName);
+
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
+    String path = join(
+        appDocPath, 'POSdatabases', ItemDatabaseConstants.databaseFileName);
+
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+    }
     return await openDatabase(
       path,
       version: ItemDatabaseConstants.versionDatabase,

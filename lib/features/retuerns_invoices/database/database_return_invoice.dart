@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -21,8 +22,19 @@ class DatabaseReturnsInvoice {
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(),
+    // String path = join(
+    //   await getDatabasesPath(),
+    //   RetuernInvocmentDatabaseConstants.databaseFileName,
+    // );
+
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
+    String path = join(appDocPath, 'POSdatabases',
         RetuernInvocmentDatabaseConstants.databaseFileName);
+
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+    }
     return await openDatabase(
       path,
       onCreate: onCreate,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/category_model.dart';
@@ -16,7 +18,15 @@ class CategoryDatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'category_database.db');
+    // String path = join(await getDatabasesPath(), 'category_database.db');
+
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
+    String path = join(appDocPath, 'POSdatabases', 'category_database.db');
+
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+    }
     return await openDatabase(
       path,
       version: 1,

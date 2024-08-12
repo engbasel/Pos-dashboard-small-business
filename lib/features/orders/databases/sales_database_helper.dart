@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -18,29 +17,67 @@ class SalesDatabaseHelper {
     return _database!;
   }
 
-  Future<void> ensureDbIsInitialized() async {
-    final db = await database;
-    await createDB(db, 1);
+  Future<Database> _initDB(String fileName) async {
+    try {
+      // Retrieve the APPDATA directory path
+      Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+      String appDocPath = appDocDir.path;
+
+      // Define the full path for the database file in APPDATA
+      String fullPath = join(appDocPath, 'POSdatabases', fileName);
+
+      // Ensure the directory exists
+      if (!await Directory(dirname(fullPath)).exists()) {
+        await Directory(dirname(fullPath)).create(recursive: true);
+      }
+
+      // Open the database at the specified path
+      return await openDatabase(
+        fullPath,
+        version: 1,
+        onCreate: _createDB,
+        onUpgrade: _onUpgrade,
+      );
+    } catch (e) {
+      throw Exception('Failed to open the database: $e');
+    }
   }
 
-  Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    // final path = join(dbPath, filePath);
+  Future<void> _createDB(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS sales_invoice (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        customerName TEXT NOT NULL,
+        invoiceDate TEXT NOT NULL,
+        invoiceNumber TEXT NOT NULL,
+        totalAmount REAL NOT NULL
+      )
+    ''');
 
-    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
-    String appDocPath = appDocDir.path;
-    String path = join(appDocPath, 'POSdatabases', dbPath);
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS sales_item (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        invoiceId INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        quantity INTEGER NOT NULL,
+        unitPrice REAL NOT NULL,
+        discount REAL NOT NULL,
+        total REAL NOT NULL,
+        itemId INTEGER NOT NULL,
+        FOREIGN KEY (invoiceId) REFERENCES sales_invoice (id)
+      )
+    ''');
+  }
 
-    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
-      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < newVersion) {
+      await _createDB(db, newVersion);
     }
+  }
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: createDB,
-      onUpgrade: onUpgrade,
-    );
+  Future<void> ensureDbIsInitialized() async {
+    final db = await database;
+    await _createDB(db, 1);
   }
 
   static Future<void> deleteInvoice(String invoiceNumber) async {

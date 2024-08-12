@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_constans.dart';
 import 'package:pos_dashboard_v1/features/upcoming_orders/model/incoming_order_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'incoming_order_database_constants.dart';
@@ -20,8 +22,17 @@ class DatabaseIncomingOrdersManager {
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(),
-        IncomingOrderDatabaseConstants.databaseFileName);
+    // String path = join(await getDatabasesPath(),
+    //     IncomingOrderDatabaseConstants.databaseFileName);
+
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
+    String path = join(appDocPath, 'POSdatabases',
+        RetuernInvocmentDatabaseConstants.databaseFileName);
+
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
+    }
     return await openDatabase(
       path,
       onCreate: onCreate,

@@ -136,82 +136,100 @@ class _ProductsListViewState extends State<ProductsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomAppBar(
-          title: AppLocalizations.of(context).translate('Products'),
-          actions: [
-            CustomSmallButton(
-              icon: Icons.add,
-              text: AppLocalizations.of(context).translate('AddAProduct'),
-              onTap: () => showAddProductDialog(context, categories, loadItems),
-            ),
-            IconButton(
-              icon: Icon(isGridView ? Icons.list : Icons.grid_view),
-              onPressed: () {
-                setState(() {
-                  isGridView = !isGridView;
-                });
-              },
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Material(
-            color: Colors.white,
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText: AppLocalizations.of(context)
-                    .translate('Search_for_a_product'),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorsManager.kPrimaryColor,
-                  ),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorsManager.kPrimaryColor,
-                  ),
-                ),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: ColorsManager.kPrimaryColor,
-                  ),
-                ),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    // You can add search functionality here if needed
-                  },
-                ),
+    return Scaffold(
+      body: Column(
+        children: [
+          CustomAppBar(
+            title: AppLocalizations.of(context).translate('Products'),
+            actions: [
+              CustomSmallButton(
+                icon: Icons.add,
+                text: AppLocalizations.of(context).translate('AddAProduct'),
+                onTap: () =>
+                    showAddProductDialog(context, categories, loadItems),
               ),
-            ),
+            ],
           ),
-        ),
-        Expanded(
-          child: Container(
-            color: Colors.white,
-            margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(16),
-            child: isGridView
-                ? buildGridView(context, filteredItems, loadItems)
-                : ListView.builder(
-                    itemCount: filteredItems.length,
-                    itemBuilder: (context, index) {
-                      final item = filteredItems[index];
-                      return ProductListItem(
-                        item: item,
-                        onRemove: () => deleteItem(item.id!),
-                        loadItems: loadItems,
-                      );
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Material(
+                    color: Colors.white,
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)
+                            .translate('Search_for_a_product'),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorsManager.kPrimaryColor,
+                          ),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorsManager.kPrimaryColor,
+                          ),
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorsManager.kPrimaryColor,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: () {
+                            // You can add search functionality here if needed
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: ColorsManager.kPrimaryColor,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: IconButton(
+                    icon: Icon(isGridView ? Icons.list : Icons.grid_view),
+                    color: Colors.white,
+                    onPressed: () {
+                      setState(() {
+                        isGridView = !isGridView;
+                      });
                     },
                   ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              margin: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
+              child: isGridView
+                  ? buildGridView(context, filteredItems, loadItems)
+                  : ListView.builder(
+                      itemCount: filteredItems.length,
+                      itemBuilder: (context, index) {
+                        final item = filteredItems[index];
+                        return ProductListItem(
+                          item: item,
+                          onRemove: () => deleteItem(item.id!),
+                          loadItems: loadItems,
+                        );
+                      },
+                    ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -80,107 +80,104 @@ class _UserInfoSectionState extends State<UserInfoSection> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CustomLabel(
-                  color: const Color(0xfff3e5f5),
-                  labelValue: appLocalizations.translate('dateTodayAndTimeNow'),
-                  content: _currentDateTime,
-                  imagename: ImagesManger.edit,
-                ),
-                ValueListenableBuilder<int>(
-                  valueListenable: _categoryCountNotifier,
-                  builder: (context, categoryCount, child) {
-                    return CustomLabel(
-                      color: const Color(0xfffff2cc),
-                      labelValue:
-                          appLocalizations.translate('numberOfCategories'),
-                      content: '$categoryCount Categories',
-                      imagename: ImagesManger.mail,
-                    );
-                  },
-                ),
-                FutureBuilder<int>(
-                  future: savedBillsCountFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CustomLabel(
-                        color: const Color(0xffe0f7fa),
-                        labelValue: appLocalizations
-                            .translate('totalBillExportedToday'),
-                        content: 'Loading...',
-                        imagename: ImagesManger.shoppingbag,
-                      );
-                    } else if (snapshot.hasError) {
-                      return CustomLabel(
-                        color: const Color(0xffe0f7fa),
-                        labelValue: appLocalizations
-                            .translate('totalBillExportedToday'),
-                        content: 'Error',
-                        imagename: ImagesManger.shoppingbag,
-                      );
-                    } else {
-                      return CustomLabel(
-                        color: const Color(0xffe0f7fa),
-                        labelValue: appLocalizations
-                            .translate('totalBillExportedToday'),
-                        content: '${snapshot.data ?? 0}',
-                        imagename: ImagesManger.shoppingbag,
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CustomLabel(
-                  color: const Color(0xffffebee),
-                  labelValue:
-                      appLocalizations.translate('current user login at'),
-                  content: '10:34:5 AM',
-                  imagename: ImagesManger.agency,
-                ),
-                CustomLabel(
-                  color: const Color(0xfffff3e0),
-                  labelValue: appLocalizations.translate('notifications'),
-                  content:
-                      '${appLocalizations.translate('newalerts')} ${itemsNum.toString()}',
-                  imagename: ImagesManger.notofication,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const ReturnInvoicesScreen(),
-                      ),
-                    );
-                  },
-                  child: CustomLabel(
-                    color: const Color(0xffe8f5e9),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CustomLabel(
+                color: const Color(0xfff3e5f5),
+                labelValue: appLocalizations.translate('dateTodayAndTimeNow'),
+                content: _currentDateTime,
+                imagename: ImagesManger.edit,
+              ),
+              ValueListenableBuilder<int>(
+                valueListenable: _categoryCountNotifier,
+                builder: (context, categoryCount, child) {
+                  return CustomLabel(
+                    color: const Color(0xfffff2cc),
                     labelValue:
-                        appLocalizations.translate('totalReturnProductsToday'),
-                    content: appLocalizations
-                        .translate('Click_to_view_all_invoices'),
-                    imagename: ImagesManger.bill,
-                  ),
+                        appLocalizations.translate('numberOfCategories'),
+                    content: '$categoryCount Categories',
+                    imagename: ImagesManger.mail,
+                  );
+                },
+              ),
+              FutureBuilder<int>(
+                future: savedBillsCountFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CustomLabel(
+                      color: const Color(0xffe0f7fa),
+                      labelValue:
+                          appLocalizations.translate('totalBillExportedToday'),
+                      content: 'Loading...',
+                      imagename: ImagesManger.shoppingbag,
+                    );
+                  } else if (snapshot.hasError) {
+                    return CustomLabel(
+                      color: const Color(0xffe0f7fa),
+                      labelValue:
+                          appLocalizations.translate('totalBillExportedToday'),
+                      content: 'Error',
+                      imagename: ImagesManger.shoppingbag,
+                    );
+                  } else {
+                    return CustomLabel(
+                      color: const Color(0xffe0f7fa),
+                      labelValue:
+                          appLocalizations.translate('totalBillExportedToday'),
+                      content: '${snapshot.data ?? 0}',
+                      imagename: ImagesManger.shoppingbag,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CustomLabel(
+                color: const Color(0xffffebee),
+                labelValue: appLocalizations.translate('current user login at'),
+                content: '10:34:5 AM',
+                imagename: ImagesManger.agency,
+              ),
+              CustomLabel(
+                color: const Color(0xfffff3e0),
+                labelValue: appLocalizations.translate('notifications'),
+                content:
+                    '${appLocalizations.translate('newalerts')} ${itemsNum.toString()}',
+                imagename: ImagesManger.notofication,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ReturnInvoicesScreen(),
+                    ),
+                  );
+                },
+                child: CustomLabel(
+                  color: const Color(0xffe8f5e9),
+                  labelValue:
+                      appLocalizations.translate('totalReturnProductsToday'),
+                  content:
+                      appLocalizations.translate('Click_to_view_all_invoices'),
+                  imagename: ImagesManger.bill,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -64,16 +64,20 @@ class _NotificationPopupState extends State<NotificationPopup> {
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
                           return Container(
+                            margin: const EdgeInsets.only(bottom: 6),
                             padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
+                            decoration: const BoxDecoration(
                               color: Colors.green,
                             ),
-                            child: Text(
-                              (AppLocalizations.of(context).translate(
-                                  'Allproductshavesufficientquantity')),
-                              style: const TextStyle(color: Colors.white),
-                              textAlign: TextAlign.center,
+                            child: Row(
+                              children: [
+                                Text(
+                                  (AppLocalizations.of(context).translate(
+                                      'Allproductshavesufficientquantity')),
+                                  style: const TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
                           );
                         } else {

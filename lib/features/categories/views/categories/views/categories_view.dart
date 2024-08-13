@@ -113,7 +113,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             children: [
               IconButton(
                 icon: Icon(
-                  isGridView ? Icons.view_list : Icons.view_module,
+                  isGridView ? Icons.list : Icons.grid_view_outlined,
                   color: const Color(0xff505251),
                 ),
                 onPressed: () {

@@ -3,7 +3,7 @@ import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/client/widgets/custom_details_card.dart';
-import '../../../core/db/clients_database.dart';
+import '../database/CustomersHelper.dart';
 import '../widgets/add_customer_dialog.dart';
 import '../widgets/customer_detail_view.dart';
 import '../../../l10n/app_localizations.dart';
@@ -16,7 +16,7 @@ class CustomersView extends StatefulWidget {
 }
 
 class _CustomersViewState extends State<CustomersView> {
-  final Customers_helper dbHelper = Customers_helper();
+  final CustomersHelper dbHelper = CustomersHelper();
   List<Map<String, dynamic>> customers = [];
   List<Map<String, dynamic>> filteredCustomers = [];
   final TextEditingController searchController = TextEditingController();
@@ -52,6 +52,22 @@ class _CustomersViewState extends State<CustomersView> {
     fetchCustomers();
   }
 
+  Future<dynamic> userdiloageData(
+      BuildContext context, Map<String, dynamic> customer) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: CustomerDetailView(customer: customer),
+        );
+      },
+    );
+  }
+
   void deleteCustomer(int id) async {
     await dbHelper.deleteCustomer(id);
     fetchCustomers();
@@ -72,10 +88,10 @@ class _CustomersViewState extends State<CustomersView> {
   }
 
   @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   searchController.dispose();
+  //       super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -147,18 +163,7 @@ class _CustomersViewState extends State<CustomersView> {
                           deleteCustomer(id);
                         },
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Dialog(
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: CustomerDetailView(customer: customer),
-                              );
-                            },
-                          );
+                          userdiloageData(context, customer);
                         },
                       );
                     },

@@ -1,11 +1,11 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:io';
+import 'constantsCustomersHelper.dart'; // Import the constants
 
 // ignore: camel_case_types
-class Customers_helper {
+class CustomersHelper {
   static Database? _database;
-  static const String dbName = 'customers.db';
-  static const String tableName = 'customers';
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -15,7 +15,14 @@ class Customers_helper {
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), dbName);
+    Directory appDocDir = Directory(Platform.environment['APPDATA']!);
+    String appDocPath = appDocDir.path;
+    String path = join(appDocPath, dbPathFolderName, dbName);
+
+    if (!await Directory(join(appDocPath, dbPathFolderName)).exists()) {
+      await Directory(join(appDocPath, dbPathFolderName))
+          .create(recursive: true);
+    }
 
     return await openDatabase(path, version: 1, onCreate: _createDatabase);
   }
@@ -23,11 +30,11 @@ class Customers_helper {
   void _createDatabase(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $tableName(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        fullName TEXT,
-        indebtedness TEXT,
-        currentAccount TEXT,
-        notes TEXT
+        $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $columnFullName TEXT,
+        $columnIndebtedness TEXT,
+        $columnCurrentAccount TEXT,
+        $columnNotes TEXT
       )
     ''');
   }
@@ -40,12 +47,12 @@ class Customers_helper {
   Future<void> updateCustomer(Map<String, String> customer) async {
     Database db = await database;
     await db.update(tableName, customer,
-        where: 'id = ?', whereArgs: [customer['id']]);
+        where: '$columnId = ?', whereArgs: [customer[columnId]]);
   }
 
   Future<void> deleteCustomer(int id) async {
     Database db = await database;
-    await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    await db.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
   }
 
   Future<List<Map<String, dynamic>>> getCustomers() async {

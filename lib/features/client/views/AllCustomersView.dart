@@ -88,10 +88,10 @@ class _CustomersViewState extends State<CustomersView> {
   }
 
   @override
-  // void dispose() {
-  //   searchController.dispose();
-  //       super.dispose();
-  // }
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +149,7 @@ class _CustomersViewState extends State<CustomersView> {
             margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(16),
             child: filteredCustomers.isEmpty
-                ? const Center(child: Text(''))
+                ? const Center(child: Text(' filteredCustomers.isEmpty'))
                 : ListView.builder(
                     itemCount: filteredCustomers.length,
                     itemBuilder: (context, index) {

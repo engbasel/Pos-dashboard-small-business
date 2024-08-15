@@ -1,3 +1,4 @@
+// ignore: file_names
 class TransactionModel {
   String id;
   DateTime date;

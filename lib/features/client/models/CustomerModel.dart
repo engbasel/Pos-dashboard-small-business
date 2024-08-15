@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:pos_dashboard_v1/features/client/models/TransactionModel.dart';
 
 class CustomerModel {
@@ -82,7 +83,6 @@ class CustomerModel {
     this.transactions = const [],
   });
 
-  // تحويل بيانات العميل إلى خريطة (Map)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -126,7 +126,6 @@ class CustomerModel {
     };
   }
 
-  // إنشاء عميل من خريطة (Map)
   factory CustomerModel.fromMap(Map<String, dynamic> map) {
     return CustomerModel(
       id: map['id'] ?? '',

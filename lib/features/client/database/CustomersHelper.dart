@@ -24,27 +24,59 @@ class CustomersHelper {
           .create(recursive: true);
     }
 
-    return await openDatabase(path, version: 1, onCreate: _createDatabase);
+    return await openDatabase(path, version: 1, onCreate: createDatabase);
   }
 
-  void _createDatabase(Database db, int version) async {
+  void createDatabase(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $tableName(
         $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $columnFullName TEXT,
-        $columnIndebtedness TEXT,
-        $columnCurrentAccount TEXT,
-        $columnNotes TEXT
+        $columnName TEXT,
+        $columnPhoneNumber TEXT,
+        $columnEmail TEXT,
+        $columnAddress TEXT,
+        $columnCreationDate TEXT,
+        $columnNotes TEXT,
+        $columnBalance REAL,
+        $columnLastTransactionDate TEXT,
+        $columnBirthDate TEXT,
+        $columnGender TEXT,
+        $columnOccupation TEXT,
+        $columnStatus TEXT,
+        $columnAlternativePhone TEXT,
+        $columnSocialMedia TEXT,
+        $columnFax TEXT,
+        $columnCreditLimit REAL,
+        $columnTotalOutstandingAmount REAL,
+        $columnCreditRating TEXT,
+        $columnPreferredPaymentMethod TEXT,
+        $columnSecondaryAddress TEXT,
+        $columnPostalCode TEXT,
+        $columnDeliveryPreferences TEXT,
+        $columnLastContactDate TEXT,
+        $columnCustomerInterests TEXT,
+        $columnCustomerSatisfactionLevel TEXT,
+        $columnAnnualPurchaseVolume REAL,
+        $columnComplaintCount INTEGER,
+        $columnComplaintResolutionHistory TEXT,
+        $columnSupportRating TEXT,
+        $columnCustomerDiscount REAL,
+        $columnActiveOffers TEXT,
+        $columnDiscountExpirationDate TEXT,
+        $columnDocumentImages TEXT,
+        $columnContracts TEXT,
+        $columnActivityLog TEXT,
+        $columnResponsibleEmployee TEXT
       )
     ''');
   }
 
-  Future<void> insertCustomer(Map<String, String> customer) async {
+  Future<void> insertCustomer(Map<String, dynamic> customer) async {
     Database db = await database;
     await db.insert(tableName, customer);
   }
 
-  Future<void> updateCustomer(Map<String, String> customer) async {
+  Future<void> updateCustomer(Map<String, dynamic> customer) async {
     Database db = await database;
     await db.update(tableName, customer,
         where: '$columnId = ?', whereArgs: [customer[columnId]]);

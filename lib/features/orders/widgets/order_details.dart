@@ -39,84 +39,86 @@ class OrderDetails extends StatelessWidget {
       pdf.addPage(
         pw.Page(
           build: (context) {
-            return pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text(
-                  '$invoiceText  #${invoice.invoiceNumber}',
-                  style: pw.TextStyle(
-                    fontSize: 24,
-                    fontWeight: pw.FontWeight.bold,
-                    font: arabicFont,
-                  ),
-                  textDirection: pw.TextDirection.rtl,
-                ),
-                pw.SizedBox(height: 16),
-                pw.Text('$customerNameText: ${invoice.customerName}',
-                    style: pw.TextStyle(font: arabicFont),
-                    textDirection: pw.TextDirection.rtl),
-                pw.Text('$dateText: ${invoice.invoiceDate}',
-                    style: pw.TextStyle(font: arabicFont),
-                    textDirection: pw.TextDirection.rtl),
-                pw.Text('$invoiceNumberText: ${invoice.invoiceNumber}',
-                    style: pw.TextStyle(font: arabicFont),
-                    textDirection: pw.TextDirection.rtl),
-                pw.SizedBox(height: 16),
-                pw.Text('$itemsText:',
-                    style: pw.TextStyle(font: arabicFont),
-                    textDirection: pw.TextDirection.rtl),
-                pw.SizedBox(height: 12),
-                pw.Table.fromTextArray(
-                  headers: [
-                    noText,
-                    productText,
-                    quantityText,
-                    unitPriceText,
-                    totalText,
-                    discountText,
+            return pw.Directionality(
+                textDirection: pw.TextDirection.rtl,
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      '$invoiceText  #${invoice.invoiceNumber}',
+                      style: pw.TextStyle(
+                        fontSize: 24,
+                        fontWeight: pw.FontWeight.bold,
+                        font: arabicFont,
+                      ),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                    pw.SizedBox(height: 16),
+                    pw.Text('$customerNameText: ${invoice.customerName}',
+                        style: pw.TextStyle(font: arabicFont),
+                        textDirection: pw.TextDirection.rtl),
+                    pw.Text('$dateText: ${invoice.invoiceDate}',
+                        style: pw.TextStyle(font: arabicFont),
+                        textDirection: pw.TextDirection.rtl),
+                    pw.Text('$invoiceNumberText: ${invoice.invoiceNumber}',
+                        style: pw.TextStyle(font: arabicFont),
+                        textDirection: pw.TextDirection.rtl),
+                    pw.SizedBox(height: 16),
+                    pw.Text('$itemsText:',
+                        style: pw.TextStyle(font: arabicFont),
+                        textDirection: pw.TextDirection.rtl),
+                    pw.SizedBox(height: 12),
+                    pw.Table.fromTextArray(
+                      headers: [
+                        noText,
+                        productText,
+                        quantityText,
+                        unitPriceText,
+                        totalText,
+                        discountText,
+                      ],
+                      data: invoice.items.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final item = entry.value;
+                        return [
+                          '${index + 1}',
+                          item.name,
+                          '${item.quantity}',
+                          '\$${item.unitPrice}',
+                          '\$${item.total}',
+                          '\$${item.discount}',
+                        ];
+                      }).toList(),
+                      cellStyle: pw.TextStyle(font: arabicFont),
+                      headerStyle: pw.TextStyle(
+                          font: arabicFont, fontWeight: pw.FontWeight.bold),
+                      cellAlignment: pw.Alignment.centerRight,
+                      columnWidths: {
+                        0: const pw.FixedColumnWidth(30),
+                        1: const pw.FixedColumnWidth(120),
+                        2: const pw.FixedColumnWidth(50),
+                        3: const pw.FixedColumnWidth(50),
+                        4: const pw.FixedColumnWidth(50),
+                        5: const pw.FixedColumnWidth(50),
+                      },
+                      cellAlignments: {
+                        0: pw.Alignment.centerRight,
+                        1: pw.Alignment.centerRight,
+                        2: pw.Alignment.centerRight,
+                        3: pw.Alignment.centerRight,
+                        4: pw.Alignment.centerRight,
+                        5: pw.Alignment.centerRight,
+                      },
+                    ),
+                    pw.SizedBox(height: 12),
+                    pw.Text(
+                      '$taxText \$20',
+                      style: pw.TextStyle(fontSize: 16, font: arabicFont),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                    pw.SizedBox(height: 16),
                   ],
-                  data: invoice.items.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final item = entry.value;
-                    return [
-                      '${index + 1}',
-                      item.name,
-                      '${item.quantity}',
-                      '\$${item.unitPrice}',
-                      '\$${item.total}',
-                      '\$${item.discount}',
-                    ];
-                  }).toList(),
-                  cellStyle: pw.TextStyle(font: arabicFont),
-                  headerStyle: pw.TextStyle(
-                      font: arabicFont, fontWeight: pw.FontWeight.bold),
-                  cellAlignment: pw.Alignment.centerRight,
-                  columnWidths: {
-                    0: const pw.FixedColumnWidth(30),
-                    1: const pw.FixedColumnWidth(120),
-                    2: const pw.FixedColumnWidth(50),
-                    3: const pw.FixedColumnWidth(50),
-                    4: const pw.FixedColumnWidth(50),
-                    5: const pw.FixedColumnWidth(50),
-                  },
-                  cellAlignments: {
-                    0: pw.Alignment.centerRight,
-                    1: pw.Alignment.centerRight,
-                    2: pw.Alignment.centerRight,
-                    3: pw.Alignment.centerRight,
-                    4: pw.Alignment.centerRight,
-                    5: pw.Alignment.centerRight,
-                  },
-                ),
-                pw.SizedBox(height: 12),
-                pw.Text(
-                  '$taxText \$20',
-                  style: pw.TextStyle(fontSize: 16, font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                ),
-                pw.SizedBox(height: 16),
-              ],
-            );
+                ));
           },
         ),
       );

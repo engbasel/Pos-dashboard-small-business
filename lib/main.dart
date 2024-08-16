@@ -21,15 +21,17 @@ void main(List<String> args) async {
   WindowOptions windowOptions = const WindowOptions(
     titleBarStyle: TitleBarStyle.normal,
     backgroundColor: Colors.transparent,
-    center: true,
+    // center: true,
     skipTaskbar: false,
     title: 'POS',
   );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-    await windowManager.setResizable(false);
-  });
+  // windowManager.waitUntilReadyToShow(windowOptions, () async {
+  //   await windowManager.show();
+  //   await windowManager.focus();
+  //   await windowManager.setResizable(false);
+  // }
+
+  // );
 
   runApp(
     DevicePreview(

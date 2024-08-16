@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/features/client/database/CustomersHelper.dart';
 import 'package:pos_dashboard_v1/features/client/widgets/custom_details_card.dart';
-import '../database/CustomersHelper.dart';
 import '../widgets/add_customer_dialog.dart';
 import '../widgets/customer_detail_view.dart';
 import '../../../l10n/app_localizations.dart';
@@ -35,26 +35,66 @@ class _CustomersViewState extends State<CustomersView> {
   }
 
   Future<void> fetchCustomers() async {
-    List<Map<String, dynamic>> fetchedCustomers = await dbHelper.getCustomers();
+    try {
+      List<Map<String, dynamic>> fetchedCustomers =
+          await dbHelper.getCustomers();
+      setState(() {
+        customers = fetchedCustomers;
+        filterCustomers();
+      });
+    } catch (e) {
+      print('Error fetching customers: $e');
+      // Handle the error appropriately (e.g., show an error message)
+    }
+  }
+
+  Future<void> addCustomer(Map<String, dynamic> customer) async {
+    try {
+      await dbHelper.insertCustomer(customer);
+      fetchCustomers();
+    } catch (e) {
+      print('Error adding customer: $e');
+      // Handle the error appropriately
+    }
+  }
+
+  Future<void> updateCustomer(Map<String, dynamic> customer) async {
+    try {
+      await dbHelper.updateCustomer(customer);
+      fetchCustomers();
+    } catch (e) {
+      print('Error updating customer: $e');
+      // Handle the error appropriately
+    }
+  }
+
+  Future<void> deleteCustomer(int id) async {
+    try {
+      await dbHelper.deleteCustomer(id);
+      fetchCustomers();
+    } catch (e) {
+      print('Error deleting customer: $e');
+      // Handle the error appropriately
+    }
+  }
+
+  void filterCustomers() {
     setState(() {
-      customers = fetchedCustomers;
-      filterCustomers();
+      if (searchQuery.isEmpty) {
+        filteredCustomers = List.from(customers);
+      } else {
+        filteredCustomers = customers
+            .where((customer) =>
+                customer['name'] // Ensure 'name' is the correct key
+                    .toLowerCase()
+                    .contains(searchQuery.toLowerCase()))
+            .toList();
+      }
     });
   }
 
-  void addCustomer(Map<String, String> customer) async {
-    await dbHelper.insertCustomer(customer);
-    fetchCustomers();
-  }
-
-  void updateCustomer(Map<String, String> customer) async {
-    await dbHelper.updateCustomer(customer);
-    fetchCustomers();
-  }
-
-  Future<dynamic> userdiloageData(
-      BuildContext context, Map<String, dynamic> customer) {
-    return showDialog(
+  Future<void> showCustomerDetailsDialog(Map<String, dynamic> customer) async {
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
@@ -66,25 +106,6 @@ class _CustomersViewState extends State<CustomersView> {
         );
       },
     );
-  }
-
-  void deleteCustomer(int id) async {
-    await dbHelper.deleteCustomer(id);
-    fetchCustomers();
-  }
-
-  void filterCustomers() {
-    setState(() {
-      if (searchQuery.isEmpty) {
-        filteredCustomers = List.from(customers);
-      } else {
-        filteredCustomers = customers
-            .where((customer) => customer['fullName']
-                .toLowerCase()
-                .contains(searchQuery.toLowerCase()))
-            .toList();
-      }
-    });
   }
 
   @override
@@ -104,12 +125,13 @@ class _CustomersViewState extends State<CustomersView> {
               icon: Icons.add,
               text: AppLocalizations.of(context).translate('addCustomer'),
               onTap: () async {
-                final newCustomer = await showDialog<Map<String, String>>(
+                final newCustomer = await showDialog<Map<String, dynamic>>(
                   context: context,
-                  builder: (context) => const AddCustomerDialog(),
+                  builder: (context) =>
+                      AddCustomerDialog(customersHelper: dbHelper),
                 );
                 if (newCustomer != null) {
-                  addCustomer(newCustomer);
+                  await addCustomer(newCustomer);
                 }
               },
             ),
@@ -122,19 +144,20 @@ class _CustomersViewState extends State<CustomersView> {
             color: Colors.white,
             child: TextField(
               controller: searchController,
-              decoration: const InputDecoration(
-                hintText: 'Search for a customer...',
-                focusedBorder: OutlineInputBorder(
+              decoration: InputDecoration(
+                hintText:
+                    AppLocalizations.of(context).translate('searchCustomer'),
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: ColorsManager.kPrimaryColor,
                   ),
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: ColorsManager.kPrimaryColor,
                   ),
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: ColorsManager.kPrimaryColor,
                   ),
@@ -149,21 +172,24 @@ class _CustomersViewState extends State<CustomersView> {
             margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(16),
             child: filteredCustomers.isEmpty
-                ? const Center(child: Text(' filteredCustomers.isEmpty'))
+                ? Center(
+                    child: Text(AppLocalizations.of(context)
+                        .translate('noCustomersFound')),
+                  )
                 : ListView.builder(
                     itemCount: filteredCustomers.length,
                     itemBuilder: (context, index) {
                       final customer = filteredCustomers[index];
                       return CustomDetailsCard(
                         customer: customer,
-                        onEdit: (editedCustomer) {
-                          updateCustomer(editedCustomer);
+                        onEdit: (editedCustomer) async {
+                          await updateCustomer(editedCustomer);
                         },
-                        onDelete: (id) {
-                          deleteCustomer(id);
+                        onDelete: (id) async {
+                          await deleteCustomer(id);
                         },
                         onTap: () {
-                          userdiloageData(context, customer);
+                          showCustomerDetailsDialog(customer);
                         },
                       );
                     },

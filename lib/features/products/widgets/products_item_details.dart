@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/products/widgets/products_item_details_row.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class ProductItemDetails extends StatelessWidget {
   final ItemModel item;
@@ -26,9 +27,10 @@ class ProductItemDetails extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Product Details',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)
+                      .translate('productDetails'), // Localized string
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -54,7 +56,7 @@ class ProductItemDetails extends StatelessWidget {
                         height: 300,
                       ),
                     const SizedBox(height: 16),
-                    buildDetailRows(item),
+                    buildDetailRows(context, item),
                   ],
                 ),
               ),
@@ -65,110 +67,157 @@ class ProductItemDetails extends StatelessWidget {
     );
   }
 
-  Widget buildDetailRows(ItemModel item) {
+  Widget buildDetailRows(BuildContext context, ItemModel item) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProductsItemDetailsRow(
-          labelKey: 'item_name',
+          labelKey: AppLocalizations.of(context)
+              .translate('item_name'), // Localized string
           value: item.name,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'description',
+          labelKey: AppLocalizations.of(context)
+              .translate('description'), // Localized string
           value: item.description,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'sku',
+          labelKey:
+              AppLocalizations.of(context).translate('sku'), // Localized string
           value: item.sku,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'barcode',
+          labelKey: AppLocalizations.of(context)
+              .translate('barcode'), // Localized string
           value: item.barcode,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'purchase_price',
+          labelKey: AppLocalizations.of(context)
+              .translate('purchase_price'), // Localized string
           value: item.price?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'sale_price',
+          labelKey: AppLocalizations.of(context)
+              .translate('sale_price'), // Localized string
           value: item.unitPrice?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'wholesale_price',
+          labelKey: AppLocalizations.of(context)
+              .translate('wholesale_price'), // Localized string
           value: item.wholesalePrice?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'tax_rate',
+          labelKey: AppLocalizations.of(context)
+              .translate('tax_rate'), // Localized string
           value: item.taxRate?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'quantity',
+          labelKey: AppLocalizations.of(context)
+              .translate('quantity'), // Localized string
           value: item.quantity?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'alert_quantity',
+          labelKey: AppLocalizations.of(context)
+              .translate('alert_quantity'), // Localized string
           value: item.alertQuantity?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'image_url',
+          labelKey: AppLocalizations.of(context)
+              .translate('image_url'), // Localized string
           value: item.image,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'brand',
+          labelKey: AppLocalizations.of(context)
+              .translate('brand'), // Localized string
           value: item.brand,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'size',
+          labelKey: AppLocalizations.of(context)
+              .translate('size'), // Localized string
           value: item.size,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'weight',
+          labelKey: AppLocalizations.of(context)
+              .translate('weight'), // Localized string
           value: item.weight?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'color',
+          labelKey: AppLocalizations.of(context)
+              .translate('color'), // Localized string
           value: item.color,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'material',
+          labelKey: AppLocalizations.of(context)
+              .translate('material'), // Localized string
           value: item.material,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'warranty',
+          labelKey: AppLocalizations.of(context)
+              .translate('warranty'), // Localized string
           value: item.warranty,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'supplier_id',
+          labelKey: AppLocalizations.of(context)
+              .translate('supplier_id'), // Localized string
           value: item.supplierId?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'item_status',
+          labelKey: AppLocalizations.of(context)
+              .translate('item_status'), // Localized string
           value: item.itemStatus,
         ),
         const Divider(),
         ProductsItemDetailsRow(
-          labelKey: 'date_modified',
+          labelKey: AppLocalizations.of(context)
+              .translate('date_modified'), // Localized string
           value: item.dateModified?.toString(),
         ),
       ],
+    );
+  }
+
+  pw.Widget buildPdfDetailRow(String key, String? value, pw.Font arabicFont) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 4),
+      child: pw.Row(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Expanded(
+            child: pw.Text(
+              '$key:',
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                font: arabicFont,
+              ),
+            ),
+          ),
+          pw.Expanded(
+            child: pw.Text(
+              value ?? '',
+              textDirection: pw.TextDirection.rtl,
+              style: pw.TextStyle(font: arabicFont),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -184,14 +233,16 @@ class ProductItemDetails extends StatelessWidget {
 
       pdf.addPage(
         pw.Page(
-          build: (context) {
+          pageFormat: PdfPageFormat.roll80,
+          build: (pw.Context pdfContext) {
             return pw.Directionality(
               textDirection: pw.TextDirection.rtl,
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
-                    'Product Details',
+                    AppLocalizations.of(context)
+                        .translate('productDetails'), // Localized string
                     style: pw.TextStyle(
                       fontSize: 24,
                       fontWeight: pw.FontWeight.bold,
@@ -200,36 +251,43 @@ class ProductItemDetails extends StatelessWidget {
                     textDirection: pw.TextDirection.rtl,
                   ),
                   pw.SizedBox(height: 16),
-                  buildPdfDetailRow('Product Name', item.name, arabicFont),
                   buildPdfDetailRow(
-                      'Description', item.description, arabicFont),
-                  buildPdfDetailRow('SKU', item.sku, arabicFont),
-                  buildPdfDetailRow('Barcode', item.barcode, arabicFont),
+                    AppLocalizations.of(context)
+                        .translate('item_name'), // Localized string
+                    item.name,
+                    arabicFont,
+                  ),
                   buildPdfDetailRow(
-                      'Purchase Price', item.price?.toString(), arabicFont),
+                    AppLocalizations.of(context)
+                        .translate('description'), // Localized string
+                    item.description,
+                    arabicFont,
+                  ),
                   buildPdfDetailRow(
-                      'Sale Price', item.unitPrice?.toString(), arabicFont),
-                  buildPdfDetailRow('Wholesale Price',
-                      item.wholesalePrice?.toString(), arabicFont),
+                    AppLocalizations.of(context)
+                        .translate('color'), // Localized string
+                    item.color,
+                    arabicFont,
+                  ),
                   buildPdfDetailRow(
-                      'Tax Rate', item.taxRate?.toString(), arabicFont),
+                    AppLocalizations.of(context)
+                        .translate('material'), // Localized string
+                    item.material,
+                    arabicFont,
+                  ),
                   buildPdfDetailRow(
-                      'Quantity', item.quantity?.toString(), arabicFont),
-                  buildPdfDetailRow('Alert Quantity',
-                      item.alertQuantity?.toString(), arabicFont),
-                  buildPdfDetailRow('Image URL', item.image, arabicFont),
-                  buildPdfDetailRow('Brand', item.brand, arabicFont),
-                  buildPdfDetailRow('Size', item.size, arabicFont),
-                  buildPdfDetailRow(
-                      'Weight', item.weight?.toString(), arabicFont),
-                  buildPdfDetailRow('Color', item.color, arabicFont),
-                  buildPdfDetailRow('Material', item.material, arabicFont),
-                  buildPdfDetailRow('Warranty', item.warranty, arabicFont),
-                  buildPdfDetailRow(
-                      'Supplier ID', item.supplierId?.toString(), arabicFont),
-                  buildPdfDetailRow('Item Status', item.itemStatus, arabicFont),
-                  buildPdfDetailRow('Date Modified',
-                      item.dateModified?.toString(), arabicFont),
+                    AppLocalizations.of(context)
+                        .translate('size'), // Localized string
+                    item.size,
+                    arabicFont,
+                  ),
+                  // pw.Text('تحت اشراف ادارة المحل ')
+
+                  pw.Text(
+                    'تحت اشراف ادارة المحل',
+                    textDirection: pw.TextDirection.rtl,
+                    style: pw.TextStyle(font: arabicFont),
+                  ),
                 ],
               ),
             );
@@ -238,55 +296,32 @@ class ProductItemDetails extends StatelessWidget {
       );
 
       final result = await FilePicker.platform.saveFile(
-        dialogTitle: 'Select where to save PDF',
+        dialogTitle: AppLocalizations.of(context)
+            .translate('select_where_to_save_pdf'), // Localized string
         fileName: 'product_details_${item.sku}.pdf',
       );
 
       if (result != null) {
         final file = File(result);
         await file.writeAsBytes(await pdf.save());
-
-        if (await file.exists()) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('PDF saved to ${file.path}')),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to save PDF')),
-          );
-        }
-      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('PDF export canceled')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)
+                  .translate('pdf_saved_successfully'), // Localized string
+            ),
+          ),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving PDF: $e')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)
+                .translate('error_saving_pdf'), // Localized string
+          ),
+        ),
       );
     }
-  }
-
-  pw.Widget buildPdfDetailRow(String label, String? value, pw.Font arabicFont) {
-    return pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(vertical: 4),
-      child: pw.Row(
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        children: [
-          pw.Text(
-            '$label: ',
-            style:
-                pw.TextStyle(fontWeight: pw.FontWeight.bold, font: arabicFont),
-          ),
-          pw.Expanded(
-            child: pw.Text(
-              value ?? 'N/A',
-              style: pw.TextStyle(font: arabicFont),
-              textDirection: pw.TextDirection.rtl,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

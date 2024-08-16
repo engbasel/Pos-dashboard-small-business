@@ -1,15 +1,13 @@
+import 'package:pos_dashboard_v1/features/client/database/constantsCustomersHelper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:io';
-import 'constantsCustomersHelper.dart'; // Import the constants
 
-// ignore: camel_case_types
 class CustomersHelper {
   static Database? _database;
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-
     _database = await initDatabase();
     return _database!;
   }
@@ -19,12 +17,59 @@ class CustomersHelper {
     String appDocPath = appDocDir.path;
     String path = join(appDocPath, dbPathFolderName, dbName);
 
+    print('Database path: $path');
+
     if (!await Directory(join(appDocPath, dbPathFolderName)).exists()) {
       await Directory(join(appDocPath, dbPathFolderName))
           .create(recursive: true);
+      print('Created database directory at $appDocPath/$dbPathFolderName');
     }
 
-    return await openDatabase(path, version: 1, onCreate: createDatabase);
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: (db, version) {
+        createDatabase(db, version);
+        print('Database created with version: $version');
+      },
+      onOpen: (db) {
+        print('Database opened: ${db.path}');
+      },
+    );
+  }
+
+  Future<Map<String, dynamic>?> getCustomerById(int id) async {
+    Database db = await database;
+    try {
+      final List<Map<String, dynamic>> result = await db.query(
+        tableName,
+        where: '$columnId = ?',
+        whereArgs: [id],
+      );
+      if (result.isNotEmpty) {
+        return result.first;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching customer by ID: $e');
+      return null;
+    }
+  }
+
+  Future<void> insertCustomer(Map<String, dynamic> customerData) async {
+    final db = await database; // Replace with your database reference
+
+    try {
+      await db.insert(
+        'customers',
+        customerData,
+        conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
+      );
+      print('Customer data inserted into the database');
+    } catch (e) {
+      print('Error inserting customer: $e');
+    }
   }
 
   void createDatabase(Database db, int version) async {
@@ -35,10 +80,7 @@ class CustomersHelper {
         $columnPhoneNumber TEXT,
         $columnEmail TEXT,
         $columnAddress TEXT,
-        $columnCreationDate TEXT,
         $columnNotes TEXT,
-        $columnBalance REAL,
-        $columnLastTransactionDate TEXT,
         $columnBirthDate TEXT,
         $columnGender TEXT,
         $columnOccupation TEXT,
@@ -53,7 +95,6 @@ class CustomersHelper {
         $columnSecondaryAddress TEXT,
         $columnPostalCode TEXT,
         $columnDeliveryPreferences TEXT,
-        $columnLastContactDate TEXT,
         $columnCustomerInterests TEXT,
         $columnCustomerSatisfactionLevel TEXT,
         $columnAnnualPurchaseVolume REAL,
@@ -62,38 +103,64 @@ class CustomersHelper {
         $columnSupportRating TEXT,
         $columnCustomerDiscount REAL,
         $columnActiveOffers TEXT,
-        $columnDiscountExpirationDate TEXT,
-        $columnDocumentImages TEXT,
-        $columnContracts TEXT,
-        $columnActivityLog TEXT,
         $columnResponsibleEmployee TEXT
       )
     ''');
+    print(
+        'Table $tableName created with columns: $columnName, $columnPhoneNumber, $columnEmail, ...');
   }
 
-  Future<void> insertCustomer(Map<String, dynamic> customer) async {
+  Future<void> resetDatabase() async {
     Database db = await database;
-    await db.insert(tableName, customer);
+    await db.execute('DROP TABLE IF EXISTS $tableName');
+    createDatabase(db, 1);
+    print('Database reset and table $tableName recreated');
   }
 
   Future<void> updateCustomer(Map<String, dynamic> customer) async {
     Database db = await database;
-    await db.update(tableName, customer,
-        where: '$columnId = ?', whereArgs: [customer[columnId]]);
+    try {
+      await db.update(
+        tableName,
+        customer,
+        where: '$columnId = ?',
+        whereArgs: [customer[columnId]],
+      );
+      print('Updated customer: $customer');
+    } catch (e) {
+      print('Error updating customer: $e');
+    }
   }
 
   Future<void> deleteCustomer(int id) async {
     Database db = await database;
-    await db.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
+    try {
+      await db.delete(
+        tableName,
+        where: '$columnId = ?',
+        whereArgs: [id],
+      );
+      print('Deleted customer with id: $id');
+    } catch (e) {
+      print('Error deleting customer: $e');
+    }
   }
 
   Future<List<Map<String, dynamic>>> getCustomers() async {
     Database db = await database;
-    return await db.query(tableName);
+    try {
+      List<Map<String, dynamic>> customers = await db.query(tableName);
+      print('Fetched customers: $customers');
+      return customers;
+    } catch (e) {
+      print('Error fetching customers: $e');
+      return [];
+    }
   }
 
   Future<void> close() async {
     Database db = await database;
-    db.close();
+    await db.close();
+    print('Database closed');
   }
 }

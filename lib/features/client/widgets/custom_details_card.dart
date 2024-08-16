@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
-import '../../../l10n/app_localizations.dart';
-import 'edit_customer_dialog.dart';
+import 'package:pos_dashboard_v1/features/client/views/CustomerDetailView.dart';
+import 'package:pos_dashboard_v1/features/client/widgets/edit_customer_dialog.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class CustomDetailsCard extends StatelessWidget {
   final Map<String, dynamic> customer;
@@ -21,7 +22,15 @@ class CustomDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                CustomerDetailPage(customerId: customer['id']),
+          ),
+        );
+      },
       child: Card(
         color: ColorsManager.backgroundColor,
         margin: const EdgeInsets.all(8.0),

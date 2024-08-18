@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
-import 'package:pos_dashboard_v1/features/retuerns_invoices/database/database_constans.dart';
 import 'package:pos_dashboard_v1/features/orders/databases/sales_database_helper.dart';
 import 'package:pos_dashboard_v1/features/orders/model/order_model.dart';
 import 'package:pos_dashboard_v1/features/orders/widgets/order_details.dart';
@@ -32,37 +32,61 @@ class _SalesInvoicesReportScreenState extends State<SalesInvoicesReportScreen> {
     _loadInvoices();
   }
 
-  Future<void> exportPDF() async {
+  pw.Widget buildPdfDetailRow(String key, String? value, pw.Font arabicFont) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 4),
+      child: pw.Row(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Expanded(
+            child: pw.Text(
+              '$key:',
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                font: arabicFont,
+              ),
+            ),
+          ),
+          pw.Expanded(
+            child: pw.Text(
+              value ?? '',
+              textDirection: pw.TextDirection.rtl,
+              style: pw.TextStyle(font: arabicFont),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> exportPDF(BuildContext context) async {
     try {
       final pdf = await generatePDF();
 
-      // Open file picker to let user choose where to save the file
       final result = await FilePicker.platform.saveFile(
-          dialogTitle: 'Select where to save the PDF',
-          fileName: 'return_invoices_report.pdf');
+        dialogTitle:
+            AppLocalizations.of(context).translate('select_where_to_save_pdf'),
+        fileName: 'sales_invoices_report.pdf',
+      );
 
       if (result != null) {
         final file = File(result);
         await file.writeAsBytes(await pdf.save());
-
-        if (await file.exists()) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('PDF saved to ${file.path}')),
-          );
-          // await OpenFile.open(file.path);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to save PDF')),
-          );
-        }
-      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('PDF export canceled')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context).translate('pdf_saved_successfully'),
+            ),
+          ),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving PDF: $e')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context).translate('error_saving_pdf'),
+          ),
+        ),
       );
     }
   }
@@ -70,75 +94,132 @@ class _SalesInvoicesReportScreenState extends State<SalesInvoicesReportScreen> {
   Future<pw.Document> generatePDF() async {
     final pdf = pw.Document();
 
-    // Calculate totals
+    // Load the custom Arabic font
+    final arabicFontData =
+        await rootBundle.load('assets/fonts/Traditional-Arabic.ttf');
+    final arabicFont = pw.Font.ttf(arabicFontData);
 
     final totalItemsReturned = invoices.length;
 
     pdf.addPage(
       pw.Page(
+        pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text('Return Invoices Report',
-                  style: pw.TextStyle(
-                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
-              pw.SizedBox(height: 20),
-              pw.Table(
-                border: pw.TableBorder.all(),
-                children: [
-                  pw.TableRow(
-                    children: [
-                      pw.Text('Invoice ID',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Order ID',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Employee',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Reason',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Return Date',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Total Back Money',
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ],
-                  ),
-                  ...invoices.map((invoice) => pw.TableRow(
-                        children: [
-                          pw.Text(invoice.invoiceDate.toString()),
-                          pw.Text(invoice.invoiceDate),
-                          // pw.Text(invoice.items ),
-                          pw.Text(invoice.customerName),
-                          pw.Text(invoice.invoiceNumber),
-                        ],
-                      )),
-                  pw.TableRow(
-                    children: [
-                      pw.Text(''),
-                      pw.Text(''),
-                      pw.Text(''),
-                      pw.Text(''),
-                      pw.Text('Total:'),
-                      pw.Text(
-                          RetuernInvocmentDatabaseConstants.columnTotalBackMoney
-                              .toString(),
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ],
-                  ),
-                  pw.TableRow(
-                    children: [
-                      pw.Text(''),
-                      pw.Text(''),
-                      pw.Text(''),
-                      pw.Text(''),
-                      pw.Text('Total Items Returned:'),
-                      pw.Text(totalItemsReturned.toString(),
-                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+          return pw.Directionality(
+            textDirection: pw.TextDirection.rtl,
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text('تقرير الفواتير المرتجعة',
+                    style: pw.TextStyle(
+                        fontSize: 24,
+                        fontWeight: pw.FontWeight.bold,
+                        font: arabicFont)),
+                pw.SizedBox(height: 20),
+                pw.Table(
+                  border: pw.TableBorder.all(),
+                  children: [
+                    pw.TableRow(
+                      children: [
+                        pw.Text('رقم الفاتورة',
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                                font: arabicFont)),
+                        pw.Text('رقم الطلب',
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                                font: arabicFont)),
+                        pw.Text('الموظف',
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                                font: arabicFont)),
+                        pw.Text('السبب',
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                                font: arabicFont)),
+                        pw.Text('تاريخ الارجاع',
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                                font: arabicFont)),
+                        pw.Text('المبلغ المسترد',
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                                font: arabicFont)),
+                      ],
+                    ),
+                    ...invoices.map((invoice) => pw.TableRow(
+                          children: [
+                            pw.Text(
+                              invoice.invoiceNumber,
+                              style: pw.TextStyle(font: arabicFont),
+                            ),
+                            pw.Text(
+                              invoice.invoiceNumber.toString(),
+                              style: pw.TextStyle(font: arabicFont),
+                            ),
+                            pw.Text(
+                              invoice.customerName,
+                              style: pw.TextStyle(font: arabicFont),
+                            ),
+                            pw.Text(
+                              invoice.invoiceDate,
+                              style: pw.TextStyle(font: arabicFont),
+                            ),
+                            pw.Text(
+                              invoice.invoiceNumber,
+                              style: pw.TextStyle(font: arabicFont),
+                            ),
+                            pw.Text(
+                              invoice.invoiceNumber.toString(),
+                              style: pw.TextStyle(font: arabicFont),
+                            ),
+                          ],
+                        )),
+                    pw.TableRow(
+                      children: [
+                        pw.Text(''),
+                        pw.Text(''),
+                        pw.Text(''),
+                        pw.Text(''),
+                        pw.Text(
+                          'الاجمالي:',
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                            font: arabicFont,
+                          ),
+                        ),
+                        pw.Text(
+                          'المبلغ الإجمالي',
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                            font: arabicFont,
+                          ),
+                        ),
+                      ],
+                    ),
+                    pw.TableRow(
+                      children: [
+                        pw.Text(''),
+                        pw.Text(''),
+                        pw.Text(''),
+                        pw.Text(''),
+                        pw.Text(
+                          'الاجمالي:',
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                            font: arabicFont,
+                          ),
+                        ),
+                        pw.Text(totalItemsReturned.toString(),
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                                font: arabicFont)),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -188,7 +269,11 @@ class _SalesInvoicesReportScreenState extends State<SalesInvoicesReportScreen> {
                 child: CustomSmallButton(
                   icon: Icons.picture_as_pdf,
                   text: AppLocalizations.of(context).translate('ExportasPDF'),
-                  onTap: exportPDF,
+                  onTap: () {
+                    exportPDF(
+                      context,
+                    );
+                  },
                 ),
               ),
               IconButton(

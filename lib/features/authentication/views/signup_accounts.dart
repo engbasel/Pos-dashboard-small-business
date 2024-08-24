@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
-import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
-import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/database/auth_service.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/account_model.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class RegistrationScreen extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
-import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
-import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/database/auth_service.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/account_model.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/orders/databases/sales_database_helper.dart';

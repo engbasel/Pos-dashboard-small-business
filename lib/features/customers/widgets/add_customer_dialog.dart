@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/customers/database/CustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/database/customers_helper.dart';
 import '../../../l10n/app_localizations.dart';
 
 class AddCustomerDialog extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
-import 'package:pos_dashboard_v1/features/customers/database/CustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/database/customers_helper.dart';
 import 'package:pos_dashboard_v1/features/customers/widgets/custom_details_card.dart';
 import '../widgets/add_customer_dialog.dart';
 import '../widgets/customer_detail_view.dart';

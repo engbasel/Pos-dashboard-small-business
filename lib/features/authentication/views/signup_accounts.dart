@@ -37,8 +37,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     // Check for empty fields
     if (name.isEmpty) {
-      showEmptyFieldSnackbar(
-          AppLocalizations.of(context).translate('nameLabel'));
+      showEmptyFieldSnackbar(AppLocalizations.of(context).translate('name'));
       return;
     }
     if (email.isEmpty) {
@@ -132,7 +131,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             SizedBox(height: MediaQuery.of(context).size.height * .2),
             buildTextField(
               controller: nameController,
-              labelKey: AppLocalizations.of(context).translate('nameLabel'),
+              labelKey: AppLocalizations.of(context).translate('name'),
             ),
             buildTextField(
               controller: emailController,

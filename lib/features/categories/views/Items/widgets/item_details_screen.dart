@@ -48,22 +48,22 @@ class ItemDetailsDialog extends StatelessWidget {
               ),
               const Divider(),
               ItemDetailsRow(
-                labelKey: 'purchase_price',
+                labelKey: 'purchasePrice',
                 value: item.price?.toString(),
               ),
               const Divider(),
               ItemDetailsRow(
-                labelKey: 'sale_price',
+                labelKey: 'salePrice',
                 value: item.unitPrice?.toString(),
               ),
               const Divider(),
               ItemDetailsRow(
-                labelKey: 'wholesale_price',
+                labelKey: 'wholesalePrice',
                 value: item.wholesalePrice?.toString(),
               ),
               const Divider(),
               ItemDetailsRow(
-                labelKey: 'tax_rate',
+                labelKey: 'taxRate',
                 value: item.taxRate?.toString(),
               ),
               const Divider(),
@@ -73,7 +73,7 @@ class ItemDetailsDialog extends StatelessWidget {
               ),
               const Divider(),
               ItemDetailsRow(
-                labelKey: 'alert_quantity',
+                labelKey: 'alertQuantity',
                 value: item.alertQuantity?.toString(),
               ),
               const Divider(),

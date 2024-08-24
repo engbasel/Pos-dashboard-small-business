@@ -206,8 +206,7 @@ Future<void> showAddProductDialog(BuildContext context,
         builder: (BuildContext context, StateSetter setState) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            title:
-                Text(AppLocalizations.of(context).translate('Add a product')),
+            title: Text(AppLocalizations.of(context).translate('add_product')),
             content: SizedBox(
               width: MediaQuery.of(context).size.width * .5,
               height: MediaQuery.of(context).size.height * .75,

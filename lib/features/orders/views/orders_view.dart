@@ -128,7 +128,7 @@ class _OrdersViewState extends State<OrdersView> {
                     controller: searchController,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)
-                          .translate('Search_for_a_product'),
+                          .translate('Search_for_an_order'),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: ColorsManager.kPrimaryColor,

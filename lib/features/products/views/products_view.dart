@@ -71,14 +71,14 @@ Widget buildGridView(
   );
 }
 
-class ProductsListView extends StatefulWidget {
-  const ProductsListView({super.key});
+class ProductsView extends StatefulWidget {
+  const ProductsView({super.key});
 
   @override
-  State<ProductsListView> createState() => _ProductsListViewState();
+  State<ProductsView> createState() => _ProductsViewState();
 }
 
-class _ProductsListViewState extends State<ProductsListView> {
+class _ProductsViewState extends State<ProductsView> {
   final ItemDatabaseHelper itemDatabaseHelper = ItemDatabaseHelper.instance;
   final CategoryDatabaseHelper categoryDatabaseHelper =
       CategoryDatabaseHelper.instance;
@@ -144,7 +144,7 @@ class _ProductsListViewState extends State<ProductsListView> {
           actions: [
             CustomSmallButton(
               icon: Icons.add,
-              text: AppLocalizations.of(context).translate('AddAProduct'),
+              text: AppLocalizations.of(context).translate('AddAProduc'),
               onTap: () => showAddProductDialog(context, categories, loadItems),
             ),
           ],

@@ -97,7 +97,7 @@ class _OverviewViewState extends State<OverviewView> {
           ),
           DataColumn(
             label: Text(
-              AppLocalizations.of(context).translate('TotalAmount'),
+              AppLocalizations.of(context).translate('totalAmount'),
             ),
           ),
           DataColumn(
@@ -107,7 +107,7 @@ class _OverviewViewState extends State<OverviewView> {
           ),
           DataColumn(
             label: Text(
-              AppLocalizations.of(context).translate('Action'),
+              AppLocalizations.of(context).translate('details'),
             ),
           ),
         ],
@@ -125,7 +125,7 @@ class _OverviewViewState extends State<OverviewView> {
               const DataCell(Text('\$20')),
               DataCell(
                 IconButton(
-                  icon: const Icon(Icons.details),
+                  icon: const Icon(Icons.info_outline),
                   onPressed: () => _showOrderDetails(order),
                 ),
               ),

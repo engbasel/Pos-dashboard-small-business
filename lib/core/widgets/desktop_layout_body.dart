@@ -8,7 +8,7 @@ import 'package:pos_dashboard_v1/features/retuerns_invoices/views/return_invoice
 import 'package:pos_dashboard_v1/features/orders/views/orders_view.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'package:window_manager/window_manager.dart';
-import '../../features/client/views/AllCustomersView.dart';
+import '../../features/customers/views/customers_view.dart';
 import '../../features/overview/views/overview_view.dart';
 import '../../features/settings/views/settings_overview.dart';
 

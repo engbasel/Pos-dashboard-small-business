@@ -154,8 +154,8 @@ class _NeededProductsViewState extends State<NeededProductsView> {
                     child: TextField(
                       controller: _searchController,
                       decoration: InputDecoration(
-                        hintText:
-                            AppLocalizations.of(context).translate('search'),
+                        hintText: AppLocalizations.of(context)
+                            .translate('Search_for_a_product'),
                         prefixIcon: const Icon(Icons.search),
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
@@ -206,7 +206,7 @@ class _NeededProductsViewState extends State<NeededProductsView> {
                 if (snapshot.hasError) {
                   return const Center(child: Text('Error occurred'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No orders found'));
+                  return const Center(child: Text(''));
                 } else {
                   List<IncomingOrderModel> filteredOrders = snapshot.data!
                       .where((order) =>
@@ -219,7 +219,7 @@ class _NeededProductsViewState extends State<NeededProductsView> {
                       .toList();
 
                   if (filteredOrders.isEmpty) {
-                    return const Center(child: Text('No orders match search'));
+                    return const Center(child: Text(''));
                   }
 
                   return ListView.builder(

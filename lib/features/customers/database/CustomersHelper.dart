@@ -1,4 +1,4 @@
-import 'package:pos_dashboard_v1/features/client/database/constantsCustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/database/constantsCustomersHelper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:io';

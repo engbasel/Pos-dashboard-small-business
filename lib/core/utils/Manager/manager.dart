@@ -13,16 +13,15 @@ class ColorsManager {
 }
 
 class ImagesManger {
-  static const String notofication = 'assets/notofication.png';
-
-  static const String agency = 'assets/agency.png';
-  static const String user = 'assets/user.png';
-  static const String mail = 'assets/mail.png';
-  static const String edit = 'assets/edit.png';
-  static const String shoppingbag = 'assets/shoppingbag.png';
-  static const String birthdaycake = 'assets/birthday-cake.png';
-  static const String sex = 'assets/sex.png';
-  static const String bill = 'assets/bill.png';
+  static const String notofication = 'assets/images/notofication.png';
+  static const String agency = 'assets/images/agency.png';
+  static const String user = 'assets/images/user.png';
+  static const String mail = 'assets/images/mail.png';
+  static const String edit = 'assets/images/edit.png';
+  static const String shoppingbag = 'assets/images/shoppingbag.png';
+  static const String birthdaycake = 'assets/images/birthday-cake.png';
+  static const String sex = 'assets/images/sex.png';
+  static const String bill = 'assets/images/bill.png';
 }
 
 class DBmanger {

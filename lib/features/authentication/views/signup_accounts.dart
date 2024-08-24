@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
 import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
-import '../../../core/widgets/custom_small_button.dart';
-
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
 
   @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
@@ -116,17 +115,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           AppLocalizations.of(context).translate('createAccount'),
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            SizedBox(height: MediaQuery.of(context).size.height * .2),
             buildTextField(
               controller: nameController,
               labelKey: AppLocalizations.of(context).translate('nameLabel'),
@@ -144,10 +147,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               controller: phoneController,
               labelKey: AppLocalizations.of(context).translate('phone'),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             Align(
               alignment: Alignment.centerRight,
-              child: CustomSmallButton(
+              child: CustomButton(
                 onTap: register,
                 text: AppLocalizations.of(context).translate('Register'),
               ),

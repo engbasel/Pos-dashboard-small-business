@@ -137,7 +137,7 @@ class AppLocalizations {
       "No.": "No",
       "Close": "Close",
       "phone": "phone",
-      "createAccount": "create Account",
+      "createAccount": "Create Account",
       "Quantity": "Quantity",
       "InvoiceNumber": "Invoice Number",
       'please_choose_a_category_first': 'Please choose a category first',
@@ -274,6 +274,7 @@ class AppLocalizations {
       "Ok": "Ok",
       "Thepasswordyouenteredisincorrect":
           "The password you entered is incorrect.",
+      "searchCustomer": "search for a customer...",
     }
 
 // ============================ English Section ==========================
@@ -514,6 +515,7 @@ class AppLocalizations {
       "ReturnInvoiceupdatedsuccessfully": "تم تحديث فاتورة الإرجاع بنجاح",
       "Thepasswordyouenteredisincorrect": "كلمة المرور التي أدخلتها غير صحيحة.",
       "ErrorupdatingReturnInvoice": "خطأ في تحديث فاتورة الإرجاع:",
+      "searchCustomer": "ابحث عن عميل...",
     }
 
 // ============================ arabic Section ==========================

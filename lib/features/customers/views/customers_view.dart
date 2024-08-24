@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
-import 'package:pos_dashboard_v1/features/client/database/CustomersHelper.dart';
-import 'package:pos_dashboard_v1/features/client/widgets/custom_details_card.dart';
+import 'package:pos_dashboard_v1/features/customers/database/CustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/widgets/custom_details_card.dart';
 import '../widgets/add_customer_dialog.dart';
 import '../widgets/customer_detail_view.dart';
 import '../../../l10n/app_localizations.dart';
@@ -172,9 +172,8 @@ class _CustomersViewState extends State<CustomersView> {
             margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(16),
             child: filteredCustomers.isEmpty
-                ? Center(
-                    child: Text(AppLocalizations.of(context)
-                        .translate('noCustomersFound')),
+                ? const Center(
+                    child: Text(''),
                   )
                 : ListView.builder(
                     itemCount: filteredCustomers.length,

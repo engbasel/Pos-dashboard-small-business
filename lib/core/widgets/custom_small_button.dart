@@ -7,12 +7,9 @@ class CustomSmallButton extends StatelessWidget {
     this.text,
     this.icon,
     this.onTap,
-    this.width,
-    this.height,
   });
   final String? text;
-  final double? height;
-  final double? width;
+
   final IconData? icon;
   final void Function()? onTap;
 
@@ -25,31 +22,28 @@ class CustomSmallButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(6),
         child: Container(
-          width: width,
-          height: height,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  icon,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                color: Colors.white,
+                size: 16,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                text!,
+                style: const TextStyle(
                   color: Colors.white,
-                  size: 16,
+                  fontSize: 16,
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  text!,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

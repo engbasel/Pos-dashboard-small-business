@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/client/database/CustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/database/CustomersHelper.dart';
 import '../../../l10n/app_localizations.dart';
 
 class AddCustomerDialog extends StatefulWidget {
@@ -51,10 +51,11 @@ class _AddCustomerDialogState extends State<AddCustomerDialog> {
       backgroundColor: Colors.white,
       title: Text(AppLocalizations.of(context).translate('addNewCustomer')),
       content: SizedBox(
-        width: MediaQuery.of(context).size.width * .4,
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
+        width: MediaQuery.of(context).size.width * .5,
+        height: MediaQuery.of(context).size.height * .75,
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 const SizedBox(height: 16),

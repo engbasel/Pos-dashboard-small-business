@@ -78,7 +78,6 @@ class _OverviewViewState extends State<OverviewView> {
 
   Widget _buildOrderTable(List<Order> orders) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
       child: DataTable(
         columns: [
           DataColumn(
@@ -188,66 +187,71 @@ class _OverviewViewState extends State<OverviewView> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const UserInfoSection(),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const UserInfoSection(),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          AppLocalizations.of(context).translate('orders'),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context).translate('orders'),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            CustomSmallButton(
+                              icon: Icons.add,
+                              onTap: _showAddOrderDialog,
+                              text: AppLocalizations.of(context)
+                                  .translate('addOrder'),
+                            ),
+                          ],
                         ),
-                        CustomSmallButton(
-                          icon: Icons.add,
-                          onTap: _showAddOrderDialog,
-                          text: AppLocalizations.of(context)
-                              .translate('addOrder'),
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: FutureBuilder<List<Order>>(
+                            future: todayOrders,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(child: Text(''));
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                  child: Text('Error: ${snapshot.error}'),
+                                );
+                              } else if (!snapshot.hasData ||
+                                  snapshot.data!.isEmpty) {
+                                return const Center(
+                                  child: Text(''),
+                                );
+                              } else {
+                                return _buildOrderTable(snapshot.data!);
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    FutureBuilder<List<Order>>(
-                      future: todayOrders,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error: ${snapshot.error}'));
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
-                          return Center(
-                              child: Text(AppLocalizations.of(context)
-                                  .translate('No_orders_for_today')));
-                        } else {
-                          return _buildOrderTable(snapshot.data!);
-                        }
-                      },
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

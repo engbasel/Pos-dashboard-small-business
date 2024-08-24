@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
 import 'package:pos_dashboard_v1/features/authentication/views/signup_accounts.dart';
 import '../../../core/widgets/custom_snackbar.dart';
@@ -67,83 +67,95 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(AppLocalizations.of(context).translate('loginTitle')),
+        title: Text(
+          AppLocalizations.of(context).translate('loginTitle'),
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
       backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(26),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context).translate('emailLabel'),
-                    hintText: AppLocalizations.of(context)
-                        .translate('user@company.domain'),
-                    border: const OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)
-                          .translate('emailError');
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context).translate('Password'),
-                    hintText:
-                        AppLocalizations.of(context).translate('********'),
-                    border: const OutlineInputBorder(),
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      // CustomSnackBar.show(
-                      //     context, 'passoword or email is empty');
-                      // return AppLocalizations.of(context)
-                      //     .translate('passwordError');
-                      CustomSnackBar.show(
-                        context,
-                        AppLocalizations.of(context)
-                            .translate('passoword_or_email_is_empty'),
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        icon: Icons.error,
-                      );
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: CustomSmallButton(
-                    text: AppLocalizations.of(context)
-                        .translate('letsWorkButton'),
-                    onTap: login,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                CustomSmallButton(
-                  height: 50,
-                  width: 250,
-                  text: AppLocalizations.of(context).translate('createAccount'),
-                  onTap: navigateToRegister,
-                ),
-              ],
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * .2),
+            Image.asset(
+              'assets/images/shop.png',
             ),
-          ),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).translate('emailLabel'),
+                      hintText: AppLocalizations.of(context)
+                          .translate('user@company.domain'),
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return AppLocalizations.of(context)
+                            .translate('emailError');
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).translate('Password'),
+                      hintText:
+                          AppLocalizations.of(context).translate('********'),
+                      border: const OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        CustomSnackBar.show(
+                          context,
+                          AppLocalizations.of(context)
+                              .translate('passoword_or_email_is_empty'),
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          icon: Icons.error,
+                        );
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 50),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: CustomButton(
+                          text: AppLocalizations.of(context)
+                              .translate('letsWorkButton'),
+                          onTap: login,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: CustomButton(
+                          text: AppLocalizations.of(context)
+                              .translate('createAccount'),
+                          onTap: navigateToRegister,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

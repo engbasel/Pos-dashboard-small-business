@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/client/database/CustomersHelper.dart';
-import 'package:pos_dashboard_v1/features/client/widgets/customer_detail_view.dart';
+import 'package:pos_dashboard_v1/features/customers/database/CustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/widgets/customer_detail_view.dart';
 
-class CustomerDetailPage extends StatefulWidget {
+class CustomerDetailsView extends StatefulWidget {
   final int customerId;
 
-  const CustomerDetailPage({required this.customerId, super.key});
+  const CustomerDetailsView({required this.customerId, super.key});
 
   @override
-  _CustomerDetailPageState createState() => _CustomerDetailPageState();
+  State<CustomerDetailsView> createState() => _CustomerDetailsViewState();
 }
 
-class _CustomerDetailPageState extends State<CustomerDetailPage> {
+class _CustomerDetailsViewState extends State<CustomerDetailsView> {
   late Future<Map<String, dynamic>?> _customer;
 
   @override

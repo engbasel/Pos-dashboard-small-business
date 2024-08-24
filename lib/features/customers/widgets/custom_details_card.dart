@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
-import 'package:pos_dashboard_v1/features/client/views/CustomerDetailView.dart';
-import 'package:pos_dashboard_v1/features/client/widgets/edit_customer_dialog.dart';
+import 'package:pos_dashboard_v1/features/customers/views/customer_details_view.dart';
+import 'package:pos_dashboard_v1/features/customers/widgets/edit_customer_dialog.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class CustomDetailsCard extends StatelessWidget {
@@ -27,7 +27,7 @@ class CustomDetailsCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                CustomerDetailPage(customerId: customer['id']),
+                CustomerDetailsView(customerId: customer['id']),
           ),
         );
       },

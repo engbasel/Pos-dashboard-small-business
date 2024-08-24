@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
-import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
-import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/database/auth_service.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/account_model.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/models/item_model.dart';
 import 'package:pos_dashboard_v1/features/orders/databases/sales_database_helper.dart';
@@ -97,7 +97,7 @@ class _OverviewViewState extends State<OverviewView> {
           ),
           DataColumn(
             label: Text(
-              AppLocalizations.of(context).translate('TotalAmount'),
+              AppLocalizations.of(context).translate('totalAmount'),
             ),
           ),
           DataColumn(
@@ -107,7 +107,7 @@ class _OverviewViewState extends State<OverviewView> {
           ),
           DataColumn(
             label: Text(
-              AppLocalizations.of(context).translate('Action'),
+              AppLocalizations.of(context).translate('details'),
             ),
           ),
         ],
@@ -125,7 +125,7 @@ class _OverviewViewState extends State<OverviewView> {
               const DataCell(Text('\$20')),
               DataCell(
                 IconButton(
-                  icon: const Icon(Icons.details),
+                  icon: const Icon(Icons.info_outline),
                   onPressed: () => _showOrderDetails(order),
                 ),
               ),

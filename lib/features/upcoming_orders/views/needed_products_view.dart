@@ -6,7 +6,7 @@ import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/delete_conformation_dialog.dart';
 import 'package:pos_dashboard_v1/features/upcoming_orders/database/database_incoming_orders_manager..dart';
 import 'package:pos_dashboard_v1/features/upcoming_orders/widgets/needed_products_details.dart';
-import 'package:pos_dashboard_v1/features/upcoming_orders/widgets/needed_products_form.dart';
+import 'package:pos_dashboard_v1/features/upcoming_orders/widgets/add_needed_products.dart';
 import '../../../l10n/app_localizations.dart';
 import '../model/incoming_order_model.dart';
 
@@ -41,8 +41,8 @@ class _NeededProductsViewState extends State<NeededProductsView> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
-          title: Text(AppLocalizations.of(context).translate('Add a product')),
-          content: const NeededProductsForm(),
+          title: Text(AppLocalizations.of(context).translate('add_product')),
+          content: const AddNeededProducts(),
         );
       },
     );
@@ -78,7 +78,7 @@ class _NeededProductsViewState extends State<NeededProductsView> {
         return AlertDialog(
           backgroundColor: Colors.white,
           title: Text(AppLocalizations.of(context).translate('Edit a product')),
-          content: NeededProductsForm(
+          content: AddNeededProducts(
             order: order,
           ),
         );
@@ -251,7 +251,7 @@ class _NeededProductsViewState extends State<NeededProductsView> {
                                   ),
                                   const SizedBox(height: 3),
                                   Text(
-                                    '${AppLocalizations.of(context).translate('supplier')}: ${order.supplierName}',
+                                    '${AppLocalizations.of(context).translate('supplierName')}: ${order.supplierName}',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,

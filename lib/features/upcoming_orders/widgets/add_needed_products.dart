@@ -4,16 +4,16 @@ import 'package:pos_dashboard_v1/features/upcoming_orders/database/database_inco
 import '../../../l10n/app_localizations.dart';
 import '../model/incoming_order_model.dart';
 
-class NeededProductsForm extends StatefulWidget {
+class AddNeededProducts extends StatefulWidget {
   final IncomingOrderModel? order;
 
-  const NeededProductsForm({super.key, this.order});
+  const AddNeededProducts({super.key, this.order});
 
   @override
-  State<NeededProductsForm> createState() => _NeededProductsFormState();
+  State<AddNeededProducts> createState() => _AddNeededProductsState();
 }
 
-class _NeededProductsFormState extends State<NeededProductsForm> {
+class _AddNeededProductsState extends State<AddNeededProducts> {
   final _formKey = GlobalKey<FormState>();
 
   final _orderIdController = TextEditingController();
@@ -131,7 +131,7 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
                       border: const OutlineInputBorder(),
                       labelText:
                           AppLocalizations.of(context).translate('orderDate'),
-                      suffixIcon: const Icon(Icons.calendar_today),
+                      suffixIcon: const Icon(Icons.calendar_month_outlined),
                     ),
                     controller: TextEditingController(
                       text: _orderDate != null
@@ -161,7 +161,7 @@ class _NeededProductsFormState extends State<NeededProductsForm> {
                       border: const OutlineInputBorder(),
                       labelText: AppLocalizations.of(context)
                           .translate('expectedDeliveryDate'),
-                      suffixIcon: const Icon(Icons.calendar_today),
+                      suffixIcon: const Icon(Icons.calendar_month_outlined),
                     ),
                     controller: TextEditingController(
                       text: _expectedDeliveryDate != null

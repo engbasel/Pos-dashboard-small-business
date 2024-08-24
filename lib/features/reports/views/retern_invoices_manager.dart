@@ -16,7 +16,7 @@ class ReternInvocMentMangaer extends StatefulWidget {
   const ReternInvocMentMangaer({super.key});
 
   @override
-  _ReternInvocMentMangaerState createState() => _ReternInvocMentMangaerState();
+  State<ReternInvocMentMangaer> createState() => _ReternInvocMentMangaerState();
 }
 
 class _ReternInvocMentMangaerState extends State<ReternInvocMentMangaer> {

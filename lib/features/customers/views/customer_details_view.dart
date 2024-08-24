@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pos_dashboard_v1/features/customers/database/CustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/database/customers_helper.dart';
 import 'package:pos_dashboard_v1/features/customers/widgets/customer_detail_view.dart';
 
 class CustomerDetailsView extends StatefulWidget {

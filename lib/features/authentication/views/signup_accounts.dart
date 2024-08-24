@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_snackbar.dart';
-import 'package:pos_dashboard_v1/features/authentication/database/AuthService.dart';
-import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/database/auth_service.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/account_model.dart';
 import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -37,8 +37,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     // Check for empty fields
     if (name.isEmpty) {
-      showEmptyFieldSnackbar(
-          AppLocalizations.of(context).translate('nameLabel'));
+      showEmptyFieldSnackbar(AppLocalizations.of(context).translate('name'));
       return;
     }
     if (email.isEmpty) {
@@ -132,7 +131,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             SizedBox(height: MediaQuery.of(context).size.height * .2),
             buildTextField(
               controller: nameController,
-              labelKey: AppLocalizations.of(context).translate('nameLabel'),
+              labelKey: AppLocalizations.of(context).translate('name'),
             ),
             buildTextField(
               controller: emailController,

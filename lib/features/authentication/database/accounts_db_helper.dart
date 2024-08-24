@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:pos_dashboard_v1/features/authentication/models/createAccounts.dart';
+import 'package:pos_dashboard_v1/features/authentication/models/account_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

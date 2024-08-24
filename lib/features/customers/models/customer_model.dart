@@ -1,5 +1,5 @@
 // ignore: file_names
-import 'package:pos_dashboard_v1/features/customers/models/TransactionModel.dart';
+import 'package:pos_dashboard_v1/features/customers/models/transaction_model.dart';
 
 class CustomerModel {
   String id;

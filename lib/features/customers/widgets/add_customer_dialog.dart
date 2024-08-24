@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
-import 'package:pos_dashboard_v1/features/customers/database/CustomersHelper.dart';
+import 'package:pos_dashboard_v1/features/customers/database/customers_helper.dart';
 import '../../../l10n/app_localizations.dart';
 
 class AddCustomerDialog extends StatefulWidget {
@@ -59,39 +59,23 @@ class _AddCustomerDialogState extends State<AddCustomerDialog> {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                buildTextField('name', 'Name'),
-                buildTextField('phoneNumber', 'Phone Number'),
-                buildTextField('email', 'Email'),
-                buildTextField('address', 'Address'),
-                buildTextField('notes', 'Notes'),
-                buildTextField('birthDate', 'Birth Date'),
-                buildTextField('gender', 'Gender'),
-                buildTextField('occupation', 'Occupation'),
-                buildTextField('status', 'Status'),
-                buildTextField('alternativePhone', 'Alternative Phone'),
-                buildTextField('socialMedia', 'Social Media'),
-                buildTextField('fax', 'Fax'),
-                buildTextField('creditLimit', 'Credit Limit'),
+                buildTextField('name', 'name'),
+                buildTextField('phoneNumber', 'phone_number'),
+                buildTextField('email', 'emailLabel'),
+                buildTextField('address', 'address'),
+                buildTextField('notes', 'notes'),
+                buildTextField('birthDate', 'birth_date'),
+                buildTextField('gender', 'genderLabel'),
+                buildTextField('status', 'status'),
+                buildTextField('alternativePhone', 'alternative_phone'),
+                buildTextField('socialMedia', 'social_media'),
                 buildTextField(
-                    'totalOutstandingAmount', 'Total Outstanding Amount'),
-                buildTextField('creditRating', 'Credit Rating'),
-                buildTextField(
-                    'preferredPaymentMethod', 'Preferred Payment Method'),
+                    'preferredPaymentMethod', 'preferred_payment_method'),
                 buildTextField('secondaryAddress', 'Secondary Address'),
                 buildTextField('postalCode', 'Postal Code'),
                 buildTextField('deliveryPreferences', 'Delivery Preferences'),
                 buildTextField('customerInterests', 'Customer Interests'),
-                buildTextField(
-                    'customerSatisfactionLevel', 'Customer Satisfaction Level'),
-                buildTextField(
-                    'annualPurchaseVolume', 'Annual Purchase Volume'),
-                buildTextField('complaintCount', 'Complaint Count'),
-                buildTextField('complaintResolutionHistory',
-                    'Complaint Resolution History'),
                 buildTextField('supportRating', 'Support Rating'),
-                buildTextField('customerDiscount', 'Customer Discount'),
-                buildTextField('activeOffers', 'Active Offers'),
-                buildTextField('responsibleEmployee', 'Responsible Employee'),
                 const SizedBox(height: 26),
                 Row(
                   children: [

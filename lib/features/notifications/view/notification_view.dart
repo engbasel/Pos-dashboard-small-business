@@ -101,7 +101,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${AppLocalizations.of(context).translate('nameLabel')}: ${item.name}',
+                                      '${AppLocalizations.of(context).translate('name')}: ${item.name}',
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -117,7 +117,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
                                       ),
                                     ),
                                     Text(
-                                      '${AppLocalizations.of(context).translate('alert_quantity')}: ${item.alertQuantity}',
+                                      '${AppLocalizations.of(context).translate('alertQuantity')}: ${item.alertQuantity}',
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,

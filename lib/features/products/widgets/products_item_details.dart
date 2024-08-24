@@ -97,25 +97,25 @@ class ProductItemDetails extends StatelessWidget {
         const Divider(),
         ProductsItemDetailsRow(
           labelKey: AppLocalizations.of(context)
-              .translate('purchase_price'), // Localized string
+              .translate('purchasePrice'), // Localized string
           value: item.price?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
           labelKey: AppLocalizations.of(context)
-              .translate('sale_price'), // Localized string
+              .translate('salePrice'), // Localized string
           value: item.unitPrice?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
           labelKey: AppLocalizations.of(context)
-              .translate('wholesale_price'), // Localized string
+              .translate('wholesalePrice'), // Localized string
           value: item.wholesalePrice?.toString(),
         ),
         const Divider(),
         ProductsItemDetailsRow(
           labelKey: AppLocalizations.of(context)
-              .translate('tax_rate'), // Localized string
+              .translate('taxRate'), // Localized string
           value: item.taxRate?.toString(),
         ),
         const Divider(),
@@ -127,7 +127,7 @@ class ProductItemDetails extends StatelessWidget {
         const Divider(),
         ProductsItemDetailsRow(
           labelKey: AppLocalizations.of(context)
-              .translate('alert_quantity'), // Localized string
+              .translate('alertQuantity'), // Localized string
           value: item.alertQuantity?.toString(),
         ),
         const Divider(),

@@ -21,67 +21,41 @@ class DatabaseIncomingOrdersManager {
     return _database!;
   }
 
-  Future<void> onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < newVersion) {
-      // Add upgrade logic here
-      await db.execute(
-        'CREATE TABLE IF NOT EXISTS ${IncomingOrderDatabaseConstants.incomingOrdersTable} ('
-        '${IncomingOrderDatabaseConstants.columnId} TEXT PRIMARY KEY, '
-        '${IncomingOrderDatabaseConstants.columnOrderId} TEXT, '
-        '${IncomingOrderDatabaseConstants.columnSupplierName} TEXT, '
-        '${IncomingOrderDatabaseConstants.columnOrderDate} TEXT, '
-        '${IncomingOrderDatabaseConstants.columnExpectedDeliveryDate} TEXT, '
-        '${IncomingOrderDatabaseConstants.columnOrderStatus} TEXT, '
-        '${IncomingOrderDatabaseConstants.columnTotalAmount} REAL)',
-      );
-      print(
-          'Table ${IncomingOrderDatabaseConstants.incomingOrdersTable} created on upgrade.');
-    }
-  }
-
   Future<Database> initDatabase() async {
+    // String path = join(await getDatabasesPath(),
+    //     IncomingOrderDatabaseConstants.databaseFileName);
+
     Directory appDocDir = Directory(Platform.environment['APPDATA']!);
     String appDocPath = appDocDir.path;
     String path = join(appDocPath, 'POSdatabases',
         RetuernInvocmentDatabaseConstants.databaseFileName);
 
-    if (await File(path).exists()) {
-      await deleteDatabase(path);
-      print('Deleted old database file.');
+    if (!await Directory(join(appDocPath, 'POSdatabases')).exists()) {
+      await Directory(join(appDocPath, 'POSdatabases')).create(recursive: true);
     }
-
     return await openDatabase(
       path,
-      version: IncomingOrderDatabaseConstants.versionDatabase,
       onCreate: onCreate,
-      onOpen: (db) async {
-        await db.execute(
-          'CREATE TABLE IF NOT EXISTS ${IncomingOrderDatabaseConstants.incomingOrdersTable} ('
-          '${IncomingOrderDatabaseConstants.columnId} TEXT PRIMARY KEY, '
-          '${IncomingOrderDatabaseConstants.columnOrderId} TEXT, '
-          '${IncomingOrderDatabaseConstants.columnSupplierName} TEXT, '
-          '${IncomingOrderDatabaseConstants.columnOrderDate} TEXT, '
-          '${IncomingOrderDatabaseConstants.columnExpectedDeliveryDate} TEXT, '
-          '${IncomingOrderDatabaseConstants.columnOrderStatus} TEXT, '
-          '${IncomingOrderDatabaseConstants.columnTotalAmount} REAL)',
-        );
-      },
+      version: IncomingOrderDatabaseConstants.versionDatabase,
     );
   }
 
   Future<void> onCreate(Database db, int version) async {
     await db.execute(
-      'CREATE TABLE ${IncomingOrderDatabaseConstants.incomingOrdersTable} ('
-      '${IncomingOrderDatabaseConstants.columnId} TEXT PRIMARY KEY, '
-      '${IncomingOrderDatabaseConstants.columnOrderId} TEXT, '
-      '${IncomingOrderDatabaseConstants.columnSupplierName} TEXT, '
-      '${IncomingOrderDatabaseConstants.columnOrderDate} TEXT, '
-      '${IncomingOrderDatabaseConstants.columnExpectedDeliveryDate} TEXT, '
-      '${IncomingOrderDatabaseConstants.columnOrderStatus} TEXT, '
-      '${IncomingOrderDatabaseConstants.columnTotalAmount} REAL)',
+      '''
+      CREATE TABLE ${IncomingOrderDatabaseConstants.incomingOrdersTable} (
+        ${IncomingOrderDatabaseConstants.columnId} TEXT PRIMARY KEY,
+        ${IncomingOrderDatabaseConstants.columnOrderId} TEXT,
+        ${IncomingOrderDatabaseConstants.columnSupplierName} TEXT,
+        ${IncomingOrderDatabaseConstants.columnOrderDate} TEXT,
+        ${IncomingOrderDatabaseConstants.columnExpectedDeliveryDate} TEXT,
+        ${IncomingOrderDatabaseConstants.columnOrderStatus} TEXT,
+        ${IncomingOrderDatabaseConstants.columnTotalAmount} REAL
+      )
+      ''',
     );
     print(
-        'Table ${IncomingOrderDatabaseConstants.incomingOrdersTable} created.');
+        'Database created with file name ${IncomingOrderDatabaseConstants.databaseFileName}');
   }
 
   Future<void> insertIncomingOrder(IncomingOrderModel incomingOrder) async {

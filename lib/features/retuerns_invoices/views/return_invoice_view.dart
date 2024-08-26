@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pos_dashboard_v1/core/utils/manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_app_bar.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
@@ -21,9 +20,6 @@ class ReturnInvoiceScreen extends StatefulWidget {
 class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
   final DatabaseReturnsInvoice databaseHelper = DatabaseReturnsInvoice();
   List<ReturnInvoiceModel> returnInvoices = [];
-  DateTime? _selectedDate;
-  String searchQuery = '';
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -36,39 +32,6 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
     setState(() {
       returnInvoices = loadedInvoices;
     });
-  }
-
-  Future<void> pickDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-        loadReturnInvoicesByDate();
-      });
-    }
-  }
-
-  Future<void> loadReturnInvoicesByDate() async {
-    final loadedInvoices = await databaseHelper.getInvoicesByDay(
-      DateFormat('yyyy-MM-dd').format(_selectedDate!),
-    );
-    setState(() {
-      returnInvoices = loadedInvoices;
-    });
-  }
-
-  List<ReturnInvoiceModel> filterInvoices(List<ReturnInvoiceModel> invoices) {
-    if (searchQuery.isEmpty) return invoices;
-    return invoices.where((invoice) {
-      return invoice.id.toString().contains(searchQuery) ||
-          invoice.orderId.toString().contains(searchQuery) ||
-          invoice.employee.contains(searchQuery);
-    }).toList();
   }
 
   void showAddReturnInvoiceForm(BuildContext context) async {
@@ -147,8 +110,6 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredInvoices = filterInvoices(returnInvoices);
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -162,63 +123,8 @@ class _ReturnInvoiceScreenState extends State<ReturnInvoiceScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Material(
-                    color: Colors.white,
-                    child: TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText:
-                            AppLocalizations.of(context).translate('search'),
-                        prefixIcon: const Icon(Icons.search),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: ColorsManager.kPrimaryColor,
-                          ),
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: ColorsManager.kPrimaryColor,
-                          ),
-                        ),
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: ColorsManager.kPrimaryColor,
-                          ),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          searchQuery = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Container(
-                  decoration: BoxDecoration(
-                    color: ColorsManager.kPrimaryColor,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.filter_list,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => pickDate(context),
-                  ),
-                ),
-              ],
-            ),
-          ),
           const SizedBox(height: 8),
-          ...filteredInvoices.map(
+          ...returnInvoices.map(
             (invoice) => Container(
               color: Colors.white,
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

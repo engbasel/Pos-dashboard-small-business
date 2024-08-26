@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -36,33 +37,69 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
   Future<void> generatePdf() async {
     final pdf = pw.Document();
 
+    // Load a font that supports Arabic or other RTL languages
+    final arabicFontData =
+        await rootBundle.load('assets/fonts/Traditional-Arabic.ttf');
+    final arabicFont = pw.Font.ttf(arabicFontData);
+
     pdf.addPage(
       pw.Page(
         build: (pw.Context pwContext) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text(
-                  '${AppLocalizations.of(context).translate('invoiceId')}: ${returnInvoice.id}'),
-              pw.SizedBox(height: 8),
-              pw.Text(
-                  '${AppLocalizations.of(context).translate('orderId')}: ${returnInvoice.orderId}'),
-              pw.SizedBox(height: 8),
-              pw.Text(
-                  '${AppLocalizations.of(context).translate('totalBackMoney')}: \$${returnInvoice.totalbackmony.toStringAsFixed(2)}'),
-              pw.SizedBox(height: 8),
-              pw.Text(
-                  '${AppLocalizations.of(context).translate('returnDate')}: ${returnInvoice.returnDate}'),
-              pw.SizedBox(height: 8),
-              pw.Text(
-                  '${AppLocalizations.of(context).translate('employee')}: ${returnInvoice.employee}'),
-              pw.SizedBox(height: 8),
-              pw.Text(
-                  '${AppLocalizations.of(context).translate('reason')}: ${returnInvoice.reason}'),
-              pw.SizedBox(height: 8),
-              pw.Text(
-                  '${AppLocalizations.of(context).translate('amount')}: \$${returnInvoice.amount.toStringAsFixed(2)}'),
-            ],
+          return pw.Directionality(
+            textDirection: pw.TextDirection.rtl,
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text(
+                  '${AppLocalizations.of(context).translate('invoiceId')}: ${returnInvoice.id}',
+                  style: pw.TextStyle(font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
+                  textAlign: pw.TextAlign.right,
+                ),
+                pw.SizedBox(height: 8),
+                pw.Text(
+                  '${AppLocalizations.of(context).translate('orderId')}: ${returnInvoice.orderId}',
+                  style: pw.TextStyle(font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
+                  textAlign: pw.TextAlign.right,
+                ),
+                pw.SizedBox(height: 8),
+                pw.Text(
+                  '${AppLocalizations.of(context).translate('totalBackMoney')}: \$${returnInvoice.totalbackmony.toStringAsFixed(2)}',
+                  style: pw.TextStyle(font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
+                  textAlign: pw.TextAlign.right,
+                ),
+                pw.SizedBox(height: 8),
+                pw.Text(
+                  '${AppLocalizations.of(context).translate('returnDate')}: ${returnInvoice.returnDate}',
+                  style: pw.TextStyle(font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
+                  textAlign: pw.TextAlign.right,
+                ),
+                pw.SizedBox(height: 8),
+                pw.Text(
+                  '${AppLocalizations.of(context).translate('employee')}: ${returnInvoice.employee}',
+                  style: pw.TextStyle(font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
+                  textAlign: pw.TextAlign.right,
+                ),
+                pw.SizedBox(height: 8),
+                pw.Text(
+                  '${AppLocalizations.of(context).translate('reason')}: ${returnInvoice.reason}',
+                  style: pw.TextStyle(font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
+                  textAlign: pw.TextAlign.right,
+                ),
+                pw.SizedBox(height: 8),
+                pw.Text(
+                  '${AppLocalizations.of(context).translate('amount')}: \$${returnInvoice.amount.toStringAsFixed(2)}',
+                  style: pw.TextStyle(font: arabicFont),
+                  textDirection: pw.TextDirection.rtl,
+                  textAlign: pw.TextAlign.right,
+                ),
+              ],
+            ),
           );
         },
       ),

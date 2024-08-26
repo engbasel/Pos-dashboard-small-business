@@ -311,8 +311,8 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                     label: Text(
                         AppLocalizations.of(context).translate('Discount'))),
                 DataColumn(
-                    label:
-                        Text(AppLocalizations.of(context).translate('Action'))),
+                    label: Text(
+                        AppLocalizations.of(context).translate('actions'))),
               ],
               rows: items.asMap().entries.map((entry) {
                 final index = entry.key;

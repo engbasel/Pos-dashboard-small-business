@@ -81,19 +81,20 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
             const SizedBox(height: 16.0),
             CustomTextFormField(
               controller: idController,
-              labelText: 'Invoice ID',
+              labelText: AppLocalizations.of(context).translate('invoiceId'),
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
             CustomTextFormField(
               controller: orderIdController,
-              labelText: 'Order ID',
+              labelText: AppLocalizations.of(context).translate('orderId'),
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
             CustomTextFormField(
               controller: totalbackmonyController,
-              labelText: 'Total Back Money',
+              labelText:
+                  AppLocalizations.of(context).translate('totalBackMoney'),
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
@@ -103,7 +104,7 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
             const SizedBox(height: 16.0),
             CustomTextFormField(
               controller: returnDateController,
-              labelText: 'Return Date',
+              labelText: AppLocalizations.of(context).translate('returnDate'),
               keyboardType: TextInputType.datetime,
               onTap: () async {
                 FocusScope.of(context).requestFocus(FocusNode());
@@ -124,19 +125,19 @@ class _ReturnInvoiceeFormState extends State<ReturnInvoiceeForm> {
             const SizedBox(height: 16.0),
             CustomTextFormField(
               controller: employeeController,
-              labelText: 'Employee',
+              labelText: AppLocalizations.of(context).translate('employee'),
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
             CustomTextFormField(
               controller: reasonController,
-              labelText: 'Reason',
+              labelText: AppLocalizations.of(context).translate('reason'),
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 16.0),
             CustomTextFormField(
               controller: amountController,
-              labelText: 'Amount',
+              labelText: AppLocalizations.of(context).translate('amount'),
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[

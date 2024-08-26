@@ -62,6 +62,7 @@ class AppLocalizations {
       "productDetails": "Product Details",
       "productModel": "Product Model",
       "category": "Category",
+      "image_url": "Image URL",
       "AlertDiloageCloseApp": "Are you sure you want to close this window?",
       "customerDetails": "Customer Details",
 
@@ -370,6 +371,7 @@ class AppLocalizations {
       "productDetails": "تفاصيل المنتج",
       "productModel": "طراز المنتج",
       "category": "الفئة",
+      "image_url": "رابط الصورة",
 
       "userLogs": "سجلات المستخدم",
       "loginTitle": "تسجيل الدخول",

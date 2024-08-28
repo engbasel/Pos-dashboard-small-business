@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/retuerns_invoices/models/return_invoice_model.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+
 import '../../../l10n/app_localizations.dart';
 
 class ReturnInvoiceDetailScreen extends StatefulWidget {
@@ -50,53 +52,44 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
+                pw.Text('فاتورة إرجاع',
+                    style: pw.TextStyle(font: arabicFont, fontSize: 24)),
+                pw.SizedBox(height: 24),
                 pw.Text(
-                  '${AppLocalizations.of(context).translate('invoiceId')}: ${returnInvoice.id}',
-                  style: pw.TextStyle(font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                  textAlign: pw.TextAlign.right,
-                ),
-                pw.SizedBox(height: 8),
+                    '${AppLocalizations.of(context).translate('invoiceId')}: ${returnInvoice.id}',
+                    style: pw.TextStyle(font: arabicFont)),
                 pw.Text(
-                  '${AppLocalizations.of(context).translate('orderId')}: ${returnInvoice.orderId}',
-                  style: pw.TextStyle(font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                  textAlign: pw.TextAlign.right,
-                ),
-                pw.SizedBox(height: 8),
+                    '${AppLocalizations.of(context).translate('orderId')}: ${returnInvoice.orderId}',
+                    style: pw.TextStyle(font: arabicFont)),
                 pw.Text(
-                  '${AppLocalizations.of(context).translate('totalBackMoney')}: \$${returnInvoice.totalbackmony.toStringAsFixed(2)}',
-                  style: pw.TextStyle(font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                  textAlign: pw.TextAlign.right,
-                ),
-                pw.SizedBox(height: 8),
+                    '${AppLocalizations.of(context).translate('employee')}: ${returnInvoice.employee}',
+                    style: pw.TextStyle(font: arabicFont)),
                 pw.Text(
-                  '${AppLocalizations.of(context).translate('returnDate')}: ${returnInvoice.returnDate}',
-                  style: pw.TextStyle(font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                  textAlign: pw.TextAlign.right,
-                ),
-                pw.SizedBox(height: 8),
+                    '${AppLocalizations.of(context).translate('returnDate')}: ${returnInvoice.returnDate}',
+                    style: pw.TextStyle(font: arabicFont)),
                 pw.Text(
-                  '${AppLocalizations.of(context).translate('employee')}: ${returnInvoice.employee}',
-                  style: pw.TextStyle(font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                  textAlign: pw.TextAlign.right,
-                ),
-                pw.SizedBox(height: 8),
+                    '${AppLocalizations.of(context).translate('reason')}: ${returnInvoice.reason}',
+                    style: pw.TextStyle(font: arabicFont)),
                 pw.Text(
-                  '${AppLocalizations.of(context).translate('reason')}: ${returnInvoice.reason}',
-                  style: pw.TextStyle(font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                  textAlign: pw.TextAlign.right,
-                ),
-                pw.SizedBox(height: 8),
+                    '${AppLocalizations.of(context).translate('totalBackMoney')}: \$${returnInvoice.totalbackmony.toStringAsFixed(2)}',
+                    style: pw.TextStyle(font: arabicFont)),
                 pw.Text(
-                  '${AppLocalizations.of(context).translate('amount')}: \$${returnInvoice.amount.toStringAsFixed(2)}',
-                  style: pw.TextStyle(font: arabicFont),
-                  textDirection: pw.TextDirection.rtl,
-                  textAlign: pw.TextAlign.right,
+                    '${AppLocalizations.of(context).translate('amount')}: \$${returnInvoice.amount.toStringAsFixed(2)}',
+                    style: pw.TextStyle(font: arabicFont)),
+                pw.SizedBox(height: 24),
+                pw.Table.fromTextArray(
+                  headers: [
+                    'الرقم',
+                    'المنتج',
+                    'الكمية',
+                    'سعر الوحدة',
+                    'المجموع'
+                  ],
+                  data: [
+                    ['1', 'Sample Product', '2', '\$50', '\$100']
+                  ],
+                  headerStyle: pw.TextStyle(font: arabicFont),
+                  cellStyle: pw.TextStyle(font: arabicFont),
                 ),
               ],
             ),
@@ -105,9 +98,13 @@ class _ReturnInvoiceDetailScreenState extends State<ReturnInvoiceDetailScreen> {
       ),
     );
 
-    await Printing.sharePdf(
-      bytes: await pdf.save(),
-      filename: "ReturnInvoice_${returnInvoice.id}.pdf",
+    // Use FilePicker to let the user choose where to save the file
+    String? outputPath = await FilePicker.platform.getDirectoryPath();
+    final file = File('$outputPath/ReturnInvoice_${returnInvoice.id}.pdf');
+    await file.writeAsBytes(await pdf.save());
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('تم تصدير ملف PDF إلى ${file.path}')),
     );
   }
 

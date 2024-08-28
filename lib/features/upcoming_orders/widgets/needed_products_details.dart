@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
+import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
+import 'dart:io';
 import '../../../l10n/app_localizations.dart';
 import '../model/incoming_order_model.dart';
 
@@ -26,79 +31,143 @@ class NeededProductsDetails extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  const Spacer(),
+                  // IconButton(
+                  //   icon: const Icon(Icons.print),
+                  //   onPressed: () => exportToPdf(context),
+                  // ),
+
+                  CustomSmallButton(
+                    icon: Icons.print,
+                    onTap: () {
+                      exportToPdf(context);
+                    },
+                    text: AppLocalizations.of(context).translate('printOrder'),
+                  )
                 ],
               ),
               const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).translate('orderId'),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(product.orderId),
-                ],
+              buildDetailRow(
+                AppLocalizations.of(context).translate('orderId'),
+                product.orderId,
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).translate('supplierName'),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(product.supplierName),
-                ],
+              buildDetailRow(
+                AppLocalizations.of(context).translate('supplierName'),
+                product.supplierName,
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).translate('orderDate'),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(product.orderDate),
-                ],
+              buildDetailRow(
+                AppLocalizations.of(context).translate('orderDate'),
+                product.orderDate,
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)
-                        .translate('expectedDeliveryDate'),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(product.expectedDeliveryDate),
-                ],
+              buildDetailRow(
+                AppLocalizations.of(context).translate('expectedDeliveryDate'),
+                product.expectedDeliveryDate,
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).translate('orderStatus'),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(product.orderStatus),
-                ],
+              buildDetailRow(
+                AppLocalizations.of(context).translate('orderStatus'),
+                product.orderStatus,
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).translate('totalAmount'),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(product.totalAmount.toString()),
-                ],
+              buildDetailRow(
+                AppLocalizations.of(context).translate('totalAmount'),
+                product.totalAmount.toString(),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(value),
+        ],
+      ),
+    );
+  }
+
+  pw.Widget buildPdfDetailRow(String label, String value, pw.Font font) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 8.0),
+      child: pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          pw.Text(label,
+              style: pw.TextStyle(font: font, fontWeight: pw.FontWeight.bold)),
+          pw.Text(value, style: pw.TextStyle(font: font)),
+        ],
+      ),
+    );
+  }
+
+  Future<void> exportToPdf(BuildContext context) async {
+    final pdf = pw.Document();
+
+    // Load a font that supports Arabic or other RTL languages
+    final arabicFontData =
+        await rootBundle.load('assets/fonts/Traditional-Arabic.ttf');
+    final arabicFont = pw.Font.ttf(arabicFontData);
+
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context pwContext) {
+          return pw.Directionality(
+            textDirection: pw.TextDirection.rtl,
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text('تفاصيل طلب المنتجات',
+                    style: pw.TextStyle(font: arabicFont, fontSize: 24)),
+                pw.SizedBox(height: 24),
+                buildPdfDetailRow(
+                  AppLocalizations.of(context).translate('orderId'),
+                  product.orderId,
+                  arabicFont,
+                ),
+                buildPdfDetailRow(
+                  AppLocalizations.of(context).translate('supplierName'),
+                  product.supplierName,
+                  arabicFont,
+                ),
+                buildPdfDetailRow(
+                  AppLocalizations.of(context).translate('orderDate'),
+                  product.orderDate,
+                  arabicFont,
+                ),
+                buildPdfDetailRow(
+                  AppLocalizations.of(context)
+                      .translate('expectedDeliveryDate'),
+                  product.expectedDeliveryDate,
+                  arabicFont,
+                ),
+                buildPdfDetailRow(
+                  AppLocalizations.of(context).translate('orderStatus'),
+                  product.orderStatus,
+                  arabicFont,
+                ),
+                buildPdfDetailRow(
+                  AppLocalizations.of(context).translate('totalAmount'),
+                  product.totalAmount.toString(),
+                  arabicFont,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/OrderDetails_${product.orderId}.pdf');
+
+    await file.writeAsBytes(await pdf.save());
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('تم تصدير ملف PDF إلى ${file.path}')),
     );
   }
 }

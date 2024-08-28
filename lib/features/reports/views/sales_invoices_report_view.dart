@@ -296,12 +296,12 @@ class _SalesInvoicesReportScreenState extends State<SalesInvoicesReportScreen> {
                   subtitle: Text('العميل: ${invoice.customerName}'),
                   trailing: Text('التاريخ: ${invoice.invoiceDate}'),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
+                    showDialog(
+                      context: context,
                       builder: (context) {
                         return OrderDetails(invoice: invoice);
                       },
-                    ));
-                    // You can navigate to a detailed view of the invoice here if needed
+                    );
                   },
                 );
               },

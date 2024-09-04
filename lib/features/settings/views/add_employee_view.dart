@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import '../../../core/utils/models/add_employ_model.dart';
 import '../widgets/custom_text_form_field.dart';
 
@@ -87,7 +88,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.employee == null ? 'Add Employee' : 'Edit Employee'),
+        title: Text(
+          widget.employee == null
+              ? AppLocalizations.of(context).translate('Add Employee')
+              : AppLocalizations.of(context).translate('Edit Employee'),
+        ),
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
@@ -100,7 +105,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
               children: [
                 CustomTextFormField(
                   controller: _firstNameController,
-                  labelText: 'First Name',
+                  labelText:
+                      AppLocalizations.of(context).translate('First Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter first name';
@@ -110,7 +116,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _midNameController,
-                  labelText: 'Middle Name',
+                  labelText:
+                      AppLocalizations.of(context).translate('Middle Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter middle name';
@@ -120,7 +127,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _lastNameController,
-                  labelText: 'Last Name',
+                  labelText:
+                      AppLocalizations.of(context).translate('Last Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter last name';
@@ -130,7 +138,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _positionController,
-                  labelText: 'Position',
+                  labelText: AppLocalizations.of(context).translate('Position'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter position';
@@ -140,7 +148,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _qualificationsController,
-                  labelText: 'Qualifications',
+                  labelText:
+                      AppLocalizations.of(context).translate('Qualifications'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter qualifications';
@@ -150,7 +159,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _departmentController,
-                  labelText: 'Department',
+                  labelText:
+                      AppLocalizations.of(context).translate('Department'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter department';
@@ -160,7 +170,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _cityController,
-                  labelText: 'City',
+                  labelText: AppLocalizations.of(context).translate('City'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter city';
@@ -170,7 +180,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _experienceInPositionController,
-                  labelText: 'Experience in Position',
+                  labelText:
+                      AppLocalizations.of(context).translate('Experience'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter experience in position';
@@ -180,7 +191,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 CustomTextFormField(
                   controller: _salaryController,
-                  labelText: 'Salary',
+                  labelText: AppLocalizations.of(context).translate('Salary'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -194,8 +205,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ),
                 const SizedBox(height: 50),
                 CustomButton(
-                  text:
-                      widget.employee == null ? 'Add Employee' : 'Save Changes',
+                  text: widget.employee == null
+                      ? AppLocalizations.of(context).translate('Add Employee')
+                      : AppLocalizations.of(context).translate('Save Changes'),
                   onTap: saveEmployee,
                 ),
               ],

@@ -24,16 +24,7 @@ class SettingsView extends StatelessWidget {
           },
         ),
         const Divider(),
-        ListTile(
-          title: Text(
-            AppLocalizations.of(context).translate('anotherSettingOption'),
-          ),
-          leading: const Icon(Icons.settings),
-          onTap: () {
-            // Handle onPressed for another setting option
-          },
-        ),
-        const Divider(),
+
         ListTile(
           title: Text(AppLocalizations.of(context).translate('staff')),
           leading: const Icon(Icons.people),
@@ -42,14 +33,7 @@ class SettingsView extends StatelessWidget {
           },
         ),
         const Divider(),
-        ListTile(
-          title: Text(AppLocalizations.of(context).translate('users')),
-          leading: const Icon(Icons.person),
-          onTap: () {
-            // Handle onPressed for users data
-          },
-        ),
-        const Divider(),
+
         ListTile(
           title: Text(AppLocalizations.of(context).translate('changeMode')),
           leading: const Icon(Icons.brightness_4),

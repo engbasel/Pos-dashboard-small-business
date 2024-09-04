@@ -111,46 +111,48 @@ class _ExtraditealsScreenState extends State<ExtraditealsScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Current Salary: ${salary.toStringAsFixed(2)}',
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Current Salary: ${salary.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-            Table(
-              border: TableBorder.all(),
-              children: [
-                _buildEditableRow('Incentives', incentives,
-                    (value) => incentives = value, 'Incentives'),
-                _buildEditableRow(
-                    'Taxes', taxes, (value) => taxes = value, 'Taxes'),
-                _buildEditableRow('Discounts', discounts,
-                    (value) => discounts = value, 'Discounts'),
-                _buildEditableRow('Overtime', overtime,
-                    (value) => overtime = value, 'Overtime'),
-                _buildEditableRow(
-                    'Absence', absence, (value) => absence = value, 'Absence'),
-                _buildEditableRow('Health Insurance', healthInsurance,
-                    (value) => healthInsurance = value, 'Health Insurance'),
-                _buildEditableRow('Social Insurance', socialInsurance,
-                    (value) => socialInsurance = value, 'Social Insurance'),
-                _buildEditableRow('Employee Damage', employeeDamage,
-                    (value) => employeeDamage = value, 'Employee Damage'),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _updateSalary,
-              child: const Text('Update Salary'),
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              Table(
+                border: TableBorder.all(),
+                children: [
+                  _buildEditableRow('Incentives', incentives,
+                      (value) => incentives = value, 'Incentives'),
+                  _buildEditableRow(
+                      'Taxes', taxes, (value) => taxes = value, 'Taxes'),
+                  _buildEditableRow('Discounts', discounts,
+                      (value) => discounts = value, 'Discounts'),
+                  _buildEditableRow('Overtime', overtime,
+                      (value) => overtime = value, 'Overtime'),
+                  _buildEditableRow('Absence', absence,
+                      (value) => absence = value, 'Absence'),
+                  _buildEditableRow('Health Insurance', healthInsurance,
+                      (value) => healthInsurance = value, 'Health Insurance'),
+                  _buildEditableRow('Social Insurance', socialInsurance,
+                      (value) => socialInsurance = value, 'Social Insurance'),
+                  _buildEditableRow('Employee Damage', employeeDamage,
+                      (value) => employeeDamage = value, 'Employee Damage'),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _updateSalary,
+                child: const Text('Update Salary'),
+              ),
+            ],
+          ),
         ),
       ),
     );

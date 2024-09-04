@@ -5,6 +5,7 @@ import 'package:pos_dashboard_v1/features/reports/views/ProdactsReportsDietalis.
 import 'package:pos_dashboard_v1/features/reports/views/retern_invoices_manager.dart';
 import 'package:pos_dashboard_v1/features/reports/views/sales_invoices_report_view.dart';
 import 'package:pos_dashboard_v1/features/reports/widgets/custom_genral_report_item.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class AllReportesViwer extends StatelessWidget {
   const AllReportesViwer({super.key});
@@ -13,7 +14,7 @@ class AllReportesViwer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const CustomAppBar(title: 'Reports '),
+        CustomAppBar(title: AppLocalizations.of(context).translate('reports')),
         const SizedBox(height: 16),
         Expanded(
           child: Container(
@@ -68,22 +69,6 @@ class AllReportesViwer extends StatelessWidget {
                       ),
                     );
                   },
-                ),
-                CoustomGenralReportItem(
-                  title: 'اتقارير لبضاعة بالمخزن',
-                  onTap: () {},
-                ),
-                CoustomGenralReportItem(
-                  title: 'اتقارير لبضاعة بالمخزن',
-                  onTap: () {},
-                ),
-                CoustomGenralReportItem(
-                  title: 'تقارير سجل دخول العاملين للنظام',
-                  onTap: () {},
-                ),
-                CoustomGenralReportItem(
-                  title: 'اتقارير لبضاعة بالمخزن',
-                  onTap: () {},
                 ),
               ],
             ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/features/settings/views/edit_employee_view.dart';
 import 'package:pos_dashboard_v1/features/settings/views/employee_detail_view.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
 class EmployeeListScreen extends StatefulWidget {
   const EmployeeListScreen({super.key});
@@ -87,11 +89,11 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
   }
 
   void viewEmployeeDetails(Map<String, dynamic> employee) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EmployeeDetailScreen(employee: employee),
-      ),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EmployeeDetailDialog(employee: employee);
+      },
     );
   }
 
@@ -99,143 +101,123 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Employee List'),
+        title: Text(AppLocalizations.of(context).translate('Employee List')),
         backgroundColor: Colors.white,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText: 'Search by name, position, city, etc.',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide.none,
+      ),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Material(
+              color: Colors.white,
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)
+                      .translate('search for an employee'),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: const Icon(Icons.search),
               ),
             ),
           ),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: _filteredEmployees.length,
-        itemBuilder: (context, index) {
-          final employee = _filteredEmployees[index];
-          return GestureDetector(
-            onTap: () => viewEmployeeDetails(employee),
-            child: Card(
-              margin: const EdgeInsets.all(8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${employee['firstName'] ?? 'N/A'} ${employee['lastName'] ?? 'N/A'}',
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+          const SizedBox(height: 16),
+          Expanded(
+            child: ListView.separated(
+              itemCount: _filteredEmployees.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 16),
+              itemBuilder: (context, index) {
+                final employee = _filteredEmployees[index];
+                return GestureDetector(
+                  onTap: () => viewEmployeeDetails(employee),
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    color: ColorsManager.backgroundColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${employee['firstName'] ?? 'N/A'} ${employee['lastName'] ?? ''}',
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Text(
+                                    '${AppLocalizations.of(context).translate('Position')} : ',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(employee['position'] ?? ''),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Text(
+                                    '${AppLocalizations.of(context).translate('Department')} : ',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(employee['department'] ?? ''),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: ColorsManager.kPrimaryColor,
+                                ),
+                                onPressed: () => editEmployee(employee),
+
+                                // onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () => deleteEmployee(employee['id']),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        const Text(
-                          'Position: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(employee['position'] ?? 'N/A'),
-                      ],
-                    ),
-                    const SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        const Text(
-                          'Department: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(employee['department'] ?? 'N/A'),
-                      ],
-                    ),
-                    const SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        const Text(
-                          'Qualifications: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(employee['qualifications'] ?? 'N/A'),
-                      ],
-                    ),
-                    const SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        const Text(
-                          'City: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(employee['city'] ?? 'N/A'),
-                      ],
-                    ),
-                    const SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        const Text(
-                          'Experience: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(employee['experienceInPosition'] ?? 'N/A'),
-                      ],
-                    ),
-                    const SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        const Text(
-                          'Fixed Salary: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(employee['salary']?.toString() ?? 'N/A'),
-                      ],
-                    ),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () => editEmployee(employee),
-
-                          // onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => deleteEmployee(employee['id']),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

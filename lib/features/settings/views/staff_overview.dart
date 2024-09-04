@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/db/staff_database_helper.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/features/authentication/views/accounts_view.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 import 'add_employee_view.dart';
-import 'employee_list_view.dart'; // Import the new screen
+import 'employee_list_view.dart';
 
-// ignore: camel_case_types
-class staffOverview extends StatefulWidget {
-  const staffOverview({super.key});
+class StaffOverview extends StatefulWidget {
+  const StaffOverview({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _staffOverviewState createState() => _staffOverviewState();
+  State<StaffOverview> createState() => _StaffOverviewState();
 }
 
-// ignore: camel_case_types
-class _staffOverviewState extends State<staffOverview> {
+class _StaffOverviewState extends State<StaffOverview> {
   final StaffDatabaseHelper staffDbHelper = StaffDatabaseHelper();
 
   void removeEmployee() async {
@@ -43,10 +42,10 @@ class _staffOverviewState extends State<staffOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Staff dashboard'),
+        title: Text(AppLocalizations.of(context).translate('Staff dashboard')),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: ColorsManager.backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -68,16 +67,16 @@ class _staffOverviewState extends State<staffOverview> {
                   width: 200,
                   height: 200,
                   decoration: BoxDecoration(
-                    color: Colors.lightBlue,
+                    color: ColorsManager.kPrimaryColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Add Employye',
+                      AppLocalizations.of(context).translate('Add Employee'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -92,40 +91,17 @@ class _staffOverviewState extends State<staffOverview> {
                   width: 200,
                   height: 200,
                   decoration: BoxDecoration(
-                    color: Colors.lightBlue,
+                    color: ColorsManager.kPrimaryColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'See All Avilalabel Employye',
+                      AppLocalizations.of(context)
+                          .translate('See All Available Employee'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              InkWell(
-                borderRadius: BorderRadius.circular(12),
-                onTap: () {
-                  fetchEmployees();
-                },
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'salaries of employees this month',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -136,7 +112,7 @@ class _staffOverviewState extends State<staffOverview> {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const Createdaccountsuser();
+                      return const CreatedAccounts();
                     },
                   ));
                 },
@@ -144,16 +120,17 @@ class _staffOverviewState extends State<staffOverview> {
                   width: 200,
                   height: 200,
                   decoration: BoxDecoration(
-                    color: Colors.lightBlue,
+                    color: ColorsManager.kPrimaryColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Emploey Acssssscontes',
+                      AppLocalizations.of(context)
+                          .translate('Employee Acssssscontes'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                   ),

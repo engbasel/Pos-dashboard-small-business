@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/auth_service.dart';
 import 'package:pos_dashboard_v1/features/authentication/models/account_model.dart';
+import 'package:pos_dashboard_v1/l10n/app_localizations.dart';
 
-class Createdaccountsuser extends StatelessWidget {
-  const Createdaccountsuser({super.key});
+class CreatedAccounts extends StatelessWidget {
+  const CreatedAccounts({super.key});
 
   Future<List<Account>> fetchAccounts() async {
     AuthService authService = AuthService();
@@ -13,7 +15,11 @@ class Createdaccountsuser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Created Accounts')),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).translate('Created Accounts')),
+        backgroundColor: Colors.white,
+      ),
+      backgroundColor: ColorsManager.backgroundColor,
       body: FutureBuilder<List<Account>>(
         future: fetchAccounts(),
         builder: (context, snapshot) {

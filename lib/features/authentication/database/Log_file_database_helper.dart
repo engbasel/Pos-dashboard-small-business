@@ -14,7 +14,7 @@ class Sqldb {
   }
 
   Future<Database> initDatabase() async {
-    var databasesPath = await getDatabasesPath();
+    // var databasesPath = await getDatabasesPath();
 
     // String path = join(databasesPath, DBmanger.databaseName);
 

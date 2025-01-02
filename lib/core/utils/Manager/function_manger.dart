@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/features/settings/views/staff_overview.dart';
 import 'package:provider/provider.dart';
 
@@ -13,21 +14,33 @@ void showPasswordAdminDialog(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Colors.white,
-        title: const Text('Enter Password'),
+        title: Text(AppLocalizations.of(context).translate('enter_password')),
         content: TextField(
           controller: passwordController,
           obscureText: true,
-          decoration: const InputDecoration(hintText: 'Password'),
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context).translate('Password'),
+          ),
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Cancel'),
+            child: Text(
+              AppLocalizations.of(context).translate('cancel'),
+              style: const TextStyle(
+                color: ColorsManager.kPrimaryColor,
+              ),
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text('Confirm'),
+            child: Text(
+              AppLocalizations.of(context).translate('confirm'),
+              style: const TextStyle(
+                color: ColorsManager.kPrimaryColor,
+              ),
+            ),
             onPressed: () {
               // passwordController.text == 'basel'
               if (passwordController.text == '') {
@@ -35,7 +48,7 @@ void showPasswordAdminDialog(BuildContext context) {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const staffOverview();
+                      return const StaffOverview();
                     },
                   ),
                 );

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_small_button.dart';
 import 'package:pos_dashboard_v1/features/categories/database/category_database_helper.dart';
 import 'package:pos_dashboard_v1/features/categories/database/item_database_helper.dart';
@@ -163,11 +164,21 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
                           context, 'Please choose an item first');
                     }
                   },
-                  child: Text(AppLocalizations.of(context).translate('add')),
+                  child: Text(
+                    AppLocalizations.of(context).translate('add'),
+                    style: const TextStyle(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text(AppLocalizations.of(context).translate('cancel')),
+                  child: Text(
+                    AppLocalizations.of(context).translate('cancel'),
+                    style: const TextStyle(
+                      color: ColorsManager.kPrimaryColor,
+                    ),
+                  ),
                 ),
               ],
             );
@@ -250,136 +261,144 @@ class _AddOrderDialogState extends State<AddOrderDialog> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(24),
         width: MediaQuery.of(context).size.width * .7,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: customerNameController,
-              decoration: InputDecoration(
-                labelText:
-                    AppLocalizations.of(context).translate('CustomerName'),
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                const Spacer(
-                  flex: 3,
-                ),
-                Text(
-                  '${AppLocalizations.of(context).translate('date')} || ${AppLocalizations.of(context).translate('time')}: $currentDateTime',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                CustomSmallButton(
-                  icon: CupertinoIcons.add,
-                  onTap: () {
-                    showAddItemDialog(context);
-                  },
-                  text: AppLocalizations.of(context).translate('AddItem'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${AppLocalizations.of(context).translate('InvoiceNumber')}: ${invoiceNumberController.text}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 24),
-            const SizedBox(height: 16),
-            DataTable(
-              columns: [
-                DataColumn(
-                    label: Text(AppLocalizations.of(context).translate('No.'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('Product'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('Quantity'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('UnitPrice'))),
-                DataColumn(
-                    label:
-                        Text(AppLocalizations.of(context).translate('Total'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('Discount'))),
-                DataColumn(
-                    label: Text(
-                        AppLocalizations.of(context).translate('actions'))),
-              ],
-              rows: items.asMap().entries.map((entry) {
-                final index = entry.key;
-                final item = entry.value;
-                return DataRow(
-                  cells: [
-                    DataCell(Text('${index + 1}')),
-                    DataCell(Text(item.name)),
-                    DataCell(Text('${item.quantity}')),
-                    DataCell(Text('\$${item.unitPrice}')),
-                    DataCell(Text('\$${item.total}')),
-                    DataCell(Text('\$${item.discount}')),
-                    DataCell(
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () => editItem(index),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => deleteItem(index),
-                          ),
-                        ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: customerNameController,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .translate('CustomerName'),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
-                  ],
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              '${AppLocalizations.of(context).translate('TotalAmount')} \$${calculateTotalAmount()}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${AppLocalizations.of(context).translate('Tax')} \$20',
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${AppLocalizations.of(context).translate('Total')}: \$${calculateGrandTotal()}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomSmallButton(
-                  icon: Icons.cancel,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  text: AppLocalizations.of(context).translate('Cancel'),
-                ),
-                const SizedBox(width: 8),
-                CustomSmallButton(
-                  icon: Icons.save,
-                  onTap: () {
-                    saveData();
-                  },
-                  text: AppLocalizations.of(context).translate('save'),
-                ),
-              ],
-            ),
-          ],
+                  ),
+                  const SizedBox(width: 8),
+                  CustomSmallButton(
+                    icon: CupertinoIcons.add,
+                    onTap: () {
+                      showAddItemDialog(context);
+                    },
+                    text: AppLocalizations.of(context).translate('AddItem'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    '${AppLocalizations.of(context).translate('InvoiceNumber')}: ${invoiceNumberController.text}',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${AppLocalizations.of(context).translate('date')} || ${AppLocalizations.of(context).translate('time')}: $currentDateTime',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              DataTable(
+                columns: [
+                  DataColumn(
+                      label:
+                          Text(AppLocalizations.of(context).translate('No.'))),
+                  DataColumn(
+                      label: Text(
+                          AppLocalizations.of(context).translate('Product'))),
+                  DataColumn(
+                      label: Text(
+                          AppLocalizations.of(context).translate('Quantity'))),
+                  DataColumn(
+                      label: Text(
+                          AppLocalizations.of(context).translate('UnitPrice'))),
+                  DataColumn(
+                      label: Text(
+                          AppLocalizations.of(context).translate('Total'))),
+                  DataColumn(
+                      label: Text(
+                          AppLocalizations.of(context).translate('Discount'))),
+                  DataColumn(
+                      label: Text(
+                          AppLocalizations.of(context).translate('actions'))),
+                ],
+                rows: items.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final item = entry.value;
+                  return DataRow(
+                    cells: [
+                      DataCell(Text('${index + 1}')),
+                      DataCell(Text(item.name)),
+                      DataCell(Text('${item.quantity}')),
+                      DataCell(Text('\$${item.unitPrice}')),
+                      DataCell(Text('\$${item.total}')),
+                      DataCell(Text('\$${item.discount}')),
+                      DataCell(
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () => editItem(index),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => deleteItem(index),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                '${AppLocalizations.of(context).translate('TotalAmount')} \$${calculateTotalAmount()}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '${AppLocalizations.of(context).translate('Tax')} \$20',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                '${AppLocalizations.of(context).translate('Total')}: \$${calculateGrandTotal()}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomSmallButton(
+                    icon: Icons.cancel,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: AppLocalizations.of(context).translate('Cancel'),
+                  ),
+                  const SizedBox(width: 16),
+                  CustomSmallButton(
+                    icon: Icons.save,
+                    onTap: () {
+                      saveData();
+                    },
+                    text: AppLocalizations.of(context).translate('save'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

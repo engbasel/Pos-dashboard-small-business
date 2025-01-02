@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_dashboard_v1/core/utils/Manager/manager.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
 import 'package:pos_dashboard_v1/core/widgets/layout_builder_resize_screens_differant_sizes.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/auth_service.dart';
@@ -63,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -129,22 +131,44 @@ class _LoginViewState extends State<LoginView> {
                       },
                     ),
                     const SizedBox(height: 30),
+                    CustomButton(
+                      text: AppLocalizations.of(context)
+                          .translate('letsWorkButton'),
+                      onTap: login,
+                    ),
+                    const SizedBox(height: 10),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          flex: 2,
-                          child: CustomButton(
-                            text: AppLocalizations.of(context)
-                                .translate('letsWorkButton'),
-                            onTap: login,
-                          ),
+                        Text(
+                          AppLocalizations.of(context)
+                              .translate('dontHaveAccountText'),
                         ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: CustomButton(
-                            text: AppLocalizations.of(context)
-                                .translate('createAccount'),
-                            onTap: navigateToRegister,
+                        InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: navigateToRegister,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: ColorsManager
+                                  .kPrimaryColor, // Button background color
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10), // Ensure the button has the same rounded corners
+                              ),
+                            ),
+                            onPressed: navigateToRegister,
+                            child: Text(
+                              AppLocalizations.of(context)
+                                  .translate('createAccount'),
+                              style: const TextStyle(
+                                color:
+                                    ColorsManager.headerTextColor, // Text color
+                                fontSize: 14, // Adjusted font size
+                                fontWeight: FontWeight.w500, // Font weight
+                              ),
+                            ),
                           ),
                         ),
                       ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pos_dashboard_v1/core/widgets/custom_button.dart';
+import 'package:pos_dashboard_v1/core/widgets/layout_builder_resize_screens_differant_sizes.dart';
 import 'package:pos_dashboard_v1/features/authentication/database/auth_service.dart';
 import 'package:pos_dashboard_v1/features/authentication/views/signup_accounts.dart';
 import '../../../core/widgets/custom_snackbar.dart';
-import '../../../core/widgets/layout_builder_resize_screens_differant_sizes.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:pos_dashboard_v1/features/authentication/models/account_model.dart';
 
@@ -36,7 +36,6 @@ class _LoginViewState extends State<LoginView> {
           icon: Icons.check_circle,
         );
 
-        // Navigate to the main screen
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             return const LayoutBuilder_resize_screens_defrant_sizes();
@@ -64,6 +63,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -76,86 +76,84 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * .2),
-            Image.asset(
-              'assets/images/shop.png',
-            ),
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText:
-                          AppLocalizations.of(context).translate('emailLabel'),
-                      hintText: AppLocalizations.of(context)
-                          .translate('user@company.domain'),
-                      border: const OutlineInputBorder(),
+      body: Center(
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/images/shop.png',
+                      height: 150,
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return AppLocalizations.of(context)
-                            .translate('emailError');
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      labelText:
-                          AppLocalizations.of(context).translate('Password'),
-                      hintText:
-                          AppLocalizations.of(context).translate('********'),
-                      border: const OutlineInputBorder(),
+                    const SizedBox(height: 30),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .translate('emailLabel'),
+                        hintText: AppLocalizations.of(context)
+                            .translate('user@company.domain'),
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)
+                              .translate('emailError');
+                        }
+                        return null;
+                      },
                     ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        CustomSnackBar.show(
-                          context,
-                          AppLocalizations.of(context)
-                              .translate('passoword_or_email_is_empty'),
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          icon: Icons.error,
-                        );
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 50),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: CustomButton(
-                          text: AppLocalizations.of(context)
-                              .translate('letsWorkButton'),
-                          onTap: login,
-                        ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText:
+                            AppLocalizations.of(context).translate('Password'),
+                        hintText:
+                            AppLocalizations.of(context).translate('********'),
+                        border: const OutlineInputBorder(),
                       ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: CustomButton(
-                          text: AppLocalizations.of(context)
-                              .translate('createAccount'),
-                          onTap: navigateToRegister,
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)
+                              .translate('passwordError');
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: CustomButton(
+                            text: AppLocalizations.of(context)
+                                .translate('letsWorkButton'),
+                            onTap: login,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: CustomButton(
+                            text: AppLocalizations.of(context)
+                                .translate('createAccount'),
+                            onTap: navigateToRegister,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

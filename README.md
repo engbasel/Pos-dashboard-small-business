@@ -1,50 +1,49 @@
+# 🛒 POS Flutter Project
 
-# POS Flutter Project
+A **Point of Sale (POS) system** built using Flutter, featuring database management, PDF generation, localization, and more.
 
-This project is a Point of Sale (POS) system built using Flutter. The application includes various features such as database management, PDF generation, localization, and more.
+---
+## 🚀 Features
+✅ **Custom Widgets** – Buttons, text fields, and drawers for a consistent UI/UX  
+✅ **Database Integration** – Uses SQLite for data storage & management  
+✅ **PDF Generation** – Create & print order details as PDFs  
+✅ **Localization** – Multi-language support for widgets & screens  
+✅ **User Management** – CRUD operations for users  
+✅ **Order Management** – Manage orders using a DataTable  
+✅ **Settings Screen** – Configurable application settings  
+✅ **Logging** – User action logs with delete functionality  
 
-## Features
+---
+## 📌 Commit History Highlights
 
-- **Custom Widgets**: Includes custom buttons, text fields, and drawers for a consistent UI/UX.
-- **Database Integration**: Uses SQLite for storing and managing data.
-- **PDF Generation**: Generates and prints PDF documents for order details.
-- **Localization**: Supports multiple languages for various widgets and screens.
-- **User Management**: Features for adding, deleting, and displaying user information.
-- **Order Management**: CRUD operations for orders, with orders displayed in a DataTable.
-- **Settings Screen**: Configurable settings for the application.
-- **Logging**: User logs with delete functionality for tracking actions.
+### 🗓️ July 13, 2024
+- 🔹 **Removed Custom Widgets**: `CustomButton`, `CustomDrawer` removed & updated imports.
+- 🔹 **Desktop Layout Update**: Moved `CustomDrawer`, added `AppBar` to `Scaffold`.
+- 🔹 **UI Edits**: Enhanced UI elements & improvements.
 
-## Commit History Highlights
+### 🗓️ July 12, 2024
+- 🔹 **Database Helper Refactor**: Renamed variables & updated method names in `LoginSQL_helper`.
+- 🔹 **Widget Updates**: Replaced `DesktopLayout` with `LoginView` as `home` widget.
+- 🔹 **Input Formatting**: Applied formatters & keyboard types to `CustomTextField`.
+- 🔹 **PDF & Printing**: Integrated PDF generation & printing in `OrderDetailsScreen`.
 
-### July 13, 2024
-- **Removed Custom Widgets**: Removed `CustomButton` and `CustomDrawer` widgets, and updated imports to reflect their new locations.
-- **Desktop Layout Update**: Moved `CustomDrawer` and added `AppBar` to `Scaffold` in `DesktopLayout`.
-- **UI Edits**: Various UI updates and improvements.
+### 🗓️ July 11, 2024
+- 🔹 **Localization**: Added multi-language support across widgets & views.
+- 🔹 **Refactoring**: Improved code readability & maintainability.
+- 🔹 **User Management**: Introduced user logs view with delete functionality.
 
-### July 12, 2024
-- **Database Helper Refactor**: Renamed variables and updated method names in `LoginSQL_helper` and `database_helper_productsTable`.
-- **Widget Updates**: Swapped `home` widget in `PosSystem` from `DesktopLayout` to `LoginView`.
-- **Input Formatting**: Added input formatters and keyboard types to `CustomTextField` widgets.
-- **PDF and Printing**: Added PDF generation and printing functionality to `OrderDetailsScreen`.
+### 🗓️ July 10, 2024
+- 🔹 **Screen Size Logging**: Updated desktop breakpoints & added logging in `main.dart`.
+- 🔹 **Dependencies**: Integrated `sqflite` & `path_provider`.
 
-### July 11, 2024
-- **Localization**: Added localization support for various widgets and views, including `CustomDrawer`, `UserLogsView`, and `UserList`.
-- **Refactoring**: Various refactors to improve code readability and maintainability.
-- **User Management**: Added user logs view with delete functionality.
+---
+## 🛠️ Getting Started
 
-### July 10, 2024
-- **Screen Size Logging**: Updated breakpoint for desktop layout in `DashboardView` and added screen size logging in `main.dart`.
-- **Dependencies**: Added `sqflite` and `path_provider` dependencies and modified macOS plugin registration.
+### 📌 Prerequisites
+- **Flutter SDK**
+- **Dart SDK**
 
-## Getting Started
-
-### Prerequisites
-
-- Flutter SDK
-- Dart SDK
-
-### Installation
-
+### 📥 Installation
 1. Clone the repository:
    ```sh
    git clone https://github.com/engbasel/Pos-dashboard-small-business.git
@@ -58,15 +57,14 @@ This project is a Point of Sale (POS) system built using Flutter. The applicatio
    flutter pub get
    ```
 
-### Running the App
-
-To run the application, use the following command:
+### ▶️ Running the App
+To launch the application, use:
 ```sh
 flutter run
 ```
 
-### Directory Structure
-
+---
+## 📂 Directory Structure
 ```
 lib/
 ├── core/
@@ -75,29 +73,25 @@ lib/
 ├── features/
 │   ├── client/
 │   ├── login/
-│   ├── Notifications/
+│   ├── notifications/
 │   ├── overview/
 │   ├── responsev_dashboard/
-│   ├── ReturnsInvoices/
+│   ├── returns_invoices/
 │   ├── settings/
 ├── l10n/
 ├── main.dart
 ```
 
-## Contributions
-
-Contributions are welcome! Please fork the repository and submit a pull request for any improvements or new features.
-
-## License
-
-This project is licensed under the MIT License.
-
-## Acknowledgements
-
-- [Flutter](https://flutter.dev/)
-- [SQLite](https://www.sqlite.org/index.html)
-- [sqflite](https://pub.dev/packages/sqflite)
+---
+## 🤝 Contributions
+Contributions are welcome! Please **fork the repository** and submit a **pull request** for any improvements or new features.
 
 ---
+## 📜 License
+This project is licensed under the **MIT License**.
 
-
+---
+## 🙌 Acknowledgements
+- 🚀 [Flutter](https://flutter.dev/)
+- 📦 [SQLite](https://www.sqlite.org/index.html)
+- 🔗 [sqflite](https://pub.dev/packages/sqflite)
